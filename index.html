@@ -139,15 +139,15 @@
     display:flex;
     align-items:center;
     justify-content:space-around;
-    padding:0 8px;
+    padding:0 8px 10px;
   }
   .nav-btn{
-    display:flex;flex-direction:column;align-items:center;gap:6px;
-    flex:1;padding:10px 6px;border-radius:18px;
+    display:flex;flex-direction:column;align-items:center;gap:4px;
+    flex:1;padding:6px 4px;border-radius:18px;
     color:var(--muted);transition:color .2s,background .2s;
     position:relative;
   }
-  .nav-btn svg{width:34px;height:34px;stroke-width:1.8;transition:transform .2s,filter .2s}
+  .nav-btn svg{width:30px;height:30px;stroke-width:1.8;transition:transform .2s,filter .2s}
   .nav-btn span{font-size:11px;font-weight:600;letter-spacing:.3px;line-height:1}
   .nav-btn.active{color:var(--primary)}
   .nav-btn.active svg{filter:drop-shadow(0 0 8px rgba(168,85,247,.7));transform:scale(1.12)}
@@ -156,6 +156,37 @@
   .nav-btn.nav-pending.active svg{filter:drop-shadow(0 0 8px rgba(239,68,68,.7))}
   .nav-btn.nav-clients.active{color:var(--accent)}
   .nav-btn.nav-clients.active svg{filter:drop-shadow(0 0 8px rgba(34,211,238,.7))}
+  /* Crédito de autor: overlay absoluto, NO aumenta la altura del banner */
+  .footer-credit{
+    position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 2px);
+    text-align:center;font-size:9px;letter-spacing:.6px;color:rgba(154,154,176,.7);
+    pointer-events:none;font-weight:600;line-height:1;
+  }
+  .footer-credit b{color:var(--primary);font-weight:700}
+
+  /* Botón flotante Instalar APK (solo cuando es instalable) */
+  #installBtn{
+    position:fixed;top:calc(env(safe-area-inset-top) + 14px);right:14px;z-index:20;
+    background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;
+    border:0;border-radius:14px;padding:10px 14px;font-size:13px;font-weight:700;
+    box-shadow:0 6px 18px rgba(34,197,94,.45);display:none;align-items:center;gap:6px;
+  }
+  #installBtn.show{display:inline-flex}
+  #installBtn svg{width:18px;height:18px}
+
+  /* Log detallado de pruebas */
+  .log-box{
+    background:#08080c;border:1px solid var(--border);border-radius:12px;
+    padding:10px 12px;margin-top:10px;font-family:ui-monospace,Menlo,Consolas,monospace;
+    font-size:12px;line-height:1.55;color:#cfd0e0;max-height:260px;overflow:auto;
+    white-space:pre-wrap;word-break:break-word;display:none;
+  }
+  .log-box.show{display:block}
+  .log-box .lg-ok{color:#4ade80}
+  .log-box .lg-err{color:#f87171}
+  .log-box .lg-info{color:#7dd3fc}
+  .log-box .lg-warn{color:#fbbf24}
+  .log-box .lg-dim{color:#6b7280}
 
   /* ── PENDING PAGE ── */
   #pagePending{display:none;padding-bottom:140px}
@@ -318,8 +349,9 @@
         <input id="ghBranch" placeholder="main"/>
       </label>
       <button class="btn-secondary" onclick="saveGHCreds()" style="margin-bottom:8px">💾 Guardar credenciales localmente</button>
-      <button class="btn-secondary" onclick="testGHConnection()" id="btnTestGH">🔗 Probar conexión</button>
+      <button class="btn-secondary" onclick="testGHConnection()" id="btnTestGH">🔗 Probar conexión (detallado)</button>
       <div class="status-msg" id="ghTestStatus"></div>
+      <div class="log-box" id="ghTestLog"></div>
     </div>
 
     <!-- Proveedores -->
@@ -357,13 +389,20 @@
     <!-- Exportar Todo -->
     <div class="admin-card">
       <h3>🗄️ Exportar Todo</h3>
-      <p>Subir todos los datos a GitHub de una vez</p>
+      <p>Subir todos los datos a GitHub de una vez (con log detallado)</p>
       <button class="btn-primary" onclick="pushAll()" id="btnPushAll">🚀 Sincronizar Todo a GitHub</button>
       <div class="status-msg" id="allStatus"></div>
+      <div class="log-box" id="allLog"></div>
     </div>
 
   </div>
 </div>
+
+<!-- ══════════ BOTÓN INSTALAR (PWA) ══════════ -->
+<button id="installBtn" aria-label="Instalar aplicación">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+  Instalar app
+</button>
 
 <!-- ══════════ FAB: AGREGAR ══════════ -->
 <button class="fab" id="addBtn" aria-label="Agregar">
@@ -407,6 +446,7 @@
       <span>Admin</span>
     </button>
   </div>
+  <div class="footer-credit">Creado por <b>Edrian Cruz</b></div>
 </nav>
 
 <!-- ══════════ MODAL: PROVEEDOR ══════════ -->
@@ -811,16 +851,92 @@
     setTimeout(()=>{ el.className='status-msg'; },8000);
   }
 
+  // ── LOG helper ──
+  function logLine(boxId, msg, type){
+    const box=$(boxId); if(!box) return;
+    box.classList.add('show');
+    const ts=new Date().toLocaleTimeString();
+    const cls = type ? 'lg-'+type : 'lg-dim';
+    const line=document.createElement('div');
+    line.innerHTML='<span class="lg-dim">['+ts+']</span> <span class="'+cls+'">'+msg.replace(/</g,'&lt;')+'</span>';
+    box.appendChild(line);
+    box.scrollTop = box.scrollHeight;
+  }
+  function clearLog(boxId){ const b=$(boxId); if(b){ b.innerHTML=''; b.classList.remove('show'); } }
+
   window.testGHConnection = async function(){
-    const {token,owner,repo} = getGHCreds();
-    if(!token||!owner||!repo){ showStatus('ghTestStatus','⚠️ Completa las credenciales primero','err'); return; }
+    const {token,owner,repo,branch} = getGHCreds();
+    clearLog('ghTestLog');
+    logLine('ghTestLog','▶ Iniciando diagnóstico de conexión...', 'info');
+    logLine('ghTestLog','• Online: '+navigator.onLine);
+    logLine('ghTestLog','• Owner: '+(owner||'(vacío)'));
+    logLine('ghTestLog','• Repo:  '+(repo||'(vacío)'));
+    logLine('ghTestLog','• Branch:'+(branch||'main'));
+    logLine('ghTestLog','• Token: '+(token?('len='+token.length+' '+token.slice(0,4)+'…'+token.slice(-3)):'(vacío)'));
+    if(!token||!owner||!repo){
+      logLine('ghTestLog','✗ Faltan credenciales. Completa todos los campos y guarda.', 'err');
+      showStatus('ghTestStatus','⚠️ Completa las credenciales primero','err'); return;
+    }
     $('btnTestGH').disabled=true; $('btnTestGH').textContent='Probando...';
+    const H={'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json'};
     try{
-      const r = await fetch(`https://api.github.com/repos/${owner}/${repo}`, {headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json'}});
-      if(r.ok){ const d=await r.json(); showStatus('ghTestStatus','✅ Conectado: '+d.full_name+' ('+d.visibility+')','ok'); }
-      else { const e=await r.json(); showStatus('ghTestStatus','❌ Error '+r.status+': '+(e.message||'sin acceso'),'err'); }
-    }catch(err){ showStatus('ghTestStatus','❌ Error de red: '+err.message,'err'); }
-    $('btnTestGH').disabled=false; $('btnTestGH').textContent='🔗 Probar conexión';
+      // 1) Token /user
+      logLine('ghTestLog','→ GET https://api.github.com/user','info');
+      const ru = await fetch('https://api.github.com/user',{headers:H});
+      logLine('ghTestLog','  status '+ru.status+' '+ru.statusText, ru.ok?'ok':'err');
+      const rl = ru.headers.get('x-ratelimit-remaining');
+      if(rl) logLine('ghTestLog','  rate-limit restante: '+rl);
+      if(!ru.ok){
+        const e=await ru.json().catch(()=>({}));
+        logLine('ghTestLog','✗ Token inválido o sin permisos: '+(e.message||'fallo'),'err');
+        showStatus('ghTestStatus','❌ Token inválido','err'); return;
+      }
+      const u=await ru.json();
+      logLine('ghTestLog','  ✓ Autenticado como: '+u.login+' (id '+u.id+')','ok');
+
+      // 2) Repo
+      logLine('ghTestLog','→ GET /repos/'+owner+'/'+repo,'info');
+      const rr=await fetch('https://api.github.com/repos/'+owner+'/'+repo,{headers:H});
+      logLine('ghTestLog','  status '+rr.status, rr.ok?'ok':'err');
+      if(!rr.ok){
+        const e=await rr.json().catch(()=>({}));
+        logLine('ghTestLog','✗ '+(e.message||'sin acceso al repo'),'err');
+        showStatus('ghTestStatus','❌ Repo no accesible','err'); return;
+      }
+      const repoData=await rr.json();
+      logLine('ghTestLog','  ✓ '+repoData.full_name+' · '+repoData.visibility+' · default='+repoData.default_branch,'ok');
+      const perms = repoData.permissions||{};
+      logLine('ghTestLog','  permisos: push='+!!perms.push+' admin='+!!perms.admin+' pull='+!!perms.pull);
+      if(!perms.push){ logLine('ghTestLog','  ⚠ Sin permiso de escritura: no podrás subir','warn'); }
+
+      // 3) Rama
+      const br=branch||'main';
+      logLine('ghTestLog','→ GET /repos/'+owner+'/'+repo+'/branches/'+br,'info');
+      const rb=await fetch('https://api.github.com/repos/'+owner+'/'+repo+'/branches/'+br,{headers:H});
+      logLine('ghTestLog','  status '+rb.status, rb.ok?'ok':'err');
+      if(!rb.ok){
+        logLine('ghTestLog','  ⚠ La rama "'+br+'" no existe (usa "'+repoData.default_branch+'")','warn');
+      } else {
+        const bd=await rb.json();
+        logLine('ghTestLog','  ✓ rama OK, último commit: '+(bd.commit?.sha||'').slice(0,7),'ok');
+      }
+
+      // 4) Archivos esperados
+      for(const k of Object.keys(GH_FILES)){
+        const fn=GH_FILES[k];
+        const rf=await fetch('https://api.github.com/repos/'+owner+'/'+repo+'/contents/'+fn+'?ref='+br,{headers:H});
+        if(rf.status===404) logLine('ghTestLog','  • '+fn+': NO existe (se creará al subir)','warn');
+        else if(rf.ok){ const df=await rf.json(); logLine('ghTestLog','  • '+fn+': existe ('+df.size+' bytes, sha '+df.sha.slice(0,7)+')','ok'); }
+        else logLine('ghTestLog','  • '+fn+': error '+rf.status,'err');
+      }
+
+      logLine('ghTestLog','✓ DIAGNÓSTICO COMPLETO','ok');
+      showStatus('ghTestStatus','✅ Conexión OK con '+repoData.full_name,'ok');
+    }catch(err){
+      logLine('ghTestLog','✗ Excepción: '+err.message,'err');
+      showStatus('ghTestStatus','❌ Error de red: '+err.message,'err');
+    }
+    $('btnTestGH').disabled=false; $('btnTestGH').textContent='🔗 Probar conexión (detallado)';
   };
 
   async function getFileSHA(token,owner,repo,branch,filename){
@@ -829,28 +945,54 @@
     const d=await r.json(); return d.sha||null;
   }
 
-  window.pushToGitHub = async function(type){
+  // Devuelve {ok, msg, type, count, status}
+  window.pushToGitHub = async function(type, opts){
+    opts = opts || {};
     const {token,owner,repo,branch}=getGHCreds();
     const statusId = type+'Status';
-    if(!token||!owner||!repo){ showStatus(statusId,'⚠️ Configura las credenciales de GitHub primero','err'); return; }
+    const labels={providers:'Proveedores',pending:'Pendientes',clients:'Clientes'};
+    if(!token||!owner||!repo){
+      const m='⚠️ Configura las credenciales de GitHub primero';
+      if(!opts.silent) showStatus(statusId,m,'err');
+      return {ok:false,type,msg:m};
+    }
     const filename = GH_FILES[type];
     const dataMap = {providers, pending: pendings, clients};
-    const content = btoa(unescape(encodeURIComponent(JSON.stringify(dataMap[type],null,2))));
+    const arr=dataMap[type]||[];
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(arr,null,2))));
     const btnId = {providers:'btnPushProv',pending:'btnPushPend',clients:'btnPushClients'}[type];
-    const btn=$(btnId); if(btn){ btn.disabled=true; btn.textContent='Subiendo...'; }
+    const btn=$(btnId);
+    if(btn && !opts.silent){ btn.disabled=true; btn.textContent='Subiendo...'; }
+    let result={ok:false,type,count:arr.length,filename};
     try{
-      showStatus(statusId,'⏳ Conectando con GitHub...','info');
-      const sha = await getFileSHA(token,owner,repo,branch,filename);
-      const body = {message:`Actualizar ${filename} desde Mi Agenda`,content,branch};
+      if(!opts.silent) showStatus(statusId,'⏳ Conectando con GitHub...','info');
+      const sha = await getFileSHA(token,owner,repo,branch||'main',filename);
+      const body = {message:`Actualizar ${filename} desde Mi Agenda`,content,branch:branch||'main'};
       if(sha) body.sha=sha;
       const r=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filename}`,{
         method:'PUT',headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
         body:JSON.stringify(body)
       });
-      if(r.ok) showStatus(statusId,'✅ '+(sha?'Actualizado':'Creado')+' correctamente en GitHub','ok');
-      else { const e=await r.json(); showStatus(statusId,'❌ Error '+r.status+': '+(e.message||'fallo'),'err'); }
-    }catch(err){ showStatus(statusId,'❌ Error: '+err.message,'err'); }
-    if(btn){ btn.disabled=false; btn.textContent = btn.textContent.includes('Sub')?'⬆️ Subir '+({providers:'Proveedores',pending:'Pendientes',clients:'Clientes'}[type])+' a GitHub':btn.textContent; renderAdmin(); }
+      result.status=r.status;
+      if(r.ok){
+        const j=await r.json();
+        result.ok=true; result.action=sha?'actualizado':'creado'; result.sha=j.content?.sha;
+        if(!opts.silent) showStatus(statusId,'✅ '+result.action+' correctamente en GitHub','ok');
+      } else {
+        const e=await r.json().catch(()=>({}));
+        result.msg=e.message||'fallo';
+        if(!opts.silent) showStatus(statusId,'❌ Error '+r.status+': '+result.msg,'err');
+      }
+    }catch(err){
+      result.msg=err.message;
+      if(!opts.silent) showStatus(statusId,'❌ Error: '+err.message,'err');
+    }
+    if(btn && !opts.silent){
+      btn.disabled=false;
+      btn.textContent='⬆️ Subir '+labels[type]+' a GitHub';
+      renderAdmin();
+    }
+    return result;
   };
 
   window.pullFromGitHub = async function(type){
@@ -876,15 +1018,49 @@
   };
 
   window.pushAll = async function(){
-    $('btnPushAll').disabled=true; $('btnPushAll').textContent='Sincronizando...';
+    const btn=$('btnPushAll');
+    btn.disabled=true; btn.textContent='Sincronizando...';
+    clearLog('allLog');
+    logLine('allLog','▶ Iniciando subida masiva a GitHub...','info');
+    const {token,owner,repo,branch} = getGHCreds();
+    logLine('allLog','• repo: '+(owner||'?')+'/'+(repo||'?')+' @'+(branch||'main'));
+    logLine('allLog','• online: '+navigator.onLine);
+    if(!token||!owner||!repo){
+      logLine('allLog','✗ Faltan credenciales. Configúralas y guarda.','err');
+      showStatus('allStatus','⚠️ Configura GitHub primero','err');
+      btn.disabled=false; btn.textContent='🚀 Sincronizar Todo a GitHub'; return;
+    }
     showStatus('allStatus','⏳ Subiendo todos los datos...','info');
-    try{
-      await pushToGitHub('providers');
-      await pushToGitHub('pending');
-      await pushToGitHub('clients');
-      showStatus('allStatus','✅ Todos los datos sincronizados con GitHub','ok');
-    }catch(e){ showStatus('allStatus','❌ Error durante sincronización: '+e.message,'err'); }
-    $('btnPushAll').disabled=false; $('btnPushAll').textContent='🚀 Sincronizar Todo a GitHub';
+    const types=['providers','pending','clients'];
+    const labels={providers:'Proveedores',pending:'Pendientes',clients:'Clientes'};
+    let okCount=0, failCount=0;
+    for(const t of types){
+      logLine('allLog','→ Subiendo '+labels[t]+' ('+GH_FILES[t]+')...','info');
+      try{
+        const res = await pushToGitHub(t, {silent:true});
+        if(res.ok){
+          okCount++;
+          logLine('allLog','  ✓ '+res.action+' · '+res.count+' registros · sha '+(res.sha||'').slice(0,7),'ok');
+        } else {
+          failCount++;
+          logLine('allLog','  ✗ '+labels[t]+' falló: HTTP '+(res.status||'?')+' · '+(res.msg||'sin detalle'),'err');
+        }
+      }catch(e){
+        failCount++;
+        logLine('allLog','  ✗ Excepción en '+labels[t]+': '+e.message,'err');
+      }
+    }
+    logLine('allLog','◼ Resultado: '+okCount+' OK · '+failCount+' fallidos','info');
+    if(failCount===0){
+      logLine('allLog','✓ TODO sincronizado correctamente','ok');
+      showStatus('allStatus','✅ Todos los datos sincronizados ('+okCount+'/3)','ok');
+      // limpiar dirty
+      try{ setDirty({providers:false,pending:false,clients:false}); }catch{}
+    } else {
+      showStatus('allStatus','⚠️ '+okCount+'/3 OK, '+failCount+' fallaron (ver log)','err');
+    }
+    btn.disabled=false; btn.textContent='🚀 Sincronizar Todo a GitHub';
+    renderAdmin();
   };
 
   // ESC closes modals
@@ -1052,6 +1228,48 @@
       navigator.serviceWorker.register('sw.js').catch(err=>console.warn('SW reg fail',err));
     });
   }
+
+  // ---- PWA INSTALL PROMPT (Android Chrome / Edge) ----
+  let deferredInstallPrompt = null;
+  const installBtn = document.getElementById('installBtn');
+  function isStandalone(){
+    return window.matchMedia('(display-mode: standalone)').matches
+        || window.matchMedia('(display-mode: fullscreen)').matches
+        || window.navigator.standalone === true;
+  }
+  window.addEventListener('beforeinstallprompt', (e)=>{
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    if(!isStandalone() && installBtn) installBtn.classList.add('show');
+  });
+  if(installBtn){
+    installBtn.addEventListener('click', async ()=>{
+      if(!deferredInstallPrompt){
+        // iOS u otro navegador: instrucciones
+        alert('Para instalar la app:\n\n• Android (Chrome): menú ⋮ → "Instalar aplicación" o "Añadir a pantalla de inicio"\n• iPhone (Safari): botón Compartir → "Añadir a pantalla de inicio"');
+        return;
+      }
+      installBtn.disabled=true;
+      deferredInstallPrompt.prompt();
+      const choice = await deferredInstallPrompt.userChoice;
+      if(choice && choice.outcome==='accepted'){
+        installBtn.classList.remove('show');
+      }
+      deferredInstallPrompt = null;
+      installBtn.disabled=false;
+    });
+  }
+  window.addEventListener('appinstalled', ()=>{
+    if(installBtn) installBtn.classList.remove('show');
+    deferredInstallPrompt = null;
+  });
+  // Si no está instalada y no llegó beforeinstallprompt en 3s (iOS / criterios no cumplidos),
+  // mostrar igual el botón con instrucciones manuales.
+  setTimeout(()=>{
+    if(!isStandalone() && installBtn && !installBtn.classList.contains('show')){
+      installBtn.classList.add('show');
+    }
+  }, 3000);
 
   // Arranque
   updateSyncBadge();
