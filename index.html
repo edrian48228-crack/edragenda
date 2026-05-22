@@ -1,0 +1,1062 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0a0a0f" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Mi Agenda" />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
+<link rel="apple-touch-icon" href="icon-192.png" />
+<title>Mi Agenda</title>
+<style>
+  :root{
+    --bg:#0a0a0f;
+    --card:#14141c;
+    --card-2:#1c1c28;
+    --border:#262635;
+    --text:#ffffff;
+    --muted:#9a9ab0;
+    --primary:#a855f7;
+    --primary-2:#c084fc;
+    --accent:#22d3ee;
+    --success:#22c55e;
+    --fb:#3b82f6;
+    --danger:#ef4444;
+    --footer-h:90px;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:17px;line-height:1.4;min-height:100vh}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+  input,textarea,select{font:inherit;color:inherit}
+
+  /* ── HEADER ── */
+  header{position:sticky;top:0;z-index:10;background:rgba(10,10,15,.92);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--border);
+    padding:22px 18px 16px;padding-top:calc(22px + env(safe-area-inset-top))}
+  .wrap{max-width:760px;margin:0 auto}
+  h1{margin:0;font-size:30px;font-weight:800;letter-spacing:-.5px}
+  h1 span{color:var(--primary)}
+  .sub{color:var(--muted);font-size:15px;margin-top:4px}
+
+  .search{position:relative;margin-top:18px}
+  .search svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);
+    width:24px;height:24px;color:var(--primary)}
+  .search input{width:100%;height:56px;padding:0 18px 0 52px;
+    background:var(--card);color:var(--text);border:1px solid var(--border);
+    border-radius:18px;font-size:18px;outline:none;transition:border-color .2s}
+  .search input:focus{border-color:var(--primary)}
+  .search input::placeholder{color:var(--muted)}
+
+  /* ── MAIN ── */
+  main{padding:16px 14px 140px;max-width:760px;margin:0 auto}
+  main.hidden{display:none}
+
+  /* ── PAGE TITLES ── */
+  .page-header{max-width:760px;margin:0 auto;padding:24px 14px 8px}
+  .page-header h2{margin:0;font-size:26px;font-weight:800}
+  .page-header p{color:var(--muted);font-size:15px;margin:4px 0 0}
+
+  /* ── CARDS ── */
+  .card{background:var(--card);border:1px solid var(--border);border-radius:20px;
+    padding:16px;margin-bottom:12px;transition:border-color .2s}
+  .card:hover{border-color:rgba(168,85,247,.5)}
+  .row{display:flex;gap:14px;align-items:flex-start}
+  .avatar{width:54px;height:54px;border-radius:50%;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    background:rgba(168,85,247,.18);color:var(--primary);
+    font-size:24px;font-weight:700}
+  .avatar.pending-avatar{background:rgba(239,68,68,.18);color:var(--danger)}
+  .avatar.client-avatar{background:rgba(34,211,238,.18);color:var(--accent)}
+  .info{flex:1;min-width:0}
+  .name{font-size:20px;font-weight:700;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .product{color:#dcdce6;font-size:16px;margin:2px 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .price{color:var(--accent);font-size:18px;font-weight:700;margin:4px 0 0}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:13px;font-weight:700;margin-top:6px}
+  .badge.high{background:rgba(239,68,68,.2);color:var(--danger)}
+  .badge.med{background:rgba(234,179,8,.2);color:#eab308}
+  .badge.low{background:rgba(34,197,94,.2);color:var(--success)}
+
+  .icons{display:flex;gap:4px;flex-shrink:0}
+  .icon-btn{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:background .15s,color .15s}
+  .icon-btn:hover{background:var(--card-2)}
+  .icon-btn.edit:hover{color:var(--primary)}
+  .icon-btn.del:hover{color:var(--danger)}
+  .icon-btn svg{width:22px;height:22px}
+
+  .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;padding-left:0}
+  @media(min-width:520px){.actions{padding-left:68px}}
+  .pill{display:inline-flex;align-items:center;gap:10px;height:48px;padding:0 16px;
+    border-radius:14px;background:var(--card-2);font-size:16px;font-weight:600;
+    transition:transform .1s,background .15s}
+  .pill:active{transform:scale(.96)}
+  .pill svg{width:26px;height:26px}
+  .pill.call svg{color:var(--primary-2)}
+  .pill.wa svg{color:var(--success)}
+  .pill.fb svg{color:var(--fb)}
+  .pill.call:hover{background:rgba(168,85,247,.18)}
+  .pill.wa:hover{background:rgba(34,197,94,.18)}
+  .pill.fb:hover{background:rgba(59,130,246,.18)}
+
+  .empty{text-align:center;padding:70px 20px;color:var(--muted)}
+  .empty svg{width:64px;height:64px;opacity:.4;margin-bottom:10px}
+
+  /* ── FAB ── */
+  .fab{position:fixed;bottom:calc(var(--footer-h) + 20px);left:50%;transform:translateX(-50%);
+    width:68px;height:68px;border-radius:50%;background:var(--primary);
+    color:#fff;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 12px 36px -8px rgba(168,85,247,.7),0 4px 14px rgba(0,0,0,.5);
+    transition:transform .15s;z-index:20}
+  .fab:hover{transform:translateX(-50%) scale(1.06)}
+  .fab:active{transform:translateX(-50%) scale(.94)}
+  .fab svg{width:34px;height:34px;stroke-width:3}
+  .fab.hidden{display:none}
+  @media(min-width:640px){
+    .fab{left:auto;right:32px;transform:none;bottom:calc(var(--footer-h) + 20px)}
+    .fab:hover{transform:scale(1.06)}
+    .fab:active{transform:scale(.94)}
+  }
+
+  /* ── BOTTOM FOOTER NAV ── */
+  .footer-nav{
+    position:fixed;bottom:0;left:0;right:0;z-index:15;
+    height:var(--footer-h);
+    background:rgba(12,12,20,.96);
+    backdrop-filter:blur(20px);
+    border-top:1px solid var(--border);
+    padding-bottom:env(safe-area-inset-bottom);
+  }
+  .footer-nav-inner{
+    max-width:480px;
+    margin:0 auto;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-around;
+    padding:0 8px;
+  }
+  .nav-btn{
+    display:flex;flex-direction:column;align-items:center;gap:6px;
+    flex:1;padding:10px 6px;border-radius:18px;
+    color:var(--muted);transition:color .2s,background .2s;
+    position:relative;
+  }
+  .nav-btn svg{width:34px;height:34px;stroke-width:1.8;transition:transform .2s,filter .2s}
+  .nav-btn span{font-size:11px;font-weight:600;letter-spacing:.3px;line-height:1}
+  .nav-btn.active{color:var(--primary)}
+  .nav-btn.active svg{filter:drop-shadow(0 0 8px rgba(168,85,247,.7));transform:scale(1.12)}
+  .nav-btn:hover:not(.active){color:#fff}
+  .nav-btn.nav-pending.active{color:var(--danger)}
+  .nav-btn.nav-pending.active svg{filter:drop-shadow(0 0 8px rgba(239,68,68,.7))}
+  .nav-btn.nav-clients.active{color:var(--accent)}
+  .nav-btn.nav-clients.active svg{filter:drop-shadow(0 0 8px rgba(34,211,238,.7))}
+
+  /* ── PENDING PAGE ── */
+  #pagePending{display:none;padding-bottom:140px}
+  #pagePending.active{display:block}
+  .pending-section{max-width:760px;margin:0 auto;padding:0 14px 12px}
+  .priority-tag{
+    font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;
+    padding:2px 8px;border-radius:6px;margin-right:8px;
+  }
+  .p-alta .priority-tag{background:rgba(239,68,68,.2);color:var(--danger)}
+  .p-media .priority-tag{background:rgba(234,179,8,.2);color:#eab308}
+  .p-baja .priority-tag{background:rgba(34,197,94,.2);color:var(--success)}
+  .done-toggle{width:28px;height:28px;border-radius:8px;border:2px solid var(--border);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    transition:background .2s,border-color .2s;margin-top:14px}
+  .done-toggle.done{background:var(--success);border-color:var(--success)}
+  .done-toggle.done svg{opacity:1}
+  .done-toggle svg{width:16px;height:16px;opacity:0;transition:opacity .2s}
+  .task-text{flex:1;min-width:0}
+  .task-text.done-text{text-decoration:line-through;color:var(--muted)}
+
+  /* ── CLIENTS PAGE ── */
+  #pageClients{display:none;padding-bottom:140px}
+  #pageClients.active{display:block}
+  .client-search{position:relative;max-width:760px;margin:0 auto;padding:8px 14px 12px}
+  .client-search svg{position:absolute;left:28px;top:50%;transform:translateY(-50%);
+    width:22px;height:22px;color:var(--accent)}
+  .client-search input{width:100%;height:52px;padding:0 18px 0 50px;
+    background:var(--card);color:var(--text);border:1px solid var(--border);
+    border-radius:18px;font-size:17px;outline:none;transition:border-color .2s}
+  .client-search input:focus{border-color:var(--accent)}
+  .client-search input::placeholder{color:var(--muted)}
+  .tag-list{display:flex;flex-wrap:wrap;gap:8px;max-width:760px;margin:0 auto;padding:0 14px 14px}
+  .tag{padding:6px 14px;border-radius:20px;font-size:13px;font-weight:600;
+    background:var(--card-2);border:1px solid var(--border);cursor:pointer;
+    transition:background .15s,border-color .15s,color .15s}
+  .tag.active-tag{background:rgba(34,211,238,.15);border-color:var(--accent);color:var(--accent)}
+
+  /* ── GITHUB ADMIN PAGE ── */
+  #pageAdmin{display:none;padding-bottom:100px}
+  #pageAdmin.active{display:block}
+  .admin-section{max-width:760px;margin:0 auto;padding:0 14px 20px}
+  .admin-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:20px;margin-bottom:16px}
+  .admin-card h3{margin:0 0 4px;font-size:18px;font-weight:700}
+  .admin-card p{color:var(--muted);font-size:14px;margin:0 0 16px}
+  .field{display:block;margin-bottom:12px}
+  .field span{display:block;color:var(--muted);font-size:13px;margin-bottom:4px}
+  .field input,.field select,.field textarea{
+    width:100%;padding:12px 16px;background:var(--card-2);
+    color:var(--text);border:1px solid var(--border);border-radius:14px;
+    font-size:16px;outline:none;transition:border-color .2s}
+  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--primary)}
+  .field input[type=password]{letter-spacing:2px}
+  .field textarea{height:120px;resize:vertical;font-family:monospace;font-size:13px}
+  .btn-primary{width:100%;height:54px;border-radius:16px;background:var(--primary);
+    color:#fff;font-size:17px;font-weight:700;transition:background .15s,transform .1s;border:0;cursor:pointer}
+  .btn-primary:hover{background:var(--primary-2)}
+  .btn-primary:active{transform:scale(.98)}
+  .btn-primary:disabled{opacity:.5;cursor:not-allowed}
+  .btn-secondary{width:100%;height:50px;border-radius:16px;
+    background:var(--card-2);color:var(--text);font-size:16px;font-weight:600;
+    border:1px solid var(--border);cursor:pointer;transition:background .15s}
+  .btn-secondary:hover{background:rgba(168,85,247,.15);border-color:var(--primary)}
+  .status-msg{border-radius:14px;padding:14px 16px;font-size:15px;font-weight:600;
+    margin-top:12px;display:none}
+  .status-msg.ok{background:rgba(34,197,94,.15);color:var(--success);border:1px solid rgba(34,197,94,.3);display:block}
+  .status-msg.err{background:rgba(239,68,68,.15);color:var(--danger);border:1px solid rgba(239,68,68,.3);display:block}
+  .status-msg.info{background:rgba(168,85,247,.1);color:var(--primary-2);border:1px solid rgba(168,85,247,.2);display:block}
+  .gh-creds-saved{font-size:12px;color:var(--success);margin-left:8px}
+  .divider{height:1px;background:var(--border);margin:8px 0 16px}
+  .data-preview{background:var(--card-2);border-radius:12px;padding:12px;font-size:12px;
+    font-family:monospace;color:var(--muted);max-height:140px;overflow:auto;word-break:break-all}
+
+  /* ── MODAL ── */
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:30;
+    display:none;align-items:flex-end;justify-content:center;padding:0}
+  .modal.open{display:flex}
+  @media(min-width:640px){.modal{align-items:center;padding:16px}}
+  .sheet{width:100%;max-width:520px;max-height:92vh;overflow-y:auto;
+    background:var(--card);border:1px solid var(--border);
+    border-radius:28px 28px 0 0;padding:22px}
+  @media(min-width:640px){.sheet{border-radius:24px}}
+  .sheet-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+  .sheet-head h2{margin:0;font-size:22px;font-weight:800}
+  .close{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+  .close:hover{background:var(--card-2)}
+  .close svg{width:22px;height:22px}
+  .save{width:100%;height:56px;border-radius:18px;background:var(--primary);
+    color:#fff;font-size:18px;font-weight:700;margin-top:8px;
+    transition:background .15s,transform .1s}
+  .save:hover{background:var(--primary-2)}
+  .save:active{transform:scale(.98)}
+
+  /* ── ADMIN NAV BADGE ── */
+  .admin-fab{position:fixed;bottom:calc(var(--footer-h) + 20px);right:20px;
+    width:52px;height:52px;border-radius:16px;background:var(--card-2);
+    border:1px solid var(--border);color:var(--muted);
+    display:none;align-items:center;justify-content:center;z-index:20;
+    transition:background .15s,color .15s}
+  .admin-fab:hover{background:rgba(168,85,247,.2);color:var(--primary)}
+  .admin-fab svg{width:26px;height:26px}
+</style>
+</head>
+<body>
+
+<!-- ══════════ HEADER ══════════ -->
+<header id="mainHeader">
+  <div class="wrap">
+    <h1 id="pageTitle"><span>Mi</span> Agenda</h1>
+    <p class="sub" id="counter">0 proveedores guardados</p>
+    <div class="search" id="headerSearch">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="search" type="search" placeholder="Buscar pescado, pollo, nombre..." autocomplete="off"/>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════ PAGE: PROVEEDORES ══════════ -->
+<main id="pageProviders"></main>
+
+<!-- ══════════ PAGE: PENDIENTES ══════════ -->
+<div id="pagePending">
+  <div class="page-header"><h2>Pendientes</h2><p>Tareas y recordatorios</p></div>
+  <div class="pending-section" id="pendingList"></div>
+</div>
+
+<!-- ══════════ PAGE: CLIENTES BUSCAN ══════════ -->
+<div id="pageClients">
+  <div class="page-header"><h2>Clientes Buscan</h2><p>Lo que tus clientes están pidiendo</p></div>
+  <div class="client-search">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input id="clientSearch" type="search" placeholder="Buscar producto buscado..." autocomplete="off"/>
+  </div>
+  <div class="tag-list" id="clientTags"></div>
+  <div class="pending-section" id="clientList"></div>
+</div>
+
+<!-- ══════════ PAGE: ADMIN GITHUB ══════════ -->
+<div id="pageAdmin">
+  <div class="page-header">
+    <h2>⚙️ Administración</h2>
+    <p>Guardado en GitHub · Sincronización de datos</p>
+  </div>
+  <div class="admin-section">
+
+    <!-- GitHub Config -->
+    <div class="admin-card">
+      <h3>🔐 Credenciales GitHub</h3>
+      <p>Token con permisos de repo (se guarda solo en este dispositivo)</p>
+      <label class="field"><span>Token de Acceso Personal (PAT) <span class="gh-creds-saved" id="credSavedBadge">✓ guardado</span></span>
+        <input id="ghToken" type="password" placeholder="ghp_xxxxxxxxxxxx"/>
+      </label>
+      <label class="field"><span>Usuario / Organización</span>
+        <input id="ghOwner" placeholder="mi-usuario"/>
+      </label>
+      <label class="field"><span>Repositorio</span>
+        <input id="ghRepo" placeholder="mi-agenda-datos"/>
+      </label>
+      <label class="field"><span>Rama</span>
+        <input id="ghBranch" placeholder="main"/>
+      </label>
+      <button class="btn-secondary" onclick="saveGHCreds()" style="margin-bottom:8px">💾 Guardar credenciales localmente</button>
+      <button class="btn-secondary" onclick="testGHConnection()" id="btnTestGH">🔗 Probar conexión</button>
+      <div class="status-msg" id="ghTestStatus"></div>
+    </div>
+
+    <!-- Proveedores -->
+    <div class="admin-card">
+      <h3>📦 Proveedores</h3>
+      <p>Exportar o importar el JSON de proveedores a tu repositorio</p>
+      <div class="data-preview" id="previewProviders"></div>
+      <div style="height:12px"></div>
+      <button class="btn-primary" onclick="pushToGitHub('providers')" id="btnPushProv">⬆️ Subir Proveedores a GitHub</button>
+      <div class="divider"></div>
+      <button class="btn-secondary" onclick="pullFromGitHub('providers')" id="btnPullProv">⬇️ Cargar Proveedores desde GitHub</button>
+      <div class="status-msg" id="provStatus"></div>
+    </div>
+
+    <!-- Pendientes -->
+    <div class="admin-card">
+      <h3>📋 Pendientes</h3>
+      <p>Sincronizar tareas pendientes con GitHub</p>
+      <button class="btn-primary" onclick="pushToGitHub('pending')" id="btnPushPend">⬆️ Subir Pendientes a GitHub</button>
+      <div class="divider"></div>
+      <button class="btn-secondary" onclick="pullFromGitHub('pending')" id="btnPullPend">⬇️ Cargar Pendientes desde GitHub</button>
+      <div class="status-msg" id="pendingStatus"></div>
+    </div>
+
+    <!-- Clientes -->
+    <div class="admin-card">
+      <h3>🔍 Clientes Buscan</h3>
+      <p>Sincronizar solicitudes de clientes con GitHub</p>
+      <button class="btn-primary" onclick="pushToGitHub('clients')" id="btnPushClients">⬆️ Subir Clientes a GitHub</button>
+      <div class="divider"></div>
+      <button class="btn-secondary" onclick="pullFromGitHub('clients')" id="btnPullClients">⬇️ Cargar Clientes desde GitHub</button>
+      <div class="status-msg" id="clientsStatus"></div>
+    </div>
+
+    <!-- Exportar Todo -->
+    <div class="admin-card">
+      <h3>🗄️ Exportar Todo</h3>
+      <p>Subir todos los datos a GitHub de una vez</p>
+      <button class="btn-primary" onclick="pushAll()" id="btnPushAll">🚀 Sincronizar Todo a GitHub</button>
+      <div class="status-msg" id="allStatus"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════ FAB: AGREGAR ══════════ -->
+<button class="fab" id="addBtn" aria-label="Agregar">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+</button>
+
+<!-- ══════════ FOOTER NAV ══════════ -->
+<nav class="footer-nav">
+  <div class="footer-nav-inner">
+    <!-- Proveedores -->
+    <button class="nav-btn nav-providers active" data-page="providers">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9h18M3 15h18M9 9v6M15 9v6M2 5l2-2h16l2 2v14l-2 2H4l-2-2V5z"/>
+      </svg>
+      <span>Proveedores</span>
+    </button>
+    <!-- Pendientes -->
+    <button class="nav-btn nav-pending" data-page="pending">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 11l3 3L22 4"/>
+        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+      </svg>
+      <span>Pendientes</span>
+    </button>
+    <!-- Clientes Buscan -->
+    <button class="nav-btn nav-clients" data-page="clients">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="m21 21-4.35-4.35"/>
+        <path d="M11 8v6M8 11h6"/>
+      </svg>
+      <span>Clientes Buscan</span>
+    </button>
+    <!-- Admin -->
+    <button class="nav-btn nav-admin" data-page="admin">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
+        <path d="M12 2v2M12 20v2M2 12h2M20 12h2"/>
+      </svg>
+      <span>Admin</span>
+    </button>
+  </div>
+</nav>
+
+<!-- ══════════ MODAL: PROVEEDOR ══════════ -->
+<div class="modal" id="modalProvider">
+  <form class="sheet" id="formProvider">
+    <div class="sheet-head">
+      <h2 id="modalProviderTitle">Nuevo proveedor</h2>
+      <button type="button" class="close" id="closeProviderBtn" aria-label="Cerrar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <input type="hidden" id="f-id"/>
+    <label class="field"><span>Nombre *</span><input id="f-name" required/></label>
+    <label class="field"><span>Producto que vende</span><input id="f-product"/></label>
+    <label class="field"><span>Precio</span><input id="f-price"/></label>
+    <label class="field"><span>WhatsApp (+código país)</span><input id="f-whatsapp" type="tel" placeholder="+5491112345678"/></label>
+    <label class="field"><span>Teléfono</span><input id="f-phone" type="tel"/></label>
+    <label class="field"><span>Facebook (usuario o URL)</span><input id="f-facebook"/></label>
+    <button type="submit" class="save">Guardar</button>
+  </form>
+</div>
+
+<!-- ══════════ MODAL: PENDIENTE ══════════ -->
+<div class="modal" id="modalPending">
+  <form class="sheet" id="formPending">
+    <div class="sheet-head">
+      <h2 id="modalPendingTitle">Nueva tarea</h2>
+      <button type="button" class="close" id="closePendingBtn" aria-label="Cerrar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <input type="hidden" id="p-id"/>
+    <label class="field"><span>Tarea *</span><input id="p-task" required placeholder="Ej: Llamar a proveedor X"/></label>
+    <label class="field"><span>Nota</span><input id="p-note" placeholder="Detalles adicionales"/></label>
+    <label class="field"><span>Prioridad</span>
+      <select id="p-priority">
+        <option value="alta">🔴 Alta</option>
+        <option value="media" selected>🟡 Media</option>
+        <option value="baja">🟢 Baja</option>
+      </select>
+    </label>
+    <label class="field"><span>Fecha límite</span><input id="p-date" type="date"/></label>
+    <button type="submit" class="save">Guardar</button>
+  </form>
+</div>
+
+<!-- ══════════ MODAL: CLIENTE BUSCA ══════════ -->
+<div class="modal" id="modalClient">
+  <form class="sheet" id="formClient">
+    <div class="sheet-head">
+      <h2 id="modalClientTitle">Cliente busca...</h2>
+      <button type="button" class="close" id="closeClientBtn" aria-label="Cerrar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <input type="hidden" id="c-id"/>
+    <label class="field"><span>Producto buscado *</span><input id="c-product" required placeholder="Ej: Pescado fresco"/></label>
+    <label class="field"><span>Nombre del cliente</span><input id="c-name" placeholder="Ej: María"/></label>
+    <label class="field"><span>Contacto (tel o WA)</span><input id="c-contact" type="tel" placeholder="+5491112345678"/></label>
+    <label class="field"><span>Cantidad / descripción</span><input id="c-qty" placeholder="Ej: 2 kg, fresco, sin espinas"/></label>
+    <label class="field"><span>Etiqueta</span><input id="c-tag" placeholder="Ej: Pescado, Carne, Fruta"/></label>
+    <button type="submit" class="save">Guardar</button>
+  </form>
+</div>
+
+<script>
+(function(){
+  // ── KEYS ──
+  const KEYS = {
+    providers: 'agenda.providers.v1',
+    pending:   'agenda.pending.v1',
+    clients:   'agenda.clients.v1',
+    ghToken:   'agenda.gh.token',
+    ghOwner:   'agenda.gh.owner',
+    ghRepo:    'agenda.gh.repo',
+    ghBranch:  'agenda.gh.branch',
+  };
+  const GH_FILES = {
+    providers: 'agenda-proveedores.json',
+    pending:   'agenda-pendientes.json',
+    clients:   'agenda-clientes.json',
+  };
+
+  const $ = id => document.getElementById(id);
+  let currentPage = 'providers';
+
+  // ── SVG ICONS ──
+  const SVG = {
+    phone:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>',
+    wa:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.198-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.148-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413"/></svg>',
+    fb:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>',
+    edit:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>',
+    del:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>',
+    user:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
+    check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'
+  };
+
+  function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,8); }
+  function ls(k){ try{ return JSON.parse(localStorage.getItem(k)||'[]'); }catch(e){ return []; } }
+  function lsSave(k,v){ localStorage.setItem(k, JSON.stringify(v)); }
+  function escH(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function tel(v){ return (v||'').replace(/[^\d+]/g,''); }
+  function fbURL(v){ v=(v||'').trim(); if(!v)return ''; if(/^https?:\/\//i.test(v))return v; return 'https://facebook.com/'+v.replace(/^@/,''); }
+
+  // ── DATA ──
+  let providers = ls(KEYS.providers);
+  let pendings  = ls(KEYS.pending);
+  let clients   = ls(KEYS.clients);
+
+  if(!Array.isArray(providers)) providers=[];
+  if(!Array.isArray(pendings))  pendings=[];
+  if(!Array.isArray(clients))   clients=[];
+
+  if(providers.length===0){
+    providers=[
+      {id:uid(),name:'Mariscos del Puerto',product:'Pescado fresco',price:'$8/lb',whatsapp:'+15551234567',phone:'+15551234567',facebook:''},
+      {id:uid(),name:'Granja La Esperanza',product:'Pollo y huevos',price:'$3/lb',whatsapp:'+15557654321',phone:'+15557654321',facebook:''}
+    ];
+    lsSave(KEYS.providers, providers);
+  }
+  if(pendings.length===0){
+    pendings=[
+      {id:uid(),task:'Confirmar precio con Mariscos del Puerto',note:'Preguntar descuento por volumen',priority:'alta',date:'',done:false},
+      {id:uid(),task:'Pedir catálogo actualizado a Granja La Esperanza',note:'',priority:'media',date:'',done:false},
+    ];
+    lsSave(KEYS.pending, pendings);
+  }
+  if(clients.length===0){
+    clients=[
+      {id:uid(),product:'Salmón fresco',name:'Roberto',contact:'+15559876543',qty:'1 kg',tag:'Pescado'},
+      {id:uid(),product:'Pechuga de pollo sin hueso',name:'Ana',contact:'',qty:'2 lb',tag:'Carne'},
+    ];
+    lsSave(KEYS.clients, clients);
+  }
+
+  // ══════════════════════════════════
+  //  NAVIGATION
+  // ══════════════════════════════════
+  function showPage(page){
+    currentPage = page;
+    // toggle visibility
+    $('pageProviders').classList.toggle('hidden', page!=='providers');
+    $('pagePending').classList.toggle('active', page==='pending');
+    $('pageClients').classList.toggle('active', page==='clients');
+    $('pageAdmin').classList.toggle('active', page==='admin');
+    // header search only on providers
+    $('headerSearch').style.display = page==='providers' ? '' : 'none';
+    // FAB
+    $('addBtn').classList.toggle('hidden', page==='admin');
+    // nav btn states
+    document.querySelectorAll('.nav-btn').forEach(b=>{
+      b.classList.toggle('active', b.dataset.page===page);
+    });
+    // title
+    const titles={providers:'Mi Agenda',pending:'Pendientes',clients:'Clientes Buscan',admin:'Administración'};
+    $('pageTitle').innerHTML = page==='providers' ? '<span>Mi</span> Agenda' : escH(titles[page]);
+    // counter
+    const counts={providers: providers.length+' proveedores', pending: pendings.filter(p=>!p.done).length+' pendientes', clients: clients.length+' solicitudes', admin:'GitHub Sync'};
+    $('counter').textContent = counts[page]||'';
+    // render the page
+    if(page==='providers') renderProviders();
+    if(page==='pending')   renderPending();
+    if(page==='clients')   renderClients();
+    if(page==='admin')     renderAdmin();
+  }
+
+  document.querySelectorAll('.nav-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=> showPage(btn.dataset.page));
+  });
+
+  // ══════════════════════════════════
+  //  PROVEEDORES
+  // ══════════════════════════════════
+  function renderProviders(){
+    const listEl = $('pageProviders');
+    const q = ($('search').value||'').trim().toLowerCase();
+    const items = providers.filter(p => {
+      if(!q) return true;
+      return [p.name,p.product,p.price,p.phone,p.whatsapp].filter(Boolean).some(f=>String(f).toLowerCase().includes(q));
+    });
+    $('counter').textContent = providers.length+' proveedores guardados';
+    if(items.length===0){
+      listEl.innerHTML='<div class="empty">'+SVG.user+'<p style="font-size:18px;margin:8px 0 0">'+(providers.length===0?'Aún no tienes proveedores':'Sin resultados')+'</p></div>';
+      return;
+    }
+    listEl.innerHTML = items.map(p=>{
+      const ini = (p.name||'?').charAt(0).toUpperCase();
+      const wn = tel(p.whatsapp).replace(/^\+/,'');
+      const phoneBtn = p.phone?`<a class="pill call" href="tel:${tel(p.phone)}">${SVG.phone}<span>Llamar</span></a>`:'';
+      const waBtn = p.whatsapp?`<a class="pill wa" target="_blank" rel="noreferrer" href="https://wa.me/${wn}">${SVG.wa}<span>WhatsApp</span></a>`:'';
+      const fbBtn = p.facebook?`<a class="pill fb" target="_blank" rel="noreferrer" href="${escH(fbURL(p.facebook))}">${SVG.fb}<span>Facebook</span></a>`:'';
+      return `<article class="card">
+        <div class="row">
+          <div class="avatar">${escH(ini)}</div>
+          <div class="info">
+            <p class="name">${escH(p.name)}</p>
+            ${p.product?`<p class="product">${escH(p.product)}</p>`:''}
+            ${p.price?`<p class="price">${escH(p.price)}</p>`:''}
+          </div>
+          <div class="icons">
+            <button class="icon-btn edit" data-edit-prov="${p.id}">${SVG.edit}</button>
+            <button class="icon-btn del" data-del-prov="${p.id}">${SVG.del}</button>
+          </div>
+        </div>
+        <div class="actions">${phoneBtn}${waBtn}${fbBtn}</div>
+      </article>`;
+    }).join('');
+  }
+
+  $('search').addEventListener('input', renderProviders);
+  $('pageProviders').addEventListener('click', e=>{
+    const ed = e.target.closest('[data-edit-prov]');
+    const dl = e.target.closest('[data-del-prov]');
+    if(ed) openProviderModal(providers.find(p=>p.id===ed.dataset.editProv));
+    else if(dl){ if(confirm('¿Eliminar este proveedor?')){ providers=providers.filter(p=>p.id!==dl.dataset.delProv); lsSave(KEYS.providers,providers); renderProviders(); } }
+  });
+
+  function openProviderModal(p){
+    $('modalProviderTitle').textContent = p?'Editar proveedor':'Nuevo proveedor';
+    $('f-id').value=p?.id||''; $('f-name').value=p?.name||''; $('f-product').value=p?.product||'';
+    $('f-price').value=p?.price||''; $('f-whatsapp').value=p?.whatsapp||'';
+    $('f-phone').value=p?.phone||''; $('f-facebook').value=p?.facebook||'';
+    $('modalProvider').classList.add('open');
+    setTimeout(()=>$('f-name').focus(),50);
+  }
+  $('addBtn').addEventListener('click', ()=>{
+    if(currentPage==='providers') openProviderModal(null);
+    else if(currentPage==='pending') openPendingModal(null);
+    else if(currentPage==='clients') openClientModal(null);
+  });
+  $('closeProviderBtn').addEventListener('click', ()=>$('modalProvider').classList.remove('open'));
+  $('modalProvider').addEventListener('click', e=>{ if(e.target===$('modalProvider')) $('modalProvider').classList.remove('open'); });
+  $('formProvider').addEventListener('submit', e=>{
+    e.preventDefault();
+    const data={id:$('f-id').value||uid(),name:$('f-name').value.trim(),product:$('f-product').value.trim(),price:$('f-price').value.trim(),whatsapp:$('f-whatsapp').value.trim(),phone:$('f-phone').value.trim(),facebook:$('f-facebook').value.trim()};
+    if(!data.name) return;
+    const idx=providers.findIndex(p=>p.id===data.id);
+    if(idx>=0) providers[idx]=data; else providers.unshift(data);
+    lsSave(KEYS.providers,providers); renderProviders(); $('modalProvider').classList.remove('open');
+  });
+
+  // ══════════════════════════════════
+  //  PENDIENTES
+  // ══════════════════════════════════
+  function renderPending(){
+    const listEl = $('pendingList');
+    $('counter').textContent = pendings.filter(p=>!p.done).length+' pendientes';
+    if(pendings.length===0){
+      listEl.innerHTML='<div class="empty"><p style="font-size:18px">Sin tareas pendientes 🎉</p></div>';
+      return;
+    }
+    const prioLabel={alta:'🔴 Alta',media:'🟡 Media',baja:'🟢 Baja'};
+    const prioClass={alta:'p-alta',media:'p-media',baja:'p-baja'};
+    listEl.innerHTML = pendings.map(t=>`
+      <article class="card ${prioClass[t.priority]||'p-media'}">
+        <div class="row">
+          <button class="done-toggle ${t.done?'done':''}" data-toggle-done="${t.id}">${SVG.check}</button>
+          <div class="info task-text ${t.done?'done-text':''}">
+            <p class="name">${escH(t.task)}</p>
+            ${t.note?`<p class="product">${escH(t.note)}</p>`:''}
+            <span class="badge ${t.priority==='alta'?'high':t.priority==='baja'?'low':'med'}">${prioLabel[t.priority]||'Media'}</span>
+            ${t.date?`<span style="color:var(--muted);font-size:13px;margin-left:8px">📅 ${t.date}</span>`:''}
+          </div>
+          <div class="icons">
+            <button class="icon-btn edit" data-edit-pend="${t.id}">${SVG.edit}</button>
+            <button class="icon-btn del" data-del-pend="${t.id}">${SVG.del}</button>
+          </div>
+        </div>
+      </article>`).join('');
+  }
+
+  $('pendingList').addEventListener('click', e=>{
+    const tog = e.target.closest('[data-toggle-done]');
+    const ed  = e.target.closest('[data-edit-pend]');
+    const dl  = e.target.closest('[data-del-pend]');
+    if(tog){ const t=pendings.find(p=>p.id===tog.dataset.toggleDone); if(t){t.done=!t.done; lsSave(KEYS.pending,pendings); renderPending(); $('counter').textContent=pendings.filter(p=>!p.done).length+' pendientes';} }
+    else if(ed) openPendingModal(pendings.find(p=>p.id===ed.dataset.editPend));
+    else if(dl){ if(confirm('¿Eliminar esta tarea?')){ pendings=pendings.filter(p=>p.id!==dl.dataset.delPend); lsSave(KEYS.pending,pendings); renderPending(); } }
+  });
+
+  function openPendingModal(t){
+    $('modalPendingTitle').textContent=t?'Editar tarea':'Nueva tarea';
+    $('p-id').value=t?.id||''; $('p-task').value=t?.task||''; $('p-note').value=t?.note||'';
+    $('p-priority').value=t?.priority||'media'; $('p-date').value=t?.date||'';
+    $('modalPending').classList.add('open');
+    setTimeout(()=>$('p-task').focus(),50);
+  }
+  $('closePendingBtn').addEventListener('click',()=>$('modalPending').classList.remove('open'));
+  $('modalPending').addEventListener('click',e=>{ if(e.target===$('modalPending')) $('modalPending').classList.remove('open'); });
+  $('formPending').addEventListener('submit',e=>{
+    e.preventDefault();
+    const data={id:$('p-id').value||uid(),task:$('p-task').value.trim(),note:$('p-note').value.trim(),priority:$('p-priority').value,date:$('p-date').value,done:false};
+    if(!data.task) return;
+    const idx=pendings.findIndex(p=>p.id===data.id);
+    if(idx>=0) data.done=pendings[idx].done, pendings[idx]=data; else pendings.unshift(data);
+    lsSave(KEYS.pending,pendings); renderPending(); $('modalPending').classList.remove('open');
+  });
+
+  // ══════════════════════════════════
+  //  CLIENTES BUSCAN
+  // ══════════════════════════════════
+  let clientTagFilter = '';
+  function renderClients(){
+    $('counter').textContent = clients.length+' solicitudes';
+    // tags
+    const allTags = [...new Set(clients.map(c=>c.tag).filter(Boolean))];
+    $('clientTags').innerHTML = allTags.map(t=>`<button class="tag ${clientTagFilter===t?'active-tag':''}" data-tag="${escH(t)}">${escH(t)}</button>`).join('');
+    // list
+    const q = ($('clientSearch').value||'').trim().toLowerCase();
+    const items = clients.filter(c=>{
+      if(clientTagFilter && c.tag!==clientTagFilter) return false;
+      if(!q) return true;
+      return [c.product,c.name,c.tag,c.qty].filter(Boolean).some(f=>String(f).toLowerCase().includes(q));
+    });
+    const listEl=$('clientList');
+    if(items.length===0){ listEl.innerHTML='<div class="empty"><p style="font-size:18px">Sin solicitudes</p></div>'; return; }
+    listEl.innerHTML = items.map(c=>`
+      <article class="card">
+        <div class="row">
+          <div class="avatar client-avatar">🔍</div>
+          <div class="info">
+            <p class="name">${escH(c.product)}</p>
+            ${c.name?`<p class="product">👤 ${escH(c.name)}</p>`:''}
+            ${c.qty?`<p class="product">📦 ${escH(c.qty)}</p>`:''}
+            ${c.tag?`<span class="badge low">${escH(c.tag)}</span>`:''}
+          </div>
+          <div class="icons">
+            ${c.contact?`<a class="icon-btn" href="tel:${tel(c.contact)}" title="Llamar">${SVG.phone}</a>`:''}
+            <button class="icon-btn edit" data-edit-client="${c.id}">${SVG.edit}</button>
+            <button class="icon-btn del" data-del-client="${c.id}">${SVG.del}</button>
+          </div>
+        </div>
+      </article>`).join('');
+  }
+
+  $('clientSearch').addEventListener('input', renderClients);
+  $('clientTags').addEventListener('click', e=>{
+    const btn=e.target.closest('[data-tag]');
+    if(btn){ clientTagFilter = clientTagFilter===btn.dataset.tag?'':btn.dataset.tag; renderClients(); }
+  });
+  $('clientList').addEventListener('click', e=>{
+    const ed=e.target.closest('[data-edit-client]');
+    const dl=e.target.closest('[data-del-client]');
+    if(ed) openClientModal(clients.find(c=>c.id===ed.dataset.editClient));
+    else if(dl){ if(confirm('¿Eliminar solicitud?')){ clients=clients.filter(c=>c.id!==dl.dataset.delClient); lsSave(KEYS.clients,clients); renderClients(); } }
+  });
+
+  function openClientModal(c){
+    $('modalClientTitle').textContent=c?'Editar solicitud':'Cliente busca...';
+    $('c-id').value=c?.id||''; $('c-product').value=c?.product||''; $('c-name').value=c?.name||'';
+    $('c-contact').value=c?.contact||''; $('c-qty').value=c?.qty||''; $('c-tag').value=c?.tag||'';
+    $('modalClient').classList.add('open');
+    setTimeout(()=>$('c-product').focus(),50);
+  }
+  $('closeClientBtn').addEventListener('click',()=>$('modalClient').classList.remove('open'));
+  $('modalClient').addEventListener('click',e=>{ if(e.target===$('modalClient')) $('modalClient').classList.remove('open'); });
+  $('formClient').addEventListener('submit',e=>{
+    e.preventDefault();
+    const data={id:$('c-id').value||uid(),product:$('c-product').value.trim(),name:$('c-name').value.trim(),contact:$('c-contact').value.trim(),qty:$('c-qty').value.trim(),tag:$('c-tag').value.trim()};
+    if(!data.product) return;
+    const idx=clients.findIndex(c=>c.id===data.id);
+    if(idx>=0) clients[idx]=data; else clients.unshift(data);
+    lsSave(KEYS.clients,clients); renderClients(); $('modalClient').classList.remove('open');
+  });
+
+  // ══════════════════════════════════
+  //  ADMIN — GITHUB
+  // ══════════════════════════════════
+  function renderAdmin(){
+    // load saved creds
+    const t=localStorage.getItem(KEYS.ghToken)||'';
+    const o=localStorage.getItem(KEYS.ghOwner)||'';
+    const r=localStorage.getItem(KEYS.ghRepo)||'';
+    const b=localStorage.getItem(KEYS.ghBranch)||'main';
+    if(t){ $('ghToken').value=t; $('credSavedBadge').style.display='inline'; }
+    else $('credSavedBadge').style.display='none';
+    $('ghOwner').value=o; $('ghRepo').value=r; $('ghBranch').value=b;
+    // preview providers
+    $('previewProviders').textContent = JSON.stringify(providers,null,2).slice(0,400)+(JSON.stringify(providers).length>400?'\n...':'');
+  }
+
+  window.saveGHCreds = function(){
+    localStorage.setItem(KEYS.ghToken, $('ghToken').value.trim());
+    localStorage.setItem(KEYS.ghOwner, $('ghOwner').value.trim());
+    localStorage.setItem(KEYS.ghRepo,  $('ghRepo').value.trim());
+    localStorage.setItem(KEYS.ghBranch,$('ghBranch').value.trim()||'main');
+    $('credSavedBadge').style.display='inline';
+    showStatus('ghTestStatus','✅ Credenciales guardadas localmente','ok');
+  };
+
+  function getGHCreds(){
+    return {
+      token:  localStorage.getItem(KEYS.ghToken)||'',
+      owner:  localStorage.getItem(KEYS.ghOwner)||'',
+      repo:   localStorage.getItem(KEYS.ghRepo)||'',
+      branch: localStorage.getItem(KEYS.ghBranch)||'main',
+    };
+  }
+
+  function showStatus(id, msg, type){
+    const el=$(id); el.textContent=msg; el.className='status-msg '+type;
+    setTimeout(()=>{ el.className='status-msg'; },8000);
+  }
+
+  window.testGHConnection = async function(){
+    const {token,owner,repo} = getGHCreds();
+    if(!token||!owner||!repo){ showStatus('ghTestStatus','⚠️ Completa las credenciales primero','err'); return; }
+    $('btnTestGH').disabled=true; $('btnTestGH').textContent='Probando...';
+    try{
+      const r = await fetch(`https://api.github.com/repos/${owner}/${repo}`, {headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json'}});
+      if(r.ok){ const d=await r.json(); showStatus('ghTestStatus','✅ Conectado: '+d.full_name+' ('+d.visibility+')','ok'); }
+      else { const e=await r.json(); showStatus('ghTestStatus','❌ Error '+r.status+': '+(e.message||'sin acceso'),'err'); }
+    }catch(err){ showStatus('ghTestStatus','❌ Error de red: '+err.message,'err'); }
+    $('btnTestGH').disabled=false; $('btnTestGH').textContent='🔗 Probar conexión';
+  };
+
+  async function getFileSHA(token,owner,repo,branch,filename){
+    const r=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filename}?ref=${branch}`,{headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json'}});
+    if(r.status===404) return null;
+    const d=await r.json(); return d.sha||null;
+  }
+
+  window.pushToGitHub = async function(type){
+    const {token,owner,repo,branch}=getGHCreds();
+    const statusId = type+'Status';
+    if(!token||!owner||!repo){ showStatus(statusId,'⚠️ Configura las credenciales de GitHub primero','err'); return; }
+    const filename = GH_FILES[type];
+    const dataMap = {providers, pending: pendings, clients};
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(dataMap[type],null,2))));
+    const btnId = {providers:'btnPushProv',pending:'btnPushPend',clients:'btnPushClients'}[type];
+    const btn=$(btnId); if(btn){ btn.disabled=true; btn.textContent='Subiendo...'; }
+    try{
+      showStatus(statusId,'⏳ Conectando con GitHub...','info');
+      const sha = await getFileSHA(token,owner,repo,branch,filename);
+      const body = {message:`Actualizar ${filename} desde Mi Agenda`,content,branch};
+      if(sha) body.sha=sha;
+      const r=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filename}`,{
+        method:'PUT',headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
+        body:JSON.stringify(body)
+      });
+      if(r.ok) showStatus(statusId,'✅ '+(sha?'Actualizado':'Creado')+' correctamente en GitHub','ok');
+      else { const e=await r.json(); showStatus(statusId,'❌ Error '+r.status+': '+(e.message||'fallo'),'err'); }
+    }catch(err){ showStatus(statusId,'❌ Error: '+err.message,'err'); }
+    if(btn){ btn.disabled=false; btn.textContent = btn.textContent.includes('Sub')?'⬆️ Subir '+({providers:'Proveedores',pending:'Pendientes',clients:'Clientes'}[type])+' a GitHub':btn.textContent; renderAdmin(); }
+  };
+
+  window.pullFromGitHub = async function(type){
+    const {token,owner,repo,branch}=getGHCreds();
+    const statusId=type+'Status';
+    if(!token||!owner||!repo){ showStatus(statusId,'⚠️ Configura las credenciales de GitHub primero','err'); return; }
+    const filename=GH_FILES[type];
+    try{
+      showStatus(statusId,'⏳ Descargando desde GitHub...','info');
+      const r=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filename}?ref=${branch}`,{headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json'}});
+      if(r.status===404){ showStatus(statusId,'⚠️ Archivo no encontrado en GitHub. Súbelo primero.','err'); return; }
+      if(!r.ok){ const e=await r.json(); showStatus(statusId,'❌ Error '+r.status+': '+(e.message||'fallo'),'err'); return; }
+      const d=await r.json();
+      const decoded = decodeURIComponent(escape(atob(d.content.replace(/\n/g,''))));
+      const parsed = JSON.parse(decoded);
+      if(!Array.isArray(parsed)){ showStatus(statusId,'❌ Formato inválido en el archivo remoto','err'); return; }
+      if(type==='providers'){ providers=parsed; lsSave(KEYS.providers,parsed); if(currentPage==='providers') renderProviders(); }
+      if(type==='pending'){ pendings=parsed; lsSave(KEYS.pending,parsed); if(currentPage==='pending') renderPending(); }
+      if(type==='clients'){ clients=parsed; lsSave(KEYS.clients,parsed); if(currentPage==='clients') renderClients(); }
+      showStatus(statusId,'✅ Datos cargados correctamente ('+parsed.length+' registros)','ok');
+      renderAdmin();
+    }catch(err){ showStatus(statusId,'❌ Error: '+err.message,'err'); }
+  };
+
+  window.pushAll = async function(){
+    $('btnPushAll').disabled=true; $('btnPushAll').textContent='Sincronizando...';
+    showStatus('allStatus','⏳ Subiendo todos los datos...','info');
+    try{
+      await pushToGitHub('providers');
+      await pushToGitHub('pending');
+      await pushToGitHub('clients');
+      showStatus('allStatus','✅ Todos los datos sincronizados con GitHub','ok');
+    }catch(e){ showStatus('allStatus','❌ Error durante sincronización: '+e.message,'err'); }
+    $('btnPushAll').disabled=false; $('btnPushAll').textContent='🚀 Sincronizar Todo a GitHub';
+  };
+
+  // ESC closes modals
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape'){
+    ['modalProvider','modalPending','modalClient'].forEach(id=>$(id).classList.remove('open'));
+  }});
+
+  // ── INIT ──
+  showPage('providers');
+
+  // ══════════════════════════════════
+  //  OFFLINE + INDEXEDDB + AUTO-SYNC
+  // ══════════════════════════════════
+  const DATA_KEYS   = [KEYS.providers, KEYS.pending, KEYS.clients];
+  const DIRTY_KEY   = 'agenda.sync.dirty';   // JSON: {providers:bool,pending:bool,clients:bool}
+  const TYPE_BY_KEY = {[KEYS.providers]:'providers',[KEYS.pending]:'pending',[KEYS.clients]:'clients'};
+
+  // ---- IndexedDB mínima (key/value) ----
+  const IDB_NAME='miAgendaDB', IDB_STORE='kv';
+  function idbOpen(){
+    return new Promise((res,rej)=>{
+      const r=indexedDB.open(IDB_NAME,1);
+      r.onupgradeneeded=()=>r.result.createObjectStore(IDB_STORE);
+      r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error);
+    });
+  }
+  async function idbSet(k,v){
+    const db=await idbOpen();
+    return new Promise((res,rej)=>{
+      const tx=db.transaction(IDB_STORE,'readwrite');
+      tx.objectStore(IDB_STORE).put(v,k);
+      tx.oncomplete=()=>res(); tx.onerror=()=>rej(tx.error);
+    });
+  }
+  async function idbGet(k){
+    const db=await idbOpen();
+    return new Promise((res,rej)=>{
+      const tx=db.transaction(IDB_STORE,'readonly');
+      const rq=tx.objectStore(IDB_STORE).get(k);
+      rq.onsuccess=()=>res(rq.result); rq.onerror=()=>rej(rq.error);
+    });
+  }
+
+  // Restaurar desde IDB al arranque si existe (más durable que localStorage en Android)
+  (async function hydrateFromIDB(){
+    try{
+      let changed=false;
+      for(const k of DATA_KEYS){
+        const v=await idbGet(k);
+        if(v && (!localStorage.getItem(k) || localStorage.getItem(k)==='[]')){
+          localStorage.setItem(k, v);
+          changed=true;
+        }
+      }
+      if(changed){
+        providers=ls(KEYS.providers); pendings=ls(KEYS.pending); clients=ls(KEYS.clients);
+        if(currentPage==='providers') renderProviders();
+        if(currentPage==='pending')   renderPending();
+        if(currentPage==='clients')   renderClients();
+      }
+    }catch(e){ console.warn('IDB hydrate fail',e); }
+  })();
+
+  // ---- Cola "dirty" + persistencia espejo en IDB ----
+  function getDirty(){ try{return JSON.parse(localStorage.getItem(DIRTY_KEY)||'{}');}catch(e){return{};} }
+  function setDirty(d){ localStorage.setItem(DIRTY_KEY, JSON.stringify(d)); updateSyncBadge(); }
+  function markDirty(type){ const d=getDirty(); d[type]=true; setDirty(d); }
+
+  // Monkey-patch setItem: espejo en IDB + marca de dirty + intento de sync.
+  const _setItem = Storage.prototype.setItem;
+  Storage.prototype.setItem = function(k,v){
+    _setItem.call(this,k,v);
+    if(this===localStorage && DATA_KEYS.includes(k)){
+      idbSet(k,v).catch(()=>{});
+      markDirty(TYPE_BY_KEY[k]);
+      scheduleSync();
+    }
+  };
+
+  // ---- Auto-sync (debounce + reintentos) ----
+  let syncTimer=null, syncing=false;
+  function scheduleSync(delay=1500){
+    clearTimeout(syncTimer);
+    syncTimer=setTimeout(()=>{ trySyncAll(); }, delay);
+    // Registrar background sync para que el SO reintente si se pierde conexión
+    if('serviceWorker' in navigator && 'SyncManager' in window){
+      navigator.serviceWorker.ready.then(reg=>reg.sync.register('sync-agenda').catch(()=>{}));
+    }
+  }
+
+  async function trySyncAll(){
+    if(syncing) return;
+    if(!navigator.onLine){ updateSyncBadge(); return; }
+    const {token,owner,repo}=getGHCreds();
+    if(!token||!owner||!repo){ updateSyncBadge(); return; }
+    const dirty=getDirty();
+    const pendingTypes=Object.keys(dirty).filter(t=>dirty[t]);
+    if(pendingTypes.length===0){ updateSyncBadge(); return; }
+    syncing=true; updateSyncBadge();
+    for(const type of pendingTypes){
+      try{
+        const filename = GH_FILES[type];
+        const dataMap={providers, pending: pendings, clients};
+        const content = btoa(unescape(encodeURIComponent(JSON.stringify(dataMap[type],null,2))));
+        const branch=(localStorage.getItem(KEYS.ghBranch)||'main');
+        const sha = await getFileSHA(token,owner,repo,branch,filename);
+        const body={message:`Auto-sync ${filename}`, content, branch};
+        if(sha) body.sha=sha;
+        const r=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filename}`,{
+          method:'PUT',
+          headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
+          body:JSON.stringify(body)
+        });
+        if(r.ok){
+          const d=getDirty(); delete d[type]; setDirty(d);
+        }
+      }catch(e){ /* sin red o conflicto: se reintenta luego */ break; }
+    }
+    syncing=false; updateSyncBadge();
+  }
+
+  // ---- Pull inicial al arrancar online (si no hay cambios locales pendientes) ----
+  async function initialPullIfClean(){
+    if(!navigator.onLine) return;
+    const {token,owner,repo}=getGHCreds();
+    if(!token||!owner||!repo) return;
+    const dirty=getDirty();
+    if(Object.values(dirty).some(Boolean)) return; // hay cambios locales sin subir, no piso
+    for(const type of ['providers','pending','clients']){
+      try{ await pullFromGitHub(type); }catch(e){}
+    }
+  }
+
+  // ---- Indicador visual de estado de sync en el header ----
+  function updateSyncBadge(){
+    let el=document.getElementById('syncBadge');
+    if(!el){
+      el=document.createElement('div');
+      el.id='syncBadge';
+      el.style.cssText='position:fixed;top:8px;right:8px;z-index:9999;font-size:11px;padding:4px 8px;border-radius:999px;background:rgba(0,0,0,.55);color:#fff;backdrop-filter:blur(6px);pointer-events:none;transition:opacity .3s;';
+      document.body.appendChild(el);
+    }
+    const dirty=getDirty();
+    const pendCount=Object.values(dirty).filter(Boolean).length;
+    if(!navigator.onLine){ el.textContent='● Sin conexión'; el.style.background='rgba(239,68,68,.85)'; el.style.opacity='1'; return; }
+    if(syncing){ el.textContent='⟳ Sincronizando…'; el.style.background='rgba(59,130,246,.85)'; el.style.opacity='1'; return; }
+    if(pendCount>0){ el.textContent='⏳ '+pendCount+' por subir'; el.style.background='rgba(234,179,8,.9)'; el.style.opacity='1'; return; }
+    el.textContent='✓ Sincronizado'; el.style.background='rgba(34,197,94,.85)';
+    el.style.opacity='1'; setTimeout(()=>{ if(el.textContent.startsWith('✓')) el.style.opacity='0'; },2000);
+  }
+
+  // ---- Listeners ----
+  window.addEventListener('online',  ()=>{ updateSyncBadge(); trySyncAll(); });
+  window.addEventListener('offline', ()=>{ updateSyncBadge(); });
+  document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) trySyncAll(); });
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.addEventListener('message', e=>{
+      if(e.data && e.data.type==='SYNC_NOW') trySyncAll();
+    });
+  }
+
+  // ---- Registrar Service Worker ----
+  if('serviceWorker' in navigator){
+    window.addEventListener('load', ()=>{
+      navigator.serviceWorker.register('sw.js').catch(err=>console.warn('SW reg fail',err));
+    });
+  }
+
+  // Arranque
+  updateSyncBadge();
+  initialPullIfClean().then(()=>setTimeout(trySyncAll, 800));
+})();
+</script>
+</body>
+</html>
