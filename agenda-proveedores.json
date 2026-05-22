@@ -1,0 +1,20 @@
+[
+  {
+    "id": "mph846tnh5aa57",
+    "name": "Mariscos del Puerto",
+    "product": "Pescado fresco",
+    "price": "$8/lb",
+    "whatsapp": "+15551234567",
+    "phone": "+15551234567",
+    "facebook": ""
+  },
+  {
+    "id": "mph846tn31qtul",
+    "name": "Granja La Esperanza",
+    "product": "Pollo y huevos",
+    "price": "$3/lb",
+    "whatsapp": "+15557654321",
+    "phone": "+15557654321",
+    "facebook": ""
+  }
+]
