@@ -26,12 +26,15 @@
     --success:#22c55e;
     --fb:#3b82f6;
     --danger:#ef4444;
+    --info:#38bdf8;
+    --gold:#fbbf24;
+    --gold-2:#f59e0b;
     --footer-h:90px;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    font-size:17px;line-height:1.4;min-height:100vh}
+    font-size:16px;line-height:1.4;min-height:100vh}
   a{color:inherit;text-decoration:none}
   button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   input,textarea,select{font:inherit;color:inherit}
@@ -39,86 +42,88 @@
   /* ── HEADER ── */
   header{position:sticky;top:0;z-index:10;background:rgba(10,10,15,.92);
     backdrop-filter:blur(10px);border-bottom:1px solid var(--border);
-    padding:22px 18px 16px;padding-top:calc(22px + env(safe-area-inset-top))}
+    padding:18px 16px 14px;padding-top:calc(18px + env(safe-area-inset-top))}
   .wrap{max-width:760px;margin:0 auto}
-  h1{margin:0;font-size:30px;font-weight:800;letter-spacing:-.5px}
-  h1 span{color:var(--primary)}
-  .sub{color:var(--muted);font-size:15px;margin-top:4px}
+  h1{margin:0;font-size:28px;font-weight:800;letter-spacing:-.5px;display:flex;align-items:center;gap:10px}
+  h1 .brand-icon{width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg,#a855f7,#22d3ee);border-radius:11px;
+    box-shadow:0 6px 18px -4px rgba(168,85,247,.55)}
+  h1 .brand-icon svg{width:22px;height:22px;color:#fff;stroke-width:2.2}
+  h1 .brand-text span{color:var(--primary)}
+  .sub{color:var(--muted);font-size:14px;margin-top:4px}
 
-  .search{position:relative;margin-top:18px}
-  .search svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);
-    width:24px;height:24px;color:var(--primary)}
-  .search input{width:100%;height:56px;padding:0 18px 0 52px;
+  .search{position:relative;margin-top:14px}
+  .search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);
+    width:20px;height:20px;color:var(--primary)}
+  .search input{width:100%;height:48px;padding:0 16px 0 44px;
     background:var(--card);color:var(--text);border:1px solid var(--border);
-    border-radius:18px;font-size:18px;outline:none;transition:border-color .2s}
+    border-radius:14px;font-size:16px;outline:none;transition:border-color .2s}
   .search input:focus{border-color:var(--primary)}
   .search input::placeholder{color:var(--muted)}
 
   /* ── MAIN ── */
-  main{padding:16px 14px 140px;max-width:760px;margin:0 auto}
+  main{padding:14px 12px 140px;max-width:760px;margin:0 auto}
   main.hidden{display:none}
 
   /* ── PAGE TITLES ── */
-  .page-header{max-width:760px;margin:0 auto;padding:24px 14px 8px}
-  .page-header h2{margin:0;font-size:26px;font-weight:800}
-  .page-header p{color:var(--muted);font-size:15px;margin:4px 0 0}
+  .page-header{max-width:760px;margin:0 auto;padding:18px 14px 6px}
+  .page-header h2{margin:0;font-size:22px;font-weight:800}
+  .page-header p{color:var(--muted);font-size:14px;margin:3px 0 0}
 
-  /* ── CARDS ── */
-  .card{background:var(--card);border:1px solid var(--border);border-radius:20px;
-    padding:16px;margin-bottom:12px;transition:border-color .2s}
+  /* ── CARDS (compact) ── */
+  .card{background:var(--card);border:1px solid var(--border);border-radius:16px;
+    padding:12px 12px;margin-bottom:10px;transition:border-color .2s}
   .card:hover{border-color:rgba(168,85,247,.5)}
-  .row{display:flex;gap:14px;align-items:flex-start}
-  .avatar{width:54px;height:54px;border-radius:50%;flex-shrink:0;
+  .row{display:flex;gap:10px;align-items:center}
+  .avatar{width:42px;height:42px;border-radius:50%;flex-shrink:0;
     display:flex;align-items:center;justify-content:center;
     background:rgba(168,85,247,.18);color:var(--primary);
-    font-size:24px;font-weight:700}
+    font-size:18px;font-weight:700}
   .avatar.pending-avatar{background:rgba(239,68,68,.18);color:var(--danger)}
-  .avatar.client-avatar{background:rgba(34,211,238,.18);color:var(--accent)}
+  .avatar.client-avatar{background:transparent;color:var(--accent)}
+  .avatar.client-avatar svg{width:30px;height:30px;stroke-width:2.2}
+
   .info{flex:1;min-width:0}
-  .name{font-size:20px;font-weight:700;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .product{color:#dcdce6;font-size:16px;margin:2px 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .price{color:var(--accent);font-size:18px;font-weight:700;margin:4px 0 0}
-  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:13px;font-weight:700;margin-top:6px}
+  .name{font-size:16px;font-weight:700;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .product{color:#dcdce6;font-size:14px;margin:1px 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .price{color:var(--accent);font-size:15px;font-weight:700;margin:2px 0 0}
+  .badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700;margin-top:4px}
   .badge.high{background:rgba(239,68,68,.2);color:var(--danger)}
   .badge.med{background:rgba(234,179,8,.2);color:#eab308}
   .badge.low{background:rgba(34,197,94,.2);color:var(--success)}
 
-  .icons{display:flex;gap:4px;flex-shrink:0}
-  .icon-btn{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:background .15s,color .15s}
-  .icon-btn:hover{background:var(--card-2)}
-  .icon-btn.edit:hover{color:var(--primary)}
-  .icon-btn.del:hover{color:var(--danger)}
-  .icon-btn svg{width:22px;height:22px}
+  /* Compact action icons in the same row */
+  .row-actions{display:flex;gap:2px;flex-shrink:0;align-items:center}
+  .iact{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+    color:var(--muted);transition:background .15s,color .15s,transform .1s}
+  .iact:active{transform:scale(.92)}
+  .iact svg{width:20px;height:20px}
+  .iact.call{color:var(--primary-2)}      .iact.call:hover{background:rgba(168,85,247,.18)}
+  .iact.sms{color:var(--info)}            .iact.sms:hover{background:rgba(56,189,248,.18)}
+  .iact.wa{color:var(--success)}          .iact.wa:hover{background:rgba(34,197,94,.18)}
+  .iact.fb{color:var(--fb)}               .iact.fb:hover{background:rgba(59,130,246,.18)}
+  .iact.info{color:var(--info)}           .iact.info:hover{background:rgba(56,189,248,.18)}
+  .iact.edit{color:var(--muted)}          .iact.edit:hover{background:var(--card-2);color:var(--primary)}
+  .iact.del{color:var(--muted)}           .iact.del:hover{background:var(--card-2);color:var(--danger)}
 
-  .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;padding-left:0}
-  @media(min-width:520px){.actions{padding-left:68px}}
-  .pill{display:inline-flex;align-items:center;gap:10px;height:48px;padding:0 16px;
-    border-radius:14px;background:var(--card-2);font-size:16px;font-weight:600;
-    transition:transform .1s,background .15s}
-  .pill:active{transform:scale(.96)}
-  .pill svg{width:26px;height:26px}
-  .pill.call svg{color:var(--primary-2)}
-  .pill.wa svg{color:var(--success)}
-  .pill.fb svg{color:var(--fb)}
-  .pill.call:hover{background:rgba(168,85,247,.18)}
-  .pill.wa:hover{background:rgba(34,197,94,.18)}
-  .pill.fb:hover{background:rgba(59,130,246,.18)}
+  /* Divider between contact icons and edit/info/del */
+  .iact-sep{width:1px;height:22px;background:var(--border);margin:0 4px}
 
-  .empty{text-align:center;padding:70px 20px;color:var(--muted)}
-  .empty svg{width:64px;height:64px;opacity:.4;margin-bottom:10px}
+  .empty{text-align:center;padding:60px 20px;color:var(--muted)}
+  .empty svg{width:56px;height:56px;opacity:.4;margin-bottom:8px}
 
   /* ── FAB ── */
-  .fab{position:fixed;bottom:calc(var(--footer-h) + 20px);left:50%;transform:translateX(-50%);
-    width:68px;height:68px;border-radius:50%;background:var(--primary);
+  .fab{position:fixed;bottom:calc(var(--footer-h) + 18px);left:50%;transform:translateX(-50%);
+    width:62px;height:62px;border-radius:50%;background:var(--primary);
     color:#fff;display:flex;align-items:center;justify-content:center;
-    box-shadow:0 12px 36px -8px rgba(168,85,247,.7),0 4px 14px rgba(0,0,0,.5);
+    box-shadow:0 12px 32px -8px rgba(168,85,247,.7),0 4px 14px rgba(0,0,0,.5);
     transition:transform .15s;z-index:20}
   .fab:hover{transform:translateX(-50%) scale(1.06)}
   .fab:active{transform:translateX(-50%) scale(.94)}
-  .fab svg{width:34px;height:34px;stroke-width:3}
+  .fab svg{width:30px;height:30px;stroke-width:3}
   .fab.hidden{display:none}
   @media(min-width:640px){
-    .fab{left:auto;right:32px;transform:none;bottom:calc(var(--footer-h) + 20px)}
+    .fab{left:auto;right:28px;transform:none}
     .fab:hover{transform:scale(1.06)}
     .fab:active{transform:scale(.94)}
   }
@@ -133,12 +138,8 @@
     padding-bottom:env(safe-area-inset-bottom);
   }
   .footer-nav-inner{
-    max-width:480px;
-    margin:0 auto;
-    height:100%;
-    display:flex;
-    align-items:center;
-    justify-content:space-around;
+    max-width:480px;margin:0 auto;height:100%;
+    display:flex;align-items:center;justify-content:space-around;
     padding:0 8px 10px;
   }
   .nav-btn{
@@ -147,7 +148,7 @@
     color:var(--muted);transition:color .2s,background .2s;
     position:relative;
   }
-  .nav-btn svg{width:30px;height:30px;stroke-width:1.8;transition:transform .2s,filter .2s}
+  .nav-btn svg{width:28px;height:28px;stroke-width:1.8;transition:transform .2s,filter .2s}
   .nav-btn span{font-size:11px;font-weight:600;letter-spacing:.3px;line-height:1}
   .nav-btn.active{color:var(--primary)}
   .nav-btn.active svg{filter:drop-shadow(0 0 8px rgba(168,85,247,.7));transform:scale(1.12)}
@@ -156,7 +157,12 @@
   .nav-btn.nav-pending.active svg{filter:drop-shadow(0 0 8px rgba(239,68,68,.7))}
   .nav-btn.nav-clients.active{color:var(--accent)}
   .nav-btn.nav-clients.active svg{filter:drop-shadow(0 0 8px rgba(34,211,238,.7))}
-  /* Crédito de autor: overlay absoluto, NO aumenta la altura del banner */
+  .nav-btn.nav-admin.active{color:var(--gold)}
+  .nav-btn.nav-admin.active svg{filter:drop-shadow(0 0 10px rgba(251,191,36,.85));transform:scale(1.12)}
+  /* Gold shield always slightly shiny */
+  .nav-admin .shield-grad{stop-color:#fde68a}
+  .nav-admin .shield-grad-2{stop-color:#f59e0b}
+
   .footer-credit{
     position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 2px);
     text-align:center;font-size:9px;letter-spacing:.6px;color:rgba(154,154,176,.7);
@@ -164,7 +170,7 @@
   }
   .footer-credit b{color:var(--primary);font-weight:700}
 
-  /* Botón flotante Instalar APK (solo cuando es instalable) */
+  /* Install APK floating btn */
   #installBtn{
     position:fixed;top:calc(env(safe-area-inset-top) + 14px);right:14px;z-index:20;
     background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;
@@ -174,7 +180,7 @@
   #installBtn.show{display:inline-flex}
   #installBtn svg{width:18px;height:18px}
 
-  /* Log detallado de pruebas */
+  /* Log */
   .log-box{
     background:#08080c;border:1px solid var(--border);border-radius:12px;
     padding:10px 12px;margin-top:10px;font-family:ui-monospace,Menlo,Consolas,monospace;
@@ -191,74 +197,85 @@
   /* ── PENDING PAGE ── */
   #pagePending{display:none;padding-bottom:140px}
   #pagePending.active{display:block}
-  .pending-section{max-width:760px;margin:0 auto;padding:0 14px 12px}
-  .priority-tag{
-    font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;
-    padding:2px 8px;border-radius:6px;margin-right:8px;
-  }
-  .p-alta .priority-tag{background:rgba(239,68,68,.2);color:var(--danger)}
-  .p-media .priority-tag{background:rgba(234,179,8,.2);color:#eab308}
-  .p-baja .priority-tag{background:rgba(34,197,94,.2);color:var(--success)}
-  .done-toggle{width:28px;height:28px;border-radius:8px;border:2px solid var(--border);
+  .pending-section{max-width:760px;margin:0 auto;padding:0 12px 12px}
+  .p-alta{border-left:3px solid var(--danger)}
+  .p-media{border-left:3px solid #eab308}
+  .p-baja{border-left:3px solid var(--success)}
+  .done-toggle{width:26px;height:26px;border-radius:8px;border:2px solid var(--border);
     display:flex;align-items:center;justify-content:center;flex-shrink:0;
-    transition:background .2s,border-color .2s;margin-top:14px}
+    transition:background .2s,border-color .2s}
   .done-toggle.done{background:var(--success);border-color:var(--success)}
   .done-toggle.done svg{opacity:1}
-  .done-toggle svg{width:16px;height:16px;opacity:0;transition:opacity .2s}
+  .done-toggle svg{width:14px;height:14px;opacity:0;transition:opacity .2s}
   .task-text{flex:1;min-width:0}
   .task-text.done-text{text-decoration:line-through;color:var(--muted)}
+  .alarm-chip{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;
+    color:var(--gold);background:rgba(251,191,36,.12);padding:2px 7px;border-radius:10px;margin-top:4px;margin-left:6px}
+  .alarm-chip svg{width:12px;height:12px}
+
+  /* Page-specific compact search bar */
+  .inline-search{position:relative;max-width:760px;margin:0 auto;padding:6px 12px 10px}
+  .inline-search svg{position:absolute;left:26px;top:50%;transform:translateY(-50%);
+    width:18px;height:18px;color:var(--muted)}
+  .inline-search input{width:100%;height:44px;padding:0 14px 0 44px;
+    background:var(--card);color:var(--text);border:1px solid var(--border);
+    border-radius:14px;font-size:15px;outline:none;transition:border-color .2s}
+  .inline-search.accent svg{color:var(--accent)}
+  .inline-search.accent input:focus{border-color:var(--accent)}
+  .inline-search.danger svg{color:var(--danger)}
+  .inline-search.danger input:focus{border-color:var(--danger)}
 
   /* ── CLIENTS PAGE ── */
   #pageClients{display:none;padding-bottom:140px}
   #pageClients.active{display:block}
-  .client-search{position:relative;max-width:760px;margin:0 auto;padding:8px 14px 12px}
-  .client-search svg{position:absolute;left:28px;top:50%;transform:translateY(-50%);
-    width:22px;height:22px;color:var(--accent)}
-  .client-search input{width:100%;height:52px;padding:0 18px 0 50px;
-    background:var(--card);color:var(--text);border:1px solid var(--border);
-    border-radius:18px;font-size:17px;outline:none;transition:border-color .2s}
-  .client-search input:focus{border-color:var(--accent)}
-  .client-search input::placeholder{color:var(--muted)}
-  .tag-list{display:flex;flex-wrap:wrap;gap:8px;max-width:760px;margin:0 auto;padding:0 14px 14px}
-  .tag{padding:6px 14px;border-radius:20px;font-size:13px;font-weight:600;
+  .tag-list{display:flex;flex-wrap:wrap;gap:8px;max-width:760px;margin:0 auto;padding:0 12px 12px}
+  .tag{padding:5px 12px;border-radius:18px;font-size:12px;font-weight:600;
     background:var(--card-2);border:1px solid var(--border);cursor:pointer;
     transition:background .15s,border-color .15s,color .15s}
   .tag.active-tag{background:rgba(34,211,238,.15);border-color:var(--accent);color:var(--accent)}
 
-  /* ── GITHUB ADMIN PAGE ── */
+  /* ── ADMIN PAGE ── */
   #pageAdmin{display:none;padding-bottom:100px}
   #pageAdmin.active{display:block}
   .admin-section{max-width:760px;margin:0 auto;padding:0 14px 20px}
-  .admin-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:20px;margin-bottom:16px}
-  .admin-card h3{margin:0 0 4px;font-size:18px;font-weight:700}
-  .admin-card p{color:var(--muted);font-size:14px;margin:0 0 16px}
-  .field{display:block;margin-bottom:12px}
+  .admin-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;margin-bottom:14px}
+  .admin-card h3{margin:0 0 4px;font-size:17px;font-weight:700}
+  .admin-card p{color:var(--muted);font-size:13px;margin:0 0 14px}
+  .field{display:block;margin-bottom:11px}
   .field span{display:block;color:var(--muted);font-size:13px;margin-bottom:4px}
   .field input,.field select,.field textarea{
-    width:100%;padding:12px 16px;background:var(--card-2);
-    color:var(--text);border:1px solid var(--border);border-radius:14px;
-    font-size:16px;outline:none;transition:border-color .2s}
+    width:100%;padding:11px 14px;background:var(--card-2);
+    color:var(--text);border:1px solid var(--border);border-radius:12px;
+    font-size:15px;outline:none;transition:border-color .2s}
   .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--primary)}
   .field input[type=password]{letter-spacing:2px}
-  .field textarea{height:120px;resize:vertical;font-family:monospace;font-size:13px}
-  .btn-primary{width:100%;height:54px;border-radius:16px;background:var(--primary);
-    color:#fff;font-size:17px;font-weight:700;transition:background .15s,transform .1s;border:0;cursor:pointer}
+  .field-row{display:flex;gap:10px}
+  .field-row .field{flex:1}
+  .btn-primary{width:100%;height:50px;border-radius:14px;background:var(--primary);
+    color:#fff;font-size:16px;font-weight:700;transition:background .15s,transform .1s;border:0;cursor:pointer}
   .btn-primary:hover{background:var(--primary-2)}
   .btn-primary:active{transform:scale(.98)}
   .btn-primary:disabled{opacity:.5;cursor:not-allowed}
-  .btn-secondary{width:100%;height:50px;border-radius:16px;
-    background:var(--card-2);color:var(--text);font-size:16px;font-weight:600;
+  .btn-secondary{width:100%;height:46px;border-radius:14px;
+    background:var(--card-2);color:var(--text);font-size:15px;font-weight:600;
     border:1px solid var(--border);cursor:pointer;transition:background .15s}
   .btn-secondary:hover{background:rgba(168,85,247,.15);border-color:var(--primary)}
-  .status-msg{border-radius:14px;padding:14px 16px;font-size:15px;font-weight:600;
-    margin-top:12px;display:none}
+  .status-msg{border-radius:12px;padding:12px 14px;font-size:14px;font-weight:600;margin-top:10px;display:none}
   .status-msg.ok{background:rgba(34,197,94,.15);color:var(--success);border:1px solid rgba(34,197,94,.3);display:block}
   .status-msg.err{background:rgba(239,68,68,.15);color:var(--danger);border:1px solid rgba(239,68,68,.3);display:block}
   .status-msg.info{background:rgba(168,85,247,.1);color:var(--primary-2);border:1px solid rgba(168,85,247,.2);display:block}
   .gh-creds-saved{font-size:12px;color:var(--success);margin-left:8px}
-  .divider{height:1px;background:var(--border);margin:8px 0 16px}
+  .divider{height:1px;background:var(--border);margin:6px 0 14px}
   .data-preview{background:var(--card-2);border-radius:12px;padding:12px;font-size:12px;
     font-family:monospace;color:var(--muted);max-height:140px;overflow:auto;word-break:break-all}
+  .toggle-line{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 0}
+  .toggle-line label{font-size:14px;color:var(--text);font-weight:600}
+  .switch{position:relative;width:46px;height:26px;background:var(--card-2);border:1px solid var(--border);
+    border-radius:20px;cursor:pointer;transition:background .15s}
+  .switch::after{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;
+    background:#fff;border-radius:50%;transition:left .2s,background .2s}
+  .switch.on{background:rgba(34,197,94,.7);border-color:var(--success)}
+  .switch.on::after{left:22px}
 
   /* ── MODAL ── */
   .modal{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:30;
@@ -267,27 +284,33 @@
   @media(min-width:640px){.modal{align-items:center;padding:16px}}
   .sheet{width:100%;max-width:520px;max-height:92vh;overflow-y:auto;
     background:var(--card);border:1px solid var(--border);
-    border-radius:28px 28px 0 0;padding:22px}
-  @media(min-width:640px){.sheet{border-radius:24px}}
-  .sheet-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-  .sheet-head h2{margin:0;font-size:22px;font-weight:800}
-  .close{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+    border-radius:26px 26px 0 0;padding:20px}
+  @media(min-width:640px){.sheet{border-radius:22px}}
+  .sheet-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .sheet-head h2{margin:0;font-size:20px;font-weight:800}
+  .close{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center}
   .close:hover{background:var(--card-2)}
-  .close svg{width:22px;height:22px}
-  .save{width:100%;height:56px;border-radius:18px;background:var(--primary);
-    color:#fff;font-size:18px;font-weight:700;margin-top:8px;
+  .close svg{width:20px;height:20px}
+  .save{width:100%;height:52px;border-radius:16px;background:var(--primary);
+    color:#fff;font-size:17px;font-weight:700;margin-top:8px;
     transition:background .15s,transform .1s}
   .save:hover{background:var(--primary-2)}
   .save:active{transform:scale(.98)}
 
-  /* ── ADMIN NAV BADGE ── */
-  .admin-fab{position:fixed;bottom:calc(var(--footer-h) + 20px);right:20px;
-    width:52px;height:52px;border-radius:16px;background:var(--card-2);
-    border:1px solid var(--border);color:var(--muted);
-    display:none;align-items:center;justify-content:center;z-index:20;
-    transition:background .15s,color .15s}
-  .admin-fab:hover{background:rgba(168,85,247,.2);color:var(--primary)}
-  .admin-fab svg{width:26px;height:26px}
+  /* Info detail rows in detail modal */
+  .detail-block{padding:10px 0;border-bottom:1px solid var(--border)}
+  .detail-block:last-child{border-bottom:0}
+  .detail-block .lbl{color:var(--muted);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+  .detail-block .val{font-size:16px;margin-top:3px;word-break:break-word;white-space:pre-wrap}
+  .detail-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .detail-actions .pill{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 14px;
+    border-radius:12px;background:var(--card-2);font-size:14px;font-weight:600;transition:transform .1s}
+  .detail-actions .pill:active{transform:scale(.96)}
+  .detail-actions .pill svg{width:20px;height:20px}
+  .detail-actions .pill.call svg{color:var(--primary-2)}
+  .detail-actions .pill.sms svg{color:var(--info)}
+  .detail-actions .pill.wa svg{color:var(--success)}
+  .detail-actions .pill.fb svg{color:var(--fb)}
 </style>
 </head>
 <body>
@@ -295,7 +318,16 @@
 <!-- ══════════ HEADER ══════════ -->
 <header id="mainHeader">
   <div class="wrap">
-    <h1 id="pageTitle"><span>Mi</span> Agenda</h1>
+    <h1 id="pageTitle">
+      <span class="brand-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v18H6.5A2.5 2.5 0 0 0 4 22.5V4.5Z"/>
+          <path d="M8 7h7M8 11h7M8 15h4"/>
+          <path d="M19 3.5l.9 1.9 2 .3-1.45 1.4.35 2-1.8-.95-1.8.95.35-2L16.1 5.7l2-.3z" fill="currentColor" stroke="none" opacity=".9"/>
+        </svg>
+      </span>
+      <span class="brand-text"><span>Mi</span> Agenda</span>
+    </h1>
     <p class="sub" id="counter">0 proveedores guardados</p>
     <div class="search" id="headerSearch">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
@@ -309,14 +341,18 @@
 
 <!-- ══════════ PAGE: PENDIENTES ══════════ -->
 <div id="pagePending">
-  <div class="page-header"><h2>Pendientes</h2><p>Tareas y recordatorios</p></div>
+  <div class="page-header"><h2>Pendientes</h2><p>Ordenados por prioridad</p></div>
+  <div class="inline-search danger">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input id="pendingSearch" type="search" placeholder="Buscar tarea, nota..." autocomplete="off"/>
+  </div>
   <div class="pending-section" id="pendingList"></div>
 </div>
 
 <!-- ══════════ PAGE: CLIENTES BUSCAN ══════════ -->
 <div id="pageClients">
   <div class="page-header"><h2>Clientes Buscan</h2><p>Lo que tus clientes están pidiendo</p></div>
-  <div class="client-search">
+  <div class="inline-search accent">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
     <input id="clientSearch" type="search" placeholder="Buscar producto buscado..." autocomplete="off"/>
   </div>
@@ -327,84 +363,89 @@
 <!-- ══════════ PAGE: ADMIN GITHUB ══════════ -->
 <div id="pageAdmin">
   <div class="page-header">
-    <h2>⚙️ Administración</h2>
-    <p>Guardado en GitHub · Sincronización de datos</p>
+    <h2>Administración</h2>
+    <p>Sincronización automática con GitHub</p>
   </div>
   <div class="admin-section">
 
-    <!-- GitHub Config -->
     <div class="admin-card">
       <h3>🔐 Credenciales GitHub</h3>
       <p>Token con permisos de repo (se guarda solo en este dispositivo)</p>
       <label class="field"><span>Token de Acceso Personal (PAT) <span class="gh-creds-saved" id="credSavedBadge">✓ guardado</span></span>
         <input id="ghToken" type="password" placeholder="ghp_xxxxxxxxxxxx"/>
       </label>
-      <label class="field"><span>Usuario / Organización</span>
-        <input id="ghOwner" placeholder="mi-usuario"/>
-      </label>
-      <label class="field"><span>Repositorio</span>
-        <input id="ghRepo" placeholder="mi-agenda-datos"/>
-      </label>
-      <label class="field"><span>Rama</span>
-        <input id="ghBranch" placeholder="main"/>
-      </label>
-      <button class="btn-secondary" onclick="saveGHCreds()" style="margin-bottom:8px">💾 Guardar credenciales localmente</button>
-      <button class="btn-secondary" onclick="testGHConnection()" id="btnTestGH">🔗 Probar conexión (detallado)</button>
+      <label class="field"><span>Usuario / Organización</span><input id="ghOwner" placeholder="mi-usuario"/></label>
+      <label class="field"><span>Repositorio</span><input id="ghRepo" placeholder="mi-agenda-datos"/></label>
+      <label class="field"><span>Rama</span><input id="ghBranch" placeholder="main"/></label>
+      <button class="btn-secondary" onclick="saveGHCreds()" style="margin-bottom:8px">💾 Guardar credenciales</button>
+      <button class="btn-secondary" onclick="testGHConnection()" id="btnTestGH">🔗 Probar conexión</button>
       <div class="status-msg" id="ghTestStatus"></div>
       <div class="log-box" id="ghTestLog"></div>
     </div>
 
-    <!-- Proveedores -->
+    <div class="admin-card">
+      <h3>🔁 Auto-Sincronización</h3>
+      <p>Sincroniza cambios entre tus dispositivos y GitHub sin que hagas nada. Usa debounce y hash para no spamear commits.</p>
+      <div class="toggle-line">
+        <label>Sync automática activada</label>
+        <div class="switch" id="swAutoSync" onclick="toggleAutoSync()"></div>
+      </div>
+      <div class="toggle-line">
+        <label>Pull remoto cada 30s</label>
+        <div class="switch" id="swAutoPull" onclick="toggleAutoPull()"></div>
+      </div>
+      <div class="status-msg info" id="syncStatusInline" style="display:block">Estado: inicializando…</div>
+    </div>
+
     <div class="admin-card">
       <h3>📦 Proveedores</h3>
-      <p>Exportar o importar el JSON de proveedores a tu repositorio</p>
       <div class="data-preview" id="previewProviders"></div>
-      <div style="height:12px"></div>
-      <button class="btn-primary" onclick="pushToGitHub('providers')" id="btnPushProv">⬆️ Subir Proveedores a GitHub</button>
+      <div style="height:10px"></div>
+      <button class="btn-primary" onclick="pushToGitHub('providers')" id="btnPushProv">⬆️ Subir Proveedores</button>
       <div class="divider"></div>
-      <button class="btn-secondary" onclick="pullFromGitHub('providers')" id="btnPullProv">⬇️ Cargar Proveedores desde GitHub</button>
+      <button class="btn-secondary" onclick="pullFromGitHub('providers')" id="btnPullProv">⬇️ Cargar desde GitHub</button>
       <div class="status-msg" id="provStatus"></div>
     </div>
 
-    <!-- Pendientes -->
     <div class="admin-card">
       <h3>📋 Pendientes</h3>
-      <p>Sincronizar tareas pendientes con GitHub</p>
-      <button class="btn-primary" onclick="pushToGitHub('pending')" id="btnPushPend">⬆️ Subir Pendientes a GitHub</button>
+      <button class="btn-primary" onclick="pushToGitHub('pending')" id="btnPushPend">⬆️ Subir Pendientes</button>
       <div class="divider"></div>
-      <button class="btn-secondary" onclick="pullFromGitHub('pending')" id="btnPullPend">⬇️ Cargar Pendientes desde GitHub</button>
+      <button class="btn-secondary" onclick="pullFromGitHub('pending')" id="btnPullPend">⬇️ Cargar desde GitHub</button>
       <div class="status-msg" id="pendingStatus"></div>
     </div>
 
-    <!-- Clientes -->
     <div class="admin-card">
       <h3>🔍 Clientes Buscan</h3>
-      <p>Sincronizar solicitudes de clientes con GitHub</p>
-      <button class="btn-primary" onclick="pushToGitHub('clients')" id="btnPushClients">⬆️ Subir Clientes a GitHub</button>
+      <button class="btn-primary" onclick="pushToGitHub('clients')" id="btnPushClients">⬆️ Subir Clientes</button>
       <div class="divider"></div>
-      <button class="btn-secondary" onclick="pullFromGitHub('clients')" id="btnPullClients">⬇️ Cargar Clientes desde GitHub</button>
+      <button class="btn-secondary" onclick="pullFromGitHub('clients')" id="btnPullClients">⬇️ Cargar desde GitHub</button>
       <div class="status-msg" id="clientsStatus"></div>
     </div>
 
-    <!-- Exportar Todo -->
     <div class="admin-card">
-      <h3>🗄️ Exportar Todo</h3>
-      <p>Subir todos los datos a GitHub de una vez (con log detallado)</p>
-      <button class="btn-primary" onclick="pushAll()" id="btnPushAll">🚀 Sincronizar Todo a GitHub</button>
+      <h3>🚀 Sincronizar Todo Ahora</h3>
+      <button class="btn-primary" onclick="pushAll()" id="btnPushAll">Forzar sincronización completa</button>
       <div class="status-msg" id="allStatus"></div>
       <div class="log-box" id="allLog"></div>
     </div>
 
+    <div class="admin-card">
+      <h3>🔔 Permiso de Notificaciones</h3>
+      <p>Necesario para las alarmas de pendientes.</p>
+      <button class="btn-secondary" onclick="requestNotifPerm()">Solicitar permiso</button>
+      <div class="status-msg" id="notifStatus"></div>
+    </div>
   </div>
 </div>
 
-<!-- ══════════ BOTÓN INSTALAR (PWA) ══════════ -->
+<!-- ══════════ INSTALAR (PWA) ══════════ -->
 <button id="installBtn" aria-label="Instalar aplicación">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
   Instalar app
 </button>
 
-<!-- ══════════ FAB: AGREGAR ══════════ -->
+<!-- ══════════ FAB ══════════ -->
 <button class="fab" id="addBtn" aria-label="Agregar">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
 </button>
@@ -412,14 +453,14 @@
 <!-- ══════════ FOOTER NAV ══════════ -->
 <nav class="footer-nav">
   <div class="footer-nav-inner">
-    <!-- Proveedores -->
     <button class="nav-btn nav-providers active" data-page="providers">
+      <!-- Agenda: libro elegante con marcador -->
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 9h18M3 15h18M9 9v6M15 9v6M2 5l2-2h16l2 2v14l-2 2H4l-2-2V5z"/>
+        <path d="M5 3.5A1.5 1.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v17.5a.5.5 0 0 1-.7.46L17 19.7l-2.3 1.26a.5.5 0 0 1-.48 0L12 19.7l-2.2 1.26a.5.5 0 0 1-.48 0L7 19.7 5.7 20.46A.5.5 0 0 1 5 20V3.5Z"/>
+        <path d="M9 7h7M9 11h7M9 15h4"/>
       </svg>
       <span>Proveedores</span>
     </button>
-    <!-- Pendientes -->
     <button class="nav-btn nav-pending" data-page="pending">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
         <path d="M9 11l3 3L22 4"/>
@@ -427,21 +468,25 @@
       </svg>
       <span>Pendientes</span>
     </button>
-    <!-- Clientes Buscan -->
     <button class="nav-btn nav-clients" data-page="clients">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="11" cy="11" r="8"/>
         <path d="m21 21-4.35-4.35"/>
-        <path d="M11 8v6M8 11h6"/>
       </svg>
-      <span>Clientes Buscan</span>
+      <span>Clientes</span>
     </button>
-    <!-- Admin -->
     <button class="nav-btn nav-admin" data-page="admin">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="3"/>
-        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
-        <path d="M12 2v2M12 20v2M2 12h2M20 12h2"/>
+      <!-- Escudo dorado brillante -->
+      <svg viewBox="0 0 24 24" fill="none" stroke-linejoin="round" stroke-linecap="round">
+        <defs>
+          <linearGradient id="goldShield" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" class="shield-grad"/>
+            <stop offset="100%" class="shield-grad-2"/>
+          </linearGradient>
+        </defs>
+        <path d="M12 2 4 5v6c0 5 3.5 9.5 8 11 4.5-1.5 8-6 8-11V5l-8-3Z" fill="url(#goldShield)" stroke="#b45309" stroke-width="1.4"/>
+        <path d="M9 12l2 2 4-4" stroke="#7c2d12" stroke-width="2.2" fill="none"/>
+        <circle cx="8" cy="6" r="0.9" fill="#fff8e1" opacity=".85"/>
       </svg>
       <span>Admin</span>
     </button>
@@ -449,7 +494,7 @@
   <div class="footer-credit">Creado por <b>Edrian Cruz</b></div>
 </nav>
 
-<!-- ══════════ MODAL: PROVEEDOR ══════════ -->
+<!-- ══════════ MODAL: PROVEEDOR (form) ══════════ -->
 <div class="modal" id="modalProvider">
   <form class="sheet" id="formProvider">
     <div class="sheet-head">
@@ -465,6 +510,7 @@
     <label class="field"><span>WhatsApp (+código país)</span><input id="f-whatsapp" type="tel" placeholder="+5491112345678"/></label>
     <label class="field"><span>Teléfono</span><input id="f-phone" type="tel"/></label>
     <label class="field"><span>Facebook (usuario o URL)</span><input id="f-facebook"/></label>
+    <label class="field"><span>Notas / información extra</span><textarea id="f-notes" rows="3" style="resize:vertical;font-family:inherit;font-size:15px"></textarea></label>
     <button type="submit" class="save">Guardar</button>
   </form>
 </div>
@@ -480,7 +526,7 @@
     </div>
     <input type="hidden" id="p-id"/>
     <label class="field"><span>Tarea *</span><input id="p-task" required placeholder="Ej: Llamar a proveedor X"/></label>
-    <label class="field"><span>Nota</span><input id="p-note" placeholder="Detalles adicionales"/></label>
+    <label class="field"><span>Detalles / información extra</span><textarea id="p-note" rows="3" style="resize:vertical;font-family:inherit;font-size:15px" placeholder="Notas, contactos, lo que sea..."></textarea></label>
     <label class="field"><span>Prioridad</span>
       <select id="p-priority">
         <option value="alta">🔴 Alta</option>
@@ -489,11 +535,26 @@
       </select>
     </label>
     <label class="field"><span>Fecha límite</span><input id="p-date" type="date"/></label>
+
+    <div class="divider"></div>
+    <p style="margin:0 0 8px;color:var(--gold);font-weight:700">🔔 Alarma / Notificación</p>
+    <div class="field-row">
+      <label class="field"><span>Recordar cada (días)</span>
+        <input id="p-notif-days" type="number" min="0" max="30" placeholder="0 = sin alarma" value="0"/>
+      </label>
+      <label class="field"><span>Veces a repetir (máx 3)</span>
+        <input id="p-notif-times" type="number" min="1" max="3" value="3"/>
+      </label>
+    </div>
+    <label class="field"><span>Hora de la alarma</span>
+      <input id="p-notif-hour" type="time" value="09:00"/>
+    </label>
+
     <button type="submit" class="save">Guardar</button>
   </form>
 </div>
 
-<!-- ══════════ MODAL: CLIENTE BUSCA ══════════ -->
+<!-- ══════════ MODAL: CLIENTE ══════════ -->
 <div class="modal" id="modalClient">
   <form class="sheet" id="formClient">
     <div class="sheet-head">
@@ -508,13 +569,26 @@
     <label class="field"><span>Contacto (tel o WA)</span><input id="c-contact" type="tel" placeholder="+5491112345678"/></label>
     <label class="field"><span>Cantidad / descripción</span><input id="c-qty" placeholder="Ej: 2 kg, fresco, sin espinas"/></label>
     <label class="field"><span>Etiqueta</span><input id="c-tag" placeholder="Ej: Pescado, Carne, Fruta"/></label>
+    <label class="field"><span>Notas / información extra</span><textarea id="c-notes" rows="3" style="resize:vertical;font-family:inherit;font-size:15px"></textarea></label>
     <button type="submit" class="save">Guardar</button>
   </form>
 </div>
 
+<!-- ══════════ MODAL: DETALLE (info "i") ══════════ -->
+<div class="modal" id="modalDetail">
+  <div class="sheet">
+    <div class="sheet-head">
+      <h2 id="detailTitle">Detalle</h2>
+      <button type="button" class="close" onclick="closeDetail()" aria-label="Cerrar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div id="detailBody"></div>
+  </div>
+</div>
+
 <script>
 (function(){
-  // ── KEYS ──
   const KEYS = {
     providers: 'agenda.providers.v1',
     pending:   'agenda.pending.v1',
@@ -523,6 +597,11 @@
     ghOwner:   'agenda.gh.owner',
     ghRepo:    'agenda.gh.repo',
     ghBranch:  'agenda.gh.branch',
+    autoSync:  'agenda.sync.auto',
+    autoPull:  'agenda.sync.autoPull',
+    lastHash:  'agenda.sync.lastHash',   // {providers:hash,pending:hash,clients:hash}
+    lastSHA:   'agenda.sync.lastSHA',    // {providers:sha,pending:sha,clients:sha}
+    notifPerm: 'agenda.notif.requested',
   };
   const GH_FILES = {
     providers: 'agenda-proveedores.json',
@@ -536,48 +615,55 @@
   // ── SVG ICONS ──
   const SVG = {
     phone:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>',
+    sms:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>',
     wa:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.198-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.148-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413"/></svg>',
     fb:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>',
     edit:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>',
     del:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>',
+    info:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>',
     user:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
-    check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'
+    check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
+    lupa:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>',
+    bell:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a6 6 0 0 0-6 6v3.586l-1.707 1.707A1 1 0 0 0 5 15h14a1 1 0 0 0 .707-1.707L18 11.586V8a6 6 0 0 0-6-6Zm0 20a3 3 0 0 0 3-3H9a3 3 0 0 0 3 3Z"/></svg>',
   };
 
   function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,8); }
   function ls(k){ try{ return JSON.parse(localStorage.getItem(k)||'[]'); }catch(e){ return []; } }
   function lsSave(k,v){ localStorage.setItem(k, JSON.stringify(v)); }
-  function escH(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function escH(s){ return (s==null?'':String(s)).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
   function tel(v){ return (v||'').replace(/[^\d+]/g,''); }
   function fbURL(v){ v=(v||'').trim(); if(!v)return ''; if(/^https?:\/\//i.test(v))return v; return 'https://facebook.com/'+v.replace(/^@/,''); }
+  function hashStr(s){
+    let h=0; for(let i=0;i<s.length;i++){ h=(h<<5)-h+s.charCodeAt(i); h|=0; }
+    return h.toString(36);
+  }
 
   // ── DATA ──
   let providers = ls(KEYS.providers);
   let pendings  = ls(KEYS.pending);
   let clients   = ls(KEYS.clients);
-
   if(!Array.isArray(providers)) providers=[];
   if(!Array.isArray(pendings))  pendings=[];
   if(!Array.isArray(clients))   clients=[];
 
   if(providers.length===0){
     providers=[
-      {id:uid(),name:'Mariscos del Puerto',product:'Pescado fresco',price:'$8/lb',whatsapp:'+15551234567',phone:'+15551234567',facebook:''},
-      {id:uid(),name:'Granja La Esperanza',product:'Pollo y huevos',price:'$3/lb',whatsapp:'+15557654321',phone:'+15557654321',facebook:''}
+      {id:uid(),name:'Mariscos del Puerto',product:'Pescado fresco',price:'$8/lb',whatsapp:'+15551234567',phone:'+15551234567',facebook:'',notes:''},
+      {id:uid(),name:'Granja La Esperanza',product:'Pollo y huevos',price:'$3/lb',whatsapp:'+15557654321',phone:'+15557654321',facebook:'',notes:''}
     ];
     lsSave(KEYS.providers, providers);
   }
   if(pendings.length===0){
     pendings=[
-      {id:uid(),task:'Confirmar precio con Mariscos del Puerto',note:'Preguntar descuento por volumen',priority:'alta',date:'',done:false},
-      {id:uid(),task:'Pedir catálogo actualizado a Granja La Esperanza',note:'',priority:'media',date:'',done:false},
+      {id:uid(),task:'Confirmar precio con Mariscos del Puerto',note:'Preguntar descuento por volumen',priority:'alta',date:'',done:false,notifDays:0,notifTimes:3,notifHour:'09:00',notifFired:0,nextNotif:0},
+      {id:uid(),task:'Pedir catálogo actualizado a Granja La Esperanza',note:'',priority:'media',date:'',done:false,notifDays:0,notifTimes:3,notifHour:'09:00',notifFired:0,nextNotif:0},
     ];
     lsSave(KEYS.pending, pendings);
   }
   if(clients.length===0){
     clients=[
-      {id:uid(),product:'Salmón fresco',name:'Roberto',contact:'+15559876543',qty:'1 kg',tag:'Pescado'},
-      {id:uid(),product:'Pechuga de pollo sin hueso',name:'Ana',contact:'',qty:'2 lb',tag:'Carne'},
+      {id:uid(),product:'Salmón fresco',name:'Roberto',contact:'+15559876543',qty:'1 kg',tag:'Pescado',notes:''},
+      {id:uid(),product:'Pechuga de pollo sin hueso',name:'Ana',contact:'',qty:'2 lb',tag:'Carne',notes:''},
     ];
     lsSave(KEYS.clients, clients);
   }
@@ -587,32 +673,29 @@
   // ══════════════════════════════════
   function showPage(page){
     currentPage = page;
-    // toggle visibility
     $('pageProviders').classList.toggle('hidden', page!=='providers');
     $('pagePending').classList.toggle('active', page==='pending');
     $('pageClients').classList.toggle('active', page==='clients');
     $('pageAdmin').classList.toggle('active', page==='admin');
-    // header search only on providers
     $('headerSearch').style.display = page==='providers' ? '' : 'none';
-    // FAB
     $('addBtn').classList.toggle('hidden', page==='admin');
-    // nav btn states
     document.querySelectorAll('.nav-btn').forEach(b=>{
       b.classList.toggle('active', b.dataset.page===page);
     });
-    // title
-    const titles={providers:'Mi Agenda',pending:'Pendientes',clients:'Clientes Buscan',admin:'Administración'};
-    $('pageTitle').innerHTML = page==='providers' ? '<span>Mi</span> Agenda' : escH(titles[page]);
-    // counter
-    const counts={providers: providers.length+' proveedores', pending: pendings.filter(p=>!p.done).length+' pendientes', clients: clients.length+' solicitudes', admin:'GitHub Sync'};
+    const titles={providers:'<span>Mi</span> Agenda',pending:'Pendientes',clients:'Clientes',admin:'Administración'};
+    $('pageTitle').querySelector('.brand-text').innerHTML = titles[page];
+    const counts={
+      providers: providers.length+' proveedores guardados',
+      pending:   pendings.filter(p=>!p.done).length+' pendientes activos',
+      clients:   clients.length+' solicitudes',
+      admin:     'Sync GitHub'
+    };
     $('counter').textContent = counts[page]||'';
-    // render the page
     if(page==='providers') renderProviders();
     if(page==='pending')   renderPending();
     if(page==='clients')   renderClients();
     if(page==='admin')     renderAdmin();
   }
-
   document.querySelectorAll('.nav-btn').forEach(btn=>{
     btn.addEventListener('click', ()=> showPage(btn.dataset.page));
   });
@@ -625,19 +708,19 @@
     const q = ($('search').value||'').trim().toLowerCase();
     const items = providers.filter(p => {
       if(!q) return true;
-      return [p.name,p.product,p.price,p.phone,p.whatsapp].filter(Boolean).some(f=>String(f).toLowerCase().includes(q));
+      return [p.name,p.product,p.price,p.phone,p.whatsapp,p.notes].filter(Boolean).some(f=>String(f).toLowerCase().includes(q));
     });
     $('counter').textContent = providers.length+' proveedores guardados';
     if(items.length===0){
-      listEl.innerHTML='<div class="empty">'+SVG.user+'<p style="font-size:18px;margin:8px 0 0">'+(providers.length===0?'Aún no tienes proveedores':'Sin resultados')+'</p></div>';
+      listEl.innerHTML='<div class="empty">'+SVG.user+'<p style="font-size:16px;margin:6px 0 0">'+(providers.length===0?'Aún no tienes proveedores':'Sin resultados')+'</p></div>';
       return;
     }
     listEl.innerHTML = items.map(p=>{
       const ini = (p.name||'?').charAt(0).toUpperCase();
       const wn = tel(p.whatsapp).replace(/^\+/,'');
-      const phoneBtn = p.phone?`<a class="pill call" href="tel:${tel(p.phone)}">${SVG.phone}<span>Llamar</span></a>`:'';
-      const waBtn = p.whatsapp?`<a class="pill wa" target="_blank" rel="noreferrer" href="https://wa.me/${wn}">${SVG.wa}<span>WhatsApp</span></a>`:'';
-      const fbBtn = p.facebook?`<a class="pill fb" target="_blank" rel="noreferrer" href="${escH(fbURL(p.facebook))}">${SVG.fb}<span>Facebook</span></a>`:'';
+      const phoneIcon = p.phone?`<a class="iact call" href="tel:${tel(p.phone)}" title="Llamar" onclick="event.stopPropagation()">${SVG.phone}</a>`:'';
+      const smsIcon   = p.phone?`<a class="iact sms" href="sms:${tel(p.phone)}" title="SMS" onclick="event.stopPropagation()">${SVG.sms}</a>`:'';
+      const waIcon    = p.whatsapp?`<a class="iact wa" target="_blank" rel="noreferrer" href="https://wa.me/${wn}" title="WhatsApp" onclick="event.stopPropagation()">${SVG.wa}</a>`:'';
       return `<article class="card">
         <div class="row">
           <div class="avatar">${escH(ini)}</div>
@@ -646,21 +729,25 @@
             ${p.product?`<p class="product">${escH(p.product)}</p>`:''}
             ${p.price?`<p class="price">${escH(p.price)}</p>`:''}
           </div>
-          <div class="icons">
-            <button class="icon-btn edit" data-edit-prov="${p.id}">${SVG.edit}</button>
-            <button class="icon-btn del" data-del-prov="${p.id}">${SVG.del}</button>
+          <div class="row-actions">
+            ${phoneIcon}${smsIcon}${waIcon}
+            <span class="iact-sep"></span>
+            <button class="iact info" data-info-prov="${p.id}" title="Info">${SVG.info}</button>
+            <button class="iact edit" data-edit-prov="${p.id}" title="Editar">${SVG.edit}</button>
+            <button class="iact del" data-del-prov="${p.id}" title="Eliminar">${SVG.del}</button>
           </div>
         </div>
-        <div class="actions">${phoneBtn}${waBtn}${fbBtn}</div>
       </article>`;
     }).join('');
   }
 
   $('search').addEventListener('input', renderProviders);
   $('pageProviders').addEventListener('click', e=>{
-    const ed = e.target.closest('[data-edit-prov]');
-    const dl = e.target.closest('[data-del-prov]');
-    if(ed) openProviderModal(providers.find(p=>p.id===ed.dataset.editProv));
+    const inf = e.target.closest('[data-info-prov]');
+    const ed  = e.target.closest('[data-edit-prov]');
+    const dl  = e.target.closest('[data-del-prov]');
+    if(inf) showProviderDetail(providers.find(p=>p.id===inf.dataset.infoProv));
+    else if(ed) openProviderModal(providers.find(p=>p.id===ed.dataset.editProv));
     else if(dl){ if(confirm('¿Eliminar este proveedor?')){ providers=providers.filter(p=>p.id!==dl.dataset.delProv); lsSave(KEYS.providers,providers); renderProviders(); } }
   });
 
@@ -669,6 +756,7 @@
     $('f-id').value=p?.id||''; $('f-name').value=p?.name||''; $('f-product').value=p?.product||'';
     $('f-price').value=p?.price||''; $('f-whatsapp').value=p?.whatsapp||'';
     $('f-phone').value=p?.phone||''; $('f-facebook').value=p?.facebook||'';
+    $('f-notes').value=p?.notes||'';
     $('modalProvider').classList.add('open');
     setTimeout(()=>$('f-name').focus(),50);
   }
@@ -681,48 +769,93 @@
   $('modalProvider').addEventListener('click', e=>{ if(e.target===$('modalProvider')) $('modalProvider').classList.remove('open'); });
   $('formProvider').addEventListener('submit', e=>{
     e.preventDefault();
-    const data={id:$('f-id').value||uid(),name:$('f-name').value.trim(),product:$('f-product').value.trim(),price:$('f-price').value.trim(),whatsapp:$('f-whatsapp').value.trim(),phone:$('f-phone').value.trim(),facebook:$('f-facebook').value.trim()};
+    const data={id:$('f-id').value||uid(),name:$('f-name').value.trim(),product:$('f-product').value.trim(),price:$('f-price').value.trim(),whatsapp:$('f-whatsapp').value.trim(),phone:$('f-phone').value.trim(),facebook:$('f-facebook').value.trim(),notes:$('f-notes').value.trim()};
     if(!data.name) return;
     const idx=providers.findIndex(p=>p.id===data.id);
     if(idx>=0) providers[idx]=data; else providers.unshift(data);
     lsSave(KEYS.providers,providers); renderProviders(); $('modalProvider').classList.remove('open');
   });
 
+  function showProviderDetail(p){
+    if(!p) return;
+    $('detailTitle').textContent = p.name || 'Proveedor';
+    const wn = tel(p.whatsapp).replace(/^\+/,'');
+    const actions = [
+      p.phone   ? `<a class="pill call" href="tel:${tel(p.phone)}">${SVG.phone}<span>Llamar</span></a>` : '',
+      p.phone   ? `<a class="pill sms" href="sms:${tel(p.phone)}">${SVG.sms}<span>SMS</span></a>` : '',
+      p.whatsapp? `<a class="pill wa" target="_blank" rel="noreferrer" href="https://wa.me/${wn}">${SVG.wa}<span>WhatsApp</span></a>` : '',
+      p.facebook? `<a class="pill fb" target="_blank" rel="noreferrer" href="${escH(fbURL(p.facebook))}">${SVG.fb}<span>Facebook</span></a>` : '',
+    ].join('');
+    $('detailBody').innerHTML = `
+      ${p.product?`<div class="detail-block"><div class="lbl">Producto</div><div class="val">${escH(p.product)}</div></div>`:''}
+      ${p.price?`<div class="detail-block"><div class="lbl">Precio</div><div class="val" style="color:var(--accent)">${escH(p.price)}</div></div>`:''}
+      ${p.phone?`<div class="detail-block"><div class="lbl">Teléfono</div><div class="val">${escH(p.phone)}</div></div>`:''}
+      ${p.whatsapp?`<div class="detail-block"><div class="lbl">WhatsApp</div><div class="val">${escH(p.whatsapp)}</div></div>`:''}
+      ${p.facebook?`<div class="detail-block"><div class="lbl">Facebook</div><div class="val">${escH(p.facebook)}</div></div>`:''}
+      ${p.notes?`<div class="detail-block"><div class="lbl">Notas</div><div class="val">${escH(p.notes)}</div></div>`:''}
+      <div class="detail-actions">${actions}</div>
+    `;
+    $('modalDetail').classList.add('open');
+  }
+
   // ══════════════════════════════════
-  //  PENDIENTES
+  //  PENDIENTES (sort by priority + search + alarms)
   // ══════════════════════════════════
+  const PRIO_ORDER={alta:0,media:1,baja:2};
+  function sortPendings(arr){
+    return arr.slice().sort((a,b)=>{
+      if(a.done!==b.done) return a.done?1:-1;
+      const pd=(PRIO_ORDER[a.priority]??1)-(PRIO_ORDER[b.priority]??1);
+      if(pd!==0) return pd;
+      // by date asc (empty last)
+      if(a.date && b.date) return a.date.localeCompare(b.date);
+      if(a.date) return -1; if(b.date) return 1;
+      return 0;
+    });
+  }
+
   function renderPending(){
     const listEl = $('pendingList');
-    $('counter').textContent = pendings.filter(p=>!p.done).length+' pendientes';
-    if(pendings.length===0){
-      listEl.innerHTML='<div class="empty"><p style="font-size:18px">Sin tareas pendientes 🎉</p></div>';
+    $('counter').textContent = pendings.filter(p=>!p.done).length+' pendientes activos';
+    const q = ($('pendingSearch').value||'').trim().toLowerCase();
+    let items = sortPendings(pendings);
+    if(q) items = items.filter(t => [t.task,t.note].filter(Boolean).some(f=>String(f).toLowerCase().includes(q)));
+    if(items.length===0){
+      listEl.innerHTML='<div class="empty"><p style="font-size:16px">'+(pendings.length===0?'Sin tareas pendientes 🎉':'Sin resultados')+'</p></div>';
       return;
     }
     const prioLabel={alta:'🔴 Alta',media:'🟡 Media',baja:'🟢 Baja'};
     const prioClass={alta:'p-alta',media:'p-media',baja:'p-baja'};
-    listEl.innerHTML = pendings.map(t=>`
-      <article class="card ${prioClass[t.priority]||'p-media'}">
+    listEl.innerHTML = items.map(t=>{
+      const alarm = (t.notifDays>0) ? `<span class="alarm-chip">${SVG.bell}${t.notifDays}d × ${t.notifTimes||3}</span>` : '';
+      const fired = (t.notifFired>0) ? `<span class="alarm-chip" style="color:var(--muted);background:rgba(154,154,176,.12)">${t.notifFired}/${t.notifTimes||3}</span>` : '';
+      return `<article class="card ${prioClass[t.priority]||'p-media'}">
         <div class="row">
-          <button class="done-toggle ${t.done?'done':''}" data-toggle-done="${t.id}">${SVG.check}</button>
+          <button class="done-toggle ${t.done?'done':''}" data-toggle-done="${t.id}" title="Hecho">${SVG.check}</button>
           <div class="info task-text ${t.done?'done-text':''}">
             <p class="name">${escH(t.task)}</p>
-            ${t.note?`<p class="product">${escH(t.note)}</p>`:''}
+            ${t.note?`<p class="product">${escH((t.note||'').split('\n')[0])}</p>`:''}
             <span class="badge ${t.priority==='alta'?'high':t.priority==='baja'?'low':'med'}">${prioLabel[t.priority]||'Media'}</span>
-            ${t.date?`<span style="color:var(--muted);font-size:13px;margin-left:8px">📅 ${t.date}</span>`:''}
+            ${t.date?`<span style="color:var(--muted);font-size:12px;margin-left:6px">📅 ${escH(t.date)}</span>`:''}
+            ${alarm}${fired}
           </div>
-          <div class="icons">
-            <button class="icon-btn edit" data-edit-pend="${t.id}">${SVG.edit}</button>
-            <button class="icon-btn del" data-del-pend="${t.id}">${SVG.del}</button>
+          <div class="row-actions">
+            <button class="iact info" data-info-pend="${t.id}" title="Info">${SVG.info}</button>
+            <button class="iact edit" data-edit-pend="${t.id}" title="Editar">${SVG.edit}</button>
+            <button class="iact del" data-del-pend="${t.id}" title="Eliminar">${SVG.del}</button>
           </div>
         </div>
-      </article>`).join('');
+      </article>`;
+    }).join('');
   }
-
+  $('pendingSearch').addEventListener('input', renderPending);
   $('pendingList').addEventListener('click', e=>{
     const tog = e.target.closest('[data-toggle-done]');
+    const inf = e.target.closest('[data-info-pend]');
     const ed  = e.target.closest('[data-edit-pend]');
     const dl  = e.target.closest('[data-del-pend]');
-    if(tog){ const t=pendings.find(p=>p.id===tog.dataset.toggleDone); if(t){t.done=!t.done; lsSave(KEYS.pending,pendings); renderPending(); $('counter').textContent=pendings.filter(p=>!p.done).length+' pendientes';} }
+    if(tog){ const t=pendings.find(p=>p.id===tog.dataset.toggleDone); if(t){t.done=!t.done; lsSave(KEYS.pending,pendings); renderPending();} }
+    else if(inf) showPendingDetail(pendings.find(p=>p.id===inf.dataset.infoPend));
     else if(ed) openPendingModal(pendings.find(p=>p.id===ed.dataset.editPend));
     else if(dl){ if(confirm('¿Eliminar esta tarea?')){ pendings=pendings.filter(p=>p.id!==dl.dataset.delPend); lsSave(KEYS.pending,pendings); renderPending(); } }
   });
@@ -731,6 +864,9 @@
     $('modalPendingTitle').textContent=t?'Editar tarea':'Nueva tarea';
     $('p-id').value=t?.id||''; $('p-task').value=t?.task||''; $('p-note').value=t?.note||'';
     $('p-priority').value=t?.priority||'media'; $('p-date').value=t?.date||'';
+    $('p-notif-days').value = t?.notifDays ?? 0;
+    $('p-notif-times').value= t?.notifTimes ?? 3;
+    $('p-notif-hour').value = t?.notifHour || '09:00';
     $('modalPending').classList.add('open');
     setTimeout(()=>$('p-task').focus(),50);
   }
@@ -738,12 +874,53 @@
   $('modalPending').addEventListener('click',e=>{ if(e.target===$('modalPending')) $('modalPending').classList.remove('open'); });
   $('formPending').addEventListener('submit',e=>{
     e.preventDefault();
-    const data={id:$('p-id').value||uid(),task:$('p-task').value.trim(),note:$('p-note').value.trim(),priority:$('p-priority').value,date:$('p-date').value,done:false};
+    const days = Math.max(0, Math.min(30, parseInt($('p-notif-days').value||'0',10)));
+    const times= Math.max(1, Math.min(3,  parseInt($('p-notif-times').value||'3',10)));
+    const data={
+      id:$('p-id').value||uid(),
+      task:$('p-task').value.trim(),
+      note:$('p-note').value.trim(),
+      priority:$('p-priority').value,
+      date:$('p-date').value,
+      done:false,
+      notifDays:days,
+      notifTimes:times,
+      notifHour:$('p-notif-hour').value||'09:00',
+      notifFired:0,
+      nextNotif:0,
+    };
     if(!data.task) return;
     const idx=pendings.findIndex(p=>p.id===data.id);
-    if(idx>=0) data.done=pendings[idx].done, pendings[idx]=data; else pendings.unshift(data);
+    if(idx>=0){
+      // preserve done/fired if editing
+      data.done=pendings[idx].done;
+      // if alarm settings unchanged keep counters
+      const old=pendings[idx];
+      if(old.notifDays===data.notifDays && old.notifTimes===data.notifTimes && old.notifHour===data.notifHour){
+        data.notifFired=old.notifFired||0;
+        data.nextNotif=old.nextNotif||0;
+      }
+      pendings[idx]=data;
+    } else pendings.unshift(data);
+    // Schedule next notification time
+    scheduleNextFor(data);
     lsSave(KEYS.pending,pendings); renderPending(); $('modalPending').classList.remove('open');
+    if(data.notifDays>0) requestNotifPerm(true);
   });
+
+  function showPendingDetail(t){
+    if(!t) return;
+    $('detailTitle').textContent = t.task || 'Tarea';
+    const prioLabel={alta:'🔴 Alta',media:'🟡 Media',baja:'🟢 Baja'};
+    $('detailBody').innerHTML = `
+      <div class="detail-block"><div class="lbl">Prioridad</div><div class="val">${prioLabel[t.priority]||'Media'}</div></div>
+      ${t.date?`<div class="detail-block"><div class="lbl">Fecha límite</div><div class="val">${escH(t.date)}</div></div>`:''}
+      ${t.note?`<div class="detail-block"><div class="lbl">Detalles</div><div class="val">${escH(t.note)}</div></div>`:''}
+      ${t.notifDays>0?`<div class="detail-block"><div class="lbl">Alarma</div><div class="val">Cada ${t.notifDays} día(s) a las ${escH(t.notifHour||'09:00')} · ${t.notifFired||0}/${t.notifTimes||3} disparada(s)</div></div>`:''}
+      <div class="detail-block"><div class="lbl">Estado</div><div class="val">${t.done?'✅ Hecho':'⏳ Pendiente'}</div></div>
+    `;
+    $('modalDetail').classList.add('open');
+  }
 
   // ══════════════════════════════════
   //  CLIENTES BUSCAN
@@ -751,35 +928,39 @@
   let clientTagFilter = '';
   function renderClients(){
     $('counter').textContent = clients.length+' solicitudes';
-    // tags
     const allTags = [...new Set(clients.map(c=>c.tag).filter(Boolean))];
     $('clientTags').innerHTML = allTags.map(t=>`<button class="tag ${clientTagFilter===t?'active-tag':''}" data-tag="${escH(t)}">${escH(t)}</button>`).join('');
-    // list
     const q = ($('clientSearch').value||'').trim().toLowerCase();
     const items = clients.filter(c=>{
       if(clientTagFilter && c.tag!==clientTagFilter) return false;
       if(!q) return true;
-      return [c.product,c.name,c.tag,c.qty].filter(Boolean).some(f=>String(f).toLowerCase().includes(q));
+      return [c.product,c.name,c.tag,c.qty,c.notes].filter(Boolean).some(f=>String(f).toLowerCase().includes(q));
     });
     const listEl=$('clientList');
-    if(items.length===0){ listEl.innerHTML='<div class="empty"><p style="font-size:18px">Sin solicitudes</p></div>'; return; }
-    listEl.innerHTML = items.map(c=>`
-      <article class="card">
+    if(items.length===0){ listEl.innerHTML='<div class="empty"><p style="font-size:16px">Sin solicitudes</p></div>'; return; }
+    listEl.innerHTML = items.map(c=>{
+      const wn = tel(c.contact).replace(/^\+/,'');
+      const phoneIcon = c.contact?`<a class="iact call" href="tel:${tel(c.contact)}" title="Llamar" onclick="event.stopPropagation()">${SVG.phone}</a>`:'';
+      const smsIcon   = c.contact?`<a class="iact sms" href="sms:${tel(c.contact)}" title="SMS" onclick="event.stopPropagation()">${SVG.sms}</a>`:'';
+      const waIcon    = c.contact?`<a class="iact wa" target="_blank" rel="noreferrer" href="https://wa.me/${wn}" title="WhatsApp" onclick="event.stopPropagation()">${SVG.wa}</a>`:'';
+      return `<article class="card">
         <div class="row">
-          <div class="avatar client-avatar">🔍</div>
+          <div class="avatar client-avatar">${SVG.lupa}</div>
           <div class="info">
             <p class="name">${escH(c.product)}</p>
-            ${c.name?`<p class="product">👤 ${escH(c.name)}</p>`:''}
-            ${c.qty?`<p class="product">📦 ${escH(c.qty)}</p>`:''}
+            ${c.name?`<p class="product">👤 ${escH(c.name)}${c.qty?' · '+escH(c.qty):''}</p>`:(c.qty?`<p class="product">📦 ${escH(c.qty)}</p>`:'')}
             ${c.tag?`<span class="badge low">${escH(c.tag)}</span>`:''}
           </div>
-          <div class="icons">
-            ${c.contact?`<a class="icon-btn" href="tel:${tel(c.contact)}" title="Llamar">${SVG.phone}</a>`:''}
-            <button class="icon-btn edit" data-edit-client="${c.id}">${SVG.edit}</button>
-            <button class="icon-btn del" data-del-client="${c.id}">${SVG.del}</button>
+          <div class="row-actions">
+            ${phoneIcon}${smsIcon}${waIcon}
+            <span class="iact-sep"></span>
+            <button class="iact info" data-info-client="${c.id}" title="Info">${SVG.info}</button>
+            <button class="iact edit" data-edit-client="${c.id}" title="Editar">${SVG.edit}</button>
+            <button class="iact del" data-del-client="${c.id}" title="Eliminar">${SVG.del}</button>
           </div>
         </div>
-      </article>`).join('');
+      </article>`;
+    }).join('');
   }
 
   $('clientSearch').addEventListener('input', renderClients);
@@ -788,9 +969,11 @@
     if(btn){ clientTagFilter = clientTagFilter===btn.dataset.tag?'':btn.dataset.tag; renderClients(); }
   });
   $('clientList').addEventListener('click', e=>{
+    const inf=e.target.closest('[data-info-client]');
     const ed=e.target.closest('[data-edit-client]');
     const dl=e.target.closest('[data-del-client]');
-    if(ed) openClientModal(clients.find(c=>c.id===ed.dataset.editClient));
+    if(inf) showClientDetail(clients.find(c=>c.id===inf.dataset.infoClient));
+    else if(ed) openClientModal(clients.find(c=>c.id===ed.dataset.editClient));
     else if(dl){ if(confirm('¿Eliminar solicitud?')){ clients=clients.filter(c=>c.id!==dl.dataset.delClient); lsSave(KEYS.clients,clients); renderClients(); } }
   });
 
@@ -798,6 +981,7 @@
     $('modalClientTitle').textContent=c?'Editar solicitud':'Cliente busca...';
     $('c-id').value=c?.id||''; $('c-product').value=c?.product||''; $('c-name').value=c?.name||'';
     $('c-contact').value=c?.contact||''; $('c-qty').value=c?.qty||''; $('c-tag').value=c?.tag||'';
+    $('c-notes').value=c?.notes||'';
     $('modalClient').classList.add('open');
     setTimeout(()=>$('c-product').focus(),50);
   }
@@ -805,18 +989,40 @@
   $('modalClient').addEventListener('click',e=>{ if(e.target===$('modalClient')) $('modalClient').classList.remove('open'); });
   $('formClient').addEventListener('submit',e=>{
     e.preventDefault();
-    const data={id:$('c-id').value||uid(),product:$('c-product').value.trim(),name:$('c-name').value.trim(),contact:$('c-contact').value.trim(),qty:$('c-qty').value.trim(),tag:$('c-tag').value.trim()};
+    const data={id:$('c-id').value||uid(),product:$('c-product').value.trim(),name:$('c-name').value.trim(),contact:$('c-contact').value.trim(),qty:$('c-qty').value.trim(),tag:$('c-tag').value.trim(),notes:$('c-notes').value.trim()};
     if(!data.product) return;
     const idx=clients.findIndex(c=>c.id===data.id);
     if(idx>=0) clients[idx]=data; else clients.unshift(data);
     lsSave(KEYS.clients,clients); renderClients(); $('modalClient').classList.remove('open');
   });
 
+  function showClientDetail(c){
+    if(!c) return;
+    $('detailTitle').textContent = c.product || 'Solicitud';
+    const wn = tel(c.contact).replace(/^\+/,'');
+    const actions = [
+      c.contact ? `<a class="pill call" href="tel:${tel(c.contact)}">${SVG.phone}<span>Llamar</span></a>` : '',
+      c.contact ? `<a class="pill sms" href="sms:${tel(c.contact)}">${SVG.sms}<span>SMS</span></a>` : '',
+      c.contact ? `<a class="pill wa" target="_blank" rel="noreferrer" href="https://wa.me/${wn}">${SVG.wa}<span>WhatsApp</span></a>` : '',
+    ].join('');
+    $('detailBody').innerHTML = `
+      ${c.name?`<div class="detail-block"><div class="lbl">Cliente</div><div class="val">${escH(c.name)}</div></div>`:''}
+      ${c.qty?`<div class="detail-block"><div class="lbl">Cantidad / descripción</div><div class="val">${escH(c.qty)}</div></div>`:''}
+      ${c.tag?`<div class="detail-block"><div class="lbl">Etiqueta</div><div class="val">${escH(c.tag)}</div></div>`:''}
+      ${c.contact?`<div class="detail-block"><div class="lbl">Contacto</div><div class="val">${escH(c.contact)}</div></div>`:''}
+      ${c.notes?`<div class="detail-block"><div class="lbl">Notas</div><div class="val">${escH(c.notes)}</div></div>`:''}
+      <div class="detail-actions">${actions}</div>
+    `;
+    $('modalDetail').classList.add('open');
+  }
+
+  window.closeDetail = ()=> $('modalDetail').classList.remove('open');
+  $('modalDetail').addEventListener('click', e=>{ if(e.target===$('modalDetail')) closeDetail(); });
+
   // ══════════════════════════════════
   //  ADMIN — GITHUB
   // ══════════════════════════════════
   function renderAdmin(){
-    // load saved creds
     const t=localStorage.getItem(KEYS.ghToken)||'';
     const o=localStorage.getItem(KEYS.ghOwner)||'';
     const r=localStorage.getItem(KEYS.ghRepo)||'';
@@ -824,8 +1030,8 @@
     if(t){ $('ghToken').value=t; $('credSavedBadge').style.display='inline'; }
     else $('credSavedBadge').style.display='none';
     $('ghOwner').value=o; $('ghRepo').value=r; $('ghBranch').value=b;
-    // preview providers
     $('previewProviders').textContent = JSON.stringify(providers,null,2).slice(0,400)+(JSON.stringify(providers).length>400?'\n...':'');
+    refreshAutoSwitches();
   }
 
   window.saveGHCreds = function(){
@@ -834,9 +1040,10 @@
     localStorage.setItem(KEYS.ghRepo,  $('ghRepo').value.trim());
     localStorage.setItem(KEYS.ghBranch,$('ghBranch').value.trim()||'main');
     $('credSavedBadge').style.display='inline';
-    showStatus('ghTestStatus','✅ Credenciales guardadas localmente','ok');
+    showStatus('ghTestStatus','✅ Credenciales guardadas','ok');
+    scheduleSync(500);
+    initialPullIfClean();
   };
-
   function getGHCreds(){
     return {
       token:  localStorage.getItem(KEYS.ghToken)||'',
@@ -845,13 +1052,10 @@
       branch: localStorage.getItem(KEYS.ghBranch)||'main',
     };
   }
-
   function showStatus(id, msg, type){
     const el=$(id); el.textContent=msg; el.className='status-msg '+type;
-    setTimeout(()=>{ el.className='status-msg'; },8000);
+    if(id!=='syncStatusInline') setTimeout(()=>{ el.className='status-msg'; },8000);
   }
-
-  // ── LOG helper ──
   function logLine(boxId, msg, type){
     const box=$(boxId); if(!box) return;
     box.classList.add('show');
@@ -859,259 +1063,194 @@
     const cls = type ? 'lg-'+type : 'lg-dim';
     const line=document.createElement('div');
     line.innerHTML='<span class="lg-dim">['+ts+']</span> <span class="'+cls+'">'+msg.replace(/</g,'&lt;')+'</span>';
-    box.appendChild(line);
-    box.scrollTop = box.scrollHeight;
+    box.appendChild(line); box.scrollTop = box.scrollHeight;
   }
   function clearLog(boxId){ const b=$(boxId); if(b){ b.innerHTML=''; b.classList.remove('show'); } }
 
   window.testGHConnection = async function(){
     const {token,owner,repo,branch} = getGHCreds();
     clearLog('ghTestLog');
-    logLine('ghTestLog','▶ Iniciando diagnóstico de conexión...', 'info');
-    logLine('ghTestLog','• Online: '+navigator.onLine);
-    logLine('ghTestLog','• Owner: '+(owner||'(vacío)'));
-    logLine('ghTestLog','• Repo:  '+(repo||'(vacío)'));
-    logLine('ghTestLog','• Branch:'+(branch||'main'));
-    logLine('ghTestLog','• Token: '+(token?('len='+token.length+' '+token.slice(0,4)+'…'+token.slice(-3)):'(vacío)'));
-    if(!token||!owner||!repo){
-      logLine('ghTestLog','✗ Faltan credenciales. Completa todos los campos y guarda.', 'err');
-      showStatus('ghTestStatus','⚠️ Completa las credenciales primero','err'); return;
-    }
-    $('btnTestGH').disabled=true; $('btnTestGH').textContent='Probando...';
+    logLine('ghTestLog','▶ Probando conexión...', 'info');
+    if(!token||!owner||!repo){ logLine('ghTestLog','✗ Faltan credenciales','err'); return; }
     const H={'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json'};
     try{
-      // 1) Token /user
-      logLine('ghTestLog','→ GET https://api.github.com/user','info');
       const ru = await fetch('https://api.github.com/user',{headers:H});
-      logLine('ghTestLog','  status '+ru.status+' '+ru.statusText, ru.ok?'ok':'err');
-      const rl = ru.headers.get('x-ratelimit-remaining');
-      if(rl) logLine('ghTestLog','  rate-limit restante: '+rl);
-      if(!ru.ok){
-        const e=await ru.json().catch(()=>({}));
-        logLine('ghTestLog','✗ Token inválido o sin permisos: '+(e.message||'fallo'),'err');
-        showStatus('ghTestStatus','❌ Token inválido','err'); return;
-      }
-      const u=await ru.json();
-      logLine('ghTestLog','  ✓ Autenticado como: '+u.login+' (id '+u.id+')','ok');
-
-      // 2) Repo
-      logLine('ghTestLog','→ GET /repos/'+owner+'/'+repo,'info');
+      logLine('ghTestLog','GET /user → '+ru.status, ru.ok?'ok':'err');
+      if(!ru.ok){ showStatus('ghTestStatus','❌ Token inválido','err'); return; }
+      const u=await ru.json(); logLine('ghTestLog','✓ Autenticado como '+u.login,'ok');
       const rr=await fetch('https://api.github.com/repos/'+owner+'/'+repo,{headers:H});
-      logLine('ghTestLog','  status '+rr.status, rr.ok?'ok':'err');
-      if(!rr.ok){
-        const e=await rr.json().catch(()=>({}));
-        logLine('ghTestLog','✗ '+(e.message||'sin acceso al repo'),'err');
-        showStatus('ghTestStatus','❌ Repo no accesible','err'); return;
-      }
-      const repoData=await rr.json();
-      logLine('ghTestLog','  ✓ '+repoData.full_name+' · '+repoData.visibility+' · default='+repoData.default_branch,'ok');
-      const perms = repoData.permissions||{};
-      logLine('ghTestLog','  permisos: push='+!!perms.push+' admin='+!!perms.admin+' pull='+!!perms.pull);
-      if(!perms.push){ logLine('ghTestLog','  ⚠ Sin permiso de escritura: no podrás subir','warn'); }
-
-      // 3) Rama
-      const br=branch||'main';
-      logLine('ghTestLog','→ GET /repos/'+owner+'/'+repo+'/branches/'+br,'info');
-      const rb=await fetch('https://api.github.com/repos/'+owner+'/'+repo+'/branches/'+br,{headers:H});
-      logLine('ghTestLog','  status '+rb.status, rb.ok?'ok':'err');
-      if(!rb.ok){
-        logLine('ghTestLog','  ⚠ La rama "'+br+'" no existe (usa "'+repoData.default_branch+'")','warn');
-      } else {
-        const bd=await rb.json();
-        logLine('ghTestLog','  ✓ rama OK, último commit: '+(bd.commit?.sha||'').slice(0,7),'ok');
-      }
-
-      // 4) Archivos esperados
-      for(const k of Object.keys(GH_FILES)){
-        const fn=GH_FILES[k];
-        const rf=await fetch('https://api.github.com/repos/'+owner+'/'+repo+'/contents/'+fn+'?ref='+br,{headers:H});
-        if(rf.status===404) logLine('ghTestLog','  • '+fn+': NO existe (se creará al subir)','warn');
-        else if(rf.ok){ const df=await rf.json(); logLine('ghTestLog','  • '+fn+': existe ('+df.size+' bytes, sha '+df.sha.slice(0,7)+')','ok'); }
-        else logLine('ghTestLog','  • '+fn+': error '+rf.status,'err');
-      }
-
-      logLine('ghTestLog','✓ DIAGNÓSTICO COMPLETO','ok');
-      showStatus('ghTestStatus','✅ Conexión OK con '+repoData.full_name,'ok');
-    }catch(err){
-      logLine('ghTestLog','✗ Excepción: '+err.message,'err');
-      showStatus('ghTestStatus','❌ Error de red: '+err.message,'err');
-    }
-    $('btnTestGH').disabled=false; $('btnTestGH').textContent='🔗 Probar conexión (detallado)';
+      logLine('ghTestLog','GET /repo → '+rr.status, rr.ok?'ok':'err');
+      if(!rr.ok){ showStatus('ghTestStatus','❌ Repo no accesible','err'); return; }
+      showStatus('ghTestStatus','✅ Conexión OK','ok');
+    }catch(err){ logLine('ghTestLog','✗ '+err.message,'err'); }
   };
 
   async function getFileSHA(token,owner,repo,branch,filename){
     const r=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filename}?ref=${branch}`,{headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json'}});
     if(r.status===404) return null;
+    if(!r.ok) return null;
     const d=await r.json(); return d.sha||null;
   }
 
-  // Devuelve {ok, msg, type, count, status}
+  function getLastHashes(){ try{return JSON.parse(localStorage.getItem(KEYS.lastHash)||'{}');}catch(e){return{};} }
+  function setLastHashes(h){ localStorage.setItem(KEYS.lastHash, JSON.stringify(h)); }
+  function getLastSHA(){ try{return JSON.parse(localStorage.getItem(KEYS.lastSHA)||'{}');}catch(e){return{};} }
+  function setLastSHA(s){ localStorage.setItem(KEYS.lastSHA, JSON.stringify(s)); }
+
   window.pushToGitHub = async function(type, opts){
     opts = opts || {};
     const {token,owner,repo,branch}=getGHCreds();
     const statusId = type+'Status';
     const labels={providers:'Proveedores',pending:'Pendientes',clients:'Clientes'};
     if(!token||!owner||!repo){
-      const m='⚠️ Configura las credenciales de GitHub primero';
+      const m='⚠️ Configura las credenciales primero';
       if(!opts.silent) showStatus(statusId,m,'err');
       return {ok:false,type,msg:m};
     }
     const filename = GH_FILES[type];
     const dataMap = {providers, pending: pendings, clients};
     const arr=dataMap[type]||[];
-    const content = btoa(unescape(encodeURIComponent(JSON.stringify(arr,null,2))));
+    const jsonStr = JSON.stringify(arr,null,2);
+    const newHash = hashStr(jsonStr);
+    const lastHashes = getLastHashes();
+    // Skip if content hasn't changed AND not forced
+    if(!opts.force && lastHashes[type]===newHash){
+      return {ok:true,type,count:arr.length,skipped:true};
+    }
+    const content = btoa(unescape(encodeURIComponent(jsonStr)));
     const btnId = {providers:'btnPushProv',pending:'btnPushPend',clients:'btnPushClients'}[type];
     const btn=$(btnId);
     if(btn && !opts.silent){ btn.disabled=true; btn.textContent='Subiendo...'; }
     let result={ok:false,type,count:arr.length,filename};
     try{
-      if(!opts.silent) showStatus(statusId,'⏳ Conectando con GitHub...','info');
-      const sha = await getFileSHA(token,owner,repo,branch||'main',filename);
-      const body = {message:`Actualizar ${filename} desde Mi Agenda`,content,branch:branch||'main'};
+      if(!opts.silent) showStatus(statusId,'⏳ Subiendo...','info');
+      let sha = getLastSHA()[type] || await getFileSHA(token,owner,repo,branch||'main',filename);
+      const body = {message:`agenda: ${type} (${arr.length} items)`,content,branch:branch||'main'};
       if(sha) body.sha=sha;
-      const r=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filename}`,{
+      let r=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filename}`,{
         method:'PUT',headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
         body:JSON.stringify(body)
       });
+      // Retry once on 409/422 (stale SHA): fetch fresh sha and try again
+      if((r.status===409 || r.status===422) && !opts.silent===false){
+        const freshSha = await getFileSHA(token,owner,repo,branch||'main',filename);
+        if(freshSha){
+          body.sha = freshSha;
+          r = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filename}`,{
+            method:'PUT',headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
+            body:JSON.stringify(body)
+          });
+        }
+      }
       result.status=r.status;
       if(r.ok){
         const j=await r.json();
         result.ok=true; result.action=sha?'actualizado':'creado'; result.sha=j.content?.sha;
-        if(!opts.silent) showStatus(statusId,'✅ '+result.action+' correctamente en GitHub','ok');
+        // Update caches
+        const lh=getLastHashes(); lh[type]=newHash; setLastHashes(lh);
+        const ls2=getLastSHA(); ls2[type]=j.content?.sha; setLastSHA(ls2);
+        const d=getDirty(); delete d[type]; setDirty(d);
+        if(!opts.silent) showStatus(statusId,'✅ '+result.action+' en GitHub','ok');
       } else {
         const e=await r.json().catch(()=>({}));
         result.msg=e.message||'fallo';
-        if(!opts.silent) showStatus(statusId,'❌ Error '+r.status+': '+result.msg,'err');
+        if(!opts.silent) showStatus(statusId,'❌ '+r.status+': '+result.msg,'err');
       }
     }catch(err){
       result.msg=err.message;
-      if(!opts.silent) showStatus(statusId,'❌ Error: '+err.message,'err');
+      if(!opts.silent) showStatus(statusId,'❌ '+err.message,'err');
     }
     if(btn && !opts.silent){
       btn.disabled=false;
-      btn.textContent='⬆️ Subir '+labels[type]+' a GitHub';
+      btn.textContent='⬆️ Subir '+labels[type];
       renderAdmin();
     }
     return result;
   };
 
-  window.pullFromGitHub = async function(type){
+  window.pullFromGitHub = async function(type, opts){
+    opts = opts || {};
     const {token,owner,repo,branch}=getGHCreds();
     const statusId=type+'Status';
-    if(!token||!owner||!repo){ showStatus(statusId,'⚠️ Configura las credenciales de GitHub primero','err'); return; }
+    if(!token||!owner||!repo){
+      if(!opts.silent) showStatus(statusId,'⚠️ Configura las credenciales primero','err');
+      return {ok:false};
+    }
     const filename=GH_FILES[type];
     try{
-      showStatus(statusId,'⏳ Descargando desde GitHub...','info');
-      const r=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filename}?ref=${branch}`,{headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json'}});
-      if(r.status===404){ showStatus(statusId,'⚠️ Archivo no encontrado en GitHub. Súbelo primero.','err'); return; }
-      if(!r.ok){ const e=await r.json(); showStatus(statusId,'❌ Error '+r.status+': '+(e.message||'fallo'),'err'); return; }
+      if(!opts.silent) showStatus(statusId,'⏳ Descargando...','info');
+      const r=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filename}?ref=${branch||'main'}`,{headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json'}});
+      if(r.status===404){ if(!opts.silent) showStatus(statusId,'⚠️ Archivo no existe en GitHub','err'); return {ok:false,notFound:true}; }
+      if(!r.ok){ if(!opts.silent) showStatus(statusId,'❌ '+r.status,'err'); return {ok:false}; }
       const d=await r.json();
-      const decoded = decodeURIComponent(escape(atob(d.content.replace(/\n/g,''))));
+      const decoded = decodeURIComponent(escape(atob((d.content||'').replace(/\n/g,''))));
       const parsed = JSON.parse(decoded);
-      if(!Array.isArray(parsed)){ showStatus(statusId,'❌ Formato inválido en el archivo remoto','err'); return; }
+      if(!Array.isArray(parsed)){ if(!opts.silent) showStatus(statusId,'❌ Formato inválido','err'); return {ok:false}; }
+      const remoteHash = hashStr(JSON.stringify(parsed,null,2));
+      const lh=getLastHashes();
+      // If same as what we last pushed/pulled, nothing to apply
+      if(lh[type]===remoteHash){
+        // Just refresh SHA cache
+        const ls2=getLastSHA(); ls2[type]=d.sha; setLastSHA(ls2);
+        return {ok:true, unchanged:true};
+      }
+      // Apply remote → local, suppressing dirty marking via flag
+      suppressDirty = true;
       if(type==='providers'){ providers=parsed; lsSave(KEYS.providers,parsed); if(currentPage==='providers') renderProviders(); }
       if(type==='pending'){ pendings=parsed; lsSave(KEYS.pending,parsed); if(currentPage==='pending') renderPending(); }
       if(type==='clients'){ clients=parsed; lsSave(KEYS.clients,parsed); if(currentPage==='clients') renderClients(); }
-      showStatus(statusId,'✅ Datos cargados correctamente ('+parsed.length+' registros)','ok');
-      renderAdmin();
-    }catch(err){ showStatus(statusId,'❌ Error: '+err.message,'err'); }
+      suppressDirty = false;
+      lh[type]=remoteHash; setLastHashes(lh);
+      const ls2=getLastSHA(); ls2[type]=d.sha; setLastSHA(ls2);
+      if(!opts.silent) showStatus(statusId,'✅ '+parsed.length+' registros cargados','ok');
+      return {ok:true, changed:true, count:parsed.length};
+    }catch(err){ if(!opts.silent) showStatus(statusId,'❌ '+err.message,'err'); return {ok:false}; }
   };
 
   window.pushAll = async function(){
     const btn=$('btnPushAll');
     btn.disabled=true; btn.textContent='Sincronizando...';
     clearLog('allLog');
-    logLine('allLog','▶ Iniciando subida masiva a GitHub...','info');
-    const {token,owner,repo,branch} = getGHCreds();
-    logLine('allLog','• repo: '+(owner||'?')+'/'+(repo||'?')+' @'+(branch||'main'));
-    logLine('allLog','• online: '+navigator.onLine);
-    if(!token||!owner||!repo){
-      logLine('allLog','✗ Faltan credenciales. Configúralas y guarda.','err');
-      showStatus('allStatus','⚠️ Configura GitHub primero','err');
-      btn.disabled=false; btn.textContent='🚀 Sincronizar Todo a GitHub'; return;
-    }
-    showStatus('allStatus','⏳ Subiendo todos los datos...','info');
+    logLine('allLog','▶ Subida masiva...','info');
     const types=['providers','pending','clients'];
-    const labels={providers:'Proveedores',pending:'Pendientes',clients:'Clientes'};
-    let okCount=0, failCount=0;
+    let okCount=0, failCount=0, skipCount=0;
     for(const t of types){
-      logLine('allLog','→ Subiendo '+labels[t]+' ('+GH_FILES[t]+')...','info');
-      try{
-        const res = await pushToGitHub(t, {silent:true});
-        if(res.ok){
-          okCount++;
-          logLine('allLog','  ✓ '+res.action+' · '+res.count+' registros · sha '+(res.sha||'').slice(0,7),'ok');
-        } else {
-          failCount++;
-          logLine('allLog','  ✗ '+labels[t]+' falló: HTTP '+(res.status||'?')+' · '+(res.msg||'sin detalle'),'err');
-        }
-      }catch(e){
-        failCount++;
-        logLine('allLog','  ✗ Excepción en '+labels[t]+': '+e.message,'err');
-      }
+      const res = await pushToGitHub(t, {silent:true, force:true});
+      if(res.ok){ okCount++; logLine('allLog','✓ '+t+(res.skipped?' (sin cambios)':' '+(res.action||'')),'ok'); if(res.skipped) skipCount++; }
+      else { failCount++; logLine('allLog','✗ '+t+' '+(res.msg||''),'err'); }
     }
-    logLine('allLog','◼ Resultado: '+okCount+' OK · '+failCount+' fallidos','info');
-    if(failCount===0){
-      logLine('allLog','✓ TODO sincronizado correctamente','ok');
-      showStatus('allStatus','✅ Todos los datos sincronizados ('+okCount+'/3)','ok');
-      // limpiar dirty
-      try{ setDirty({providers:false,pending:false,clients:false}); }catch{}
-    } else {
-      showStatus('allStatus','⚠️ '+okCount+'/3 OK, '+failCount+' fallaron (ver log)','err');
-    }
-    btn.disabled=false; btn.textContent='🚀 Sincronizar Todo a GitHub';
+    if(failCount===0){ showStatus('allStatus','✅ Sincronizado ('+okCount+'/3)','ok'); setDirty({}); }
+    else showStatus('allStatus','⚠️ '+okCount+' OK, '+failCount+' fallaron','err');
+    btn.disabled=false; btn.textContent='Forzar sincronización completa';
     renderAdmin();
   };
 
-  // ESC closes modals
   document.addEventListener('keydown', e=>{ if(e.key==='Escape'){
-    ['modalProvider','modalPending','modalClient'].forEach(id=>$(id).classList.remove('open'));
+    ['modalProvider','modalPending','modalClient','modalDetail'].forEach(id=>$(id).classList.remove('open'));
   }});
 
-  // ── INIT ──
   showPage('providers');
 
   // ══════════════════════════════════
-  //  OFFLINE + INDEXEDDB + AUTO-SYNC
+  //  IndexedDB mirror + Auto-sync
   // ══════════════════════════════════
   const DATA_KEYS   = [KEYS.providers, KEYS.pending, KEYS.clients];
-  const DIRTY_KEY   = 'agenda.sync.dirty';   // JSON: {providers:bool,pending:bool,clients:bool}
+  const DIRTY_KEY   = 'agenda.sync.dirty';
   const TYPE_BY_KEY = {[KEYS.providers]:'providers',[KEYS.pending]:'pending',[KEYS.clients]:'clients'};
+  let suppressDirty = false;
 
-  // ---- IndexedDB mínima (key/value) ----
   const IDB_NAME='miAgendaDB', IDB_STORE='kv';
-  function idbOpen(){
-    return new Promise((res,rej)=>{
-      const r=indexedDB.open(IDB_NAME,1);
-      r.onupgradeneeded=()=>r.result.createObjectStore(IDB_STORE);
-      r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error);
-    });
-  }
-  async function idbSet(k,v){
-    const db=await idbOpen();
-    return new Promise((res,rej)=>{
-      const tx=db.transaction(IDB_STORE,'readwrite');
-      tx.objectStore(IDB_STORE).put(v,k);
-      tx.oncomplete=()=>res(); tx.onerror=()=>rej(tx.error);
-    });
-  }
-  async function idbGet(k){
-    const db=await idbOpen();
-    return new Promise((res,rej)=>{
-      const tx=db.transaction(IDB_STORE,'readonly');
-      const rq=tx.objectStore(IDB_STORE).get(k);
-      rq.onsuccess=()=>res(rq.result); rq.onerror=()=>rej(rq.error);
-    });
-  }
+  function idbOpen(){ return new Promise((res,rej)=>{ const r=indexedDB.open(IDB_NAME,1); r.onupgradeneeded=()=>r.result.createObjectStore(IDB_STORE); r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); }); }
+  async function idbSet(k,v){ const db=await idbOpen(); return new Promise((res,rej)=>{ const tx=db.transaction(IDB_STORE,'readwrite'); tx.objectStore(IDB_STORE).put(v,k); tx.oncomplete=()=>res(); tx.onerror=()=>rej(tx.error); }); }
+  async function idbGet(k){ const db=await idbOpen(); return new Promise((res,rej)=>{ const tx=db.transaction(IDB_STORE,'readonly'); const rq=tx.objectStore(IDB_STORE).get(k); rq.onsuccess=()=>res(rq.result); rq.onerror=()=>rej(rq.error); }); }
 
-  // Restaurar desde IDB al arranque si existe (más durable que localStorage en Android)
   (async function hydrateFromIDB(){
     try{
       let changed=false;
       for(const k of DATA_KEYS){
         const v=await idbGet(k);
         if(v && (!localStorage.getItem(k) || localStorage.getItem(k)==='[]')){
-          localStorage.setItem(k, v);
+          suppressDirty=true; localStorage.setItem(k, v); suppressDirty=false;
           changed=true;
         }
       }
@@ -1124,28 +1263,28 @@
     }catch(e){ console.warn('IDB hydrate fail',e); }
   })();
 
-  // ---- Cola "dirty" + persistencia espejo en IDB ----
   function getDirty(){ try{return JSON.parse(localStorage.getItem(DIRTY_KEY)||'{}');}catch(e){return{};} }
   function setDirty(d){ localStorage.setItem(DIRTY_KEY, JSON.stringify(d)); updateSyncBadge(); }
   function markDirty(type){ const d=getDirty(); d[type]=true; setDirty(d); }
 
-  // Monkey-patch setItem: espejo en IDB + marca de dirty + intento de sync.
   const _setItem = Storage.prototype.setItem;
   Storage.prototype.setItem = function(k,v){
     _setItem.call(this,k,v);
-    if(this===localStorage && DATA_KEYS.includes(k)){
+    if(this===localStorage && DATA_KEYS.includes(k) && !suppressDirty){
       idbSet(k,v).catch(()=>{});
       markDirty(TYPE_BY_KEY[k]);
       scheduleSync();
     }
   };
 
-  // ---- Auto-sync (debounce + reintentos) ----
   let syncTimer=null, syncing=false;
-  function scheduleSync(delay=1500){
+  function isAutoSyncOn(){ return localStorage.getItem(KEYS.autoSync)!=='0'; }
+  function isAutoPullOn(){ return localStorage.getItem(KEYS.autoPull)!=='0'; }
+
+  function scheduleSync(delay=3000){
+    if(!isAutoSyncOn()) { updateSyncBadge(); return; }
     clearTimeout(syncTimer);
     syncTimer=setTimeout(()=>{ trySyncAll(); }, delay);
-    // Registrar background sync para que el SO reintente si se pierde conexión
     if('serviceWorker' in navigator && 'SyncManager' in window){
       navigator.serviceWorker.ready.then(reg=>reg.sync.register('sync-agenda').catch(()=>{}));
     }
@@ -1154,6 +1293,7 @@
   async function trySyncAll(){
     if(syncing) return;
     if(!navigator.onLine){ updateSyncBadge(); return; }
+    if(!isAutoSyncOn()){ updateSyncBadge(); return; }
     const {token,owner,repo}=getGHCreds();
     if(!token||!owner||!repo){ updateSyncBadge(); return; }
     const dirty=getDirty();
@@ -1161,40 +1301,45 @@
     if(pendingTypes.length===0){ updateSyncBadge(); return; }
     syncing=true; updateSyncBadge();
     for(const type of pendingTypes){
-      try{
-        const filename = GH_FILES[type];
-        const dataMap={providers, pending: pendings, clients};
-        const content = btoa(unescape(encodeURIComponent(JSON.stringify(dataMap[type],null,2))));
-        const branch=(localStorage.getItem(KEYS.ghBranch)||'main');
-        const sha = await getFileSHA(token,owner,repo,branch,filename);
-        const body={message:`Auto-sync ${filename}`, content, branch};
-        if(sha) body.sha=sha;
-        const r=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filename}`,{
-          method:'PUT',
-          headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
-          body:JSON.stringify(body)
-        });
-        if(r.ok){
-          const d=getDirty(); delete d[type]; setDirty(d);
-        }
-      }catch(e){ /* sin red o conflicto: se reintenta luego */ break; }
+      try{ await pushToGitHub(type, {silent:true}); }
+      catch(e){ break; }
     }
     syncing=false; updateSyncBadge();
   }
 
-  // ---- Pull inicial al arrancar online (si no hay cambios locales pendientes) ----
+  // ---- Pull periódico ----
+  let pullTimer=null;
+  function startPullLoop(){
+    stopPullLoop();
+    if(!isAutoPullOn()) return;
+    pullTimer = setInterval(()=>{ if(!document.hidden) pullAllSilent(); }, 30000);
+  }
+  function stopPullLoop(){ if(pullTimer){ clearInterval(pullTimer); pullTimer=null; } }
+  async function pullAllSilent(){
+    if(!navigator.onLine) return;
+    const {token,owner,repo}=getGHCreds();
+    if(!token||!owner||!repo) return;
+    // Skip if we have unsynced local changes (don't overwrite)
+    const dirty=getDirty();
+    for(const type of ['providers','pending','clients']){
+      if(dirty[type]) continue;
+      try{ await pullFromGitHub(type, {silent:true}); }catch(e){}
+    }
+    updateSyncBadge();
+  }
+
   async function initialPullIfClean(){
     if(!navigator.onLine) return;
     const {token,owner,repo}=getGHCreds();
     if(!token||!owner||!repo) return;
     const dirty=getDirty();
-    if(Object.values(dirty).some(Boolean)) return; // hay cambios locales sin subir, no piso
+    if(Object.values(dirty).some(Boolean)) return;
     for(const type of ['providers','pending','clients']){
-      try{ await pullFromGitHub(type); }catch(e){}
+      try{ await pullFromGitHub(type, {silent:true}); }catch(e){}
     }
+    updateSyncBadge();
   }
 
-  // ---- Indicador visual de estado de sync en el header ----
   function updateSyncBadge(){
     let el=document.getElementById('syncBadge');
     if(!el){
@@ -1205,75 +1350,157 @@
     }
     const dirty=getDirty();
     const pendCount=Object.values(dirty).filter(Boolean).length;
-    if(!navigator.onLine){ el.textContent='● Sin conexión'; el.style.background='rgba(239,68,68,.85)'; el.style.opacity='1'; return; }
-    if(syncing){ el.textContent='⟳ Sincronizando…'; el.style.background='rgba(59,130,246,.85)'; el.style.opacity='1'; return; }
-    if(pendCount>0){ el.textContent='⏳ '+pendCount+' por subir'; el.style.background='rgba(234,179,8,.9)'; el.style.opacity='1'; return; }
-    el.textContent='✓ Sincronizado'; el.style.background='rgba(34,197,94,.85)';
-    el.style.opacity='1'; setTimeout(()=>{ if(el.textContent.startsWith('✓')) el.style.opacity='0'; },2000);
+    const inline=$('syncStatusInline');
+    let text='', bg='';
+    if(!navigator.onLine){ text='● Sin conexión'; bg='rgba(239,68,68,.85)'; }
+    else if(!isAutoSyncOn()){ text='⏸ Auto-sync pausado'; bg='rgba(154,154,176,.85)'; }
+    else if(syncing){ text='⟳ Sincronizando…'; bg='rgba(59,130,246,.85)'; }
+    else if(pendCount>0){ text='⏳ '+pendCount+' por subir'; bg='rgba(234,179,8,.9)'; }
+    else { text='✓ Sincronizado'; bg='rgba(34,197,94,.85)'; }
+    el.textContent=text; el.style.background=bg; el.style.opacity='1';
+    if(inline){ inline.textContent='Estado: '+text; }
+    if(text.startsWith('✓')) setTimeout(()=>{ if(el.textContent.startsWith('✓')) el.style.opacity='0'; },2000);
   }
 
-  // ---- Listeners ----
-  window.addEventListener('online',  ()=>{ updateSyncBadge(); trySyncAll(); });
+  window.addEventListener('online',  ()=>{ updateSyncBadge(); trySyncAll(); pullAllSilent(); });
   window.addEventListener('offline', ()=>{ updateSyncBadge(); });
-  document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) trySyncAll(); });
+  document.addEventListener('visibilitychange', ()=>{
+    if(!document.hidden){ trySyncAll(); pullAllSilent(); checkAlarms(); }
+  });
   if('serviceWorker' in navigator){
     navigator.serviceWorker.addEventListener('message', e=>{
       if(e.data && e.data.type==='SYNC_NOW') trySyncAll();
     });
   }
-
-  // ---- Registrar Service Worker ----
   if('serviceWorker' in navigator){
     window.addEventListener('load', ()=>{
       navigator.serviceWorker.register('sw.js').catch(err=>console.warn('SW reg fail',err));
     });
   }
 
-  // ---- PWA INSTALL PROMPT (Android Chrome / Edge) ----
+  function refreshAutoSwitches(){
+    $('swAutoSync').classList.toggle('on', isAutoSyncOn());
+    $('swAutoPull').classList.toggle('on', isAutoPullOn());
+  }
+  window.toggleAutoSync = function(){
+    const newVal = isAutoSyncOn() ? '0' : '1';
+    localStorage.setItem(KEYS.autoSync, newVal);
+    refreshAutoSwitches(); updateSyncBadge();
+    if(newVal==='1') scheduleSync(500);
+  };
+  window.toggleAutoPull = function(){
+    const newVal = isAutoPullOn() ? '0' : '1';
+    localStorage.setItem(KEYS.autoPull, newVal);
+    refreshAutoSwitches();
+    if(newVal==='1') startPullLoop(); else stopPullLoop();
+  };
+
+  // ══════════════════════════════════
+  //  NOTIFICACIONES (alarmas de pendientes)
+  // ══════════════════════════════════
+  window.requestNotifPerm = async function(silent){
+    if(!('Notification' in window)){
+      if(!silent) showStatus('notifStatus','❌ Este navegador no soporta notificaciones','err');
+      return false;
+    }
+    if(Notification.permission==='granted'){
+      if(!silent) showStatus('notifStatus','✅ Permiso ya concedido','ok');
+      return true;
+    }
+    try{
+      const r = await Notification.requestPermission();
+      if(r==='granted'){ if(!silent) showStatus('notifStatus','✅ Permiso concedido','ok'); return true; }
+      else { if(!silent) showStatus('notifStatus','⚠️ Permiso denegado','err'); return false; }
+    }catch(e){ return false; }
+  };
+
+  function scheduleNextFor(t){
+    if(!t || !t.notifDays || t.notifDays<=0) return;
+    if((t.notifFired||0) >= (t.notifTimes||3)) return;
+    const [hh,mm] = (t.notifHour||'09:00').split(':').map(n=>parseInt(n,10));
+    const now = new Date();
+    let next = new Date(now);
+    next.setHours(hh||9, mm||0, 0, 0);
+    if(next.getTime() <= now.getTime()) next.setDate(next.getDate()+1);
+    // First alarm: tomorrow at the chosen hour. Subsequent: +notifDays each
+    if(t.notifFired>0) next = new Date(now.getTime() + t.notifDays*86400000);
+    t.nextNotif = next.getTime();
+  }
+
+  function fireNotif(t){
+    if(!('Notification' in window) || Notification.permission!=='granted') return;
+    try{
+      new Notification('🔔 Recordatorio: '+t.task, {
+        body: (t.note||'').slice(0,140) || 'Tienes una tarea pendiente',
+        tag: 'agenda-'+t.id,
+        icon: 'icon-192.png',
+        badge: 'icon-192.png',
+        renotify: true,
+      });
+    }catch(e){
+      // Service worker fallback
+      if(navigator.serviceWorker && navigator.serviceWorker.controller){
+        navigator.serviceWorker.ready.then(reg => reg.showNotification('🔔 '+t.task,{body:(t.note||'').slice(0,140),tag:'agenda-'+t.id,icon:'icon-192.png'}));
+      }
+    }
+  }
+
+  function checkAlarms(){
+    const now = Date.now();
+    let changed=false;
+    for(const t of pendings){
+      if(t.done) continue;
+      if(!t.notifDays || t.notifDays<=0) continue;
+      if((t.notifFired||0) >= (t.notifTimes||3)) continue;
+      if(!t.nextNotif){ scheduleNextFor(t); changed=true; continue; }
+      if(t.nextNotif <= now){
+        fireNotif(t);
+        t.notifFired = (t.notifFired||0) + 1;
+        if(t.notifFired < (t.notifTimes||3)){
+          t.nextNotif = now + t.notifDays*86400000;
+        } else {
+          t.nextNotif = 0;
+        }
+        changed=true;
+      }
+    }
+    if(changed){
+      lsSave(KEYS.pending, pendings);
+      if(currentPage==='pending') renderPending();
+    }
+  }
+
+  // PWA install prompt
   let deferredInstallPrompt = null;
   const installBtn = document.getElementById('installBtn');
-  function isStandalone(){
-    return window.matchMedia('(display-mode: standalone)').matches
-        || window.matchMedia('(display-mode: fullscreen)').matches
-        || window.navigator.standalone === true;
-  }
-  window.addEventListener('beforeinstallprompt', (e)=>{
-    e.preventDefault();
-    deferredInstallPrompt = e;
-    if(!isStandalone() && installBtn) installBtn.classList.add('show');
-  });
+  function isStandalone(){ return window.matchMedia('(display-mode: standalone)').matches || window.matchMedia('(display-mode: fullscreen)').matches || window.navigator.standalone === true; }
+  window.addEventListener('beforeinstallprompt', (e)=>{ e.preventDefault(); deferredInstallPrompt = e; if(!isStandalone() && installBtn) installBtn.classList.add('show'); });
   if(installBtn){
     installBtn.addEventListener('click', async ()=>{
-      if(!deferredInstallPrompt){
-        // iOS u otro navegador: instrucciones
-        alert('Para instalar la app:\n\n• Android (Chrome): menú ⋮ → "Instalar aplicación" o "Añadir a pantalla de inicio"\n• iPhone (Safari): botón Compartir → "Añadir a pantalla de inicio"');
-        return;
-      }
+      if(!deferredInstallPrompt){ alert('Para instalar:\n\n• Android (Chrome): menú ⋮ → "Instalar aplicación"\n• iPhone (Safari): Compartir → "Añadir a pantalla de inicio"'); return; }
       installBtn.disabled=true;
       deferredInstallPrompt.prompt();
       const choice = await deferredInstallPrompt.userChoice;
-      if(choice && choice.outcome==='accepted'){
-        installBtn.classList.remove('show');
-      }
-      deferredInstallPrompt = null;
-      installBtn.disabled=false;
+      if(choice && choice.outcome==='accepted') installBtn.classList.remove('show');
+      deferredInstallPrompt = null; installBtn.disabled=false;
     });
   }
-  window.addEventListener('appinstalled', ()=>{
-    if(installBtn) installBtn.classList.remove('show');
-    deferredInstallPrompt = null;
-  });
-  // Si no está instalada y no llegó beforeinstallprompt en 3s (iOS / criterios no cumplidos),
-  // mostrar igual el botón con instrucciones manuales.
-  setTimeout(()=>{
-    if(!isStandalone() && installBtn && !installBtn.classList.contains('show')){
-      installBtn.classList.add('show');
-    }
-  }, 3000);
+  window.addEventListener('appinstalled', ()=>{ if(installBtn) installBtn.classList.remove('show'); deferredInstallPrompt = null; });
+  setTimeout(()=>{ if(!isStandalone() && installBtn && !installBtn.classList.contains('show')) installBtn.classList.add('show'); }, 3000);
 
-  // Arranque
+  // Init
   updateSyncBadge();
+  refreshAutoSwitches();
+  // Try permission silently if any task has alarm
+  if(pendings.some(t=>t.notifDays>0)) requestNotifPerm(true);
+  // Schedule next for any pending alarm without one
+  pendings.forEach(t=>{ if(t.notifDays>0 && !t.nextNotif) scheduleNextFor(t); });
+  lsSave(KEYS.pending, pendings);
+  checkAlarms();
+  setInterval(checkAlarms, 60000);
+
   initialPullIfClean().then(()=>setTimeout(trySyncAll, 800));
+  startPullLoop();
 })();
 </script>
 </body>
