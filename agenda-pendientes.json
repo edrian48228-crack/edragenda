@@ -1,1 +1,72 @@
-[]
+[
+  {
+    "id": "mphb9lwlzj3c9p",
+    "task": "Pagar deuda a Ivan",
+    "note": "",
+    "priority": "baja",
+    "date": "2027-01-01",
+    "done": true,
+    "notifMsg": "",
+    "notifDays": 0,
+    "notifTimes": 3,
+    "notifHour": "09:00",
+    "notifFired": 0,
+    "nextNotif": 0
+  },
+  {
+    "id": "mphayokkzttnj8",
+    "task": "Feria el Domingo",
+    "note": "Ir a ma Feria a comprar por Transferencia",
+    "priority": "media",
+    "date": "2026-05-24",
+    "done": true,
+    "notifMsg": "",
+    "notifDays": 0,
+    "notifTimes": 3,
+    "notifHour": "09:00",
+    "notifFired": 0,
+    "nextNotif": 0
+  },
+  {
+    "id": "mphax7wijkhv0w",
+    "task": "Ir a Palmara en SanJusto",
+    "note": "Sacar nueva patente y recojer datos.",
+    "priority": "media",
+    "date": "2026-05-30",
+    "done": true,
+    "notifMsg": "",
+    "notifDays": 0,
+    "notifTimes": 3,
+    "notifHour": "09:00",
+    "notifFired": 0,
+    "nextNotif": 0
+  },
+  {
+    "id": "mphavpdtm30tjm",
+    "task": "Pagar Patente y Seguridad Social",
+    "note": "Ir al banco del caribe temprano",
+    "priority": "alta",
+    "date": "2026-05-27",
+    "done": true,
+    "notifMsg": "",
+    "notifDays": 0,
+    "notifTimes": 3,
+    "notifHour": "09:00",
+    "notifFired": 0,
+    "nextNotif": 0
+  },
+  {
+    "id": "mphatf3xcj5zzd",
+    "task": "Poner pantalla de Redmi 9A",
+    "note": "Negra que vende queso",
+    "priority": "alta",
+    "date": "2026-05-23",
+    "done": false,
+    "notifMsg": "",
+    "notifDays": 0,
+    "notifTimes": 3,
+    "notifHour": "09:00",
+    "notifFired": 0,
+    "nextNotif": 0
+  }
+]
