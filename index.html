@@ -14,22 +14,12 @@
 <title>Mi Agenda</title>
 <style>
   :root{
-    --bg:#0a0a0f;
-    --card:#14141c;
-    --card-2:#1c1c28;
-    --border:#262635;
-    --text:#ffffff;
-    --muted:#9a9ab0;
-    --primary:#a855f7;
-    --primary-2:#c084fc;
-    --accent:#22d3ee;
-    --success:#22c55e;
-    --fb:#3b82f6;
-    --danger:#ef4444;
-    --info:#38bdf8;
-    --gold:#fbbf24;
-    --gold-2:#f59e0b;
-    --footer-h:90px;
+    --bg:#0a0a0f;--card:#14141c;--card-2:#1c1c28;--border:#262635;
+    --text:#fff;--muted:#9a9ab0;
+    --primary:#a855f7;--primary-2:#c084fc;--accent:#22d3ee;
+    --success:#22c55e;--fb:#3b82f6;--danger:#ef4444;--info:#38bdf8;
+    --gold:#fbbf24;--gold-2:#f59e0b;--blue-bright:#3b82f6;
+    --footer-h:88px;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
@@ -39,65 +29,79 @@
   button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   input,textarea,select{font:inherit;color:inherit}
 
-  /* ── HEADER ── */
+  /* HEADER */
   header{position:sticky;top:0;z-index:10;background:rgba(10,10,15,.92);
     backdrop-filter:blur(10px);border-bottom:1px solid var(--border);
-    padding:18px 16px 14px;padding-top:calc(18px + env(safe-area-inset-top))}
+    padding:14px 16px 12px;padding-top:calc(14px + env(safe-area-inset-top))}
   .wrap{max-width:760px;margin:0 auto}
-  h1{margin:0;font-size:28px;font-weight:800;letter-spacing:-.5px;display:flex;align-items:center;gap:10px}
-  h1 .brand-icon{width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;
-    background:linear-gradient(135deg,#a855f7,#22d3ee);border-radius:11px;
-    box-shadow:0 6px 18px -4px rgba(168,85,247,.55)}
-  h1 .brand-icon svg{width:22px;height:22px;color:#fff;stroke-width:2.2}
-  h1 .brand-text span{color:var(--primary)}
-  .sub{color:var(--muted);font-size:14px;margin-top:4px}
-
-  .search{position:relative;margin-top:14px}
+  h1{margin:0;font-size:26px;font-weight:800;letter-spacing:-.5px;display:flex;align-items:center;gap:10px}
+  h1 .brand-icon{width:38px;height:38px;display:inline-flex;align-items:center;justify-content:center;
+    filter:drop-shadow(0 0 12px rgba(251,191,36,.55))}
+  h1 .brand-icon svg{width:34px;height:34px}
+  h1 .brand-text span{color:var(--gold)}
+  .by{font-size:10px;letter-spacing:.7px;color:rgba(154,154,176,.85);font-weight:600;margin-top:1px}
+  .by b{color:var(--gold)}
+  .sub{color:var(--muted);font-size:13px;margin-top:4px}
+  .sub .hit{color:var(--accent);font-weight:700}
+  .search{position:relative;margin-top:10px}
   .search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);
     width:20px;height:20px;color:var(--primary)}
-  .search input{width:100%;height:48px;padding:0 16px 0 44px;
+  .search input{width:100%;height:46px;padding:0 16px 0 44px;
     background:var(--card);color:var(--text);border:1px solid var(--border);
-    border-radius:14px;font-size:16px;outline:none;transition:border-color .2s}
+    border-radius:14px;font-size:15px;outline:none;transition:border-color .2s}
   .search input:focus{border-color:var(--primary)}
   .search input::placeholder{color:var(--muted)}
 
-  /* ── MAIN ── */
   main{padding:14px 12px 140px;max-width:760px;margin:0 auto}
   main.hidden{display:none}
+  .page{display:none;padding:14px 12px 160px;max-width:760px;margin:0 auto}
+  .page.active{display:block}
 
-  /* ── PAGE TITLES ── */
-  .page-header{max-width:760px;margin:0 auto;padding:18px 14px 6px}
-  .page-header h2{margin:0;font-size:22px;font-weight:800}
-  .page-header p{color:var(--muted);font-size:14px;margin:3px 0 0}
+  /* page-icon banner replaces duplicate page-title */
+  .page-banner{display:flex;align-items:center;gap:12px;padding:4px 4px 14px}
+  .page-banner .pb-ico{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:var(--card-2);border:1px solid var(--border)}
+  .page-banner .pb-ico svg{width:28px;height:28px}
+  .page-banner .pb-txt p{margin:0;color:var(--muted);font-size:13px}
 
-  /* ── CARDS (compact) ── */
+  /* CARDS */
   .card{background:var(--card);border:1px solid var(--border);border-radius:16px;
-    padding:12px 12px;margin-bottom:10px;transition:border-color .2s}
+    padding:12px;margin-bottom:10px;transition:border-color .2s}
   .card:hover{border-color:rgba(168,85,247,.5)}
-  .row{display:flex;gap:10px;align-items:center}
+  .card.called{opacity:.58}
+  .card.called .name{text-decoration:line-through}
+  .row{display:flex;gap:10px;align-items:flex-start}
   .avatar{width:42px;height:42px;border-radius:50%;flex-shrink:0;
     display:flex;align-items:center;justify-content:center;
     background:rgba(168,85,247,.18);color:var(--primary);
     font-size:18px;font-weight:700}
   .avatar.pending-avatar{background:rgba(239,68,68,.18);color:var(--danger)}
   .avatar.client-avatar{background:transparent;color:var(--accent)}
-  .avatar.client-avatar svg{width:30px;height:30px;stroke-width:2.2}
+  .avatar.client-avatar svg{width:32px;height:32px;stroke-width:2.2}
+  .avatar.note-avatar{background:rgba(251,191,36,.18);color:var(--gold)}
+  .avatar.note-avatar svg{width:26px;height:26px}
+  .avatar.contact-avatar{background:rgba(34,211,238,.18);color:var(--accent)}
+  .avatar.contact-avatar svg{width:28px;height:28px}
 
   .info{flex:1;min-width:0}
   .name{font-size:16px;font-weight:700;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .product{color:#dcdce6;font-size:14px;margin:1px 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .price{color:var(--accent);font-size:15px;font-weight:700;margin:2px 0 0}
-  .badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700;margin-top:4px}
+  .product{color:#dcdce6;font-size:14px;margin:2px 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .price{color:var(--accent);font-size:15px;font-weight:700;margin:3px 0 0}
+  .addr{color:var(--muted);font-size:12px;margin:2px 0 0;display:flex;align-items:center;gap:4px}
+  .addr svg{width:12px;height:12px;flex-shrink:0}
+  .badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700;margin-top:4px;margin-right:4px}
   .badge.high{background:rgba(239,68,68,.2);color:var(--danger)}
   .badge.med{background:rgba(234,179,8,.2);color:#eab308}
   .badge.low{background:rgba(34,197,94,.2);color:var(--success)}
+  .badge.fam{background:rgba(168,85,247,.2);color:var(--primary-2)}
+  .badge.ami{background:rgba(34,211,238,.2);color:var(--accent)}
+  .badge.otr{background:rgba(154,154,176,.2);color:var(--muted)}
 
-  /* Compact action icons in the same row */
-  .row-actions{display:flex;gap:2px;flex-shrink:0;align-items:center}
+  /* Bottom-right action row, no labels */
+  .row-actions{display:flex;gap:2px;justify-content:flex-end;margin-top:8px;flex-wrap:wrap}
   .iact{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;
     color:var(--muted);transition:background .15s,color .15s,transform .1s}
   .iact:active{transform:scale(.92)}
-  .iact svg{width:20px;height:20px}
+  .iact svg{width:19px;height:19px}
   .iact.call{color:var(--primary-2)}      .iact.call:hover{background:rgba(168,85,247,.18)}
   .iact.sms{color:var(--info)}            .iact.sms:hover{background:rgba(56,189,248,.18)}
   .iact.wa{color:var(--success)}          .iact.wa:hover{background:rgba(34,197,94,.18)}
@@ -105,117 +109,96 @@
   .iact.info{color:var(--info)}           .iact.info:hover{background:rgba(56,189,248,.18)}
   .iact.edit{color:var(--muted)}          .iact.edit:hover{background:var(--card-2);color:var(--primary)}
   .iact.del{color:var(--muted)}           .iact.del:hover{background:var(--card-2);color:var(--danger)}
-
-  /* Divider between contact icons and edit/info/del */
-  .iact-sep{width:1px;height:22px;background:var(--border);margin:0 4px}
+  .iact.done{color:var(--success)}        .iact.done:hover{background:rgba(34,197,94,.18)}
+  .iact-sep{width:1px;height:22px;background:var(--border);margin:7px 4px}
 
   .empty{text-align:center;padding:60px 20px;color:var(--muted)}
   .empty svg{width:56px;height:56px;opacity:.4;margin-bottom:8px}
 
-  /* ── FAB ── */
-  .fab{position:fixed;bottom:calc(var(--footer-h) + 18px);left:50%;transform:translateX(-50%);
-    width:62px;height:62px;border-radius:50%;background:var(--primary);
+  /* FAB */
+  .fab{position:fixed;bottom:calc(var(--footer-h) + 18px);right:18px;
+    width:60px;height:60px;border-radius:50%;background:var(--primary);
     color:#fff;display:flex;align-items:center;justify-content:center;
     box-shadow:0 12px 32px -8px rgba(168,85,247,.7),0 4px 14px rgba(0,0,0,.5);
     transition:transform .15s;z-index:20}
-  .fab:hover{transform:translateX(-50%) scale(1.06)}
-  .fab:active{transform:translateX(-50%) scale(.94)}
+  .fab:active{transform:scale(.94)}
   .fab svg{width:30px;height:30px;stroke-width:3}
   .fab.hidden{display:none}
-  @media(min-width:640px){
-    .fab{left:auto;right:28px;transform:none}
-    .fab:hover{transform:scale(1.06)}
-    .fab:active{transform:scale(.94)}
-  }
 
-  /* ── BOTTOM FOOTER NAV ── */
-  .footer-nav{
-    position:fixed;bottom:0;left:0;right:0;z-index:15;
-    height:var(--footer-h);
-    background:rgba(12,12,20,.96);
-    backdrop-filter:blur(20px);
-    border-top:1px solid var(--border);
-    padding-bottom:env(safe-area-inset-bottom);
-  }
-  .footer-nav-inner{
-    max-width:480px;margin:0 auto;height:100%;
-    display:flex;align-items:center;justify-content:space-around;
-    padding:0 8px 10px;
-  }
-  .nav-btn{
-    display:flex;flex-direction:column;align-items:center;gap:4px;
-    flex:1;padding:6px 4px;border-radius:18px;
-    color:var(--muted);transition:color .2s,background .2s;
-    position:relative;
-  }
-  .nav-btn svg{width:28px;height:28px;stroke-width:1.8;transition:transform .2s,filter .2s}
-  .nav-btn span{font-size:11px;font-weight:600;letter-spacing:.3px;line-height:1}
+  /* Floating reminder avatar */
+  .reminder{position:fixed;left:14px;bottom:calc(var(--footer-h) + 18px);z-index:20;
+    width:58px;height:58px;border-radius:50%;
+    background:linear-gradient(135deg,#22d3ee,#3b82f6);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 10px 24px -8px rgba(59,130,246,.6);transition:transform .15s}
+  .reminder.hidden{display:none}
+  .reminder:active{transform:scale(.94)}
+  .reminder svg{width:30px;height:30px}
+  .reminder .dot{position:absolute;top:-2px;right:-2px;min-width:20px;height:20px;padding:0 5px;
+    border-radius:10px;background:var(--danger);color:#fff;font-size:11px;font-weight:800;
+    display:flex;align-items:center;justify-content:center;border:2px solid var(--bg)}
+
+  /* FOOTER NAV */
+  .footer-nav{position:fixed;bottom:0;left:0;right:0;z-index:15;height:var(--footer-h);
+    background:rgba(12,12,20,.96);backdrop-filter:blur(20px);
+    border-top:1px solid var(--border);padding-bottom:env(safe-area-inset-bottom)}
+  .footer-nav-inner{max-width:640px;margin:0 auto;height:100%;
+    display:flex;align-items:center;justify-content:space-around;padding:0 6px}
+  .nav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;
+    flex:1;padding:6px 2px;border-radius:14px;color:var(--muted);transition:color .2s}
+  .nav-btn svg{width:26px;height:26px;stroke-width:1.9;transition:transform .2s,filter .2s}
+  .nav-btn span{font-size:10px;font-weight:600;letter-spacing:.2px;line-height:1}
   .nav-btn.active{color:var(--primary)}
   .nav-btn.active svg{filter:drop-shadow(0 0 8px rgba(168,85,247,.7));transform:scale(1.12)}
-  .nav-btn:hover:not(.active){color:#fff}
   .nav-btn.nav-pending.active{color:var(--danger)}
   .nav-btn.nav-pending.active svg{filter:drop-shadow(0 0 8px rgba(239,68,68,.7))}
   .nav-btn.nav-clients.active{color:var(--accent)}
   .nav-btn.nav-clients.active svg{filter:drop-shadow(0 0 8px rgba(34,211,238,.7))}
-  .nav-btn.nav-admin.active{color:var(--gold)}
+  .nav-btn.nav-notes.active{color:var(--gold)}
+  .nav-btn.nav-notes.active svg{filter:drop-shadow(0 0 8px rgba(251,191,36,.7))}
+  .nav-btn.nav-contacts.active{color:var(--info)}
+  .nav-btn.nav-contacts.active svg{filter:drop-shadow(0 0 8px rgba(56,189,248,.7))}
   .nav-btn.nav-admin.active svg{filter:drop-shadow(0 0 10px rgba(251,191,36,.85));transform:scale(1.12)}
-  /* Gold shield always slightly shiny */
-  .nav-admin .shield-grad{stop-color:#fde68a}
-  .nav-admin .shield-grad-2{stop-color:#f59e0b}
 
-  .footer-credit{
-    position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 2px);
-    text-align:center;font-size:9px;letter-spacing:.6px;color:rgba(154,154,176,.7);
-    pointer-events:none;font-weight:600;line-height:1;
-  }
-  .footer-credit b{color:var(--primary);font-weight:700}
-
-  /* Install APK floating btn */
-  #installBtn{
-    position:fixed;top:calc(env(safe-area-inset-top) + 14px);right:14px;z-index:20;
+  /* Install */
+  #installBtn{position:fixed;top:calc(env(safe-area-inset-top) + 10px);right:10px;z-index:20;
     background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;
-    border:0;border-radius:14px;padding:10px 14px;font-size:13px;font-weight:700;
-    box-shadow:0 6px 18px rgba(34,197,94,.45);display:none;align-items:center;gap:6px;
-  }
+    border:0;border-radius:12px;padding:8px 12px;font-size:12px;font-weight:700;
+    box-shadow:0 6px 18px rgba(34,197,94,.45);display:none;align-items:center;gap:6px}
   #installBtn.show{display:inline-flex}
-  #installBtn svg{width:18px;height:18px}
+  #installBtn svg{width:16px;height:16px}
 
-  /* Log */
-  .log-box{
-    background:#08080c;border:1px solid var(--border);border-radius:12px;
+  .log-box{background:#08080c;border:1px solid var(--border);border-radius:12px;
     padding:10px 12px;margin-top:10px;font-family:ui-monospace,Menlo,Consolas,monospace;
-    font-size:12px;line-height:1.55;color:#cfd0e0;max-height:260px;overflow:auto;
-    white-space:pre-wrap;word-break:break-word;display:none;
-  }
+    font-size:12px;line-height:1.55;color:#cfd0e0;max-height:240px;overflow:auto;
+    white-space:pre-wrap;word-break:break-word;display:none}
   .log-box.show{display:block}
-  .log-box .lg-ok{color:#4ade80}
-  .log-box .lg-err{color:#f87171}
-  .log-box .lg-info{color:#7dd3fc}
-  .log-box .lg-warn{color:#fbbf24}
+  .log-box .lg-ok{color:#4ade80} .log-box .lg-err{color:#f87171}
+  .log-box .lg-info{color:#7dd3fc} .log-box .lg-warn{color:#fbbf24}
   .log-box .lg-dim{color:#6b7280}
 
-  /* ── PENDING PAGE ── */
-  #pagePending{display:none;padding-bottom:140px}
-  #pagePending.active{display:block}
-  .pending-section{max-width:760px;margin:0 auto;padding:0 12px 12px}
+  /* PENDING */
   .p-alta{border-left:3px solid var(--danger)}
   .p-media{border-left:3px solid #eab308}
   .p-baja{border-left:3px solid var(--success)}
-  .done-toggle{width:26px;height:26px;border-radius:8px;border:2px solid var(--border);
+  .card.done-card{background:linear-gradient(135deg, rgba(59,130,246,.22), rgba(34,211,238,.18));border-color:var(--blue-bright);box-shadow:0 0 24px -8px rgba(59,130,246,.5)}
+  .card.done-card .name{text-decoration:line-through;color:#cfe8ff}
+  .done-toggle{width:30px;height:30px;border-radius:9px;border:2px solid var(--border);
     display:flex;align-items:center;justify-content:center;flex-shrink:0;
-    transition:background .2s,border-color .2s}
-  .done-toggle.done{background:var(--success);border-color:var(--success)}
+    transition:background .2s,border-color .2s,transform .15s}
+  .done-toggle.done{background:var(--blue-bright);border-color:var(--blue-bright);transform:scale(1.05);box-shadow:0 0 14px rgba(59,130,246,.7)}
   .done-toggle.done svg{opacity:1}
-  .done-toggle svg{width:14px;height:14px;opacity:0;transition:opacity .2s}
+  .done-toggle svg{width:18px;height:18px;opacity:.25;color:#fff;transition:opacity .2s}
   .task-text{flex:1;min-width:0}
-  .task-text.done-text{text-decoration:line-through;color:var(--muted)}
   .alarm-chip{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;
     color:var(--gold);background:rgba(251,191,36,.12);padding:2px 7px;border-radius:10px;margin-top:4px;margin-left:6px}
   .alarm-chip svg{width:12px;height:12px}
 
-  /* Page-specific compact search bar */
-  .inline-search{position:relative;max-width:760px;margin:0 auto;padding:6px 12px 10px}
-  .inline-search svg{position:absolute;left:26px;top:50%;transform:translateY(-50%);
+  /* SEARCH ROWS */
+  .search-row{display:flex;gap:8px;max-width:760px;margin:0 auto;padding:0 0 10px}
+  .search-row .inline-search{flex:1;margin:0}
+  .inline-search{position:relative;flex:1}
+  .inline-search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);
     width:18px;height:18px;color:var(--muted)}
   .inline-search input{width:100%;height:44px;padding:0 14px 0 44px;
     background:var(--card);color:var(--text);border:1px solid var(--border);
@@ -224,23 +207,22 @@
   .inline-search.accent input:focus{border-color:var(--accent)}
   .inline-search.danger svg{color:var(--danger)}
   .inline-search.danger input:focus{border-color:var(--danger)}
+  .inline-search.gold svg{color:var(--gold)}
+  .inline-search.gold input:focus{border-color:var(--gold)}
+  .sort-btn{height:44px;padding:0 12px;border-radius:12px;background:var(--card);border:1px solid var(--border);color:var(--text);font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px}
+  .sort-btn svg{width:14px;height:14px}
 
-  /* ── CLIENTS PAGE ── */
-  #pageClients{display:none;padding-bottom:140px}
-  #pageClients.active{display:block}
-  .tag-list{display:flex;flex-wrap:wrap;gap:8px;max-width:760px;margin:0 auto;padding:0 12px 12px}
+  /* CLIENTS tags */
+  .tag-list{display:flex;flex-wrap:wrap;gap:8px;padding:0 0 12px}
   .tag{padding:5px 12px;border-radius:18px;font-size:12px;font-weight:600;
     background:var(--card-2);border:1px solid var(--border);cursor:pointer;
     transition:background .15s,border-color .15s,color .15s}
   .tag.active-tag{background:rgba(34,211,238,.15);border-color:var(--accent);color:var(--accent)}
 
-  /* ── ADMIN PAGE ── */
-  #pageAdmin{display:none;padding-bottom:100px}
-  #pageAdmin.active{display:block}
-  .admin-section{max-width:760px;margin:0 auto;padding:0 14px 20px}
-  .admin-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;margin-bottom:14px}
-  .admin-card h3{margin:0 0 4px;font-size:17px;font-weight:700}
-  .admin-card p{color:var(--muted);font-size:13px;margin:0 0 14px}
+  /* ADMIN */
+  .admin-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:16px;margin-bottom:14px}
+  .admin-card h3{margin:0 0 4px;font-size:16px;font-weight:700}
+  .admin-card p{color:var(--muted);font-size:13px;margin:0 0 12px}
   .field{display:block;margin-bottom:11px}
   .field span{display:block;color:var(--muted);font-size:13px;margin-bottom:4px}
   .field input,.field select,.field textarea{
@@ -248,26 +230,29 @@
     color:var(--text);border:1px solid var(--border);border-radius:12px;
     font-size:15px;outline:none;transition:border-color .2s}
   .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--primary)}
-  .field input[type=password]{letter-spacing:2px}
+  .field textarea{resize:vertical;font-family:inherit;min-height:80px}
   .field-row{display:flex;gap:10px}
   .field-row .field{flex:1}
-  .btn-primary{width:100%;height:50px;border-radius:14px;background:var(--primary);
-    color:#fff;font-size:16px;font-weight:700;transition:background .15s,transform .1s;border:0;cursor:pointer}
+  .pwfield{position:relative}
+  .pwfield input{padding-right:46px}
+  .pwfield .eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+  .pwfield .eye:hover{color:var(--primary);background:var(--card-2)}
+  .pwfield .eye svg{width:18px;height:18px}
+  .btn-primary{width:100%;height:48px;border-radius:14px;background:var(--primary);
+    color:#fff;font-size:15px;font-weight:700;transition:background .15s,transform .1s;border:0;cursor:pointer}
   .btn-primary:hover{background:var(--primary-2)}
   .btn-primary:active{transform:scale(.98)}
   .btn-primary:disabled{opacity:.5;cursor:not-allowed}
-  .btn-secondary{width:100%;height:46px;border-radius:14px;
-    background:var(--card-2);color:var(--text);font-size:15px;font-weight:600;
+  .btn-primary.danger{background:var(--danger)} .btn-primary.danger:hover{background:#dc2626}
+  .btn-secondary{width:100%;height:44px;border-radius:14px;
+    background:var(--card-2);color:var(--text);font-size:14px;font-weight:600;
     border:1px solid var(--border);cursor:pointer;transition:background .15s}
   .btn-secondary:hover{background:rgba(168,85,247,.15);border-color:var(--primary)}
-  .status-msg{border-radius:12px;padding:12px 14px;font-size:14px;font-weight:600;margin-top:10px;display:none}
+  .status-msg{border-radius:12px;padding:11px 13px;font-size:13px;font-weight:600;margin-top:10px;display:none}
   .status-msg.ok{background:rgba(34,197,94,.15);color:var(--success);border:1px solid rgba(34,197,94,.3);display:block}
   .status-msg.err{background:rgba(239,68,68,.15);color:var(--danger);border:1px solid rgba(239,68,68,.3);display:block}
   .status-msg.info{background:rgba(168,85,247,.1);color:var(--primary-2);border:1px solid rgba(168,85,247,.2);display:block}
-  .gh-creds-saved{font-size:12px;color:var(--success);margin-left:8px}
   .divider{height:1px;background:var(--border);margin:6px 0 14px}
-  .data-preview{background:var(--card-2);border-radius:12px;padding:12px;font-size:12px;
-    font-family:monospace;color:var(--muted);max-height:140px;overflow:auto;word-break:break-all}
   .toggle-line{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 0}
   .toggle-line label{font-size:14px;color:var(--text);font-weight:600}
   .switch{position:relative;width:46px;height:26px;background:var(--card-2);border:1px solid var(--border);
@@ -277,7 +262,14 @@
   .switch.on{background:rgba(34,197,94,.7);border-color:var(--success)}
   .switch.on::after{left:22px}
 
-  /* ── MODAL ── */
+  /* MULTI input (phones / whatsapps) */
+  .multi-list{display:flex;flex-direction:column;gap:6px}
+  .multi-row{display:flex;gap:6px}
+  .multi-row input{flex:1}
+  .multi-row .x{width:42px;height:42px;border-radius:10px;background:var(--card-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--danger)}
+  .multi-add{margin-top:6px;height:38px;border-radius:10px;background:var(--card-2);border:1px dashed var(--border);color:var(--muted);font-size:13px;font-weight:600;width:100%}
+
+  /* MODAL */
   .modal{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:30;
     display:none;align-items:flex-end;justify-content:center;padding:0}
   .modal.open{display:flex}
@@ -291,199 +283,293 @@
   .close{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center}
   .close:hover{background:var(--card-2)}
   .close svg{width:20px;height:20px}
-  .save{width:100%;height:52px;border-radius:16px;background:var(--primary);
-    color:#fff;font-size:17px;font-weight:700;margin-top:8px;
+  .save{width:100%;height:50px;border-radius:14px;background:var(--primary);
+    color:#fff;font-size:16px;font-weight:700;margin-top:8px;
     transition:background .15s,transform .1s}
   .save:hover{background:var(--primary-2)}
   .save:active{transform:scale(.98)}
 
-  /* Info detail rows in detail modal */
+  /* PICKER (for choosing which phone/wa to call) */
+  .picker-list{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+  .picker-list a{display:flex;align-items:center;gap:10px;padding:14px;border-radius:12px;background:var(--card-2);border:1px solid var(--border);font-size:15px;font-weight:600;transition:transform .1s}
+  .picker-list a:active{transform:scale(.98)}
+  .picker-list a svg{width:22px;height:22px;flex-shrink:0}
+
   .detail-block{padding:10px 0;border-bottom:1px solid var(--border)}
   .detail-block:last-child{border-bottom:0}
   .detail-block .lbl{color:var(--muted);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
-  .detail-block .val{font-size:16px;margin-top:3px;word-break:break-word;white-space:pre-wrap}
+  .detail-block .val{font-size:15px;margin-top:3px;word-break:break-word;white-space:pre-wrap}
   .detail-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-  .detail-actions .pill{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 14px;
+  .detail-actions .pill{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 14px;
     border-radius:12px;background:var(--card-2);font-size:14px;font-weight:600;transition:transform .1s}
   .detail-actions .pill:active{transform:scale(.96)}
   .detail-actions .pill svg{width:20px;height:20px}
-  .detail-actions .pill.call svg{color:var(--primary-2)}
-  .detail-actions .pill.sms svg{color:var(--info)}
-  .detail-actions .pill.wa svg{color:var(--success)}
-  .detail-actions .pill.fb svg{color:var(--fb)}
+
+  /* LOGIN SCREEN */
+  .login-screen{position:fixed;inset:0;z-index:50;background:radial-gradient(ellipse at top,#1a1a30 0%,#0a0a0f 60%);
+    display:flex;align-items:center;justify-content:center;padding:24px}
+  .login-screen.hidden{display:none}
+  .login-box{width:100%;max-width:420px;background:rgba(20,20,28,.85);backdrop-filter:blur(20px);
+    border:1px solid var(--border);border-radius:24px;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+  .login-box .logo-big{width:74px;height:74px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg,#fbbf24,#f59e0b);border-radius:22px;
+    box-shadow:0 12px 32px -8px rgba(251,191,36,.6);filter:drop-shadow(0 0 18px rgba(251,191,36,.4))}
+  .login-box .logo-big svg{width:42px;height:42px;color:#fff}
+  .login-box h2{margin:0;text-align:center;font-size:22px;font-weight:800}
+  .login-box .login-sub{text-align:center;color:var(--muted);font-size:13px;margin:4px 0 18px}
+  .login-link{display:block;text-align:center;color:var(--accent);font-size:13px;font-weight:600;margin-top:14px;cursor:pointer}
 </style>
 </head>
 <body>
 
-<!-- ══════════ HEADER ══════════ -->
+<!-- HEADER -->
 <header id="mainHeader">
   <div class="wrap">
-    <h1 id="pageTitle">
+    <h1>
       <span class="brand-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v18H6.5A2.5 2.5 0 0 0 4 22.5V4.5Z"/>
-          <path d="M8 7h7M8 11h7M8 15h4"/>
-          <path d="M19 3.5l.9 1.9 2 .3-1.45 1.4.35 2-1.8-.95-1.8.95.35-2L16.1 5.7l2-.3z" fill="currentColor" stroke="none" opacity=".9"/>
+        <svg viewBox="0 0 24 24" fill="none">
+          <defs>
+            <linearGradient id="boltGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#fde68a"/>
+              <stop offset="60%" stop-color="#fbbf24"/>
+              <stop offset="100%" stop-color="#d97706"/>
+            </linearGradient>
+          </defs>
+          <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z" fill="url(#boltGrad)" stroke="#92400e" stroke-width="1.2" stroke-linejoin="round"/>
         </svg>
       </span>
-      <span class="brand-text"><span>Mi</span> Agenda</span>
+      <div>
+        <div class="brand-text" id="brandText"><span>Mi</span> Agenda</div>
+        <div class="by">Creado por <b>Edrian Cruz</b></div>
+      </div>
     </h1>
-    <p class="sub" id="counter">0 proveedores guardados</p>
+    <p class="sub" id="counter">0 elementos</p>
     <div class="search" id="headerSearch">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <input id="search" type="search" placeholder="Buscar pescado, pollo, nombre..." autocomplete="off"/>
+      <input id="search" type="search" placeholder="¿Qué estás buscando hoy?" autocomplete="off"/>
     </div>
   </div>
 </header>
 
-<!-- ══════════ PAGE: PROVEEDORES ══════════ -->
-<main id="pageProviders"></main>
-
-<!-- ══════════ PAGE: PENDIENTES ══════════ -->
-<div id="pagePending">
-  <div class="page-header"><h2>Pendientes</h2><p>Ordenados por prioridad</p></div>
-  <div class="inline-search danger">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-    <input id="pendingSearch" type="search" placeholder="Buscar tarea, nota..." autocomplete="off"/>
+<!-- PROVEEDORES -->
+<main id="pageProviders">
+  <div class="page-banner">
+    <div class="pb-ico" style="background:rgba(168,85,247,.15);border-color:rgba(168,85,247,.4)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3.5A1.5 1.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v17.5a.5.5 0 0 1-.7.46L17 19.7l-2.3 1.26a.5.5 0 0 1-.48 0L12 19.7l-2.2 1.26a.5.5 0 0 1-.48 0L7 19.7 5.7 20.46A.5.5 0 0 1 5 20V3.5Z"/><path d="M9 7h7M9 11h7M9 15h4"/></svg>
+    </div>
+    <div class="pb-txt"><p>Tus proveedores y contactos comerciales</p></div>
   </div>
-  <div class="pending-section" id="pendingList"></div>
+  <div class="search-row">
+    <button class="sort-btn" id="sortProvBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M6 12h12M10 18h4"/></svg><span id="sortProvLabel">Recientes</span></button>
+    <button class="sort-btn" onclick="clearAll('providers')" title="Eliminar todo" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
+  </div>
+  <div id="provList"></div>
+</main>
+
+<!-- PENDIENTES -->
+<div class="page" id="pagePending">
+  <div class="page-banner">
+    <div class="pb-ico" style="background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.4)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+    </div>
+    <div class="pb-txt"><p>Siempre ordenados por prioridad</p></div>
+  </div>
+  <div class="search-row">
+    <div class="inline-search danger">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="pendingSearch" type="search" placeholder="¿Qué estás buscando hoy?" autocomplete="off"/>
+    </div>
+    <button class="sort-btn" onclick="clearAll('pending')" title="Eliminar todo" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
+  </div>
+  <div id="pendingList"></div>
 </div>
 
-<!-- ══════════ PAGE: CLIENTES BUSCAN ══════════ -->
-<div id="pageClients">
-  <div class="page-header"><h2>Clientes Buscan</h2><p>Lo que tus clientes están pidiendo</p></div>
-  <div class="inline-search accent">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-    <input id="clientSearch" type="search" placeholder="Buscar producto buscado..." autocomplete="off"/>
+<!-- CLIENTES -->
+<div class="page" id="pageClients">
+  <div class="page-banner">
+    <div class="pb-ico" style="background:rgba(34,211,238,.12);border-color:rgba(34,211,238,.4)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    </div>
+    <div class="pb-txt"><p>Lo que tus clientes están pidiendo</p></div>
+  </div>
+  <div class="search-row">
+    <div class="inline-search accent">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="clientSearch" type="search" placeholder="¿Qué estás buscando hoy?" autocomplete="off"/>
+    </div>
+    <button class="sort-btn" id="sortClientBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M6 12h12M10 18h4"/></svg><span id="sortClientLabel">Recientes</span></button>
+    <button class="sort-btn" onclick="clearAll('clients')" title="Eliminar todo" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
   </div>
   <div class="tag-list" id="clientTags"></div>
-  <div class="pending-section" id="clientList"></div>
+  <div id="clientList"></div>
 </div>
 
-<!-- ══════════ PAGE: ADMIN GITHUB ══════════ -->
-<div id="pageAdmin">
-  <div class="page-header">
-    <h2>Administración</h2>
-    <p>Sincronización automática con GitHub</p>
+<!-- NOTAS -->
+<div class="page" id="pageNotes">
+  <div class="page-banner">
+    <div class="pb-ico" style="background:rgba(251,191,36,.12);border-color:rgba(251,191,36,.4)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+    </div>
+    <div class="pb-txt"><p>Tus notas e ideas rápidas</p></div>
   </div>
-  <div class="admin-section">
-
-    <div class="admin-card">
-      <h3>🔐 Credenciales GitHub</h3>
-      <p>Token con permisos de repo (se guarda solo en este dispositivo)</p>
-      <label class="field"><span>Token de Acceso Personal (PAT) <span class="gh-creds-saved" id="credSavedBadge">✓ guardado</span></span>
-        <input id="ghToken" type="password" placeholder="ghp_xxxxxxxxxxxx"/>
-      </label>
-      <label class="field"><span>Usuario / Organización</span><input id="ghOwner" placeholder="mi-usuario"/></label>
-      <label class="field"><span>Repositorio</span><input id="ghRepo" placeholder="mi-agenda-datos"/></label>
-      <label class="field"><span>Rama</span><input id="ghBranch" placeholder="main"/></label>
-      <button class="btn-secondary" onclick="saveGHCreds()" style="margin-bottom:8px">💾 Guardar credenciales</button>
-      <button class="btn-secondary" onclick="testGHConnection()" id="btnTestGH">🔗 Probar conexión</button>
-      <div class="status-msg" id="ghTestStatus"></div>
-      <div class="log-box" id="ghTestLog"></div>
+  <div class="search-row">
+    <div class="inline-search gold">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="notesSearch" type="search" placeholder="¿Qué estás buscando hoy?" autocomplete="off"/>
     </div>
+    <button class="sort-btn" onclick="clearAll('notes')" title="Eliminar todo" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
+  </div>
+  <div id="notesList"></div>
+</div>
 
-    <div class="admin-card">
-      <h3>🔁 Auto-Sincronización</h3>
-      <p>Sincroniza cambios entre tus dispositivos y GitHub sin que hagas nada. Usa debounce y hash para no spamear commits.</p>
-      <div class="toggle-line">
-        <label>Sync automática activada</label>
-        <div class="switch" id="swAutoSync" onclick="toggleAutoSync()"></div>
-      </div>
-      <div class="toggle-line">
-        <label>Pull remoto cada 30s</label>
-        <div class="switch" id="swAutoPull" onclick="toggleAutoPull()"></div>
-      </div>
-      <div class="status-msg info" id="syncStatusInline" style="display:block">Estado: inicializando…</div>
+<!-- CONTACTOS -->
+<div class="page" id="pageContacts">
+  <div class="page-banner">
+    <div class="pb-ico" style="background:rgba(56,189,248,.12);border-color:rgba(56,189,248,.4)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
     </div>
+    <div class="pb-txt"><p>Familia, amigos y otros contactos</p></div>
+  </div>
+  <div class="search-row">
+    <div class="inline-search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="contactsSearch" type="search" placeholder="¿Qué estás buscando hoy?" autocomplete="off"/>
+    </div>
+    <button class="sort-btn" id="sortContactBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M6 12h12M10 18h4"/></svg><span id="sortContactLabel">Todos</span></button>
+    <button class="sort-btn" onclick="clearAll('contacts')" title="Eliminar todo" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
+  </div>
+  <div id="contactList"></div>
+</div>
 
-    <div class="admin-card">
-      <h3>📦 Proveedores</h3>
-      <div class="data-preview" id="previewProviders"></div>
-      <div style="height:10px"></div>
-      <button class="btn-primary" onclick="pushToGitHub('providers')" id="btnPushProv">⬆️ Subir Proveedores</button>
-      <div class="divider"></div>
-      <button class="btn-secondary" onclick="pullFromGitHub('providers')" id="btnPullProv">⬇️ Cargar desde GitHub</button>
-      <div class="status-msg" id="provStatus"></div>
+<!-- ADMIN -->
+<div class="page" id="pageAdmin">
+  <div class="page-banner">
+    <div class="pb-ico" style="background:rgba(251,191,36,.12);border-color:rgba(251,191,36,.5)">
+      <svg viewBox="0 0 24 24" fill="none" stroke-linejoin="round" stroke-linecap="round">
+        <defs><linearGradient id="goldShield2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fde68a"/><stop offset="100%" stop-color="#f59e0b"/></linearGradient></defs>
+        <path d="M12 2 4 5v6c0 5 3.5 9.5 8 11 4.5-1.5 8-6 8-11V5l-8-3Z" fill="url(#goldShield2)" stroke="#b45309" stroke-width="1.4"/>
+        <path d="M9 12l2 2 4-4" stroke="#7c2d12" stroke-width="2.2" fill="none"/>
+      </svg>
     </div>
+    <div class="pb-txt"><p>Configuración, seguridad y sincronización</p></div>
+  </div>
 
-    <div class="admin-card">
-      <h3>📋 Pendientes</h3>
-      <button class="btn-primary" onclick="pushToGitHub('pending')" id="btnPushPend">⬆️ Subir Pendientes</button>
-      <div class="divider"></div>
-      <button class="btn-secondary" onclick="pullFromGitHub('pending')" id="btnPullPend">⬇️ Cargar desde GitHub</button>
-      <div class="status-msg" id="pendingStatus"></div>
+  <div class="admin-card">
+    <h3>🔔 Recordatorios y Alarmas</h3>
+    <p>Configura las alarmas de los pendientes desde cada tarea. Aquí activas notificaciones y elige sonido.</p>
+    <div class="toggle-line"><label>Mostrar avatar recordatorio</label><div class="switch" id="swReminder" onclick="toggleReminder()"></div></div>
+    <div class="field"><span>Sonido de alarma</span>
+      <select id="alarmSound">
+        <option value="bell">Campana suave</option>
+        <option value="beep">Beep clásico</option>
+        <option value="chime">Chime cristalino</option>
+        <option value="silent">Silencioso</option>
+      </select>
     </div>
+    <button class="btn-secondary" onclick="playAlarmSound()">▶ Probar sonido</button>
+    <div style="height:8px"></div>
+    <button class="btn-secondary" onclick="requestNotifPerm()">Solicitar permiso de notificaciones</button>
+    <div class="status-msg" id="notifStatus"></div>
+  </div>
 
-    <div class="admin-card">
-      <h3>🔍 Clientes Buscan</h3>
-      <button class="btn-primary" onclick="pushToGitHub('clients')" id="btnPushClients">⬆️ Subir Clientes</button>
-      <div class="divider"></div>
-      <button class="btn-secondary" onclick="pullFromGitHub('clients')" id="btnPullClients">⬇️ Cargar desde GitHub</button>
-      <div class="status-msg" id="clientsStatus"></div>
-    </div>
+  <div class="admin-card">
+    <h3>🔐 Cambiar contraseña / pregunta</h3>
+    <p>Tu contraseña protege la sección de administración.</p>
+    <label class="field"><span>Nueva contraseña</span>
+      <div class="pwfield"><input id="setPw" type="password" placeholder="Mínimo 4 caracteres"/><button type="button" class="eye" onclick="togglePw('setPw',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+    </label>
+    <label class="field"><span>Pregunta de recuperación</span><input id="setQ" placeholder="Ej: nombre de tu mascota"/></label>
+    <label class="field"><span>Respuesta</span>
+      <div class="pwfield"><input id="setA" type="password"/><button type="button" class="eye" onclick="togglePw('setA',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+    </label>
+    <button class="btn-primary" onclick="saveAuth()">Guardar credenciales</button>
+    <div class="status-msg" id="authStatus"></div>
+  </div>
 
-    <div class="admin-card">
-      <h3>🚀 Sincronizar Todo Ahora</h3>
-      <button class="btn-primary" onclick="pushAll()" id="btnPushAll">Forzar sincronización completa</button>
-      <div class="status-msg" id="allStatus"></div>
-      <div class="log-box" id="allLog"></div>
-    </div>
+  <div class="admin-card">
+    <h3>🔗 Credenciales GitHub</h3>
+    <p>Token con permisos de repo. Se sincroniza entre tus dispositivos.</p>
+    <label class="field"><span>Token de Acceso Personal (PAT)</span>
+      <div class="pwfield"><input id="ghToken" type="password" placeholder="ghp_xxxx"/><button type="button" class="eye" onclick="togglePw('ghToken',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+    </label>
+    <label class="field"><span>Usuario / Organización</span><input id="ghOwner" placeholder="mi-usuario"/></label>
+    <label class="field"><span>Repositorio</span><input id="ghRepo" placeholder="mi-agenda-datos"/></label>
+    <label class="field"><span>Rama</span><input id="ghBranch" placeholder="main"/></label>
+    <button class="btn-secondary" onclick="saveGHCreds()" style="margin-bottom:8px">💾 Guardar credenciales</button>
+    <button class="btn-secondary" onclick="testGHConnection()">🔗 Probar conexión</button>
+    <div class="status-msg" id="ghTestStatus"></div>
+    <div class="log-box" id="ghTestLog"></div>
+  </div>
 
-    <div class="admin-card">
-      <h3>🔔 Permiso de Notificaciones</h3>
-      <p>Necesario para las alarmas de pendientes.</p>
-      <button class="btn-secondary" onclick="requestNotifPerm()">Solicitar permiso</button>
-      <div class="status-msg" id="notifStatus"></div>
-    </div>
+  <div class="admin-card">
+    <h3>🔁 Auto-Sincronización</h3>
+    <p>Mantiene tus dispositivos al día sin intervención. Las credenciales también se sincronizan (Windows ↔ Android).</p>
+    <div class="toggle-line"><label>Sync automática</label><div class="switch" id="swAutoSync" onclick="toggleAutoSync()"></div></div>
+    <div class="toggle-line"><label>Pull remoto cada 30s</label><div class="switch" id="swAutoPull" onclick="toggleAutoPull()"></div></div>
+    <div class="toggle-line"><label>Sincronizar credenciales (GitHub)</label><div class="switch" id="swSyncCreds" onclick="toggleSyncCreds()"></div></div>
+    <div class="status-msg info" id="syncStatusInline" style="display:block">Estado: inicializando…</div>
+  </div>
+
+  <div class="admin-card">
+    <h3>🚀 Sincronizar todo ahora</h3>
+    <button class="btn-primary" onclick="pushAll()" id="btnPushAll">Forzar subida completa</button>
+    <div style="height:8px"></div>
+    <button class="btn-secondary" onclick="pullAll()">Forzar descarga completa</button>
+    <div class="status-msg" id="allStatus"></div>
+    <div class="log-box" id="allLog"></div>
+  </div>
+
+  <div class="admin-card">
+    <h3>⚠️ Zona peligrosa</h3>
+    <button class="btn-primary danger" onclick="wipeAllConfirm()">Borrar TODO en este dispositivo</button>
+    <div style="height:8px"></div>
+    <button class="btn-secondary" onclick="logout()">🚪 Cerrar sesión Admin</button>
   </div>
 </div>
 
-<!-- ══════════ INSTALAR (PWA) ══════════ -->
-<button id="installBtn" aria-label="Instalar aplicación">
+<!-- INSTALL -->
+<button id="installBtn" aria-label="Instalar">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
-  Instalar app
+  Instalar
 </button>
 
-<!-- ══════════ FAB ══════════ -->
+<!-- FAB -->
 <button class="fab" id="addBtn" aria-label="Agregar">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
 </button>
 
-<!-- ══════════ FOOTER NAV ══════════ -->
+<!-- Reminder avatar -->
+<button class="reminder hidden" id="reminderBtn" aria-label="Recordatorios">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a6 6 0 0 0-6 6v3.586l-1.707 1.707A1 1 0 0 0 5 15h14a1 1 0 0 0 .707-1.707L18 11.586V8a6 6 0 0 0-6-6Zm0 20a3 3 0 0 0 3-3H9a3 3 0 0 0 3 3Z"/></svg>
+  <span class="dot" id="reminderDot" style="display:none">0</span>
+</button>
+
+<!-- FOOTER NAV -->
 <nav class="footer-nav">
   <div class="footer-nav-inner">
-    <button class="nav-btn nav-providers active" data-page="providers">
-      <!-- Agenda: libro elegante con marcador -->
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M5 3.5A1.5 1.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v17.5a.5.5 0 0 1-.7.46L17 19.7l-2.3 1.26a.5.5 0 0 1-.48 0L12 19.7l-2.2 1.26a.5.5 0 0 1-.48 0L7 19.7 5.7 20.46A.5.5 0 0 1 5 20V3.5Z"/>
-        <path d="M9 7h7M9 11h7M9 15h4"/>
-      </svg>
+    <button class="nav-btn nav-providers active" data-page="providers" title="Proveedores">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3.5A1.5 1.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v17.5a.5.5 0 0 1-.7.46L17 19.7l-2.3 1.26a.5.5 0 0 1-.48 0L12 19.7l-2.2 1.26a.5.5 0 0 1-.48 0L7 19.7 5.7 20.46A.5.5 0 0 1 5 20V3.5Z"/><path d="M9 7h7M9 11h7M9 15h4"/></svg>
       <span>Proveedores</span>
     </button>
-    <button class="nav-btn nav-pending" data-page="pending">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M9 11l3 3L22 4"/>
-        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
-      </svg>
+    <button class="nav-btn nav-pending" data-page="pending" title="Pendientes">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
       <span>Pendientes</span>
     </button>
-    <button class="nav-btn nav-clients" data-page="clients">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="11" cy="11" r="8"/>
-        <path d="m21 21-4.35-4.35"/>
-      </svg>
+    <button class="nav-btn nav-clients" data-page="clients" title="Clientes">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       <span>Clientes</span>
     </button>
-    <button class="nav-btn nav-admin" data-page="admin">
-      <!-- Escudo dorado brillante -->
+    <button class="nav-btn nav-notes" data-page="notes" title="Notas">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      <span>Notas</span>
+    </button>
+    <button class="nav-btn nav-contacts" data-page="contacts" title="Contactos">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <span>Contactos</span>
+    </button>
+    <button class="nav-btn nav-admin" data-page="admin" title="Admin">
       <svg viewBox="0 0 24 24" fill="none" stroke-linejoin="round" stroke-linecap="round">
-        <defs>
-          <linearGradient id="goldShield" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" class="shield-grad"/>
-            <stop offset="100%" class="shield-grad-2"/>
-          </linearGradient>
-        </defs>
+        <defs><linearGradient id="goldShield" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fde68a"/><stop offset="100%" stop-color="#f59e0b"/></linearGradient></defs>
         <path d="M12 2 4 5v6c0 5 3.5 9.5 8 11 4.5-1.5 8-6 8-11V5l-8-3Z" fill="url(#goldShield)" stroke="#b45309" stroke-width="1.4"/>
         <path d="M9 12l2 2 4-4" stroke="#7c2d12" stroke-width="2.2" fill="none"/>
         <circle cx="8" cy="6" r="0.9" fill="#fff8e1" opacity=".85"/>
@@ -491,128 +577,208 @@
       <span>Admin</span>
     </button>
   </div>
-  <div class="footer-credit">Creado por <b>Edrian Cruz</b></div>
 </nav>
 
-<!-- ══════════ MODAL: PROVEEDOR (form) ══════════ -->
+<!-- MODAL PROVEEDOR -->
 <div class="modal" id="modalProvider">
   <form class="sheet" id="formProvider">
     <div class="sheet-head">
       <h2 id="modalProviderTitle">Nuevo proveedor</h2>
-      <button type="button" class="close" id="closeProviderBtn" aria-label="Cerrar">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
-      </button>
+      <button type="button" class="close" onclick="closeModal('modalProvider')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
     </div>
     <input type="hidden" id="f-id"/>
     <label class="field"><span>Nombre *</span><input id="f-name" required/></label>
     <label class="field"><span>Producto que vende</span><input id="f-product"/></label>
     <label class="field"><span>Precio</span><input id="f-price"/></label>
-    <label class="field"><span>WhatsApp (+código país)</span><input id="f-whatsapp" type="tel" placeholder="+5491112345678"/></label>
-    <label class="field"><span>Teléfono</span><input id="f-phone" type="tel"/></label>
+    <div class="field"><span>Teléfonos</span><div class="multi-list" id="f-phones"></div><button type="button" class="multi-add" onclick="addMulti('f-phones')">+ Agregar teléfono</button></div>
+    <div class="field"><span>WhatsApp (+código país)</span><div class="multi-list" id="f-was"></div><button type="button" class="multi-add" onclick="addMulti('f-was')">+ Agregar WhatsApp</button></div>
     <label class="field"><span>Facebook (usuario o URL)</span><input id="f-facebook"/></label>
-    <label class="field"><span>Notas / información extra</span><textarea id="f-notes" rows="3" style="resize:vertical;font-family:inherit;font-size:15px"></textarea></label>
+    <label class="field"><span>Dirección</span><input id="f-address"/></label>
+    <label class="field"><span>Notas / información extra</span><textarea id="f-notes" rows="3"></textarea></label>
     <button type="submit" class="save">Guardar</button>
   </form>
 </div>
 
-<!-- ══════════ MODAL: PENDIENTE ══════════ -->
+<!-- MODAL PENDIENTE -->
 <div class="modal" id="modalPending">
   <form class="sheet" id="formPending">
     <div class="sheet-head">
       <h2 id="modalPendingTitle">Nueva tarea</h2>
-      <button type="button" class="close" id="closePendingBtn" aria-label="Cerrar">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
-      </button>
+      <button type="button" class="close" onclick="closeModal('modalPending')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
     </div>
     <input type="hidden" id="p-id"/>
     <label class="field"><span>Tarea *</span><input id="p-task" required placeholder="Ej: Llamar a proveedor X"/></label>
-    <label class="field"><span>Detalles / información extra</span><textarea id="p-note" rows="3" style="resize:vertical;font-family:inherit;font-size:15px" placeholder="Notas, contactos, lo que sea..."></textarea></label>
+    <label class="field"><span>Notas / información extra</span><textarea id="p-note" rows="4" placeholder="Notas, contactos, lo que sea..."></textarea></label>
     <label class="field"><span>Prioridad</span>
-      <select id="p-priority">
-        <option value="alta">🔴 Alta</option>
-        <option value="media" selected>🟡 Media</option>
-        <option value="baja">🟢 Baja</option>
-      </select>
+      <select id="p-priority"><option value="alta">🔴 Alta</option><option value="media" selected>🟡 Media</option><option value="baja">🟢 Baja</option></select>
     </label>
     <label class="field"><span>Fecha límite</span><input id="p-date" type="date"/></label>
-
     <div class="divider"></div>
-    <p style="margin:0 0 8px;color:var(--gold);font-weight:700">🔔 Alarma / Notificación</p>
+    <p style="margin:0 0 8px;color:var(--gold);font-weight:700">🔔 Alarma programada</p>
     <div class="field-row">
-      <label class="field"><span>Recordar cada (días)</span>
-        <input id="p-notif-days" type="number" min="0" max="30" placeholder="0 = sin alarma" value="0"/>
-      </label>
-      <label class="field"><span>Veces a repetir (máx 3)</span>
-        <input id="p-notif-times" type="number" min="1" max="3" value="3"/>
-      </label>
+      <label class="field"><span>Recordar cada (días)</span><input id="p-notif-days" type="number" min="0" max="30" value="0"/></label>
+      <label class="field"><span>Veces (máx 3)</span><input id="p-notif-times" type="number" min="1" max="3" value="3"/></label>
     </div>
-    <label class="field"><span>Hora de la alarma</span>
-      <input id="p-notif-hour" type="time" value="09:00"/>
-    </label>
-
+    <label class="field"><span>Hora de la alarma</span><input id="p-notif-hour" type="time" value="09:00"/></label>
+    <label class="field"><span>Mensaje personalizado de la notificación</span><input id="p-notif-msg" placeholder="(opcional)"/></label>
     <button type="submit" class="save">Guardar</button>
   </form>
 </div>
 
-<!-- ══════════ MODAL: CLIENTE ══════════ -->
+<!-- MODAL CLIENTE -->
 <div class="modal" id="modalClient">
   <form class="sheet" id="formClient">
     <div class="sheet-head">
       <h2 id="modalClientTitle">Cliente busca...</h2>
-      <button type="button" class="close" id="closeClientBtn" aria-label="Cerrar">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
-      </button>
+      <button type="button" class="close" onclick="closeModal('modalClient')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
     </div>
     <input type="hidden" id="c-id"/>
-    <label class="field"><span>Producto buscado *</span><input id="c-product" required placeholder="Ej: Pescado fresco"/></label>
-    <label class="field"><span>Nombre del cliente</span><input id="c-name" placeholder="Ej: María"/></label>
-    <label class="field"><span>Contacto (tel o WA)</span><input id="c-contact" type="tel" placeholder="+5491112345678"/></label>
-    <label class="field"><span>Cantidad / descripción</span><input id="c-qty" placeholder="Ej: 2 kg, fresco, sin espinas"/></label>
-    <label class="field"><span>Etiqueta</span><input id="c-tag" placeholder="Ej: Pescado, Carne, Fruta"/></label>
-    <label class="field"><span>Notas / información extra</span><textarea id="c-notes" rows="3" style="resize:vertical;font-family:inherit;font-size:15px"></textarea></label>
+    <label class="field"><span>Producto buscado *</span><input id="c-product" required/></label>
+    <label class="field"><span>Nombre del cliente</span><input id="c-name"/></label>
+    <div class="field"><span>Contacto / WhatsApp</span><div class="multi-list" id="c-contacts"></div><button type="button" class="multi-add" onclick="addMulti('c-contacts')">+ Agregar contacto</button></div>
+    <label class="field"><span>Descripción / cantidad</span><textarea id="c-qty" rows="3" placeholder="Ej: 2 kg, sin espinas, fresco..."></textarea></label>
+    <label class="field"><span>Etiqueta</span><input id="c-tag"/></label>
+    <label class="field"><span>Dirección</span><input id="c-address"/></label>
+    <label class="field"><span>Notas</span><textarea id="c-notes" rows="2"></textarea></label>
     <button type="submit" class="save">Guardar</button>
   </form>
 </div>
 
-<!-- ══════════ MODAL: DETALLE (info "i") ══════════ -->
+<!-- MODAL NOTA -->
+<div class="modal" id="modalNote">
+  <form class="sheet" id="formNote">
+    <div class="sheet-head">
+      <h2 id="modalNoteTitle">Nueva nota</h2>
+      <button type="button" class="close" onclick="closeModal('modalNote')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+    <input type="hidden" id="n-id"/>
+    <label class="field"><span>Título *</span><input id="n-title" required/></label>
+    <label class="field"><span>Contenido</span><textarea id="n-body" rows="6"></textarea></label>
+    <label class="field"><span>Etiqueta</span><input id="n-tag" placeholder="Ej: idea, recordatorio, importante"/></label>
+    <button type="submit" class="save">Guardar</button>
+  </form>
+</div>
+
+<!-- MODAL CONTACTO -->
+<div class="modal" id="modalContact">
+  <form class="sheet" id="formContact">
+    <div class="sheet-head">
+      <h2 id="modalContactTitle">Nuevo contacto</h2>
+      <button type="button" class="close" onclick="closeModal('modalContact')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+    <input type="hidden" id="ct-id"/>
+    <label class="field"><span>Nombre *</span><input id="ct-name" required/></label>
+    <label class="field"><span>Categoría</span>
+      <select id="ct-cat"><option value="familia">👨‍👩‍👧 Familia</option><option value="amigo">🤝 Amigo</option><option value="otro">📇 Otro</option></select>
+    </label>
+    <div class="field"><span>Teléfonos</span><div class="multi-list" id="ct-phones"></div><button type="button" class="multi-add" onclick="addMulti('ct-phones')">+ Teléfono</button></div>
+    <div class="field"><span>WhatsApp</span><div class="multi-list" id="ct-was"></div><button type="button" class="multi-add" onclick="addMulti('ct-was')">+ WhatsApp</button></div>
+    <label class="field"><span>Dirección</span><input id="ct-address"/></label>
+    <label class="field"><span>Notas</span><textarea id="ct-notes" rows="2"></textarea></label>
+    <button type="submit" class="save">Guardar</button>
+  </form>
+</div>
+
+<!-- MODAL DETALLE -->
 <div class="modal" id="modalDetail">
   <div class="sheet">
     <div class="sheet-head">
       <h2 id="detailTitle">Detalle</h2>
-      <button type="button" class="close" onclick="closeDetail()" aria-label="Cerrar">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
-      </button>
+      <button type="button" class="close" onclick="closeModal('modalDetail')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
     </div>
     <div id="detailBody"></div>
+  </div>
+</div>
+
+<!-- MODAL PICKER (qué número llamar) -->
+<div class="modal" id="modalPicker">
+  <div class="sheet">
+    <div class="sheet-head"><h2 id="pickerTitle">Elegir contacto</h2>
+      <button type="button" class="close" onclick="closeModal('modalPicker')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+    <div id="pickerBody" class="picker-list"></div>
+  </div>
+</div>
+
+<!-- MODAL CONFIRMAR -->
+<div class="modal" id="modalConfirm">
+  <div class="sheet">
+    <div class="sheet-head"><h2 id="confirmTitle">¿Confirmar?</h2>
+      <button type="button" class="close" onclick="closeModal('modalConfirm')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+    <p id="confirmMsg" style="color:var(--muted);margin:0 0 16px">Acción</p>
+    <button class="btn-primary danger" id="confirmOk">Confirmar</button>
+    <div style="height:8px"></div>
+    <button class="btn-secondary" onclick="closeModal('modalConfirm')">Cancelar</button>
+  </div>
+</div>
+
+<!-- LOGIN SCREEN -->
+<div class="login-screen hidden" id="loginScreen">
+  <div class="login-box">
+    <div class="logo-big"><svg viewBox="0 0 24 24" fill="none"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z" fill="#fff" stroke="#fff" stroke-width="1" stroke-linejoin="round"/></svg></div>
+    <h2 id="loginTitle">Acceso Administración</h2>
+    <p class="login-sub" id="loginSub">Ingresa tu contraseña</p>
+    <div id="loginPwBlock">
+      <label class="field">
+        <div class="pwfield"><input id="loginPw" type="password" placeholder="Contraseña"/><button type="button" class="eye" onclick="togglePw('loginPw',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+      </label>
+      <button class="btn-primary" onclick="doLogin()">Entrar</button>
+      <span class="login-link" onclick="showRecover()">¿Olvidaste tu contraseña?</span>
+    </div>
+    <div id="loginRecBlock" style="display:none">
+      <p style="color:var(--gold);font-size:13px;margin:0 0 10px" id="recQuestion"></p>
+      <label class="field">
+        <div class="pwfield"><input id="recAnswer" type="password" placeholder="Tu respuesta"/><button type="button" class="eye" onclick="togglePw('recAnswer',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+      </label>
+      <label class="field"><span>Nueva contraseña</span>
+        <div class="pwfield"><input id="recNewPw" type="password"/><button type="button" class="eye" onclick="togglePw('recNewPw',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+      </label>
+      <button class="btn-primary" onclick="doRecover()">Restablecer</button>
+      <span class="login-link" onclick="showLoginPw()">← Volver</span>
+    </div>
+    <div id="loginSetupBlock" style="display:none">
+      <p style="color:var(--accent);font-size:13px;margin:0 0 10px">Primera vez: crea tu contraseña</p>
+      <label class="field">
+        <div class="pwfield"><input id="setupPw" type="password" placeholder="Contraseña (mín 4)"/><button type="button" class="eye" onclick="togglePw('setupPw',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+      </label>
+      <label class="field"><span>Pregunta de recuperación</span><input id="setupQ" placeholder="Ej: nombre de tu mascota"/></label>
+      <label class="field"><span>Respuesta</span>
+        <div class="pwfield"><input id="setupA" type="password"/><button type="button" class="eye" onclick="togglePw('setupA',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+      </label>
+      <button class="btn-primary" onclick="doSetup()">Crear y entrar</button>
+    </div>
+    <div class="status-msg" id="loginStatus"></div>
   </div>
 </div>
 
 <script>
 (function(){
   const KEYS = {
-    providers: 'agenda.providers.v1',
-    pending:   'agenda.pending.v1',
-    clients:   'agenda.clients.v1',
-    ghToken:   'agenda.gh.token',
-    ghOwner:   'agenda.gh.owner',
-    ghRepo:    'agenda.gh.repo',
-    ghBranch:  'agenda.gh.branch',
-    autoSync:  'agenda.sync.auto',
-    autoPull:  'agenda.sync.autoPull',
-    lastHash:  'agenda.sync.lastHash',   // {providers:hash,pending:hash,clients:hash}
-    lastSHA:   'agenda.sync.lastSHA',    // {providers:sha,pending:sha,clients:sha}
-    notifPerm: 'agenda.notif.requested',
+    providers:'agenda.providers.v1',
+    pending:'agenda.pending.v1',
+    clients:'agenda.clients.v1',
+    notes:'agenda.notes.v1',
+    contacts:'agenda.contacts.v1',
+    ghToken:'agenda.gh.token', ghOwner:'agenda.gh.owner', ghRepo:'agenda.gh.repo', ghBranch:'agenda.gh.branch',
+    autoSync:'agenda.sync.auto', autoPull:'agenda.sync.autoPull', syncCreds:'agenda.sync.creds',
+    lastHash:'agenda.sync.lastHash', lastSHA:'agenda.sync.lastSHA',
+    authPw:'agenda.auth.pw', authQ:'agenda.auth.q', authA:'agenda.auth.a',
+    authSession:'agenda.auth.session',
+    alarmSound:'agenda.alarm.sound', reminderOn:'agenda.reminder.on',
+    sortProv:'agenda.sort.prov', sortClient:'agenda.sort.client', sortContact:'agenda.sort.contact',
   };
   const GH_FILES = {
-    providers: 'agenda-proveedores.json',
-    pending:   'agenda-pendientes.json',
-    clients:   'agenda-clientes.json',
+    providers:'agenda-proveedores.json',
+    pending:'agenda-pendientes.json',
+    clients:'agenda-clientes.json',
+    notes:'agenda-notas.json',
+    contacts:'agenda-contactos.json',
+    creds:'agenda-config.json',
   };
-
   const $ = id => document.getElementById(id);
   let currentPage = 'providers';
 
-  // ── SVG ICONS ──
   const SVG = {
     phone:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>',
     sms:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>',
@@ -622,885 +788,1023 @@
     del:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>',
     info:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>',
     user:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
-    check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
+    check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
     lupa:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>',
     bell:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a6 6 0 0 0-6 6v3.586l-1.707 1.707A1 1 0 0 0 5 15h14a1 1 0 0 0 .707-1.707L18 11.586V8a6 6 0 0 0-6-6Zm0 20a3 3 0 0 0 3-3H9a3 3 0 0 0 3 3Z"/></svg>',
+    note:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>',
+    pin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+    next:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>',
   };
 
+  // ── UTILS ──
   function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,8); }
   function ls(k){ try{ return JSON.parse(localStorage.getItem(k)||'[]'); }catch(e){ return []; } }
   function lsSave(k,v){ localStorage.setItem(k, JSON.stringify(v)); }
   function escH(s){ return (s==null?'':String(s)).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
   function tel(v){ return (v||'').replace(/[^\d+]/g,''); }
   function fbURL(v){ v=(v||'').trim(); if(!v)return ''; if(/^https?:\/\//i.test(v))return v; return 'https://facebook.com/'+v.replace(/^@/,''); }
-  function hashStr(s){
-    let h=0; for(let i=0;i<s.length;i++){ h=(h<<5)-h+s.charCodeAt(i); h|=0; }
-    return h.toString(36);
+  function hashStr(s){ let h=0; for(let i=0;i<s.length;i++){ h=(h<<5)-h+s.charCodeAt(i); h|=0; } return h.toString(36); }
+  async function sha256(s){
+    const buf = new TextEncoder().encode(s);
+    const hash = await crypto.subtle.digest('SHA-256', buf);
+    return Array.from(new Uint8Array(hash)).map(b=>b.toString(16).padStart(2,'0')).join('');
   }
 
-  // ── DATA ──
-  let providers = ls(KEYS.providers);
+  // ── DATA MIGRATION ──
+  function normalizeProvider(p){
+    if(!p || typeof p!=='object') return null;
+    p.phones = Array.isArray(p.phones) && p.phones.length ? p.phones : (p.phone ? [p.phone] : []);
+    p.whatsapps = Array.isArray(p.whatsapps) && p.whatsapps.length ? p.whatsapps : (p.whatsapp ? [p.whatsapp] : []);
+    p.phones = p.phones.filter(Boolean);
+    p.whatsapps = p.whatsapps.filter(Boolean);
+    if(!p.id) p.id = uid();
+    if(typeof p.called!=='boolean') p.called=false;
+    if(typeof p.address!=='string') p.address='';
+    if(typeof p.notes!=='string') p.notes='';
+    if(typeof p.facebook!=='string') p.facebook='';
+    return p;
+  }
+  function normalizeClient(c){
+    if(!c) return null;
+    c.contacts = Array.isArray(c.contacts) && c.contacts.length ? c.contacts : (c.contact?[c.contact]:[]);
+    c.contacts = c.contacts.filter(Boolean);
+    if(!c.id) c.id=uid();
+    if(typeof c.address!=='string') c.address='';
+    if(typeof c.notes!=='string') c.notes='';
+    return c;
+  }
+  function normalizeContact(c){
+    if(!c) return null;
+    c.phones = Array.isArray(c.phones)?c.phones.filter(Boolean):[];
+    c.whatsapps = Array.isArray(c.whatsapps)?c.whatsapps.filter(Boolean):[];
+    if(!c.id) c.id=uid();
+    if(!c.category) c.category='otro';
+    if(typeof c.address!=='string') c.address='';
+    if(typeof c.notes!=='string') c.notes='';
+    return c;
+  }
+  function normalizeNote(n){
+    if(!n) return null;
+    if(!n.id) n.id=uid();
+    if(typeof n.title!=='string') n.title='';
+    if(typeof n.body!=='string') n.body='';
+    if(typeof n.tag!=='string') n.tag='';
+    return n;
+  }
+
+  let providers = ls(KEYS.providers).map(normalizeProvider).filter(Boolean);
   let pendings  = ls(KEYS.pending);
-  let clients   = ls(KEYS.clients);
-  if(!Array.isArray(providers)) providers=[];
-  if(!Array.isArray(pendings))  pendings=[];
-  if(!Array.isArray(clients))   clients=[];
+  let clients   = ls(KEYS.clients).map(normalizeClient).filter(Boolean);
+  let notes     = ls(KEYS.notes).map(normalizeNote).filter(Boolean);
+  let contacts  = ls(KEYS.contacts).map(normalizeContact).filter(Boolean);
+  if(!Array.isArray(pendings)) pendings=[];
+  // ensure pending fields
+  pendings.forEach(t=>{ if(!t.id) t.id=uid(); if(typeof t.done!=='boolean') t.done=false; if(typeof t.note!=='string') t.note=''; if(!t.priority) t.priority='media'; if(typeof t.notifDays!=='number') t.notifDays=0; if(typeof t.notifTimes!=='number') t.notifTimes=3; if(!t.notifHour) t.notifHour='09:00'; if(typeof t.notifFired!=='number') t.notifFired=0; if(typeof t.nextNotif!=='number') t.nextNotif=0; if(typeof t.notifMsg!=='string') t.notifMsg=''; });
 
-  if(providers.length===0){
-    providers=[
-      {id:uid(),name:'Mariscos del Puerto',product:'Pescado fresco',price:'$8/lb',whatsapp:'+15551234567',phone:'+15551234567',facebook:'',notes:''},
-      {id:uid(),name:'Granja La Esperanza',product:'Pollo y huevos',price:'$3/lb',whatsapp:'+15557654321',phone:'+15557654321',facebook:'',notes:''}
-    ];
-    lsSave(KEYS.providers, providers);
-  }
-  if(pendings.length===0){
-    pendings=[
-      {id:uid(),task:'Confirmar precio con Mariscos del Puerto',note:'Preguntar descuento por volumen',priority:'alta',date:'',done:false,notifDays:0,notifTimes:3,notifHour:'09:00',notifFired:0,nextNotif:0},
-      {id:uid(),task:'Pedir catálogo actualizado a Granja La Esperanza',note:'',priority:'media',date:'',done:false,notifDays:0,notifTimes:3,notifHour:'09:00',notifFired:0,nextNotif:0},
-    ];
-    lsSave(KEYS.pending, pendings);
-  }
-  if(clients.length===0){
-    clients=[
-      {id:uid(),product:'Salmón fresco',name:'Roberto',contact:'+15559876543',qty:'1 kg',tag:'Pescado',notes:''},
-      {id:uid(),product:'Pechuga de pollo sin hueso',name:'Ana',contact:'',qty:'2 lb',tag:'Carne',notes:''},
-    ];
-    lsSave(KEYS.clients, clients);
-  }
+  // Persist normalized
+  lsSave(KEYS.providers, providers);
+  lsSave(KEYS.pending, pendings);
+  lsSave(KEYS.clients, clients);
+  lsSave(KEYS.notes, notes);
+  lsSave(KEYS.contacts, contacts);
 
-  // ══════════════════════════════════
-  //  NAVIGATION
-  // ══════════════════════════════════
+  // ── AUTH ──
+  function hasAuth(){ return !!localStorage.getItem(KEYS.authPw); }
+  function isLoggedIn(){ return sessionStorage.getItem(KEYS.authSession)==='1'; }
+  window.showRecover = function(){
+    const q = localStorage.getItem(KEYS.authQ);
+    if(!q){ setLoginStatus('No tienes pregunta de recuperación configurada','err'); return; }
+    $('recQuestion').textContent = '🔑 '+q;
+    $('loginPwBlock').style.display='none'; $('loginRecBlock').style.display='block';
+  };
+  window.showLoginPw = function(){
+    $('loginRecBlock').style.display='none'; $('loginPwBlock').style.display='block';
+  };
+  function setLoginStatus(m,t){ const el=$('loginStatus'); el.textContent=m; el.className='status-msg '+t; }
+  window.doLogin = async function(){
+    const pw = $('loginPw').value;
+    const stored = localStorage.getItem(KEYS.authPw);
+    if(!pw){ setLoginStatus('Ingresa tu contraseña','err'); return; }
+    const h = await sha256(pw);
+    if(h===stored){ sessionStorage.setItem(KEYS.authSession,'1'); hideLogin(); }
+    else setLoginStatus('Contraseña incorrecta','err');
+  };
+  window.doSetup = async function(){
+    const pw=$('setupPw').value, q=$('setupQ').value.trim(), a=$('setupA').value;
+    if(!pw || pw.length<4){ setLoginStatus('Contraseña muy corta','err'); return; }
+    if(!q || !a){ setLoginStatus('Configura pregunta y respuesta','err'); return; }
+    localStorage.setItem(KEYS.authPw, await sha256(pw));
+    localStorage.setItem(KEYS.authQ, q);
+    localStorage.setItem(KEYS.authA, await sha256(a.toLowerCase().trim()));
+    sessionStorage.setItem(KEYS.authSession,'1'); hideLogin();
+  };
+  window.doRecover = async function(){
+    const a=$('recAnswer').value, np=$('recNewPw').value;
+    if(!a||!np||np.length<4){ setLoginStatus('Completa todos los campos','err'); return; }
+    const ah = await sha256(a.toLowerCase().trim());
+    if(ah!==localStorage.getItem(KEYS.authA)){ setLoginStatus('Respuesta incorrecta','err'); return; }
+    localStorage.setItem(KEYS.authPw, await sha256(np));
+    sessionStorage.setItem(KEYS.authSession,'1'); hideLogin();
+  };
+  window.logout = function(){ sessionStorage.removeItem(KEYS.authSession); showPage('providers'); };
+  function showLogin(){
+    if(!hasAuth()){
+      $('loginTitle').textContent='Crea tu contraseña';
+      $('loginSub').textContent='Primera vez en Administración';
+      $('loginPwBlock').style.display='none'; $('loginSetupBlock').style.display='block'; $('loginRecBlock').style.display='none';
+    } else {
+      $('loginTitle').textContent='Acceso Administración';
+      $('loginSub').textContent='Ingresa tu contraseña';
+      $('loginPwBlock').style.display='block'; $('loginSetupBlock').style.display='none'; $('loginRecBlock').style.display='none';
+    }
+    $('loginScreen').classList.remove('hidden');
+    setTimeout(()=>{ const f=$('loginPw'); if(f) f.focus(); },100);
+  }
+  function hideLogin(){ $('loginScreen').classList.add('hidden'); setLoginStatus('',''); $('loginPw').value=''; $('recAnswer').value=''; $('recNewPw').value=''; $('setupPw').value=''; $('setupA').value=''; $('setupQ').value=''; showPage('admin'); }
+
+  window.togglePw = function(id, btn){
+    const i=$(id); if(!i) return;
+    i.type = i.type==='password'?'text':'password';
+    btn.style.color = i.type==='text'?'var(--primary)':'';
+  };
+
+  window.saveAuth = async function(){
+    const pw=$('setPw').value, q=$('setQ').value.trim(), a=$('setA').value;
+    if(pw){ if(pw.length<4){ showStatus('authStatus','Contraseña muy corta','err'); return; } localStorage.setItem(KEYS.authPw, await sha256(pw)); }
+    if(q) localStorage.setItem(KEYS.authQ, q);
+    if(a) localStorage.setItem(KEYS.authA, await sha256(a.toLowerCase().trim()));
+    $('setPw').value=''; $('setA').value=''; $('setQ').value='';
+    showStatus('authStatus','✅ Credenciales actualizadas','ok');
+  };
+
+  // ── NAVIGATION ──
   function showPage(page){
+    if(page==='admin' && !isLoggedIn()){ showLogin(); return; }
     currentPage = page;
-    $('pageProviders').classList.toggle('hidden', page!=='providers');
-    $('pagePending').classList.toggle('active', page==='pending');
-    $('pageClients').classList.toggle('active', page==='clients');
-    $('pageAdmin').classList.toggle('active', page==='admin');
+    ['pageProviders','pagePending','pageClients','pageNotes','pageContacts','pageAdmin'].forEach(id=>{
+      const map={pageProviders:'providers',pagePending:'pending',pageClients:'clients',pageNotes:'notes',pageContacts:'contacts',pageAdmin:'admin'};
+      const el=$(id);
+      if(id==='pageProviders') el.classList.toggle('hidden', page!==map[id]);
+      else el.classList.toggle('active', page===map[id]);
+    });
     $('headerSearch').style.display = page==='providers' ? '' : 'none';
     $('addBtn').classList.toggle('hidden', page==='admin');
-    document.querySelectorAll('.nav-btn').forEach(b=>{
-      b.classList.toggle('active', b.dataset.page===page);
-    });
-    const titles={providers:'<span>Mi</span> Agenda',pending:'Pendientes',clients:'Clientes',admin:'Administración'};
-    $('pageTitle').querySelector('.brand-text').innerHTML = titles[page];
-    const counts={
-      providers: providers.length+' proveedores guardados',
-      pending:   pendings.filter(p=>!p.done).length+' pendientes activos',
-      clients:   clients.length+' solicitudes',
-      admin:     'Sync GitHub'
-    };
-    $('counter').textContent = counts[page]||'';
+    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active', b.dataset.page===page));
+    const titles={providers:'<span>Mi</span> Agenda',pending:'<span>Pendientes</span>',clients:'<span>Clientes</span>',notes:'<span>Notas</span>',contacts:'<span>Contactos</span>',admin:'<span>Admin</span>'};
+    $('brandText').innerHTML = titles[page] || '<span>Mi</span> Agenda';
     if(page==='providers') renderProviders();
     if(page==='pending')   renderPending();
     if(page==='clients')   renderClients();
+    if(page==='notes')     renderNotes();
+    if(page==='contacts')  renderContacts();
     if(page==='admin')     renderAdmin();
+    updateReminder();
   }
-  document.querySelectorAll('.nav-btn').forEach(btn=>{
-    btn.addEventListener('click', ()=> showPage(btn.dataset.page));
-  });
+  window.showPage = showPage;
+  document.querySelectorAll('.nav-btn').forEach(btn=> btn.addEventListener('click',()=>showPage(btn.dataset.page)));
 
-  // ══════════════════════════════════
-  //  PROVEEDORES
-  // ══════════════════════════════════
+  function setCounter(n, label, q){
+    let t = n + ' ' + label;
+    if(q) t = `<span class="hit">${n}</span> resultado${n===1?'':'s'} para "${escH(q)}"`;
+    $('counter').innerHTML = t;
+  }
+
+  // ── MULTI INPUT helpers ──
+  window.addMulti = function(containerId, val){
+    const c = $(containerId);
+    const row = document.createElement('div'); row.className='multi-row';
+    row.innerHTML = `<input type="tel" placeholder="+5491112345678" value="${escH(val||'')}"/><button type="button" class="x" onclick="this.parentNode.remove()">×</button>`;
+    c.appendChild(row);
+  };
+  function readMulti(containerId){
+    return Array.from($(containerId).querySelectorAll('input')).map(i=>i.value.trim()).filter(Boolean);
+  }
+  function fillMulti(containerId, arr){
+    const c=$(containerId); c.innerHTML='';
+    (arr&&arr.length?arr:['']).forEach(v=>addMulti(containerId, v));
+  }
+
+  // ══════════ PROVEEDORES ══════════
+  let sortProvMode = localStorage.getItem(KEYS.sortProv)||'recent';
+  const SORT_PROV={recent:'Recientes',name:'A→Z',price:'Por precio',called:'No llamados primero'};
+  $('sortProvBtn').onclick=()=>{ const ks=Object.keys(SORT_PROV); sortProvMode=ks[(ks.indexOf(sortProvMode)+1)%ks.length]; localStorage.setItem(KEYS.sortProv,sortProvMode); $('sortProvLabel').textContent=SORT_PROV[sortProvMode]; renderProviders(); };
+  $('sortProvLabel').textContent=SORT_PROV[sortProvMode];
+
+  function sortProviders(arr){
+    const a=arr.slice();
+    if(sortProvMode==='name') a.sort((x,y)=>(x.name||'').localeCompare(y.name||''));
+    else if(sortProvMode==='price') a.sort((x,y)=>(x.price||'').localeCompare(y.price||''));
+    else if(sortProvMode==='called') a.sort((x,y)=>(x.called?1:0)-(y.called?1:0));
+    return a;
+  }
   function renderProviders(){
-    const listEl = $('pageProviders');
+    const listEl = $('provList');
     const q = ($('search').value||'').trim().toLowerCase();
-    const items = providers.filter(p => {
+    let items = providers.filter(p => {
       if(!q) return true;
-      return [p.name,p.product,p.price,p.phone,p.whatsapp,p.notes].filter(Boolean).some(f=>String(f).toLowerCase().includes(q));
+      return [p.name,p.product,p.price,...(p.phones||[]),...(p.whatsapps||[]),p.notes,p.address].filter(Boolean).some(f=>String(f).toLowerCase().includes(q));
     });
-    $('counter').textContent = providers.length+' proveedores guardados';
+    items = sortProviders(items);
+    if(q) setCounter(items.length,'',q); else setCounter(providers.length,'proveedores');
     if(items.length===0){
-      listEl.innerHTML='<div class="empty">'+SVG.user+'<p style="font-size:16px;margin:6px 0 0">'+(providers.length===0?'Aún no tienes proveedores':'Sin resultados')+'</p></div>';
-      return;
+      listEl.innerHTML='<div class="empty">'+SVG.user+'<p style="font-size:16px;margin:6px 0 0">'+(providers.length===0?'Aún no tienes proveedores':'Sin resultados')+'</p></div>'; return;
     }
     listEl.innerHTML = items.map(p=>{
       const ini = (p.name||'?').charAt(0).toUpperCase();
-      const wn = tel(p.whatsapp).replace(/^\+/,'');
-      const phoneIcon = p.phone?`<a class="iact call" href="tel:${tel(p.phone)}" title="Llamar" onclick="event.stopPropagation()">${SVG.phone}</a>`:'';
-      const smsIcon   = p.phone?`<a class="iact sms" href="sms:${tel(p.phone)}" title="SMS" onclick="event.stopPropagation()">${SVG.sms}</a>`:'';
-      const waIcon    = p.whatsapp?`<a class="iact wa" target="_blank" rel="noreferrer" href="https://wa.me/${wn}" title="WhatsApp" onclick="event.stopPropagation()">${SVG.wa}</a>`:'';
-      return `<article class="card">
+      const hasPh = (p.phones||[]).length>0, hasWa=(p.whatsapps||[]).length>0;
+      const phoneIcon = hasPh?`<button class="iact call" data-call-prov="${p.id}" title="Llamar">${SVG.phone}</button>`:'';
+      const smsIcon = hasPh?`<button class="iact sms" data-sms-prov="${p.id}" title="SMS">${SVG.sms}</button>`:'';
+      const waIcon = hasWa?`<button class="iact wa" data-wa-prov="${p.id}" title="WhatsApp">${SVG.wa}</button>`:'';
+      const calledBtn = `<button class="iact ${p.called?'done':''}" data-toggle-called="${p.id}" title="${p.called?'Marcar pendiente':'Ya llamé'}">${p.called?SVG.next:SVG.check}</button>`;
+      return `<article class="card ${p.called?'called':''}">
         <div class="row">
           <div class="avatar">${escH(ini)}</div>
           <div class="info">
             <p class="name">${escH(p.name)}</p>
             ${p.product?`<p class="product">${escH(p.product)}</p>`:''}
             ${p.price?`<p class="price">${escH(p.price)}</p>`:''}
+            ${p.address?`<p class="addr">${SVG.pin}${escH(p.address)}</p>`:''}
           </div>
-          <div class="row-actions">
-            ${phoneIcon}${smsIcon}${waIcon}
-            <span class="iact-sep"></span>
-            <button class="iact info" data-info-prov="${p.id}" title="Info">${SVG.info}</button>
-            <button class="iact edit" data-edit-prov="${p.id}" title="Editar">${SVG.edit}</button>
-            <button class="iact del" data-del-prov="${p.id}" title="Eliminar">${SVG.del}</button>
-          </div>
+        </div>
+        <div class="row-actions">
+          ${phoneIcon}${smsIcon}${waIcon}${calledBtn}
+          <span class="iact-sep"></span>
+          <button class="iact info" data-info-prov="${p.id}">${SVG.info}</button>
+          <button class="iact edit" data-edit-prov="${p.id}">${SVG.edit}</button>
+          <button class="iact del" data-del-prov="${p.id}">${SVG.del}</button>
         </div>
       </article>`;
     }).join('');
   }
-
   $('search').addEventListener('input', renderProviders);
-  $('pageProviders').addEventListener('click', e=>{
-    const inf = e.target.closest('[data-info-prov]');
-    const ed  = e.target.closest('[data-edit-prov]');
-    const dl  = e.target.closest('[data-del-prov]');
-    if(inf) showProviderDetail(providers.find(p=>p.id===inf.dataset.infoProv));
-    else if(ed) openProviderModal(providers.find(p=>p.id===ed.dataset.editProv));
-    else if(dl){ if(confirm('¿Eliminar este proveedor?')){ providers=providers.filter(p=>p.id!==dl.dataset.delProv); lsSave(KEYS.providers,providers); renderProviders(); } }
+  $('provList').addEventListener('click', e=>{
+    const t = e.target.closest('button'); if(!t) return;
+    const d = t.dataset;
+    if(d.callProv) pickAndAct(providers.find(p=>p.id===d.callProv), 'phones', 'call');
+    else if(d.smsProv) pickAndAct(providers.find(p=>p.id===d.smsProv), 'phones', 'sms');
+    else if(d.waProv) pickAndAct(providers.find(p=>p.id===d.waProv), 'whatsapps', 'wa');
+    else if(d.toggleCalled){ const p=providers.find(x=>x.id===d.toggleCalled); if(p){ p.called=!p.called; lsSave(KEYS.providers,providers); renderProviders(); } }
+    else if(d.infoProv) showProviderDetail(providers.find(p=>p.id===d.infoProv));
+    else if(d.editProv) openProviderModal(providers.find(p=>p.id===d.editProv));
+    else if(d.delProv) confirmDelete('Eliminar este proveedor', ()=>{ providers=providers.filter(p=>p.id!==d.delProv); lsSave(KEYS.providers,providers); renderProviders(); });
   });
-
   function openProviderModal(p){
     $('modalProviderTitle').textContent = p?'Editar proveedor':'Nuevo proveedor';
     $('f-id').value=p?.id||''; $('f-name').value=p?.name||''; $('f-product').value=p?.product||'';
-    $('f-price').value=p?.price||''; $('f-whatsapp').value=p?.whatsapp||'';
-    $('f-phone').value=p?.phone||''; $('f-facebook').value=p?.facebook||'';
-    $('f-notes').value=p?.notes||'';
-    $('modalProvider').classList.add('open');
-    setTimeout(()=>$('f-name').focus(),50);
+    $('f-price').value=p?.price||''; $('f-facebook').value=p?.facebook||''; $('f-address').value=p?.address||''; $('f-notes').value=p?.notes||'';
+    fillMulti('f-phones', p?.phones||[]); fillMulti('f-was', p?.whatsapps||[]);
+    $('modalProvider').classList.add('open'); setTimeout(()=>$('f-name').focus(),50);
   }
-  $('addBtn').addEventListener('click', ()=>{
-    if(currentPage==='providers') openProviderModal(null);
-    else if(currentPage==='pending') openPendingModal(null);
-    else if(currentPage==='clients') openClientModal(null);
-  });
-  $('closeProviderBtn').addEventListener('click', ()=>$('modalProvider').classList.remove('open'));
-  $('modalProvider').addEventListener('click', e=>{ if(e.target===$('modalProvider')) $('modalProvider').classList.remove('open'); });
   $('formProvider').addEventListener('submit', e=>{
     e.preventDefault();
-    const data={id:$('f-id').value||uid(),name:$('f-name').value.trim(),product:$('f-product').value.trim(),price:$('f-price').value.trim(),whatsapp:$('f-whatsapp').value.trim(),phone:$('f-phone').value.trim(),facebook:$('f-facebook').value.trim(),notes:$('f-notes').value.trim()};
+    const data={id:$('f-id').value||uid(),name:$('f-name').value.trim(),product:$('f-product').value.trim(),price:$('f-price').value.trim(),
+      phones:readMulti('f-phones'), whatsapps:readMulti('f-was'),
+      phone:readMulti('f-phones')[0]||'', whatsapp:readMulti('f-was')[0]||'',
+      facebook:$('f-facebook').value.trim(), address:$('f-address').value.trim(), notes:$('f-notes').value.trim(),
+      called:false};
     if(!data.name) return;
     const idx=providers.findIndex(p=>p.id===data.id);
-    if(idx>=0) providers[idx]=data; else providers.unshift(data);
-    lsSave(KEYS.providers,providers); renderProviders(); $('modalProvider').classList.remove('open');
+    if(idx>=0){ data.called=providers[idx].called||false; providers[idx]=data; } else providers.unshift(data);
+    lsSave(KEYS.providers,providers); renderProviders(); closeModal('modalProvider');
   });
 
   function showProviderDetail(p){
     if(!p) return;
     $('detailTitle').textContent = p.name || 'Proveedor';
-    const wn = tel(p.whatsapp).replace(/^\+/,'');
-    const actions = [
-      p.phone   ? `<a class="pill call" href="tel:${tel(p.phone)}">${SVG.phone}<span>Llamar</span></a>` : '',
-      p.phone   ? `<a class="pill sms" href="sms:${tel(p.phone)}">${SVG.sms}<span>SMS</span></a>` : '',
-      p.whatsapp? `<a class="pill wa" target="_blank" rel="noreferrer" href="https://wa.me/${wn}">${SVG.wa}<span>WhatsApp</span></a>` : '',
-      p.facebook? `<a class="pill fb" target="_blank" rel="noreferrer" href="${escH(fbURL(p.facebook))}">${SVG.fb}<span>Facebook</span></a>` : '',
-    ].join('');
+    const actions = [];
+    (p.phones||[]).forEach(ph=>{ actions.push(`<a class="pill" href="tel:${tel(ph)}" style="color:var(--primary-2)">${SVG.phone}<span>${escH(ph)}</span></a>`); actions.push(`<a class="pill" href="sms:${tel(ph)}" style="color:var(--info)">${SVG.sms}<span>SMS</span></a>`); });
+    (p.whatsapps||[]).forEach(w=>{ actions.push(`<a class="pill" target="_blank" rel="noreferrer" href="https://wa.me/${tel(w).replace(/^\+/,'')}" style="color:var(--success)">${SVG.wa}<span>${escH(w)}</span></a>`); });
+    if(p.facebook) actions.push(`<a class="pill" target="_blank" rel="noreferrer" href="${escH(fbURL(p.facebook))}" style="color:var(--fb)">${SVG.fb}<span>Facebook</span></a>`);
     $('detailBody').innerHTML = `
       ${p.product?`<div class="detail-block"><div class="lbl">Producto</div><div class="val">${escH(p.product)}</div></div>`:''}
       ${p.price?`<div class="detail-block"><div class="lbl">Precio</div><div class="val" style="color:var(--accent)">${escH(p.price)}</div></div>`:''}
-      ${p.phone?`<div class="detail-block"><div class="lbl">Teléfono</div><div class="val">${escH(p.phone)}</div></div>`:''}
-      ${p.whatsapp?`<div class="detail-block"><div class="lbl">WhatsApp</div><div class="val">${escH(p.whatsapp)}</div></div>`:''}
-      ${p.facebook?`<div class="detail-block"><div class="lbl">Facebook</div><div class="val">${escH(p.facebook)}</div></div>`:''}
+      ${p.address?`<div class="detail-block"><div class="lbl">Dirección</div><div class="val">${escH(p.address)}</div></div>`:''}
       ${p.notes?`<div class="detail-block"><div class="lbl">Notas</div><div class="val">${escH(p.notes)}</div></div>`:''}
-      <div class="detail-actions">${actions}</div>
-    `;
+      <div class="detail-actions">${actions.join('')}</div>`;
     $('modalDetail').classList.add('open');
   }
 
-  // ══════════════════════════════════
-  //  PENDIENTES (sort by priority + search + alarms)
-  // ══════════════════════════════════
+  // PICKER for multi-number calls/sms/wa
+  function pickAndAct(entity, field, kind){
+    if(!entity) return;
+    const arr = entity[field]||[];
+    if(arr.length===0) return;
+    if(arr.length===1){ doAct(arr[0], kind); return; }
+    $('pickerTitle').textContent = kind==='wa'?'Elegir WhatsApp':(kind==='sms'?'Elegir número para SMS':'Elegir número');
+    $('pickerBody').innerHTML = arr.map(v=>{
+      let href=''; let ico=SVG.phone; let color='var(--primary-2)';
+      if(kind==='call'){ href='tel:'+tel(v); ico=SVG.phone; }
+      else if(kind==='sms'){ href='sms:'+tel(v); ico=SVG.sms; color='var(--info)';}
+      else if(kind==='wa'){ href='https://wa.me/'+tel(v).replace(/^\+/,''); ico=SVG.wa; color='var(--success)';}
+      return `<a href="${href}" target="${kind==='wa'?'_blank':'_self'}" onclick="closeModal('modalPicker')" style="color:${color}">${ico}<span>${escH(v)}</span></a>`;
+    }).join('');
+    $('modalPicker').classList.add('open');
+  }
+  function doAct(v, kind){
+    let url='';
+    if(kind==='call') url='tel:'+tel(v);
+    else if(kind==='sms') url='sms:'+tel(v);
+    else if(kind==='wa') url='https://wa.me/'+tel(v).replace(/^\+/,'');
+    if(kind==='wa') window.open(url,'_blank'); else location.href=url;
+  }
+
+  // ══════════ PENDIENTES ══════════
   const PRIO_ORDER={alta:0,media:1,baja:2};
   function sortPendings(arr){
     return arr.slice().sort((a,b)=>{
       if(a.done!==b.done) return a.done?1:-1;
       const pd=(PRIO_ORDER[a.priority]??1)-(PRIO_ORDER[b.priority]??1);
       if(pd!==0) return pd;
-      // by date asc (empty last)
       if(a.date && b.date) return a.date.localeCompare(b.date);
       if(a.date) return -1; if(b.date) return 1;
       return 0;
     });
   }
-
   function renderPending(){
     const listEl = $('pendingList');
-    $('counter').textContent = pendings.filter(p=>!p.done).length+' pendientes activos';
     const q = ($('pendingSearch').value||'').trim().toLowerCase();
     let items = sortPendings(pendings);
-    if(q) items = items.filter(t => [t.task,t.note].filter(Boolean).some(f=>String(f).toLowerCase().includes(q)));
+    if(q) items = items.filter(t => [t.task,t.note,t.notifMsg].filter(Boolean).some(f=>String(f).toLowerCase().includes(q)));
+    if(q) setCounter(items.length,'',q); else setCounter(pendings.filter(p=>!p.done).length,'pendientes activos');
     if(items.length===0){
-      listEl.innerHTML='<div class="empty"><p style="font-size:16px">'+(pendings.length===0?'Sin tareas pendientes 🎉':'Sin resultados')+'</p></div>';
-      return;
+      listEl.innerHTML='<div class="empty"><p style="font-size:16px">'+(pendings.length===0?'Sin tareas pendientes 🎉':'Sin resultados')+'</p></div>'; return;
     }
     const prioLabel={alta:'🔴 Alta',media:'🟡 Media',baja:'🟢 Baja'};
     const prioClass={alta:'p-alta',media:'p-media',baja:'p-baja'};
     listEl.innerHTML = items.map(t=>{
-      const alarm = (t.notifDays>0) ? `<span class="alarm-chip">${SVG.bell}${t.notifDays}d × ${t.notifTimes||3}</span>` : '';
-      const fired = (t.notifFired>0) ? `<span class="alarm-chip" style="color:var(--muted);background:rgba(154,154,176,.12)">${t.notifFired}/${t.notifTimes||3}</span>` : '';
-      return `<article class="card ${prioClass[t.priority]||'p-media'}">
+      const alarm = (t.notifDays>0) ? `<span class="alarm-chip">${SVG.bell}${t.notifDays}d · ${t.notifHour}</span>` : '';
+      return `<article class="card ${t.done?'done-card':prioClass[t.priority]||'p-media'}">
         <div class="row">
           <button class="done-toggle ${t.done?'done':''}" data-toggle-done="${t.id}" title="Hecho">${SVG.check}</button>
-          <div class="info task-text ${t.done?'done-text':''}">
+          <div class="info task-text">
             <p class="name">${escH(t.task)}</p>
             ${t.note?`<p class="product">${escH((t.note||'').split('\n')[0])}</p>`:''}
             <span class="badge ${t.priority==='alta'?'high':t.priority==='baja'?'low':'med'}">${prioLabel[t.priority]||'Media'}</span>
             ${t.date?`<span style="color:var(--muted);font-size:12px;margin-left:6px">📅 ${escH(t.date)}</span>`:''}
-            ${alarm}${fired}
+            ${alarm}
           </div>
-          <div class="row-actions">
-            <button class="iact info" data-info-pend="${t.id}" title="Info">${SVG.info}</button>
-            <button class="iact edit" data-edit-pend="${t.id}" title="Editar">${SVG.edit}</button>
-            <button class="iact del" data-del-pend="${t.id}" title="Eliminar">${SVG.del}</button>
-          </div>
+        </div>
+        <div class="row-actions">
+          <button class="iact info" data-info-pend="${t.id}">${SVG.info}</button>
+          <button class="iact edit" data-edit-pend="${t.id}">${SVG.edit}</button>
+          <button class="iact del" data-del-pend="${t.id}">${SVG.del}</button>
         </div>
       </article>`;
     }).join('');
   }
   $('pendingSearch').addEventListener('input', renderPending);
   $('pendingList').addEventListener('click', e=>{
-    const tog = e.target.closest('[data-toggle-done]');
-    const inf = e.target.closest('[data-info-pend]');
-    const ed  = e.target.closest('[data-edit-pend]');
-    const dl  = e.target.closest('[data-del-pend]');
-    if(tog){ const t=pendings.find(p=>p.id===tog.dataset.toggleDone); if(t){t.done=!t.done; lsSave(KEYS.pending,pendings); renderPending();} }
-    else if(inf) showPendingDetail(pendings.find(p=>p.id===inf.dataset.infoPend));
-    else if(ed) openPendingModal(pendings.find(p=>p.id===ed.dataset.editPend));
-    else if(dl){ if(confirm('¿Eliminar esta tarea?')){ pendings=pendings.filter(p=>p.id!==dl.dataset.delPend); lsSave(KEYS.pending,pendings); renderPending(); } }
+    const t=e.target.closest('button'); if(!t) return; const d=t.dataset;
+    if(d.toggleDone){ const x=pendings.find(p=>p.id===d.toggleDone); if(x){x.done=!x.done; lsSave(KEYS.pending,pendings); renderPending(); updateReminder();} }
+    else if(d.infoPend) showPendingDetail(pendings.find(p=>p.id===d.infoPend));
+    else if(d.editPend) openPendingModal(pendings.find(p=>p.id===d.editPend));
+    else if(d.delPend) confirmDelete('Eliminar esta tarea', ()=>{ pendings=pendings.filter(p=>p.id!==d.delPend); lsSave(KEYS.pending,pendings); renderPending(); updateReminder(); });
   });
-
   function openPendingModal(t){
     $('modalPendingTitle').textContent=t?'Editar tarea':'Nueva tarea';
     $('p-id').value=t?.id||''; $('p-task').value=t?.task||''; $('p-note').value=t?.note||'';
     $('p-priority').value=t?.priority||'media'; $('p-date').value=t?.date||'';
-    $('p-notif-days').value = t?.notifDays ?? 0;
-    $('p-notif-times').value= t?.notifTimes ?? 3;
-    $('p-notif-hour').value = t?.notifHour || '09:00';
-    $('modalPending').classList.add('open');
-    setTimeout(()=>$('p-task').focus(),50);
+    $('p-notif-days').value = t?.notifDays ?? 0; $('p-notif-times').value= t?.notifTimes ?? 3;
+    $('p-notif-hour').value = t?.notifHour || '09:00'; $('p-notif-msg').value=t?.notifMsg||'';
+    $('modalPending').classList.add('open'); setTimeout(()=>$('p-task').focus(),50);
   }
-  $('closePendingBtn').addEventListener('click',()=>$('modalPending').classList.remove('open'));
-  $('modalPending').addEventListener('click',e=>{ if(e.target===$('modalPending')) $('modalPending').classList.remove('open'); });
   $('formPending').addEventListener('submit',e=>{
     e.preventDefault();
     const days = Math.max(0, Math.min(30, parseInt($('p-notif-days').value||'0',10)));
     const times= Math.max(1, Math.min(3,  parseInt($('p-notif-times').value||'3',10)));
-    const data={
-      id:$('p-id').value||uid(),
-      task:$('p-task').value.trim(),
-      note:$('p-note').value.trim(),
-      priority:$('p-priority').value,
-      date:$('p-date').value,
-      done:false,
-      notifDays:days,
-      notifTimes:times,
-      notifHour:$('p-notif-hour').value||'09:00',
-      notifFired:0,
-      nextNotif:0,
-    };
+    const data={id:$('p-id').value||uid(),task:$('p-task').value.trim(),note:$('p-note').value.trim(),
+      priority:$('p-priority').value,date:$('p-date').value,done:false,
+      notifDays:days,notifTimes:times,notifHour:$('p-notif-hour').value||'09:00',
+      notifMsg:$('p-notif-msg').value.trim(),notifFired:0,nextNotif:0};
     if(!data.task) return;
     const idx=pendings.findIndex(p=>p.id===data.id);
     if(idx>=0){
-      // preserve done/fired if editing
       data.done=pendings[idx].done;
-      // if alarm settings unchanged keep counters
       const old=pendings[idx];
-      if(old.notifDays===data.notifDays && old.notifTimes===data.notifTimes && old.notifHour===data.notifHour){
-        data.notifFired=old.notifFired||0;
-        data.nextNotif=old.nextNotif||0;
-      }
+      if(old.notifDays===data.notifDays && old.notifHour===data.notifHour){ data.notifFired=old.notifFired||0; data.nextNotif=old.nextNotif||0; }
       pendings[idx]=data;
     } else pendings.unshift(data);
-    // Schedule next notification time
     scheduleNextFor(data);
-    lsSave(KEYS.pending,pendings); renderPending(); $('modalPending').classList.remove('open');
+    lsSave(KEYS.pending,pendings); renderPending(); closeModal('modalPending'); updateReminder();
     if(data.notifDays>0) requestNotifPerm(true);
   });
-
   function showPendingDetail(t){
     if(!t) return;
     $('detailTitle').textContent = t.task || 'Tarea';
     const prioLabel={alta:'🔴 Alta',media:'🟡 Media',baja:'🟢 Baja'};
     $('detailBody').innerHTML = `
       <div class="detail-block"><div class="lbl">Prioridad</div><div class="val">${prioLabel[t.priority]||'Media'}</div></div>
-      ${t.date?`<div class="detail-block"><div class="lbl">Fecha límite</div><div class="val">${escH(t.date)}</div></div>`:''}
-      ${t.note?`<div class="detail-block"><div class="lbl">Detalles</div><div class="val">${escH(t.note)}</div></div>`:''}
-      ${t.notifDays>0?`<div class="detail-block"><div class="lbl">Alarma</div><div class="val">Cada ${t.notifDays} día(s) a las ${escH(t.notifHour||'09:00')} · ${t.notifFired||0}/${t.notifTimes||3} disparada(s)</div></div>`:''}
-      <div class="detail-block"><div class="lbl">Estado</div><div class="val">${t.done?'✅ Hecho':'⏳ Pendiente'}</div></div>
-    `;
+      ${t.date?`<div class="detail-block"><div class="lbl">Fecha</div><div class="val">${escH(t.date)}</div></div>`:''}
+      ${t.note?`<div class="detail-block"><div class="lbl">Notas</div><div class="val">${escH(t.note)}</div></div>`:''}
+      ${t.notifDays>0?`<div class="detail-block"><div class="lbl">Alarma</div><div class="val">Cada ${t.notifDays} día(s) a las ${escH(t.notifHour)} · ${t.notifFired||0}/${t.notifTimes||3} disparada(s)</div></div>`:''}
+      ${t.notifMsg?`<div class="detail-block"><div class="lbl">Mensaje notif.</div><div class="val">${escH(t.notifMsg)}</div></div>`:''}
+      <div class="detail-block"><div class="lbl">Estado</div><div class="val">${t.done?'✅ Hecho':'⏳ Pendiente'}</div></div>`;
     $('modalDetail').classList.add('open');
   }
 
-  // ══════════════════════════════════
-  //  CLIENTES BUSCAN
-  // ══════════════════════════════════
+  // ══════════ CLIENTES ══════════
   let clientTagFilter = '';
+  let sortClientMode = localStorage.getItem(KEYS.sortClient)||'recent';
+  const SORT_CLI={recent:'Recientes',product:'Producto A→Z',tag:'Por etiqueta'};
+  $('sortClientBtn').onclick=()=>{ const ks=Object.keys(SORT_CLI); sortClientMode=ks[(ks.indexOf(sortClientMode)+1)%ks.length]; localStorage.setItem(KEYS.sortClient,sortClientMode); $('sortClientLabel').textContent=SORT_CLI[sortClientMode]; renderClients(); };
+  $('sortClientLabel').textContent=SORT_CLI[sortClientMode];
+
   function renderClients(){
-    $('counter').textContent = clients.length+' solicitudes';
     const allTags = [...new Set(clients.map(c=>c.tag).filter(Boolean))];
     $('clientTags').innerHTML = allTags.map(t=>`<button class="tag ${clientTagFilter===t?'active-tag':''}" data-tag="${escH(t)}">${escH(t)}</button>`).join('');
     const q = ($('clientSearch').value||'').trim().toLowerCase();
-    const items = clients.filter(c=>{
+    let items = clients.filter(c=>{
       if(clientTagFilter && c.tag!==clientTagFilter) return false;
       if(!q) return true;
-      return [c.product,c.name,c.tag,c.qty,c.notes].filter(Boolean).some(f=>String(f).toLowerCase().includes(q));
+      return [c.product,c.name,c.tag,c.qty,c.notes,c.address,...(c.contacts||[])].filter(Boolean).some(f=>String(f).toLowerCase().includes(q));
     });
+    if(sortClientMode==='product') items.sort((a,b)=>(a.product||'').localeCompare(b.product||''));
+    else if(sortClientMode==='tag') items.sort((a,b)=>(a.tag||'').localeCompare(b.tag||''));
+    if(q) setCounter(items.length,'',q); else setCounter(clients.length,'solicitudes');
     const listEl=$('clientList');
     if(items.length===0){ listEl.innerHTML='<div class="empty"><p style="font-size:16px">Sin solicitudes</p></div>'; return; }
     listEl.innerHTML = items.map(c=>{
-      const wn = tel(c.contact).replace(/^\+/,'');
-      const phoneIcon = c.contact?`<a class="iact call" href="tel:${tel(c.contact)}" title="Llamar" onclick="event.stopPropagation()">${SVG.phone}</a>`:'';
-      const smsIcon   = c.contact?`<a class="iact sms" href="sms:${tel(c.contact)}" title="SMS" onclick="event.stopPropagation()">${SVG.sms}</a>`:'';
-      const waIcon    = c.contact?`<a class="iact wa" target="_blank" rel="noreferrer" href="https://wa.me/${wn}" title="WhatsApp" onclick="event.stopPropagation()">${SVG.wa}</a>`:'';
+      const has=(c.contacts||[]).length>0;
+      const phoneIcon=has?`<button class="iact call" data-call-cli="${c.id}">${SVG.phone}</button>`:'';
+      const smsIcon=has?`<button class="iact sms" data-sms-cli="${c.id}">${SVG.sms}</button>`:'';
+      const waIcon=has?`<button class="iact wa" data-wa-cli="${c.id}">${SVG.wa}</button>`:'';
       return `<article class="card">
         <div class="row">
           <div class="avatar client-avatar">${SVG.lupa}</div>
           <div class="info">
             <p class="name">${escH(c.product)}</p>
-            ${c.name?`<p class="product">👤 ${escH(c.name)}${c.qty?' · '+escH(c.qty):''}</p>`:(c.qty?`<p class="product">📦 ${escH(c.qty)}</p>`:'')}
+            ${c.name?`<p class="product">👤 ${escH(c.name)}</p>`:''}
+            ${c.qty?`<p class="product">${escH((c.qty||'').split('\n')[0])}</p>`:''}
+            ${c.address?`<p class="addr">${SVG.pin}${escH(c.address)}</p>`:''}
             ${c.tag?`<span class="badge low">${escH(c.tag)}</span>`:''}
           </div>
-          <div class="row-actions">
-            ${phoneIcon}${smsIcon}${waIcon}
-            <span class="iact-sep"></span>
-            <button class="iact info" data-info-client="${c.id}" title="Info">${SVG.info}</button>
-            <button class="iact edit" data-edit-client="${c.id}" title="Editar">${SVG.edit}</button>
-            <button class="iact del" data-del-client="${c.id}" title="Eliminar">${SVG.del}</button>
-          </div>
+        </div>
+        <div class="row-actions">
+          ${phoneIcon}${smsIcon}${waIcon}
+          <span class="iact-sep"></span>
+          <button class="iact info" data-info-cli="${c.id}">${SVG.info}</button>
+          <button class="iact edit" data-edit-cli="${c.id}">${SVG.edit}</button>
+          <button class="iact del" data-del-cli="${c.id}">${SVG.del}</button>
         </div>
       </article>`;
     }).join('');
   }
-
   $('clientSearch').addEventListener('input', renderClients);
-  $('clientTags').addEventListener('click', e=>{
-    const btn=e.target.closest('[data-tag]');
-    if(btn){ clientTagFilter = clientTagFilter===btn.dataset.tag?'':btn.dataset.tag; renderClients(); }
-  });
+  $('clientTags').addEventListener('click', e=>{ const b=e.target.closest('[data-tag]'); if(b){ clientTagFilter = clientTagFilter===b.dataset.tag?'':b.dataset.tag; renderClients(); } });
   $('clientList').addEventListener('click', e=>{
-    const inf=e.target.closest('[data-info-client]');
-    const ed=e.target.closest('[data-edit-client]');
-    const dl=e.target.closest('[data-del-client]');
-    if(inf) showClientDetail(clients.find(c=>c.id===inf.dataset.infoClient));
-    else if(ed) openClientModal(clients.find(c=>c.id===ed.dataset.editClient));
-    else if(dl){ if(confirm('¿Eliminar solicitud?')){ clients=clients.filter(c=>c.id!==dl.dataset.delClient); lsSave(KEYS.clients,clients); renderClients(); } }
+    const t=e.target.closest('button'); if(!t) return; const d=t.dataset;
+    if(d.callCli) pickAndAct(clients.find(c=>c.id===d.callCli),'contacts','call');
+    else if(d.smsCli) pickAndAct(clients.find(c=>c.id===d.smsCli),'contacts','sms');
+    else if(d.waCli) pickAndAct(clients.find(c=>c.id===d.waCli),'contacts','wa');
+    else if(d.infoCli) showClientDetail(clients.find(c=>c.id===d.infoCli));
+    else if(d.editCli) openClientModal(clients.find(c=>c.id===d.editCli));
+    else if(d.delCli) confirmDelete('Eliminar esta solicitud', ()=>{ clients=clients.filter(c=>c.id!==d.delCli); lsSave(KEYS.clients,clients); renderClients(); updateReminder(); });
   });
-
   function openClientModal(c){
     $('modalClientTitle').textContent=c?'Editar solicitud':'Cliente busca...';
     $('c-id').value=c?.id||''; $('c-product').value=c?.product||''; $('c-name').value=c?.name||'';
-    $('c-contact').value=c?.contact||''; $('c-qty').value=c?.qty||''; $('c-tag').value=c?.tag||'';
-    $('c-notes').value=c?.notes||'';
-    $('modalClient').classList.add('open');
-    setTimeout(()=>$('c-product').focus(),50);
+    $('c-qty').value=c?.qty||''; $('c-tag').value=c?.tag||''; $('c-address').value=c?.address||''; $('c-notes').value=c?.notes||'';
+    fillMulti('c-contacts', c?.contacts||[]);
+    $('modalClient').classList.add('open'); setTimeout(()=>$('c-product').focus(),50);
   }
-  $('closeClientBtn').addEventListener('click',()=>$('modalClient').classList.remove('open'));
-  $('modalClient').addEventListener('click',e=>{ if(e.target===$('modalClient')) $('modalClient').classList.remove('open'); });
   $('formClient').addEventListener('submit',e=>{
     e.preventDefault();
-    const data={id:$('c-id').value||uid(),product:$('c-product').value.trim(),name:$('c-name').value.trim(),contact:$('c-contact').value.trim(),qty:$('c-qty').value.trim(),tag:$('c-tag').value.trim(),notes:$('c-notes').value.trim()};
+    const data={id:$('c-id').value||uid(),product:$('c-product').value.trim(),name:$('c-name').value.trim(),
+      contacts:readMulti('c-contacts'), contact:readMulti('c-contacts')[0]||'',
+      qty:$('c-qty').value.trim(),tag:$('c-tag').value.trim(),address:$('c-address').value.trim(),notes:$('c-notes').value.trim()};
     if(!data.product) return;
     const idx=clients.findIndex(c=>c.id===data.id);
     if(idx>=0) clients[idx]=data; else clients.unshift(data);
-    lsSave(KEYS.clients,clients); renderClients(); $('modalClient').classList.remove('open');
+    lsSave(KEYS.clients,clients); renderClients(); closeModal('modalClient'); updateReminder();
   });
-
   function showClientDetail(c){
     if(!c) return;
-    $('detailTitle').textContent = c.product || 'Solicitud';
-    const wn = tel(c.contact).replace(/^\+/,'');
-    const actions = [
-      c.contact ? `<a class="pill call" href="tel:${tel(c.contact)}">${SVG.phone}<span>Llamar</span></a>` : '',
-      c.contact ? `<a class="pill sms" href="sms:${tel(c.contact)}">${SVG.sms}<span>SMS</span></a>` : '',
-      c.contact ? `<a class="pill wa" target="_blank" rel="noreferrer" href="https://wa.me/${wn}">${SVG.wa}<span>WhatsApp</span></a>` : '',
-    ].join('');
-    $('detailBody').innerHTML = `
+    $('detailTitle').textContent=c.product||'Solicitud';
+    const actions=[];
+    (c.contacts||[]).forEach(v=>{ actions.push(`<a class="pill" href="tel:${tel(v)}" style="color:var(--primary-2)">${SVG.phone}<span>${escH(v)}</span></a>`); actions.push(`<a class="pill" href="sms:${tel(v)}" style="color:var(--info)">${SVG.sms}<span>SMS</span></a>`); actions.push(`<a class="pill" target="_blank" rel="noreferrer" href="https://wa.me/${tel(v).replace(/^\+/,'')}" style="color:var(--success)">${SVG.wa}<span>WA</span></a>`); });
+    $('detailBody').innerHTML=`
       ${c.name?`<div class="detail-block"><div class="lbl">Cliente</div><div class="val">${escH(c.name)}</div></div>`:''}
-      ${c.qty?`<div class="detail-block"><div class="lbl">Cantidad / descripción</div><div class="val">${escH(c.qty)}</div></div>`:''}
+      ${c.qty?`<div class="detail-block"><div class="lbl">Descripción</div><div class="val">${escH(c.qty)}</div></div>`:''}
       ${c.tag?`<div class="detail-block"><div class="lbl">Etiqueta</div><div class="val">${escH(c.tag)}</div></div>`:''}
-      ${c.contact?`<div class="detail-block"><div class="lbl">Contacto</div><div class="val">${escH(c.contact)}</div></div>`:''}
+      ${c.address?`<div class="detail-block"><div class="lbl">Dirección</div><div class="val">${escH(c.address)}</div></div>`:''}
       ${c.notes?`<div class="detail-block"><div class="lbl">Notas</div><div class="val">${escH(c.notes)}</div></div>`:''}
-      <div class="detail-actions">${actions}</div>
-    `;
+      <div class="detail-actions">${actions.join('')}</div>`;
     $('modalDetail').classList.add('open');
   }
 
-  window.closeDetail = ()=> $('modalDetail').classList.remove('open');
-  $('modalDetail').addEventListener('click', e=>{ if(e.target===$('modalDetail')) closeDetail(); });
+  // ══════════ NOTAS ══════════
+  function renderNotes(){
+    const q=($('notesSearch').value||'').trim().toLowerCase();
+    const items = notes.filter(n=>{
+      if(!q) return true;
+      return [n.title,n.body,n.tag].filter(Boolean).some(f=>String(f).toLowerCase().includes(q));
+    });
+    if(q) setCounter(items.length,'',q); else setCounter(notes.length,'notas');
+    const el=$('notesList');
+    if(items.length===0){ el.innerHTML='<div class="empty">'+SVG.note+'<p style="font-size:16px;margin:6px 0 0">'+(notes.length===0?'No tienes notas':'Sin resultados')+'</p></div>'; return; }
+    el.innerHTML=items.map(n=>`<article class="card">
+      <div class="row">
+        <div class="avatar note-avatar">${SVG.note}</div>
+        <div class="info">
+          <p class="name">${escH(n.title)}</p>
+          ${n.body?`<p class="product" style="white-space:pre-wrap;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">${escH(n.body)}</p>`:''}
+          ${n.tag?`<span class="badge med">${escH(n.tag)}</span>`:''}
+        </div>
+      </div>
+      <div class="row-actions">
+        <button class="iact info" data-info-note="${n.id}">${SVG.info}</button>
+        <button class="iact edit" data-edit-note="${n.id}">${SVG.edit}</button>
+        <button class="iact del" data-del-note="${n.id}">${SVG.del}</button>
+      </div>
+    </article>`).join('');
+  }
+  $('notesSearch').addEventListener('input', renderNotes);
+  $('notesList').addEventListener('click', e=>{
+    const t=e.target.closest('button'); if(!t) return; const d=t.dataset;
+    if(d.infoNote){ const n=notes.find(x=>x.id===d.infoNote); if(!n) return; $('detailTitle').textContent=n.title; $('detailBody').innerHTML=`${n.body?`<div class="detail-block"><div class="lbl">Contenido</div><div class="val">${escH(n.body)}</div></div>`:''}${n.tag?`<div class="detail-block"><div class="lbl">Etiqueta</div><div class="val">${escH(n.tag)}</div></div>`:''}`; $('modalDetail').classList.add('open'); }
+    else if(d.editNote) openNoteModal(notes.find(n=>n.id===d.editNote));
+    else if(d.delNote) confirmDelete('Eliminar esta nota', ()=>{ notes=notes.filter(n=>n.id!==d.delNote); lsSave(KEYS.notes,notes); renderNotes(); });
+  });
+  function openNoteModal(n){
+    $('modalNoteTitle').textContent=n?'Editar nota':'Nueva nota';
+    $('n-id').value=n?.id||''; $('n-title').value=n?.title||''; $('n-body').value=n?.body||''; $('n-tag').value=n?.tag||'';
+    $('modalNote').classList.add('open'); setTimeout(()=>$('n-title').focus(),50);
+  }
+  $('formNote').addEventListener('submit',e=>{
+    e.preventDefault();
+    const data={id:$('n-id').value||uid(),title:$('n-title').value.trim(),body:$('n-body').value.trim(),tag:$('n-tag').value.trim()};
+    if(!data.title) return;
+    const idx=notes.findIndex(n=>n.id===data.id);
+    if(idx>=0) notes[idx]=data; else notes.unshift(data);
+    lsSave(KEYS.notes,notes); renderNotes(); closeModal('modalNote');
+  });
 
-  // ══════════════════════════════════
-  //  ADMIN — GITHUB
-  // ══════════════════════════════════
+  // ══════════ CONTACTOS ══════════
+  let sortContactMode = localStorage.getItem(KEYS.sortContact)||'all';
+  const SORT_CT={all:'Todos',familia:'Familia',amigo:'Amigos',otro:'Otros',name:'A→Z'};
+  $('sortContactBtn').onclick=()=>{ const ks=Object.keys(SORT_CT); sortContactMode=ks[(ks.indexOf(sortContactMode)+1)%ks.length]; localStorage.setItem(KEYS.sortContact,sortContactMode); $('sortContactLabel').textContent=SORT_CT[sortContactMode]; renderContacts(); };
+  $('sortContactLabel').textContent=SORT_CT[sortContactMode];
+
+  function renderContacts(){
+    const q=($('contactsSearch').value||'').trim().toLowerCase();
+    let items = contacts.filter(c=>{
+      if(sortContactMode!=='all'&&sortContactMode!=='name' && c.category!==sortContactMode) return false;
+      if(!q) return true;
+      return [c.name,c.address,c.notes,...(c.phones||[]),...(c.whatsapps||[])].filter(Boolean).some(f=>String(f).toLowerCase().includes(q));
+    });
+    if(sortContactMode==='name') items.sort((a,b)=>(a.name||'').localeCompare(b.name||''));
+    if(q) setCounter(items.length,'',q); else setCounter(contacts.length,'contactos');
+    const el=$('contactList');
+    if(items.length===0){ el.innerHTML='<div class="empty">'+SVG.user+'<p style="font-size:16px;margin:6px 0 0">'+(contacts.length===0?'No tienes contactos':'Sin resultados')+'</p></div>'; return; }
+    const catBadge={familia:'<span class="badge fam">👨‍👩‍👧 Familia</span>',amigo:'<span class="badge ami">🤝 Amigo</span>',otro:'<span class="badge otr">📇 Otro</span>'};
+    el.innerHTML=items.map(c=>{
+      const hasPh=(c.phones||[]).length>0, hasWa=(c.whatsapps||[]).length>0;
+      const phoneIcon=hasPh?`<button class="iact call" data-call-ct="${c.id}">${SVG.phone}</button>`:'';
+      const smsIcon=hasPh?`<button class="iact sms" data-sms-ct="${c.id}">${SVG.sms}</button>`:'';
+      const waIcon=hasWa?`<button class="iact wa" data-wa-ct="${c.id}">${SVG.wa}</button>`:'';
+      return `<article class="card">
+        <div class="row">
+          <div class="avatar contact-avatar">${SVG.user}</div>
+          <div class="info">
+            <p class="name">${escH(c.name)}</p>
+            ${(c.phones||[])[0]?`<p class="product">📞 ${escH((c.phones||[])[0])}</p>`:''}
+            ${c.address?`<p class="addr">${SVG.pin}${escH(c.address)}</p>`:''}
+            ${catBadge[c.category]||''}
+          </div>
+        </div>
+        <div class="row-actions">
+          ${phoneIcon}${smsIcon}${waIcon}
+          <span class="iact-sep"></span>
+          <button class="iact info" data-info-ct="${c.id}">${SVG.info}</button>
+          <button class="iact edit" data-edit-ct="${c.id}">${SVG.edit}</button>
+          <button class="iact del" data-del-ct="${c.id}">${SVG.del}</button>
+        </div>
+      </article>`;
+    }).join('');
+  }
+  $('contactsSearch').addEventListener('input', renderContacts);
+  $('contactList').addEventListener('click', e=>{
+    const t=e.target.closest('button'); if(!t) return; const d=t.dataset;
+    if(d.callCt) pickAndAct(contacts.find(c=>c.id===d.callCt),'phones','call');
+    else if(d.smsCt) pickAndAct(contacts.find(c=>c.id===d.smsCt),'phones','sms');
+    else if(d.waCt) pickAndAct(contacts.find(c=>c.id===d.waCt),'whatsapps','wa');
+    else if(d.infoCt){ const c=contacts.find(x=>x.id===d.infoCt); if(!c) return;
+      $('detailTitle').textContent=c.name;
+      const acts=[];
+      (c.phones||[]).forEach(p=>acts.push(`<a class="pill" href="tel:${tel(p)}" style="color:var(--primary-2)">${SVG.phone}<span>${escH(p)}</span></a>`));
+      (c.whatsapps||[]).forEach(w=>acts.push(`<a class="pill" target="_blank" rel="noreferrer" href="https://wa.me/${tel(w).replace(/^\+/,'')}" style="color:var(--success)">${SVG.wa}<span>${escH(w)}</span></a>`));
+      $('detailBody').innerHTML=`<div class="detail-block"><div class="lbl">Categoría</div><div class="val">${escH(c.category||'otro')}</div></div>${c.address?`<div class="detail-block"><div class="lbl">Dirección</div><div class="val">${escH(c.address)}</div></div>`:''}${c.notes?`<div class="detail-block"><div class="lbl">Notas</div><div class="val">${escH(c.notes)}</div></div>`:''}<div class="detail-actions">${acts.join('')}</div>`;
+      $('modalDetail').classList.add('open');
+    }
+    else if(d.editCt) openContactModal(contacts.find(c=>c.id===d.editCt));
+    else if(d.delCt) confirmDelete('Eliminar contacto', ()=>{ contacts=contacts.filter(c=>c.id!==d.delCt); lsSave(KEYS.contacts,contacts); renderContacts(); });
+  });
+  function openContactModal(c){
+    $('modalContactTitle').textContent=c?'Editar contacto':'Nuevo contacto';
+    $('ct-id').value=c?.id||''; $('ct-name').value=c?.name||''; $('ct-cat').value=c?.category||'familia';
+    $('ct-address').value=c?.address||''; $('ct-notes').value=c?.notes||'';
+    fillMulti('ct-phones', c?.phones||[]); fillMulti('ct-was', c?.whatsapps||[]);
+    $('modalContact').classList.add('open'); setTimeout(()=>$('ct-name').focus(),50);
+  }
+  $('formContact').addEventListener('submit',e=>{
+    e.preventDefault();
+    const data={id:$('ct-id').value||uid(),name:$('ct-name').value.trim(),category:$('ct-cat').value,
+      phones:readMulti('ct-phones'),whatsapps:readMulti('ct-was'),
+      address:$('ct-address').value.trim(),notes:$('ct-notes').value.trim()};
+    if(!data.name) return;
+    const idx=contacts.findIndex(c=>c.id===data.id);
+    if(idx>=0) contacts[idx]=data; else contacts.unshift(data);
+    lsSave(KEYS.contacts,contacts); renderContacts(); closeModal('modalContact');
+  });
+
+  // ══════════ FAB + Modal close ══════════
+  window.closeModal = function(id){ $(id).classList.remove('open'); };
+  document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{ if(e.target===m) m.classList.remove('open'); }));
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') document.querySelectorAll('.modal.open').forEach(m=>m.classList.remove('open')); });
+
+  $('addBtn').addEventListener('click', ()=>{
+    if(currentPage==='providers') openProviderModal(null);
+    else if(currentPage==='pending') openPendingModal(null);
+    else if(currentPage==='clients') openClientModal(null);
+    else if(currentPage==='notes') openNoteModal(null);
+    else if(currentPage==='contacts') openContactModal(null);
+  });
+
+  // ══════════ CONFIRM ══════════
+  function confirmDelete(msg, cb){
+    $('confirmTitle').textContent='Confirmar';
+    $('confirmMsg').textContent='¿'+msg+'? Esta acción no se puede deshacer.';
+    const btn=$('confirmOk'); btn.textContent='Eliminar';
+    btn.onclick=()=>{ closeModal('modalConfirm'); cb(); };
+    $('modalConfirm').classList.add('open');
+  }
+  window.clearAll = function(type){
+    const labels={providers:'todos los proveedores',pending:'todos los pendientes',clients:'todas las solicitudes de clientes',notes:'todas las notas',contacts:'todos los contactos'};
+    $('confirmTitle').textContent='⚠️ Borrar TODO';
+    $('confirmMsg').textContent='¿Eliminar '+labels[type]+'? No se puede deshacer.';
+    const btn=$('confirmOk'); btn.textContent='Borrar todo';
+    btn.onclick=()=>{
+      closeModal('modalConfirm');
+      if(type==='providers'){ providers=[]; lsSave(KEYS.providers,providers); renderProviders(); }
+      if(type==='pending'){ pendings=[]; lsSave(KEYS.pending,pendings); renderPending(); }
+      if(type==='clients'){ clients=[]; lsSave(KEYS.clients,clients); renderClients(); }
+      if(type==='notes'){ notes=[]; lsSave(KEYS.notes,notes); renderNotes(); }
+      if(type==='contacts'){ contacts=[]; lsSave(KEYS.contacts,contacts); renderContacts(); }
+      updateReminder();
+    };
+    $('modalConfirm').classList.add('open');
+  };
+  window.wipeAllConfirm = function(){
+    $('confirmTitle').textContent='⚠️ Borrar TODO el sistema';
+    $('confirmMsg').textContent='¿Eliminar todos los datos en este dispositivo (proveedores, pendientes, clientes, notas, contactos)?';
+    const btn=$('confirmOk'); btn.textContent='Borrar todo';
+    btn.onclick=()=>{
+      closeModal('modalConfirm');
+      providers=[]; pendings=[]; clients=[]; notes=[]; contacts=[];
+      [KEYS.providers,KEYS.pending,KEYS.clients,KEYS.notes,KEYS.contacts].forEach(k=>lsSave(k,[]));
+      showPage('providers'); updateReminder();
+    };
+    $('modalConfirm').classList.add('open');
+  };
+
+  // ══════════ ADMIN / GITHUB ══════════
   function renderAdmin(){
-    const t=localStorage.getItem(KEYS.ghToken)||'';
-    const o=localStorage.getItem(KEYS.ghOwner)||'';
-    const r=localStorage.getItem(KEYS.ghRepo)||'';
-    const b=localStorage.getItem(KEYS.ghBranch)||'main';
-    if(t){ $('ghToken').value=t; $('credSavedBadge').style.display='inline'; }
-    else $('credSavedBadge').style.display='none';
-    $('ghOwner').value=o; $('ghRepo').value=r; $('ghBranch').value=b;
-    $('previewProviders').textContent = JSON.stringify(providers,null,2).slice(0,400)+(JSON.stringify(providers).length>400?'\n...':'');
+    $('ghToken').value=localStorage.getItem(KEYS.ghToken)||'';
+    $('ghOwner').value=localStorage.getItem(KEYS.ghOwner)||'';
+    $('ghRepo').value=localStorage.getItem(KEYS.ghRepo)||'';
+    $('ghBranch').value=localStorage.getItem(KEYS.ghBranch)||'main';
+    $('alarmSound').value=localStorage.getItem(KEYS.alarmSound)||'bell';
     refreshAutoSwitches();
   }
-
   window.saveGHCreds = function(){
-    localStorage.setItem(KEYS.ghToken, $('ghToken').value.trim());
-    localStorage.setItem(KEYS.ghOwner, $('ghOwner').value.trim());
-    localStorage.setItem(KEYS.ghRepo,  $('ghRepo').value.trim());
+    localStorage.setItem(KEYS.ghToken,$('ghToken').value.trim());
+    localStorage.setItem(KEYS.ghOwner,$('ghOwner').value.trim());
+    localStorage.setItem(KEYS.ghRepo,$('ghRepo').value.trim());
     localStorage.setItem(KEYS.ghBranch,$('ghBranch').value.trim()||'main');
-    $('credSavedBadge').style.display='inline';
     showStatus('ghTestStatus','✅ Credenciales guardadas','ok');
-    scheduleSync(500);
-    initialPullIfClean();
+    if(localStorage.getItem(KEYS.syncCreds)==='1') pushCredsToGitHub();
+    scheduleSync(500); initialPullIfClean();
   };
   function getGHCreds(){
-    return {
-      token:  localStorage.getItem(KEYS.ghToken)||'',
-      owner:  localStorage.getItem(KEYS.ghOwner)||'',
-      repo:   localStorage.getItem(KEYS.ghRepo)||'',
-      branch: localStorage.getItem(KEYS.ghBranch)||'main',
-    };
+    return {token:localStorage.getItem(KEYS.ghToken)||'',owner:localStorage.getItem(KEYS.ghOwner)||'',repo:localStorage.getItem(KEYS.ghRepo)||'',branch:localStorage.getItem(KEYS.ghBranch)||'main'};
   }
-  function showStatus(id, msg, type){
-    const el=$(id); el.textContent=msg; el.className='status-msg '+type;
-    if(id!=='syncStatusInline') setTimeout(()=>{ el.className='status-msg'; },8000);
-  }
-  function logLine(boxId, msg, type){
-    const box=$(boxId); if(!box) return;
-    box.classList.add('show');
-    const ts=new Date().toLocaleTimeString();
-    const cls = type ? 'lg-'+type : 'lg-dim';
-    const line=document.createElement('div');
-    line.innerHTML='<span class="lg-dim">['+ts+']</span> <span class="'+cls+'">'+msg.replace(/</g,'&lt;')+'</span>';
-    box.appendChild(line); box.scrollTop = box.scrollHeight;
-  }
-  function clearLog(boxId){ const b=$(boxId); if(b){ b.innerHTML=''; b.classList.remove('show'); } }
+  function showStatus(id,msg,type){ const el=$(id); el.textContent=msg; el.className='status-msg '+type; if(id!=='syncStatusInline') setTimeout(()=>el.className='status-msg',8000); }
+  function logLine(id,msg,t){ const b=$(id); if(!b) return; b.classList.add('show'); const ts=new Date().toLocaleTimeString(); const line=document.createElement('div'); line.innerHTML='<span class="lg-dim">['+ts+']</span> <span class="lg-'+(t||'dim')+'">'+msg.replace(/</g,'&lt;')+'</span>'; b.appendChild(line); b.scrollTop=b.scrollHeight; }
+  function clearLog(id){ const b=$(id); if(b){ b.innerHTML=''; b.classList.remove('show'); } }
 
   window.testGHConnection = async function(){
-    const {token,owner,repo,branch} = getGHCreds();
-    clearLog('ghTestLog');
-    logLine('ghTestLog','▶ Probando conexión...', 'info');
+    const {token,owner,repo}=getGHCreds(); clearLog('ghTestLog');
     if(!token||!owner||!repo){ logLine('ghTestLog','✗ Faltan credenciales','err'); return; }
     const H={'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json'};
     try{
-      const ru = await fetch('https://api.github.com/user',{headers:H});
-      logLine('ghTestLog','GET /user → '+ru.status, ru.ok?'ok':'err');
+      const ru=await fetch('https://api.github.com/user',{headers:H});
+      logLine('ghTestLog','GET /user → '+ru.status,ru.ok?'ok':'err');
       if(!ru.ok){ showStatus('ghTestStatus','❌ Token inválido','err'); return; }
-      const u=await ru.json(); logLine('ghTestLog','✓ Autenticado como '+u.login,'ok');
+      const u=await ru.json(); logLine('ghTestLog','✓ '+u.login,'ok');
       const rr=await fetch('https://api.github.com/repos/'+owner+'/'+repo,{headers:H});
-      logLine('ghTestLog','GET /repo → '+rr.status, rr.ok?'ok':'err');
       if(!rr.ok){ showStatus('ghTestStatus','❌ Repo no accesible','err'); return; }
       showStatus('ghTestStatus','✅ Conexión OK','ok');
-    }catch(err){ logLine('ghTestLog','✗ '+err.message,'err'); }
+    }catch(e){ logLine('ghTestLog','✗ '+e.message,'err'); }
   };
 
-  async function getFileSHA(token,owner,repo,branch,filename){
-    const r=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filename}?ref=${branch}`,{headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json'}});
-    if(r.status===404) return null;
-    if(!r.ok) return null;
+  async function getFileSHA(token,owner,repo,branch,fn){
+    const r=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${fn}?ref=${branch}`,{headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json'}});
+    if(r.status===404||!r.ok) return null;
     const d=await r.json(); return d.sha||null;
   }
-
   function getLastHashes(){ try{return JSON.parse(localStorage.getItem(KEYS.lastHash)||'{}');}catch(e){return{};} }
-  function setLastHashes(h){ localStorage.setItem(KEYS.lastHash, JSON.stringify(h)); }
+  function setLastHashes(h){ localStorage.setItem(KEYS.lastHash,JSON.stringify(h)); }
   function getLastSHA(){ try{return JSON.parse(localStorage.getItem(KEYS.lastSHA)||'{}');}catch(e){return{};} }
-  function setLastSHA(s){ localStorage.setItem(KEYS.lastSHA, JSON.stringify(s)); }
-
-  window.pushToGitHub = async function(type, opts){
-    opts = opts || {};
-    const {token,owner,repo,branch}=getGHCreds();
-    const statusId = type+'Status';
-    const labels={providers:'Proveedores',pending:'Pendientes',clients:'Clientes'};
-    if(!token||!owner||!repo){
-      const m='⚠️ Configura las credenciales primero';
-      if(!opts.silent) showStatus(statusId,m,'err');
-      return {ok:false,type,msg:m};
-    }
-    const filename = GH_FILES[type];
-    const dataMap = {providers, pending: pendings, clients};
-    const arr=dataMap[type]||[];
-    const jsonStr = JSON.stringify(arr,null,2);
-    const newHash = hashStr(jsonStr);
-    const lastHashes = getLastHashes();
-    // Skip if content hasn't changed AND not forced
-    if(!opts.force && lastHashes[type]===newHash){
-      return {ok:true,type,count:arr.length,skipped:true};
-    }
-    const content = btoa(unescape(encodeURIComponent(jsonStr)));
-    const btnId = {providers:'btnPushProv',pending:'btnPushPend',clients:'btnPushClients'}[type];
-    const btn=$(btnId);
-    if(btn && !opts.silent){ btn.disabled=true; btn.textContent='Subiendo...'; }
-    let result={ok:false,type,count:arr.length,filename};
-    try{
-      if(!opts.silent) showStatus(statusId,'⏳ Subiendo...','info');
-      let sha = getLastSHA()[type] || await getFileSHA(token,owner,repo,branch||'main',filename);
-      const body = {message:`agenda: ${type} (${arr.length} items)`,content,branch:branch||'main'};
-      if(sha) body.sha=sha;
-      let r=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filename}`,{
-        method:'PUT',headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
-        body:JSON.stringify(body)
-      });
-      // Retry once on 409/422 (stale SHA): fetch fresh sha and try again
-      if((r.status===409 || r.status===422) && !opts.silent===false){
-        const freshSha = await getFileSHA(token,owner,repo,branch||'main',filename);
-        if(freshSha){
-          body.sha = freshSha;
-          r = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filename}`,{
-            method:'PUT',headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
-            body:JSON.stringify(body)
-          });
-        }
-      }
-      result.status=r.status;
-      if(r.ok){
-        const j=await r.json();
-        result.ok=true; result.action=sha?'actualizado':'creado'; result.sha=j.content?.sha;
-        // Update caches
-        const lh=getLastHashes(); lh[type]=newHash; setLastHashes(lh);
-        const ls2=getLastSHA(); ls2[type]=j.content?.sha; setLastSHA(ls2);
-        const d=getDirty(); delete d[type]; setDirty(d);
-        if(!opts.silent) showStatus(statusId,'✅ '+result.action+' en GitHub','ok');
-      } else {
-        const e=await r.json().catch(()=>({}));
-        result.msg=e.message||'fallo';
-        if(!opts.silent) showStatus(statusId,'❌ '+r.status+': '+result.msg,'err');
-      }
-    }catch(err){
-      result.msg=err.message;
-      if(!opts.silent) showStatus(statusId,'❌ '+err.message,'err');
-    }
-    if(btn && !opts.silent){
-      btn.disabled=false;
-      btn.textContent='⬆️ Subir '+labels[type];
-      renderAdmin();
-    }
-    return result;
-  };
-
-  window.pullFromGitHub = async function(type, opts){
-    opts = opts || {};
-    const {token,owner,repo,branch}=getGHCreds();
-    const statusId=type+'Status';
-    if(!token||!owner||!repo){
-      if(!opts.silent) showStatus(statusId,'⚠️ Configura las credenciales primero','err');
-      return {ok:false};
-    }
-    const filename=GH_FILES[type];
-    try{
-      if(!opts.silent) showStatus(statusId,'⏳ Descargando...','info');
-      const r=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filename}?ref=${branch||'main'}`,{headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json'}});
-      if(r.status===404){ if(!opts.silent) showStatus(statusId,'⚠️ Archivo no existe en GitHub','err'); return {ok:false,notFound:true}; }
-      if(!r.ok){ if(!opts.silent) showStatus(statusId,'❌ '+r.status,'err'); return {ok:false}; }
-      const d=await r.json();
-      const decoded = decodeURIComponent(escape(atob((d.content||'').replace(/\n/g,''))));
-      const parsed = JSON.parse(decoded);
-      if(!Array.isArray(parsed)){ if(!opts.silent) showStatus(statusId,'❌ Formato inválido','err'); return {ok:false}; }
-      const remoteHash = hashStr(JSON.stringify(parsed,null,2));
-      const lh=getLastHashes();
-      // If same as what we last pushed/pulled, nothing to apply
-      if(lh[type]===remoteHash){
-        // Just refresh SHA cache
-        const ls2=getLastSHA(); ls2[type]=d.sha; setLastSHA(ls2);
-        return {ok:true, unchanged:true};
-      }
-      // Apply remote → local, suppressing dirty marking via flag
-      suppressDirty = true;
-      if(type==='providers'){ providers=parsed; lsSave(KEYS.providers,parsed); if(currentPage==='providers') renderProviders(); }
-      if(type==='pending'){ pendings=parsed; lsSave(KEYS.pending,parsed); if(currentPage==='pending') renderPending(); }
-      if(type==='clients'){ clients=parsed; lsSave(KEYS.clients,parsed); if(currentPage==='clients') renderClients(); }
-      suppressDirty = false;
-      lh[type]=remoteHash; setLastHashes(lh);
-      const ls2=getLastSHA(); ls2[type]=d.sha; setLastSHA(ls2);
-      if(!opts.silent) showStatus(statusId,'✅ '+parsed.length+' registros cargados','ok');
-      return {ok:true, changed:true, count:parsed.length};
-    }catch(err){ if(!opts.silent) showStatus(statusId,'❌ '+err.message,'err'); return {ok:false}; }
-  };
-
-  window.pushAll = async function(){
-    const btn=$('btnPushAll');
-    btn.disabled=true; btn.textContent='Sincronizando...';
-    clearLog('allLog');
-    logLine('allLog','▶ Subida masiva...','info');
-    const types=['providers','pending','clients'];
-    let okCount=0, failCount=0, skipCount=0;
-    for(const t of types){
-      const res = await pushToGitHub(t, {silent:true, force:true});
-      if(res.ok){ okCount++; logLine('allLog','✓ '+t+(res.skipped?' (sin cambios)':' '+(res.action||'')),'ok'); if(res.skipped) skipCount++; }
-      else { failCount++; logLine('allLog','✗ '+t+' '+(res.msg||''),'err'); }
-    }
-    if(failCount===0){ showStatus('allStatus','✅ Sincronizado ('+okCount+'/3)','ok'); setDirty({}); }
-    else showStatus('allStatus','⚠️ '+okCount+' OK, '+failCount+' fallaron','err');
-    btn.disabled=false; btn.textContent='Forzar sincronización completa';
-    renderAdmin();
-  };
-
-  document.addEventListener('keydown', e=>{ if(e.key==='Escape'){
-    ['modalProvider','modalPending','modalClient','modalDetail'].forEach(id=>$(id).classList.remove('open'));
-  }});
-
-  showPage('providers');
-
-  // ══════════════════════════════════
-  //  IndexedDB mirror + Auto-sync
-  // ══════════════════════════════════
-  const DATA_KEYS   = [KEYS.providers, KEYS.pending, KEYS.clients];
-  const DIRTY_KEY   = 'agenda.sync.dirty';
-  const TYPE_BY_KEY = {[KEYS.providers]:'providers',[KEYS.pending]:'pending',[KEYS.clients]:'clients'};
-  let suppressDirty = false;
-
-  const IDB_NAME='miAgendaDB', IDB_STORE='kv';
-  function idbOpen(){ return new Promise((res,rej)=>{ const r=indexedDB.open(IDB_NAME,1); r.onupgradeneeded=()=>r.result.createObjectStore(IDB_STORE); r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); }); }
-  async function idbSet(k,v){ const db=await idbOpen(); return new Promise((res,rej)=>{ const tx=db.transaction(IDB_STORE,'readwrite'); tx.objectStore(IDB_STORE).put(v,k); tx.oncomplete=()=>res(); tx.onerror=()=>rej(tx.error); }); }
-  async function idbGet(k){ const db=await idbOpen(); return new Promise((res,rej)=>{ const tx=db.transaction(IDB_STORE,'readonly'); const rq=tx.objectStore(IDB_STORE).get(k); rq.onsuccess=()=>res(rq.result); rq.onerror=()=>rej(rq.error); }); }
-
-  (async function hydrateFromIDB(){
-    try{
-      let changed=false;
-      for(const k of DATA_KEYS){
-        const v=await idbGet(k);
-        if(v && (!localStorage.getItem(k) || localStorage.getItem(k)==='[]')){
-          suppressDirty=true; localStorage.setItem(k, v); suppressDirty=false;
-          changed=true;
-        }
-      }
-      if(changed){
-        providers=ls(KEYS.providers); pendings=ls(KEYS.pending); clients=ls(KEYS.clients);
-        if(currentPage==='providers') renderProviders();
-        if(currentPage==='pending')   renderPending();
-        if(currentPage==='clients')   renderClients();
-      }
-    }catch(e){ console.warn('IDB hydrate fail',e); }
-  })();
-
-  function getDirty(){ try{return JSON.parse(localStorage.getItem(DIRTY_KEY)||'{}');}catch(e){return{};} }
-  function setDirty(d){ localStorage.setItem(DIRTY_KEY, JSON.stringify(d)); updateSyncBadge(); }
+  function setLastSHA(s){ localStorage.setItem(KEYS.lastSHA,JSON.stringify(s)); }
+  function getDirty(){ try{return JSON.parse(localStorage.getItem('agenda.sync.dirty')||'{}');}catch(e){return{};} }
+  function setDirty(d){ localStorage.setItem('agenda.sync.dirty',JSON.stringify(d)); updateSyncBadge(); }
   function markDirty(type){ const d=getDirty(); d[type]=true; setDirty(d); }
 
-  const _setItem = Storage.prototype.setItem;
-  Storage.prototype.setItem = function(k,v){
-    _setItem.call(this,k,v);
-    if(this===localStorage && DATA_KEYS.includes(k) && !suppressDirty){
-      idbSet(k,v).catch(()=>{});
-      markDirty(TYPE_BY_KEY[k]);
-      scheduleSync();
-    }
+  window.pushToGitHub = async function(type, opts){
+    opts=opts||{};
+    const {token,owner,repo,branch}=getGHCreds();
+    if(!token||!owner||!repo){ return {ok:false,msg:'sin credenciales'}; }
+    const fn=GH_FILES[type];
+    const dataMap={providers,pending:pendings,clients,notes,contacts};
+    const arr=dataMap[type]||[];
+    const jsonStr=JSON.stringify(arr,null,2);
+    const newHash=hashStr(jsonStr);
+    const lh=getLastHashes();
+    if(!opts.force && lh[type]===newHash) return {ok:true,skipped:true};
+    const content=btoa(unescape(encodeURIComponent(jsonStr)));
+    try{
+      let sha = getLastSHA()[type] || await getFileSHA(token,owner,repo,branch,fn);
+      const body={message:`agenda: ${type} (${arr.length})`,content,branch};
+      if(sha) body.sha=sha;
+      let r=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${fn}`,{method:'PUT',headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify(body)});
+      if(r.status===409||r.status===422){
+        const fresh=await getFileSHA(token,owner,repo,branch,fn);
+        if(fresh){ body.sha=fresh; r=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${fn}`,{method:'PUT',headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify(body)}); }
+      }
+      if(r.ok){ const j=await r.json(); lh[type]=newHash; setLastHashes(lh); const ls2=getLastSHA(); ls2[type]=j.content?.sha; setLastSHA(ls2); const d=getDirty(); delete d[type]; setDirty(d); return {ok:true}; }
+      const e=await r.json().catch(()=>({})); return {ok:false,msg:e.message||r.status};
+    }catch(e){ return {ok:false,msg:e.message}; }
   };
+
+  let suppressDirty=false;
+  window.pullFromGitHub = async function(type, opts){
+    opts=opts||{};
+    const {token,owner,repo,branch}=getGHCreds();
+    if(!token||!owner||!repo) return {ok:false};
+    const fn=GH_FILES[type];
+    try{
+      const r=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${fn}?ref=${branch}`,{headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json'}});
+      if(r.status===404) return {ok:false,notFound:true};
+      if(!r.ok) return {ok:false};
+      const d=await r.json();
+      const decoded=decodeURIComponent(escape(atob((d.content||'').replace(/\n/g,''))));
+      const parsed=JSON.parse(decoded);
+      if(!Array.isArray(parsed)) return {ok:false};
+      const remoteHash=hashStr(JSON.stringify(parsed,null,2));
+      const lh=getLastHashes();
+      if(lh[type]===remoteHash){ const ls2=getLastSHA(); ls2[type]=d.sha; setLastSHA(ls2); return {ok:true,unchanged:true}; }
+      suppressDirty=true;
+      if(type==='providers'){ providers=parsed.map(normalizeProvider).filter(Boolean); lsSave(KEYS.providers,providers); if(currentPage==='providers') renderProviders(); }
+      if(type==='pending'){ pendings=parsed; pendings.forEach(t=>{ if(typeof t.notifMsg!=='string') t.notifMsg=''; }); lsSave(KEYS.pending,pendings); if(currentPage==='pending') renderPending(); }
+      if(type==='clients'){ clients=parsed.map(normalizeClient).filter(Boolean); lsSave(KEYS.clients,clients); if(currentPage==='clients') renderClients(); }
+      if(type==='notes'){ notes=parsed.map(normalizeNote).filter(Boolean); lsSave(KEYS.notes,notes); if(currentPage==='notes') renderNotes(); }
+      if(type==='contacts'){ contacts=parsed.map(normalizeContact).filter(Boolean); lsSave(KEYS.contacts,contacts); if(currentPage==='contacts') renderContacts(); }
+      suppressDirty=false;
+      lh[type]=remoteHash; setLastHashes(lh);
+      const ls2=getLastSHA(); ls2[type]=d.sha; setLastSHA(ls2);
+      updateReminder();
+      return {ok:true,changed:true};
+    }catch(e){ return {ok:false,msg:e.message}; }
+  };
+
+  async function pushCredsToGitHub(){
+    const {token,owner,repo,branch}=getGHCreds();
+    if(!token||!owner||!repo) return;
+    const cfg={ghOwner:owner,ghRepo:repo,ghBranch:branch,authPw:localStorage.getItem(KEYS.authPw)||'',authQ:localStorage.getItem(KEYS.authQ)||'',authA:localStorage.getItem(KEYS.authA)||'',alarmSound:localStorage.getItem(KEYS.alarmSound)||'bell',ts:Date.now()};
+    const jsonStr=JSON.stringify(cfg,null,2);
+    const content=btoa(unescape(encodeURIComponent(jsonStr)));
+    try{
+      let sha=await getFileSHA(token,owner,repo,branch,GH_FILES.creds);
+      const body={message:'agenda: config',content,branch}; if(sha) body.sha=sha;
+      await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${GH_FILES.creds}`,{method:'PUT',headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify(body)});
+    }catch(e){}
+  }
+  async function pullCredsFromGitHub(){
+    const {token,owner,repo,branch}=getGHCreds();
+    if(!token||!owner||!repo) return;
+    try{
+      const r=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${GH_FILES.creds}?ref=${branch}`,{headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json'}});
+      if(!r.ok) return;
+      const d=await r.json();
+      const cfg=JSON.parse(decodeURIComponent(escape(atob((d.content||'').replace(/\n/g,'')))));
+      if(cfg.authPw) localStorage.setItem(KEYS.authPw,cfg.authPw);
+      if(cfg.authQ) localStorage.setItem(KEYS.authQ,cfg.authQ);
+      if(cfg.authA) localStorage.setItem(KEYS.authA,cfg.authA);
+      if(cfg.alarmSound) localStorage.setItem(KEYS.alarmSound,cfg.alarmSound);
+    }catch(e){}
+  }
+
+  window.pushAll = async function(){
+    const btn=$('btnPushAll'); btn.disabled=true; btn.textContent='Sincronizando...';
+    clearLog('allLog'); logLine('allLog','▶ Subida masiva...','info');
+    const types=['providers','pending','clients','notes','contacts'];
+    let ok=0,err=0;
+    for(const t of types){ const r=await pushToGitHub(t,{force:true}); if(r.ok){ ok++; logLine('allLog','✓ '+t+(r.skipped?' (sin cambios)':' subido'),'ok'); } else { err++; logLine('allLog','✗ '+t+' '+(r.msg||''),'err'); } }
+    if(localStorage.getItem(KEYS.syncCreds)==='1'){ await pushCredsToGitHub(); logLine('allLog','✓ credenciales','ok'); }
+    if(err===0){ showStatus('allStatus','✅ Sincronizado ('+ok+'/'+types.length+')','ok'); setDirty({}); }
+    else showStatus('allStatus','⚠️ '+ok+' OK, '+err+' fallaron','err');
+    btn.disabled=false; btn.textContent='Forzar subida completa';
+  };
+  window.pullAll = async function(){
+    clearLog('allLog'); logLine('allLog','▼ Descarga masiva...','info');
+    if(localStorage.getItem(KEYS.syncCreds)==='1') await pullCredsFromGitHub();
+    for(const t of ['providers','pending','clients','notes','contacts']){
+      const r=await pullFromGitHub(t); logLine('allLog',(r.ok?'✓ ':'✗ ')+t+(r.unchanged?' (sin cambios)':''), r.ok?'ok':'err');
+    }
+    showStatus('allStatus','✅ Descarga completa','ok'); updateReminder();
+  };
+
+  // ══════════ AUTO-SYNC ══════════
+  const DATA_KEYS=[KEYS.providers,KEYS.pending,KEYS.clients,KEYS.notes,KEYS.contacts];
+  const TYPE_BY_KEY={[KEYS.providers]:'providers',[KEYS.pending]:'pending',[KEYS.clients]:'clients',[KEYS.notes]:'notes',[KEYS.contacts]:'contacts'};
+  const IDB_NAME='miAgendaDB',IDB_STORE='kv';
+  function idbOpen(){ return new Promise((res,rej)=>{ const r=indexedDB.open(IDB_NAME,1); r.onupgradeneeded=()=>r.result.createObjectStore(IDB_STORE); r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); }); }
+  async function idbSet(k,v){ const db=await idbOpen(); return new Promise((res,rej)=>{ const tx=db.transaction(IDB_STORE,'readwrite'); tx.objectStore(IDB_STORE).put(v,k); tx.oncomplete=()=>res(); tx.onerror=()=>rej(tx.error); }); }
+  const _set=Storage.prototype.setItem;
+  Storage.prototype.setItem=function(k,v){ _set.call(this,k,v); if(this===localStorage && DATA_KEYS.includes(k) && !suppressDirty){ idbSet(k,v).catch(()=>{}); markDirty(TYPE_BY_KEY[k]); scheduleSync(); } };
 
   let syncTimer=null, syncing=false;
   function isAutoSyncOn(){ return localStorage.getItem(KEYS.autoSync)!=='0'; }
   function isAutoPullOn(){ return localStorage.getItem(KEYS.autoPull)!=='0'; }
-
-  function scheduleSync(delay=3000){
-    if(!isAutoSyncOn()) { updateSyncBadge(); return; }
-    clearTimeout(syncTimer);
-    syncTimer=setTimeout(()=>{ trySyncAll(); }, delay);
-    if('serviceWorker' in navigator && 'SyncManager' in window){
-      navigator.serviceWorker.ready.then(reg=>reg.sync.register('sync-agenda').catch(()=>{}));
-    }
-  }
-
+  function isSyncCredsOn(){ return localStorage.getItem(KEYS.syncCreds)==='1'; }
+  function scheduleSync(delay=3000){ if(!isAutoSyncOn()) return updateSyncBadge(); clearTimeout(syncTimer); syncTimer=setTimeout(trySyncAll,delay); }
   async function trySyncAll(){
-    if(syncing) return;
-    if(!navigator.onLine){ updateSyncBadge(); return; }
-    if(!isAutoSyncOn()){ updateSyncBadge(); return; }
-    const {token,owner,repo}=getGHCreds();
-    if(!token||!owner||!repo){ updateSyncBadge(); return; }
-    const dirty=getDirty();
-    const pendingTypes=Object.keys(dirty).filter(t=>dirty[t]);
-    if(pendingTypes.length===0){ updateSyncBadge(); return; }
+    if(syncing||!navigator.onLine||!isAutoSyncOn()) return updateSyncBadge();
+    const {token,owner,repo}=getGHCreds(); if(!token||!owner||!repo) return updateSyncBadge();
+    const dirty=getDirty(); const types=Object.keys(dirty).filter(t=>dirty[t]);
+    if(types.length===0) return updateSyncBadge();
     syncing=true; updateSyncBadge();
-    for(const type of pendingTypes){
-      try{ await pushToGitHub(type, {silent:true}); }
-      catch(e){ break; }
-    }
+    for(const t of types){ try{ await pushToGitHub(t); }catch(e){ break; } }
     syncing=false; updateSyncBadge();
   }
-
-  // ---- Pull periódico ----
   let pullTimer=null;
-  function startPullLoop(){
-    stopPullLoop();
-    if(!isAutoPullOn()) return;
-    pullTimer = setInterval(()=>{ if(!document.hidden) pullAllSilent(); }, 30000);
-  }
+  function startPullLoop(){ stopPullLoop(); if(!isAutoPullOn()) return; pullTimer=setInterval(()=>{ if(!document.hidden) pullAllSilent(); },30000); }
   function stopPullLoop(){ if(pullTimer){ clearInterval(pullTimer); pullTimer=null; } }
   async function pullAllSilent(){
     if(!navigator.onLine) return;
-    const {token,owner,repo}=getGHCreds();
-    if(!token||!owner||!repo) return;
-    // Skip if we have unsynced local changes (don't overwrite)
+    const {token,owner,repo}=getGHCreds(); if(!token||!owner||!repo) return;
     const dirty=getDirty();
-    for(const type of ['providers','pending','clients']){
-      if(dirty[type]) continue;
-      try{ await pullFromGitHub(type, {silent:true}); }catch(e){}
-    }
+    if(isSyncCredsOn()) await pullCredsFromGitHub();
+    for(const t of ['providers','pending','clients','notes','contacts']){ if(dirty[t]) continue; try{ await pullFromGitHub(t); }catch(e){} }
     updateSyncBadge();
   }
-
   async function initialPullIfClean(){
     if(!navigator.onLine) return;
-    const {token,owner,repo}=getGHCreds();
-    if(!token||!owner||!repo) return;
-    const dirty=getDirty();
-    if(Object.values(dirty).some(Boolean)) return;
-    for(const type of ['providers','pending','clients']){
-      try{ await pullFromGitHub(type, {silent:true}); }catch(e){}
-    }
+    const {token,owner,repo}=getGHCreds(); if(!token||!owner||!repo) return;
+    const dirty=getDirty(); if(Object.values(dirty).some(Boolean)) return;
+    if(isSyncCredsOn()) await pullCredsFromGitHub();
+    for(const t of ['providers','pending','clients','notes','contacts']){ try{ await pullFromGitHub(t); }catch(e){} }
     updateSyncBadge();
   }
-
   function updateSyncBadge(){
-    let el=document.getElementById('syncBadge');
-    if(!el){
-      el=document.createElement('div');
-      el.id='syncBadge';
-      el.style.cssText='position:fixed;top:8px;right:8px;z-index:9999;font-size:11px;padding:4px 8px;border-radius:999px;background:rgba(0,0,0,.55);color:#fff;backdrop-filter:blur(6px);pointer-events:none;transition:opacity .3s;';
-      document.body.appendChild(el);
-    }
-    const dirty=getDirty();
-    const pendCount=Object.values(dirty).filter(Boolean).length;
+    let el=$('syncBadge');
+    if(!el){ el=document.createElement('div'); el.id='syncBadge'; el.style.cssText='position:fixed;top:8px;left:8px;z-index:9999;font-size:11px;padding:4px 8px;border-radius:999px;background:rgba(0,0,0,.55);color:#fff;backdrop-filter:blur(6px);pointer-events:none;transition:opacity .3s'; document.body.appendChild(el); }
+    const dirty=getDirty(); const n=Object.values(dirty).filter(Boolean).length;
     const inline=$('syncStatusInline');
-    let text='', bg='';
-    if(!navigator.onLine){ text='● Sin conexión'; bg='rgba(239,68,68,.85)'; }
-    else if(!isAutoSyncOn()){ text='⏸ Auto-sync pausado'; bg='rgba(154,154,176,.85)'; }
+    let text='',bg='';
+    if(!navigator.onLine){ text='● Offline'; bg='rgba(239,68,68,.85)'; }
+    else if(!isAutoSyncOn()){ text='⏸ Sync pausado'; bg='rgba(154,154,176,.85)'; }
     else if(syncing){ text='⟳ Sincronizando…'; bg='rgba(59,130,246,.85)'; }
-    else if(pendCount>0){ text='⏳ '+pendCount+' por subir'; bg='rgba(234,179,8,.9)'; }
+    else if(n>0){ text='⏳ '+n+' por subir'; bg='rgba(234,179,8,.9)'; }
     else { text='✓ Sincronizado'; bg='rgba(34,197,94,.85)'; }
     el.textContent=text; el.style.background=bg; el.style.opacity='1';
-    if(inline){ inline.textContent='Estado: '+text; }
+    if(inline) inline.textContent='Estado: '+text;
     if(text.startsWith('✓')) setTimeout(()=>{ if(el.textContent.startsWith('✓')) el.style.opacity='0'; },2000);
   }
+  function refreshAutoSwitches(){ $('swAutoSync').classList.toggle('on',isAutoSyncOn()); $('swAutoPull').classList.toggle('on',isAutoPullOn()); $('swSyncCreds').classList.toggle('on',isSyncCredsOn()); $('swReminder').classList.toggle('on', localStorage.getItem(KEYS.reminderOn)!=='0'); }
+  window.toggleAutoSync=function(){ localStorage.setItem(KEYS.autoSync,isAutoSyncOn()?'0':'1'); refreshAutoSwitches(); updateSyncBadge(); if(isAutoSyncOn()) scheduleSync(500); };
+  window.toggleAutoPull=function(){ localStorage.setItem(KEYS.autoPull,isAutoPullOn()?'0':'1'); refreshAutoSwitches(); if(isAutoPullOn()) startPullLoop(); else stopPullLoop(); };
+  window.toggleSyncCreds=function(){ localStorage.setItem(KEYS.syncCreds,isSyncCredsOn()?'0':'1'); refreshAutoSwitches(); if(isSyncCredsOn()) pushCredsToGitHub(); };
+  window.toggleReminder=function(){ const v=localStorage.getItem(KEYS.reminderOn)!=='0'; localStorage.setItem(KEYS.reminderOn, v?'0':'1'); refreshAutoSwitches(); updateReminder(); };
 
-  window.addEventListener('online',  ()=>{ updateSyncBadge(); trySyncAll(); pullAllSilent(); });
-  window.addEventListener('offline', ()=>{ updateSyncBadge(); });
-  document.addEventListener('visibilitychange', ()=>{
-    if(!document.hidden){ trySyncAll(); pullAllSilent(); checkAlarms(); }
-  });
-  if('serviceWorker' in navigator){
-    navigator.serviceWorker.addEventListener('message', e=>{
-      if(e.data && e.data.type==='SYNC_NOW') trySyncAll();
-    });
-  }
-  if('serviceWorker' in navigator){
-    window.addEventListener('load', ()=>{
-      navigator.serviceWorker.register('sw.js').catch(err=>console.warn('SW reg fail',err));
-    });
-  }
+  $('alarmSound').addEventListener('change', e=>{ localStorage.setItem(KEYS.alarmSound, e.target.value); if(isSyncCredsOn()) pushCredsToGitHub(); });
 
-  function refreshAutoSwitches(){
-    $('swAutoSync').classList.toggle('on', isAutoSyncOn());
-    $('swAutoPull').classList.toggle('on', isAutoPullOn());
-  }
-  window.toggleAutoSync = function(){
-    const newVal = isAutoSyncOn() ? '0' : '1';
-    localStorage.setItem(KEYS.autoSync, newVal);
-    refreshAutoSwitches(); updateSyncBadge();
-    if(newVal==='1') scheduleSync(500);
-  };
-  window.toggleAutoPull = function(){
-    const newVal = isAutoPullOn() ? '0' : '1';
-    localStorage.setItem(KEYS.autoPull, newVal);
-    refreshAutoSwitches();
-    if(newVal==='1') startPullLoop(); else stopPullLoop();
-  };
+  window.addEventListener('online', ()=>{ updateSyncBadge(); trySyncAll(); pullAllSilent(); });
+  window.addEventListener('offline',()=>updateSyncBadge());
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden){ trySyncAll(); pullAllSilent(); checkAlarms(); } });
 
-  // ══════════════════════════════════
-  //  NOTIFICACIONES (alarmas de pendientes)
-  // ══════════════════════════════════
+  // ══════════ NOTIFICACIONES + ALARMAS ══════════
   window.requestNotifPerm = async function(silent){
-    if(!('Notification' in window)){
-      if(!silent) showStatus('notifStatus','❌ Este navegador no soporta notificaciones','err');
-      return false;
-    }
-    if(Notification.permission==='granted'){
-      if(!silent) showStatus('notifStatus','✅ Permiso ya concedido','ok');
-      return true;
-    }
-    try{
-      const r = await Notification.requestPermission();
-      if(r==='granted'){ if(!silent) showStatus('notifStatus','✅ Permiso concedido','ok'); return true; }
-      else { if(!silent) showStatus('notifStatus','⚠️ Permiso denegado','err'); return false; }
-    }catch(e){ return false; }
+    if(!('Notification' in window)){ if(!silent) showStatus('notifStatus','❌ No soporta notificaciones','err'); return false; }
+    if(Notification.permission==='granted'){ if(!silent) showStatus('notifStatus','✅ Concedido','ok'); return true; }
+    try{ const r=await Notification.requestPermission(); if(r==='granted'){ if(!silent) showStatus('notifStatus','✅ Concedido','ok'); return true; } if(!silent) showStatus('notifStatus','⚠️ Denegado','err'); }catch(e){}
+    return false;
   };
-
   function scheduleNextFor(t){
-    if(!t || !t.notifDays || t.notifDays<=0) return;
+    if(!t||!t.notifDays||t.notifDays<=0) return;
     if((t.notifFired||0) >= (t.notifTimes||3)) return;
-    const [hh,mm] = (t.notifHour||'09:00').split(':').map(n=>parseInt(n,10));
-    const now = new Date();
-    let next = new Date(now);
-    next.setHours(hh||9, mm||0, 0, 0);
-    if(next.getTime() <= now.getTime()) next.setDate(next.getDate()+1);
-    // First alarm: tomorrow at the chosen hour. Subsequent: +notifDays each
-    if(t.notifFired>0) next = new Date(now.getTime() + t.notifDays*86400000);
-    t.nextNotif = next.getTime();
+    const [hh,mm]=(t.notifHour||'09:00').split(':').map(n=>parseInt(n,10));
+    const now=new Date(); let next=new Date(now); next.setHours(hh||9,mm||0,0,0);
+    if(next.getTime()<=now.getTime()) next.setDate(next.getDate()+1);
+    if(t.notifFired>0) next=new Date(now.getTime()+t.notifDays*86400000);
+    t.nextNotif=next.getTime();
   }
-
-  function fireNotif(t){
-    if(!('Notification' in window) || Notification.permission!=='granted') return;
+  window.playAlarmSound = function(){
+    const kind=localStorage.getItem(KEYS.alarmSound)||'bell';
+    if(kind==='silent') return;
     try{
-      new Notification('🔔 Recordatorio: '+t.task, {
-        body: (t.note||'').slice(0,140) || 'Tienes una tarea pendiente',
-        tag: 'agenda-'+t.id,
-        icon: 'icon-192.png',
-        badge: 'icon-192.png',
-        renotify: true,
-      });
-    }catch(e){
-      // Service worker fallback
-      if(navigator.serviceWorker && navigator.serviceWorker.controller){
-        navigator.serviceWorker.ready.then(reg => reg.showNotification('🔔 '+t.task,{body:(t.note||'').slice(0,140),tag:'agenda-'+t.id,icon:'icon-192.png'}));
-      }
-    }
+      const ctx=new (window.AudioContext||window.webkitAudioContext)();
+      const o=ctx.createOscillator(), g=ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      if(kind==='bell'){ o.type='sine'; o.frequency.value=880; g.gain.setValueAtTime(.3,ctx.currentTime); g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+1.2); o.start(); o.stop(ctx.currentTime+1.3); }
+      else if(kind==='beep'){ o.type='square'; o.frequency.value=600; g.gain.setValueAtTime(.2,ctx.currentTime); g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.5); o.start(); o.stop(ctx.currentTime+.55); }
+      else if(kind==='chime'){ o.type='triangle'; o.frequency.value=1320; g.gain.setValueAtTime(.25,ctx.currentTime); g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+1.5); o.start(); o.stop(ctx.currentTime+1.55); }
+    }catch(e){}
+  };
+  function fireNotif(t){
+    playAlarmSound();
+    if(!('Notification' in window)||Notification.permission!=='granted') return;
+    const body=t.notifMsg||((t.note||'').slice(0,140))||'Tienes una tarea pendiente';
+    try{ new Notification('🔔 '+t.task,{body,tag:'agenda-'+t.id,icon:'icon-192.png',badge:'icon-192.png',renotify:true}); }
+    catch(e){ if(navigator.serviceWorker?.controller) navigator.serviceWorker.ready.then(r=>r.showNotification('🔔 '+t.task,{body,tag:'agenda-'+t.id,icon:'icon-192.png'})); }
   }
-
   function checkAlarms(){
-    const now = Date.now();
-    let changed=false;
+    const now=Date.now(); let changed=false;
     for(const t of pendings){
-      if(t.done) continue;
-      if(!t.notifDays || t.notifDays<=0) continue;
-      if((t.notifFired||0) >= (t.notifTimes||3)) continue;
+      if(t.done||!t.notifDays||t.notifDays<=0) continue;
+      if((t.notifFired||0)>=(t.notifTimes||3)) continue;
       if(!t.nextNotif){ scheduleNextFor(t); changed=true; continue; }
-      if(t.nextNotif <= now){
+      if(t.nextNotif<=now){
         fireNotif(t);
-        t.notifFired = (t.notifFired||0) + 1;
-        if(t.notifFired < (t.notifTimes||3)){
-          t.nextNotif = now + t.notifDays*86400000;
-        } else {
-          t.nextNotif = 0;
-        }
+        t.notifFired=(t.notifFired||0)+1;
+        if(t.notifFired<(t.notifTimes||3)) t.nextNotif=now+t.notifDays*86400000;
+        else t.nextNotif=0;
         changed=true;
       }
     }
-    if(changed){
-      lsSave(KEYS.pending, pendings);
-      if(currentPage==='pending') renderPending();
-    }
+    if(changed){ lsSave(KEYS.pending,pendings); if(currentPage==='pending') renderPending(); updateReminder(); }
   }
 
-  // PWA install prompt
-  let deferredInstallPrompt = null;
-  const installBtn = document.getElementById('installBtn');
-  function isStandalone(){ return window.matchMedia('(display-mode: standalone)').matches || window.matchMedia('(display-mode: fullscreen)').matches || window.navigator.standalone === true; }
-  window.addEventListener('beforeinstallprompt', (e)=>{ e.preventDefault(); deferredInstallPrompt = e; if(!isStandalone() && installBtn) installBtn.classList.add('show'); });
-  if(installBtn){
-    installBtn.addEventListener('click', async ()=>{
-      if(!deferredInstallPrompt){ alert('Para instalar:\n\n• Android (Chrome): menú ⋮ → "Instalar aplicación"\n• iPhone (Safari): Compartir → "Añadir a pantalla de inicio"'); return; }
-      installBtn.disabled=true;
-      deferredInstallPrompt.prompt();
-      const choice = await deferredInstallPrompt.userChoice;
-      if(choice && choice.outcome==='accepted') installBtn.classList.remove('show');
-      deferredInstallPrompt = null; installBtn.disabled=false;
+  // ══════════ REMINDER AVATAR ══════════
+  function updateReminder(){
+    const enabled = localStorage.getItem(KEYS.reminderOn)!=='0';
+    const btn=$('reminderBtn');
+    const pendCount = pendings.filter(p=>!p.done).length;
+    const clientCount = clients.length;
+    const total = pendCount + clientCount;
+    if(!enabled || total===0){ btn.classList.add('hidden'); return; }
+    btn.classList.remove('hidden');
+    const dot=$('reminderDot'); dot.style.display='flex'; dot.textContent = total>99?'99+':total;
+  }
+  $('reminderBtn').addEventListener('click', ()=>{
+    const pendCount=pendings.filter(p=>!p.done).length;
+    const cliCount=clients.length;
+    $('detailTitle').textContent='Recordatorios';
+    $('detailBody').innerHTML=`
+      <div class="detail-block" onclick="showPage('pending');closeModal('modalDetail')" style="cursor:pointer">
+        <div class="lbl">Pendientes activos</div>
+        <div class="val" style="color:var(--danger);font-weight:700">${pendCount} tarea(s) por hacer</div>
+      </div>
+      <div class="detail-block" onclick="showPage('clients');closeModal('modalDetail')" style="cursor:pointer">
+        <div class="lbl">Clientes esperando</div>
+        <div class="val" style="color:var(--accent);font-weight:700">${cliCount} solicitud(es) registrada(s)</div>
+      </div>
+      <p style="color:var(--muted);font-size:12px;margin-top:14px">Puedes ocultar este avatar desde Administración.</p>`;
+    $('modalDetail').classList.add('open');
+  });
+
+  // ══════════ SERVICE WORKER ══════════
+  if('serviceWorker' in navigator){
+    let refreshing=false;
+    navigator.serviceWorker.addEventListener('controllerchange',()=>{ if(refreshing) return; refreshing=true; location.reload(); });
+    window.addEventListener('load',()=>{
+      navigator.serviceWorker.register('sw.js?v=20260523-4').then(reg=>{
+        if(reg.waiting) reg.waiting.postMessage({type:'SKIP_WAITING'});
+        reg.addEventListener('updatefound',()=>{ const w=reg.installing; if(w) w.addEventListener('statechange',()=>{ if(w.state==='installed' && navigator.serviceWorker.controller) w.postMessage({type:'SKIP_WAITING'}); }); });
+        reg.update().catch(()=>{});
+      }).catch(()=>{});
     });
   }
-  window.addEventListener('appinstalled', ()=>{ if(installBtn) installBtn.classList.remove('show'); deferredInstallPrompt = null; });
-  setTimeout(()=>{ if(!isStandalone() && installBtn && !installBtn.classList.contains('show')) installBtn.classList.add('show'); }, 3000);
 
-  // Init
-  updateSyncBadge();
-  refreshAutoSwitches();
-  // Try permission silently if any task has alarm
+  // PWA install
+  let deferred=null;
+  const installBtn=$('installBtn');
+  function isStandalone(){ return matchMedia('(display-mode: standalone)').matches || matchMedia('(display-mode: fullscreen)').matches || window.navigator.standalone===true; }
+  window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); deferred=e; if(!isStandalone()) installBtn.classList.add('show'); });
+  installBtn.addEventListener('click',async()=>{ if(!deferred){ alert('Para instalar:\n• Android (Chrome): menú ⋮ → "Instalar"\n• iPhone (Safari): Compartir → "Añadir a pantalla de inicio"'); return; } deferred.prompt(); const c=await deferred.userChoice; if(c?.outcome==='accepted') installBtn.classList.remove('show'); deferred=null; });
+  window.addEventListener('appinstalled',()=>installBtn.classList.remove('show'));
+  setTimeout(()=>{ if(!isStandalone() && !installBtn.classList.contains('show')) installBtn.classList.add('show'); },3000);
+
+  // ══════════ INIT ══════════
+  showPage('providers');
+  updateSyncBadge(); refreshAutoSwitches();
   if(pendings.some(t=>t.notifDays>0)) requestNotifPerm(true);
-  // Schedule next for any pending alarm without one
   pendings.forEach(t=>{ if(t.notifDays>0 && !t.nextNotif) scheduleNextFor(t); });
-  lsSave(KEYS.pending, pendings);
-  checkAlarms();
-  setInterval(checkAlarms, 60000);
-
-  initialPullIfClean().then(()=>setTimeout(trySyncAll, 800));
+  lsSave(KEYS.pending,pendings);
+  checkAlarms(); setInterval(checkAlarms,60000);
+  initialPullIfClean().then(()=>setTimeout(trySyncAll,800));
   startPullLoop();
+  updateReminder();
 })();
 </script>
 </body>

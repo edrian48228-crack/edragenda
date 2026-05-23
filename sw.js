@@ -1,69 +1,18 @@
-// Mi Agenda — Service Worker
-// Cache-first para el shell, network-first para API de GitHub.
-// Background Sync para reintentar push pendientes cuando vuelva la conexión.
-
-const CACHE = 'mi-agenda-v1';
-const SHELL = [
-  './',
-  './index.html',
-  './manifest.webmanifest',
-  './icon-192.png',
-  './icon-512.png',
-];
-
-self.addEventListener('install', (e) => {
-  e.waitUntil(
-    caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting())
-  );
-});
-
-self.addEventListener('activate', (e) => {
-  e.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))
-    ).then(() => self.clients.claim())
-  );
-});
-
-self.addEventListener('fetch', (event) => {
-  const req = event.request;
-  if (req.method !== 'GET') return;
-
+const CACHE = 'mi-agenda-v4-20260523';
+const ASSETS = ['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png'];
+self.addEventListener('install', e=>{ self.skipWaiting(); e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS).catch(()=>{}))); });
+self.addEventListener('activate', e=>{ e.waitUntil((async()=>{ const ks=await caches.keys(); await Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k))); await self.clients.claim(); })()); });
+self.addEventListener('message', e=>{ if(e.data && e.data.type==='SKIP_WAITING') self.skipWaiting(); });
+self.addEventListener('fetch', e=>{
+  const req = e.request;
+  if(req.method!=='GET') return;
   const url = new URL(req.url);
-
-  // Nunca cachear API de GitHub: siempre red, sin fallback.
-  if (url.hostname === 'api.github.com') return;
-
-  // Para el shell y mismo origen: cache-first con fallback a red.
-  if (url.origin === self.location.origin) {
-    event.respondWith(
-      caches.match(req).then((cached) => {
-        if (cached) return cached;
-        return fetch(req).then((res) => {
-          // cachear respuestas básicas
-          if (res && res.status === 200 && res.type === 'basic') {
-            const copy = res.clone();
-            caches.open(CACHE).then((c) => c.put(req, copy));
-          }
-          return res;
-        }).catch(() => caches.match('./index.html'));
-      })
-    );
+  if(url.origin !== location.origin) return;
+  const isHTML = req.mode==='navigate' || (req.headers.get('accept')||'').includes('text/html');
+  if(isHTML){
+    e.respondWith(fetch(req,{cache:'no-store'}).then(r=>{ const cp=r.clone(); caches.open(CACHE).then(c=>c.put(req,cp)); return r; }).catch(()=>caches.match(req).then(r=>r||caches.match('./index.html'))));
+  } else {
+    e.respondWith(caches.match(req).then(r=>r||fetch(req).then(rr=>{ const cp=rr.clone(); caches.open(CACHE).then(c=>c.put(req,cp)); return rr; })));
   }
 });
-
-// Background Sync: cuando vuelva la conexión, avisar a las pestañas
-// abiertas para que disparen el push pendiente.
-self.addEventListener('sync', (event) => {
-  if (event.tag === 'sync-agenda') {
-    event.waitUntil(
-      self.clients.matchAll({ includeUncontrolled: true }).then((clients) => {
-        clients.forEach((c) => c.postMessage({ type: 'SYNC_NOW' }));
-      })
-    );
-  }
-});
-
-self.addEventListener('message', (e) => {
-  if (e.data && e.data.type === 'SKIP_WAITING') self.skipWaiting();
-});
+self.addEventListener('sync', e=>{ if(e.tag==='sync-agenda'){ e.waitUntil(self.clients.matchAll().then(cs=>cs.forEach(c=>c.postMessage({type:'SYNC_NOW'})))); } });
