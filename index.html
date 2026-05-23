@@ -41,9 +41,9 @@
   h1 .brand-icon img{width:54px;height:54px;border-radius:14px;object-fit:cover}
   h1 .brand-text{font-size:30px;line-height:1.05}
   h1 .brand-text span{color:var(--gold)}
-  .by{font-size:11px;letter-spacing:.7px;color:rgba(154,154,176,.9);font-weight:600;margin-top:2px}
+  .by{font-size:11px;letter-spacing:.7px;color:rgba(176,176,200,.9);font-weight:700;margin-top:2px}
   .by b{color:var(--gold)}
-  .sub{color:var(--muted);font-size:14px;margin-top:6px;font-weight:600}
+  .sub{color:#b0b0c8;font-size:14px;margin-top:6px;font-weight:700}
   .sub .hit{color:var(--accent);font-weight:800}
   /* Top-right contacts shortcut */
   .top-right-btns{position:absolute;top:calc(env(safe-area-inset-top) + 12px);right:12px;display:flex;gap:8px;z-index:11}
@@ -70,7 +70,7 @@
   .page-banner{display:flex;align-items:center;gap:12px;padding:4px 4px 14px}
   .page-banner .pb-ico{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:var(--card-2);border:1px solid var(--border)}
   .page-banner .pb-ico svg{width:30px;height:30px}
-  .page-banner .pb-txt p{margin:0;color:#d4d4e0;font-size:15px;font-weight:600}
+  .page-banner .pb-txt p{margin:0;color:#b0b0c8;font-size:15px;font-weight:700}
 
   /* CARDS */
   .card{background:var(--card);border:1px solid var(--border);border-radius:16px;
@@ -92,10 +92,10 @@
   .avatar.contact-avatar svg{width:28px;height:28px}
 
   .info{flex:1;min-width:0}
-  .name{font-size:16px;font-weight:700;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .product{color:#dcdce6;font-size:14px;margin:2px 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .price{color:var(--accent);font-size:15px;font-weight:700;margin:3px 0 0}
-  .addr{color:var(--muted);font-size:12px;margin:2px 0 0;display:flex;align-items:center;gap:4px}
+  .name{font-size:16px;font-weight:800;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .product{color:#b0b0c8;font-size:14px;font-weight:600;margin:2px 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .price{color:var(--accent);font-size:15px;font-weight:800;margin:3px 0 0}
+  .addr{color:#7a7a96;font-size:12px;font-weight:600;margin:2px 0 0;display:flex;align-items:center;gap:4px}
   .addr svg{width:12px;height:12px;flex-shrink:0}
   .badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700;margin-top:4px;margin-right:4px}
   .badge.high{background:rgba(239,68,68,.2);color:var(--danger)}
@@ -108,20 +108,19 @@
   /* Bottom-right action row, no labels */
   .row-actions{display:flex;gap:2px;justify-content:flex-end;align-items:center;margin-top:8px;flex-wrap:nowrap;overflow-x:auto}
   .row-actions::-webkit-scrollbar{display:none}
-  .row-actions .iact.info{margin-left:auto}
-  .row-actions .iact-sep + .iact.info{margin-left:0}
+  /* info icon: sin margin-left auto, alineado normal */
   .iact{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;
-    color:var(--muted);transition:background .15s,color .15s,transform .1s}
+    color:var(--muted);transition:color .15s,transform .1s;background:none}
   .iact:active{transform:scale(.92)}
   .iact svg{width:19px;height:19px}
-  .iact.call{color:var(--primary-2)}      .iact.call:hover{background:rgba(168,85,247,.18)}
-  .iact.sms{color:var(--info)}            .iact.sms:hover{background:rgba(56,189,248,.18)}
-  .iact.wa{color:var(--success)}          .iact.wa:hover{background:rgba(34,197,94,.18)}
-  .iact.fb{color:var(--fb)}               .iact.fb:hover{background:rgba(59,130,246,.18)}
-  .iact.info{color:var(--info)}           .iact.info:hover{background:rgba(56,189,248,.18)}
-  .iact.edit{color:var(--muted)}          .iact.edit:hover{background:var(--card-2);color:var(--primary)}
-  .iact.del{color:var(--muted)}           .iact.del:hover{background:var(--card-2);color:var(--danger)}
-  .iact.done{color:var(--success)}        .iact.done:hover{background:rgba(34,197,94,.18)}
+  .iact.call{color:var(--primary-2)}      .iact.call:hover{color:#d8b4fe;background:none}
+  .iact.sms{color:var(--info)}            .iact.sms:hover{color:#7dd3fc;background:none}
+  .iact.wa{color:var(--success)}          .iact.wa:hover{color:#4ade80;background:none}
+  .iact.fb{color:var(--fb)}               .iact.fb:hover{color:#93c5fd;background:none}
+  .iact.info{color:var(--info)}           .iact.info:hover{color:#7dd3fc;background:none}
+  .iact.edit{color:var(--muted)}          .iact.edit:hover{color:var(--primary);background:none}
+  .iact.del{color:var(--muted)}           .iact.del:hover{color:var(--danger);background:none}
+  .iact.done{color:var(--success)}        .iact.done:hover{color:#4ade80;background:none}
   .iact-sep{width:1px;height:22px;background:var(--border);margin:7px 4px}
 
   .empty{text-align:center;padding:60px 20px;color:var(--muted)}
@@ -161,7 +160,14 @@
   .nav-btn svg{width:28px;height:28px;stroke-width:2;transition:transform .2s,filter .2s}
   .nav-btn span{font-size:12px;font-weight:800;letter-spacing:.2px;line-height:1;
     color:#e5e7f0;text-shadow:0 1px 2px rgba(0,0,0,.6);white-space:nowrap}
-  @media (max-width:360px){ .nav-btn span{font-size:11px} }
+  /* Ocultar texto de las pestañas en móvil, mostrar solo en desktop */
+  @media (max-width:639px){
+    .nav-btn span{display:none}
+    .nav-btn{gap:0;padding:10px 4px}
+    .nav-btn svg{width:30px;height:30px}
+    :root{--footer-h:72px}
+  }
+  @media (max-width:360px){ .nav-btn span{display:none} }
   .nav-btn.active{color:var(--primary)}
   .nav-btn.active span{color:var(--primary-2)}
   .nav-btn.active svg{filter:drop-shadow(0 0 8px rgba(168,85,247,.7));transform:scale(1.12)}
@@ -176,7 +182,7 @@
   .nav-btn.nav-admin.active svg{filter:drop-shadow(0 0 10px rgba(251,191,36,.85));transform:scale(1.12)}
 
   /* Install */
-  #installBtn{position:fixed;top:calc(env(safe-area-inset-top) + 10px);left:10px;z-index:20;
+  #installBtn{position:fixed;top:calc(env(safe-area-inset-top) + 10px);left:50%;transform:translateX(-50%);z-index:20;
     background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;
     border:0;border-radius:12px;padding:8px 12px;font-size:12px;font-weight:700;
     box-shadow:0 6px 18px rgba(34,197,94,.45);display:none;align-items:center;gap:6px}
@@ -205,7 +211,7 @@
   .done-toggle.done svg{opacity:1}
   .done-toggle svg{width:18px;height:18px;opacity:.25;color:#fff;transition:opacity .2s}
   .task-text{flex:1;min-width:0}
-  .alarm-chip{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;
+  .alarm-chip{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;
     color:var(--gold);background:rgba(251,191,36,.12);padding:2px 7px;border-radius:10px;margin-top:4px;margin-left:6px}
   .alarm-chip svg{width:12px;height:12px}
 
@@ -312,8 +318,8 @@
 
   .detail-block{padding:10px 0;border-bottom:1px solid var(--border)}
   .detail-block:last-child{border-bottom:0}
-  .detail-block .lbl{color:var(--muted);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
-  .detail-block .val{font-size:15px;margin-top:3px;word-break:break-word;white-space:pre-wrap}
+  .detail-block .lbl{color:#8888a8;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+  .detail-block .val{font-size:15px;font-weight:600;margin-top:3px;word-break:break-word;white-space:pre-wrap}
   .detail-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
   .detail-actions .pill{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 14px;
     border-radius:12px;background:var(--card-2);font-size:14px;font-weight:600;transition:transform .1s}
@@ -508,7 +514,7 @@
 
   <div class="admin-card">
     <h3>🔗 Credenciales GitHub</h3>
-    <p>Token con permisos de repo. Se sincroniza entre tus dispositivos.</p>
+    <p>Token con permisos de repo. Con "Sincronizar config" activo, el token y la contraseña viajan automáticamente a todos tus dispositivos (Windows ↔ Android).</p>
     <label class="field"><span>Token de Acceso Personal (PAT)</span>
       <div class="pwfield"><input id="ghToken" type="password" placeholder="ghp_xxxx"/><button type="button" class="eye" onclick="togglePw('ghToken',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
     </label>
@@ -526,7 +532,7 @@
     <p>Mantiene tus dispositivos al día sin intervención. Las credenciales también se sincronizan (Windows ↔ Android).</p>
     <div class="toggle-line"><label>Sync automática</label><div class="switch" id="swAutoSync" onclick="toggleAutoSync()"></div></div>
     <div class="toggle-line"><label>Pull remoto cada 30s</label><div class="switch" id="swAutoPull" onclick="toggleAutoPull()"></div></div>
-    <div class="toggle-line"><label>Sincronizar credenciales (GitHub)</label><div class="switch" id="swSyncCreds" onclick="toggleSyncCreds()"></div></div>
+    <div class="toggle-line"><label>Sincronizar config entre dispositivos (token, contraseña…)</label><div class="switch" id="swSyncCreds" onclick="toggleSyncCreds()"></div></div>
     <div class="status-msg info" id="syncStatusInline" style="display:block">Estado: inicializando…</div>
   </div>
 
@@ -1657,7 +1663,7 @@
   async function pushCredsToGitHub(){
     const {token,owner,repo,branch}=getGHCreds();
     if(!token||!owner||!repo) return;
-    const cfg={ghOwner:owner,ghRepo:repo,ghBranch:branch,authPw:localStorage.getItem(KEYS.authPw)||'',authQ:localStorage.getItem(KEYS.authQ)||'',authA:localStorage.getItem(KEYS.authA)||'',alarmSound:localStorage.getItem(KEYS.alarmSound)||'bell',custom:getCustom(),ts:Date.now()};
+    const cfg={ghToken:token,ghOwner:owner,ghRepo:repo,ghBranch:branch,authPw:localStorage.getItem(KEYS.authPw)||'',authQ:localStorage.getItem(KEYS.authQ)||'',authA:localStorage.getItem(KEYS.authA)||'',alarmSound:localStorage.getItem(KEYS.alarmSound)||'bell',custom:getCustom(),ts:Date.now()};
     const jsonStr=JSON.stringify(cfg,null,2);
     const content=btoa(unescape(encodeURIComponent(jsonStr)));
     try{
@@ -1678,7 +1684,13 @@
       if(cfg.authQ) localStorage.setItem(KEYS.authQ,cfg.authQ);
       if(cfg.authA) localStorage.setItem(KEYS.authA,cfg.authA);
       if(cfg.alarmSound) localStorage.setItem(KEYS.alarmSound,cfg.alarmSound);
+      if(cfg.ghToken) localStorage.setItem(KEYS.ghToken,cfg.ghToken);
+      if(cfg.ghOwner) localStorage.setItem(KEYS.ghOwner,cfg.ghOwner);
+      if(cfg.ghRepo) localStorage.setItem(KEYS.ghRepo,cfg.ghRepo);
+      if(cfg.ghBranch) localStorage.setItem(KEYS.ghBranch,cfg.ghBranch||'main');
       if(cfg.custom && typeof cfg.custom==='object'){ localStorage.setItem(KEYS.custom, JSON.stringify(cfg.custom)); applyCustom(); }
+      // Refresh admin UI if it's open so fields update
+      if(currentPage==='admin') renderAdmin();
     }catch(e){}
   }
 
@@ -1801,7 +1813,7 @@
   }
   function updateSyncBadge(){
     let el=$('syncBadge');
-    if(!el){ el=document.createElement('div'); el.id='syncBadge'; el.style.cssText='position:fixed;top:8px;left:8px;z-index:9999;font-size:11px;padding:4px 8px;border-radius:999px;background:rgba(0,0,0,.55);color:#fff;backdrop-filter:blur(6px);pointer-events:none;transition:opacity .3s'; document.body.appendChild(el); }
+    if(!el){ el=document.createElement('div'); el.id='syncBadge'; el.style.cssText='position:fixed;bottom:calc(var(--footer-h, 96px) + 6px);right:8px;z-index:9999;font-size:11px;padding:4px 8px;border-radius:999px;background:rgba(0,0,0,.65);color:#fff;backdrop-filter:blur(6px);pointer-events:none;transition:opacity .3s'; document.body.appendChild(el); }
     const dirty=getDirty(); const n=Object.values(dirty).filter(Boolean).length;
     const inline=$('syncStatusInline');
     let text='',bg='';
