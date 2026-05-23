@@ -6,5 +6,20 @@
   "authQ": "nombre de tu mascota",
   "authA": "9db3a25b009c1e439aa688ba0eb3b9f2999d891e1d8849f3e500f233cc0705e4",
   "alarmSound": "chime",
-  "ts": 1779535321937
+  "custom": {
+    "name": "Mi Agenda",
+    "iconEmoji": "",
+    "iconUrl": "",
+    "avatar": "",
+    "visibility": {
+      "providers": true,
+      "pending": true,
+      "clients": true,
+      "notes": true,
+      "contacts": true,
+      "admin": true,
+      "topContacts": true
+    }
+  },
+  "ts": 1779536809805
 }
