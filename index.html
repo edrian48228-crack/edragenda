@@ -19,7 +19,7 @@
     --primary:#a855f7;--primary-2:#c084fc;--accent:#22d3ee;
     --success:#22c55e;--fb:#3b82f6;--danger:#ef4444;--info:#38bdf8;
     --gold:#fbbf24;--gold-2:#f59e0b;--blue-bright:#3b82f6;
-    --footer-h:88px;
+    --footer-h:96px;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
@@ -34,15 +34,24 @@
     backdrop-filter:blur(10px);border-bottom:1px solid var(--border);
     padding:14px 16px 12px;padding-top:calc(14px + env(safe-area-inset-top))}
   .wrap{max-width:760px;margin:0 auto}
-  h1{margin:0;font-size:26px;font-weight:800;letter-spacing:-.5px;display:flex;align-items:center;gap:10px}
-  h1 .brand-icon{width:38px;height:38px;display:inline-flex;align-items:center;justify-content:center;
-    filter:drop-shadow(0 0 12px rgba(251,191,36,.55))}
-  h1 .brand-icon svg{width:34px;height:34px}
+  h1{margin:0;font-size:30px;font-weight:900;letter-spacing:-.5px;display:flex;align-items:center;gap:12px}
+  h1 .brand-icon{width:54px;height:54px;display:inline-flex;align-items:center;justify-content:center;
+    filter:drop-shadow(0 0 14px rgba(251,191,36,.6))}
+  h1 .brand-icon svg{width:48px;height:48px}
+  h1 .brand-icon img{width:54px;height:54px;border-radius:14px;object-fit:cover}
+  h1 .brand-text{font-size:30px;line-height:1.05}
   h1 .brand-text span{color:var(--gold)}
-  .by{font-size:10px;letter-spacing:.7px;color:rgba(154,154,176,.85);font-weight:600;margin-top:1px}
+  .by{font-size:11px;letter-spacing:.7px;color:rgba(154,154,176,.9);font-weight:600;margin-top:2px}
   .by b{color:var(--gold)}
-  .sub{color:var(--muted);font-size:13px;margin-top:4px}
-  .sub .hit{color:var(--accent);font-weight:700}
+  .sub{color:var(--muted);font-size:14px;margin-top:6px;font-weight:600}
+  .sub .hit{color:var(--accent);font-weight:800}
+  /* Top-right contacts shortcut */
+  .top-right-btns{position:absolute;top:calc(env(safe-area-inset-top) + 12px);right:12px;display:flex;gap:8px;z-index:11}
+  .top-right-btns .tr-btn{width:42px;height:42px;border-radius:12px;background:rgba(56,189,248,.15);
+    border:1px solid rgba(56,189,248,.4);color:#38bdf8;display:flex;align-items:center;justify-content:center;
+    transition:transform .12s,background .15s}
+  .top-right-btns .tr-btn:active{transform:scale(.92)}
+  .top-right-btns .tr-btn svg{width:22px;height:22px}
   .search{position:relative;margin-top:10px}
   .search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);
     width:20px;height:20px;color:var(--primary)}
@@ -59,9 +68,9 @@
 
   /* page-icon banner replaces duplicate page-title */
   .page-banner{display:flex;align-items:center;gap:12px;padding:4px 4px 14px}
-  .page-banner .pb-ico{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:var(--card-2);border:1px solid var(--border)}
-  .page-banner .pb-ico svg{width:28px;height:28px}
-  .page-banner .pb-txt p{margin:0;color:var(--muted);font-size:13px}
+  .page-banner .pb-ico{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:var(--card-2);border:1px solid var(--border)}
+  .page-banner .pb-ico svg{width:30px;height:30px}
+  .page-banner .pb-txt p{margin:0;color:#d4d4e0;font-size:15px;font-weight:600}
 
   /* CARDS */
   .card{background:var(--card);border:1px solid var(--border);border-radius:16px;
@@ -97,7 +106,10 @@
   .badge.otr{background:rgba(154,154,176,.2);color:var(--muted)}
 
   /* Bottom-right action row, no labels */
-  .row-actions{display:flex;gap:2px;justify-content:flex-end;margin-top:8px;flex-wrap:wrap}
+  .row-actions{display:flex;gap:2px;justify-content:flex-end;align-items:center;margin-top:8px;flex-wrap:nowrap;overflow-x:auto}
+  .row-actions::-webkit-scrollbar{display:none}
+  .row-actions .iact.info{margin-left:auto}
+  .row-actions .iact-sep + .iact.info{margin-left:0}
   .iact{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;
     color:var(--muted);transition:background .15s,color .15s,transform .1s}
   .iact:active{transform:scale(.92)}
@@ -144,13 +156,16 @@
     border-top:1px solid var(--border);padding-bottom:env(safe-area-inset-bottom)}
   .footer-nav-inner{max-width:640px;margin:0 auto;height:100%;
     display:flex;align-items:center;justify-content:space-around;padding:0 6px}
-  .nav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;
-    flex:1;padding:6px 2px;border-radius:14px;color:var(--muted);transition:color .2s}
-  .nav-btn svg{width:26px;height:26px;stroke-width:1.9;transition:transform .2s,filter .2s}
-  .nav-btn span{font-size:10px;font-weight:600;letter-spacing:.2px;line-height:1}
+  .nav-btn{display:flex;flex-direction:column;align-items:center;gap:5px;
+    flex:1;padding:8px 2px;border-radius:14px;color:#cbd0e0;transition:color .2s}
+  .nav-btn svg{width:28px;height:28px;stroke-width:2;transition:transform .2s,filter .2s}
+  .nav-btn span{font-size:12px;font-weight:800;letter-spacing:.2px;line-height:1;
+    color:#e5e7f0;text-shadow:0 1px 2px rgba(0,0,0,.6);white-space:nowrap}
+  @media (max-width:360px){ .nav-btn span{font-size:11px} }
   .nav-btn.active{color:var(--primary)}
+  .nav-btn.active span{color:var(--primary-2)}
   .nav-btn.active svg{filter:drop-shadow(0 0 8px rgba(168,85,247,.7));transform:scale(1.12)}
-  .nav-btn.nav-pending.active{color:var(--danger)}
+  .nav-btn.nav-pending.active{color:var(--danger)} .nav-btn.nav-pending.active span{color:#fda4af}
   .nav-btn.nav-pending.active svg{filter:drop-shadow(0 0 8px rgba(239,68,68,.7))}
   .nav-btn.nav-clients.active{color:var(--accent)}
   .nav-btn.nav-clients.active svg{filter:drop-shadow(0 0 8px rgba(34,211,238,.7))}
@@ -161,7 +176,7 @@
   .nav-btn.nav-admin.active svg{filter:drop-shadow(0 0 10px rgba(251,191,36,.85));transform:scale(1.12)}
 
   /* Install */
-  #installBtn{position:fixed;top:calc(env(safe-area-inset-top) + 10px);right:10px;z-index:20;
+  #installBtn{position:fixed;top:calc(env(safe-area-inset-top) + 10px);left:10px;z-index:20;
     background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;
     border:0;border-radius:12px;padding:8px 12px;font-size:12px;font-weight:700;
     box-shadow:0 6px 18px rgba(34,197,94,.45);display:none;align-items:center;gap:6px}
@@ -324,9 +339,14 @@
 
 <!-- HEADER -->
 <header id="mainHeader">
+  <div class="top-right-btns">
+    <button class="tr-btn" id="topContactsBtn" title="Contactos" aria-label="Contactos" onclick="showPage('contacts')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    </button>
+  </div>
   <div class="wrap">
     <h1>
-      <span class="brand-icon" aria-hidden="true">
+      <span class="brand-icon" id="brandIcon" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none">
           <defs>
             <linearGradient id="boltGrad" x1="0" y1="0" x2="1" y2="1">
@@ -517,6 +537,34 @@
     <button class="btn-secondary" onclick="pullAll()">Forzar descarga completa</button>
     <div class="status-msg" id="allStatus"></div>
     <div class="log-box" id="allLog"></div>
+  </div>
+
+  <div class="admin-card">
+    <h3>🎨 Personalización de la app</h3>
+    <p>Cambia el nombre, el icono y qué pestañas se ven. Se sincroniza con todos tus dispositivos.</p>
+    <label class="field"><span>Nombre de la agenda</span><input id="cfgName" placeholder="Mi Agenda"/></label>
+    <label class="field"><span>Icono de marca (emoji o 1 letra)</span><input id="cfgIconEmoji" placeholder="⚡ o M"/></label>
+    <label class="field"><span>URL de imagen del logo (opcional, reemplaza el icono)</span><input id="cfgIconUrl" placeholder="https://... .png"/></label>
+    <label class="field"><span>Avatar del usuario (emoji o letra, opcional)</span><input id="cfgAvatar" placeholder="🙂"/></label>
+    <div class="divider"></div>
+    <p style="margin:0 0 8px;color:var(--muted);font-size:13px;font-weight:600">Pestañas visibles en la barra inferior</p>
+    <div class="toggle-line"><label>Proveedores</label><div class="switch" id="vis_providers" data-vis="providers" onclick="toggleVis(this)"></div></div>
+    <div class="toggle-line"><label>Pendientes</label><div class="switch" id="vis_pending" data-vis="pending" onclick="toggleVis(this)"></div></div>
+    <div class="toggle-line"><label>Clientes</label><div class="switch" id="vis_clients" data-vis="clients" onclick="toggleVis(this)"></div></div>
+    <div class="toggle-line"><label>Notas</label><div class="switch" id="vis_notes" data-vis="notes" onclick="toggleVis(this)"></div></div>
+    <div class="toggle-line"><label>Contactos</label><div class="switch" id="vis_contacts" data-vis="contacts" onclick="toggleVis(this)"></div></div>
+    <div class="toggle-line"><label>Admin</label><div class="switch" id="vis_admin" data-vis="admin" onclick="toggleVis(this)"></div></div>
+    <div class="toggle-line"><label>Botón de contactos arriba a la derecha</label><div class="switch" id="vis_topcontacts" data-vis="topContacts" onclick="toggleVis(this)"></div></div>
+    <div style="height:6px"></div>
+    <button class="btn-primary" onclick="saveCustom()">💾 Guardar personalización</button>
+    <div class="status-msg" id="customStatus"></div>
+  </div>
+
+  <div class="admin-card">
+    <h3>🔒 Sesión de administración</h3>
+    <p>Si activas "recordar sesión", no tendrás que poner contraseña cada vez en este dispositivo.</p>
+    <div class="toggle-line"><label>Recordar sesión en este dispositivo</label><div class="switch" id="swRememberSession" onclick="toggleRememberSession()"></div></div>
+    <div class="status-msg info" id="rememberStatus" style="display:none"></div>
   </div>
 
   <div class="admin-card">
@@ -764,9 +812,10 @@
     autoSync:'agenda.sync.auto', autoPull:'agenda.sync.autoPull', syncCreds:'agenda.sync.creds',
     lastHash:'agenda.sync.lastHash', lastSHA:'agenda.sync.lastSHA',
     authPw:'agenda.auth.pw', authQ:'agenda.auth.q', authA:'agenda.auth.a',
-    authSession:'agenda.auth.session',
+    authSession:'agenda.auth.session', authRemember:'agenda.auth.remember', authPersist:'agenda.auth.persist',
     alarmSound:'agenda.alarm.sound', reminderOn:'agenda.reminder.on',
     sortProv:'agenda.sort.prov', sortClient:'agenda.sort.client', sortContact:'agenda.sort.contact',
+    custom:'agenda.custom.v1',
   };
   const GH_FILES = {
     providers:'agenda-proveedores.json',
@@ -870,7 +919,16 @@
 
   // ── AUTH ──
   function hasAuth(){ return !!localStorage.getItem(KEYS.authPw); }
-  function isLoggedIn(){ return sessionStorage.getItem(KEYS.authSession)==='1'; }
+  function isRememberOn(){ return localStorage.getItem(KEYS.authRemember)==='1'; }
+  function isLoggedIn(){
+    if(sessionStorage.getItem(KEYS.authSession)==='1') return true;
+    if(isRememberOn() && localStorage.getItem(KEYS.authPersist)==='1'){ sessionStorage.setItem(KEYS.authSession,'1'); return true; }
+    return false;
+  }
+  function persistSession(){
+    sessionStorage.setItem(KEYS.authSession,'1');
+    if(isRememberOn()) localStorage.setItem(KEYS.authPersist,'1');
+  }
   window.showRecover = function(){
     const q = localStorage.getItem(KEYS.authQ);
     if(!q){ setLoginStatus('No tienes pregunta de recuperación configurada','err'); return; }
@@ -886,7 +944,7 @@
     const stored = localStorage.getItem(KEYS.authPw);
     if(!pw){ setLoginStatus('Ingresa tu contraseña','err'); return; }
     const h = await sha256(pw);
-    if(h===stored){ sessionStorage.setItem(KEYS.authSession,'1'); hideLogin(); }
+    if(h===stored){ persistSession(); hideLogin(); }
     else setLoginStatus('Contraseña incorrecta','err');
   };
   window.doSetup = async function(){
@@ -896,7 +954,8 @@
     localStorage.setItem(KEYS.authPw, await sha256(pw));
     localStorage.setItem(KEYS.authQ, q);
     localStorage.setItem(KEYS.authA, await sha256(a.toLowerCase().trim()));
-    sessionStorage.setItem(KEYS.authSession,'1'); hideLogin();
+    persistSession(); hideLogin();
+    if(isSyncCredsOn && isSyncCredsOn()) pushCredsToGitHub();
   };
   window.doRecover = async function(){
     const a=$('recAnswer').value, np=$('recNewPw').value;
@@ -904,9 +963,24 @@
     const ah = await sha256(a.toLowerCase().trim());
     if(ah!==localStorage.getItem(KEYS.authA)){ setLoginStatus('Respuesta incorrecta','err'); return; }
     localStorage.setItem(KEYS.authPw, await sha256(np));
-    sessionStorage.setItem(KEYS.authSession,'1'); hideLogin();
+    persistSession(); hideLogin();
+    if(isSyncCredsOn && isSyncCredsOn()) pushCredsToGitHub();
   };
-  window.logout = function(){ sessionStorage.removeItem(KEYS.authSession); showPage('providers'); };
+  window.logout = function(){
+    sessionStorage.removeItem(KEYS.authSession);
+    localStorage.removeItem(KEYS.authPersist);
+    showPage('providers');
+  };
+  window.toggleRememberSession = function(){
+    const on = !isRememberOn();
+    localStorage.setItem(KEYS.authRemember, on?'1':'0');
+    if(!on) localStorage.removeItem(KEYS.authPersist);
+    else if(sessionStorage.getItem(KEYS.authSession)==='1') localStorage.setItem(KEYS.authPersist,'1');
+    $('swRememberSession').classList.toggle('on', on);
+    const s=$('rememberStatus'); s.style.display='block'; s.className='status-msg ok';
+    s.textContent = on ? '✅ Sesión recordada en este dispositivo' : 'ℹ️ Tendrás que volver a poner la contraseña';
+    setTimeout(()=>s.style.display='none', 4000);
+  };
   function showLogin(){
     if(!hasAuth()){
       $('loginTitle').textContent='Crea tu contraseña';
@@ -935,6 +1009,7 @@
     if(a) localStorage.setItem(KEYS.authA, await sha256(a.toLowerCase().trim()));
     $('setPw').value=''; $('setA').value=''; $('setQ').value='';
     showStatus('authStatus','✅ Credenciales actualizadas','ok');
+    if(isSyncCredsOn && isSyncCredsOn()) pushCredsToGitHub();
   };
 
   // ── NAVIGATION ──
@@ -1475,6 +1550,8 @@
     $('ghBranch').value=localStorage.getItem(KEYS.ghBranch)||'main';
     $('alarmSound').value=localStorage.getItem(KEYS.alarmSound)||'bell';
     refreshAutoSwitches();
+    fillCustomForm();
+    $('swRememberSession').classList.toggle('on', isRememberOn());
   }
   window.saveGHCreds = function(){
     localStorage.setItem(KEYS.ghToken,$('ghToken').value.trim());
@@ -1580,7 +1657,7 @@
   async function pushCredsToGitHub(){
     const {token,owner,repo,branch}=getGHCreds();
     if(!token||!owner||!repo) return;
-    const cfg={ghOwner:owner,ghRepo:repo,ghBranch:branch,authPw:localStorage.getItem(KEYS.authPw)||'',authQ:localStorage.getItem(KEYS.authQ)||'',authA:localStorage.getItem(KEYS.authA)||'',alarmSound:localStorage.getItem(KEYS.alarmSound)||'bell',ts:Date.now()};
+    const cfg={ghOwner:owner,ghRepo:repo,ghBranch:branch,authPw:localStorage.getItem(KEYS.authPw)||'',authQ:localStorage.getItem(KEYS.authQ)||'',authA:localStorage.getItem(KEYS.authA)||'',alarmSound:localStorage.getItem(KEYS.alarmSound)||'bell',custom:getCustom(),ts:Date.now()};
     const jsonStr=JSON.stringify(cfg,null,2);
     const content=btoa(unescape(encodeURIComponent(jsonStr)));
     try{
@@ -1601,8 +1678,64 @@
       if(cfg.authQ) localStorage.setItem(KEYS.authQ,cfg.authQ);
       if(cfg.authA) localStorage.setItem(KEYS.authA,cfg.authA);
       if(cfg.alarmSound) localStorage.setItem(KEYS.alarmSound,cfg.alarmSound);
+      if(cfg.custom && typeof cfg.custom==='object'){ localStorage.setItem(KEYS.custom, JSON.stringify(cfg.custom)); applyCustom(); }
     }catch(e){}
   }
+
+  // ── PERSONALIZACIÓN ──
+  const DEFAULT_CUSTOM={name:'Mi Agenda',iconEmoji:'',iconUrl:'',avatar:'',visibility:{providers:true,pending:true,clients:true,notes:true,contacts:true,admin:true,topContacts:true}};
+  function getCustom(){ try{ const o=JSON.parse(localStorage.getItem(KEYS.custom)||'{}'); return Object.assign({},DEFAULT_CUSTOM,o,{visibility:Object.assign({},DEFAULT_CUSTOM.visibility,o.visibility||{})}); }catch(e){ return {...DEFAULT_CUSTOM}; } }
+  function setCustom(c){ localStorage.setItem(KEYS.custom, JSON.stringify(c)); }
+  function applyCustom(){
+    const c=getCustom();
+    // brand text
+    const bt=$('brandText');
+    if(bt){
+      const name=c.name||'Mi Agenda';
+      const parts=name.trim().split(/\s+/);
+      if(parts.length>=2) bt.innerHTML='<span>'+escH(parts[0])+'</span> '+escH(parts.slice(1).join(' '));
+      else bt.innerHTML='<span>'+escH(name)+'</span>';
+    }
+    // brand icon
+    const bi=$('brandIcon');
+    if(bi){
+      if(c.iconUrl){ bi.innerHTML='<img src="'+escH(c.iconUrl)+'" alt="logo"/>'; }
+      else if(c.iconEmoji){ bi.innerHTML='<span style="font-size:42px;line-height:1">'+escH(c.iconEmoji)+'</span>'; }
+      // else keep original (do not replace if no preference)
+    }
+    // footer visibility
+    document.querySelectorAll('.nav-btn').forEach(b=>{ const p=b.dataset.page; b.style.display = c.visibility[p]===false ? 'none' : ''; });
+    // top contacts btn
+    const tc=$('topContactsBtn'); if(tc) tc.style.display = c.visibility.topContacts===false ? 'none' : '';
+    // document title
+    document.title = c.name || 'Mi Agenda';
+  }
+  function fillCustomForm(){
+    const c=getCustom();
+    if($('cfgName')) $('cfgName').value=c.name||'';
+    if($('cfgIconEmoji')) $('cfgIconEmoji').value=c.iconEmoji||'';
+    if($('cfgIconUrl')) $('cfgIconUrl').value=c.iconUrl||'';
+    if($('cfgAvatar')) $('cfgAvatar').value=c.avatar||'';
+    ['providers','pending','clients','notes','contacts','admin','topContacts'].forEach(k=>{
+      const sw=$('vis_'+(k==='topContacts'?'topcontacts':k));
+      if(sw) sw.classList.toggle('on', c.visibility[k]!==false);
+    });
+  }
+  window.toggleVis = function(el){
+    const key=el.dataset.vis; const c=getCustom();
+    c.visibility[key] = !(c.visibility[key]!==false);
+    setCustom(c); el.classList.toggle('on', c.visibility[key]); applyCustom();
+  };
+  window.saveCustom = function(){
+    const c=getCustom();
+    c.name=$('cfgName').value.trim()||'Mi Agenda';
+    c.iconEmoji=$('cfgIconEmoji').value.trim();
+    c.iconUrl=$('cfgIconUrl').value.trim();
+    c.avatar=$('cfgAvatar').value.trim();
+    setCustom(c); applyCustom();
+    showStatus('customStatus','✅ Personalización guardada','ok');
+    if(isSyncCredsOn && isSyncCredsOn()) pushCredsToGitHub();
+  };
 
   window.pushAll = async function(){
     const btn=$('btnPushAll'); btn.disabled=true; btn.textContent='Sincronizando...';
@@ -1796,13 +1929,16 @@
   setTimeout(()=>{ if(!isStandalone() && !installBtn.classList.contains('show')) installBtn.classList.add('show'); },3000);
 
   // ══════════ INIT ══════════
+  // Default: sincronizar credenciales activado (Windows ↔ Android)
+  if(localStorage.getItem(KEYS.syncCreds)==null) localStorage.setItem(KEYS.syncCreds,'1');
+  applyCustom();
   showPage('providers');
   updateSyncBadge(); refreshAutoSwitches();
   if(pendings.some(t=>t.notifDays>0)) requestNotifPerm(true);
   pendings.forEach(t=>{ if(t.notifDays>0 && !t.nextNotif) scheduleNextFor(t); });
   lsSave(KEYS.pending,pendings);
   checkAlarms(); setInterval(checkAlarms,60000);
-  initialPullIfClean().then(()=>setTimeout(trySyncAll,800));
+  initialPullIfClean().then(()=>{ applyCustom(); setTimeout(trySyncAll,800); });
   startPullLoop();
   updateReminder();
 })();
