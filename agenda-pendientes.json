@@ -5,7 +5,7 @@
     "note": "",
     "priority": "baja",
     "date": "2027-01-01",
-    "done": false,
+    "done": true,
     "notifDays": 0,
     "notifTimes": 3,
     "notifHour": "09:00",
