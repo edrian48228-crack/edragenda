@@ -5,13 +5,13 @@
     "note": "",
     "priority": "baja",
     "date": "2027-01-01",
-    "done": true,
-    "notifMsg": "",
+    "done": false,
     "notifDays": 0,
     "notifTimes": 3,
     "notifHour": "09:00",
     "notifFired": 0,
-    "nextNotif": 0
+    "nextNotif": 0,
+    "notifMsg": ""
   },
   {
     "id": "mphayokkzttnj8",
@@ -19,13 +19,13 @@
     "note": "Ir a ma Feria a comprar por Transferencia",
     "priority": "media",
     "date": "2026-05-24",
-    "done": true,
-    "notifMsg": "",
+    "done": false,
     "notifDays": 0,
     "notifTimes": 3,
     "notifHour": "09:00",
     "notifFired": 0,
-    "nextNotif": 0
+    "nextNotif": 0,
+    "notifMsg": ""
   },
   {
     "id": "mphax7wijkhv0w",
@@ -33,13 +33,13 @@
     "note": "Sacar nueva patente y recojer datos.",
     "priority": "media",
     "date": "2026-05-30",
-    "done": true,
-    "notifMsg": "",
+    "done": false,
     "notifDays": 0,
     "notifTimes": 3,
     "notifHour": "09:00",
     "notifFired": 0,
-    "nextNotif": 0
+    "nextNotif": 0,
+    "notifMsg": ""
   },
   {
     "id": "mphavpdtm30tjm",
@@ -47,13 +47,13 @@
     "note": "Ir al banco del caribe temprano",
     "priority": "alta",
     "date": "2026-05-27",
-    "done": true,
-    "notifMsg": "",
+    "done": false,
     "notifDays": 0,
     "notifTimes": 3,
     "notifHour": "09:00",
     "notifFired": 0,
-    "nextNotif": 0
+    "nextNotif": 0,
+    "notifMsg": ""
   },
   {
     "id": "mphatf3xcj5zzd",
@@ -61,12 +61,12 @@
     "note": "Negra que vende queso",
     "priority": "alta",
     "date": "2026-05-23",
-    "done": false,
-    "notifMsg": "",
+    "done": true,
     "notifDays": 0,
     "notifTimes": 3,
     "notifHour": "09:00",
     "notifFired": 0,
-    "nextNotif": 0
+    "nextNotif": 0,
+    "notifMsg": ""
   }
 ]
