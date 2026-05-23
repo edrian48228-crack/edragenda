@@ -907,6 +907,7 @@
     return n;
   }
 
+  let suppressDirty=false; // declared early so startup saves don't trigger dirty
   let providers = ls(KEYS.providers).map(normalizeProvider).filter(Boolean);
   let pendings  = ls(KEYS.pending);
   let clients   = ls(KEYS.clients).map(normalizeClient).filter(Boolean);
@@ -916,12 +917,14 @@
   // ensure pending fields
   pendings.forEach(t=>{ if(!t.id) t.id=uid(); if(typeof t.done!=='boolean') t.done=false; if(typeof t.note!=='string') t.note=''; if(!t.priority) t.priority='media'; if(typeof t.notifDays!=='number') t.notifDays=0; if(typeof t.notifTimes!=='number') t.notifTimes=3; if(!t.notifHour) t.notifHour='09:00'; if(typeof t.notifFired!=='number') t.notifFired=0; if(typeof t.nextNotif!=='number') t.nextNotif=0; if(typeof t.notifMsg!=='string') t.notifMsg=''; });
 
-  // Persist normalized
+  // Persist normalized — use suppressDirty so startup save doesn't mark as pending sync
+  suppressDirty=true;
   lsSave(KEYS.providers, providers);
   lsSave(KEYS.pending, pendings);
   lsSave(KEYS.clients, clients);
   lsSave(KEYS.notes, notes);
   lsSave(KEYS.contacts, contacts);
+  suppressDirty=false;
 
   // ── AUTH ──
   function hasAuth(){ return !!localStorage.getItem(KEYS.authPw); }
@@ -1629,7 +1632,7 @@
     }catch(e){ return {ok:false,msg:e.message}; }
   };
 
-  let suppressDirty=false;
+  // suppressDirty declared early (also used during startup)
   window.pullFromGitHub = async function(type, opts){
     opts=opts||{};
     const {token,owner,repo,branch}=getGHCreds();
@@ -1647,7 +1650,7 @@
       const lh=getLastHashes();
       if(lh[type]===remoteHash){ const ls2=getLastSHA(); ls2[type]=d.sha; setLastSHA(ls2); return {ok:true,unchanged:true}; }
       suppressDirty=true;
-      if(type==='providers'){ providers=parsed.map(normalizeProvider).filter(Boolean); lsSave(KEYS.providers,providers); if(currentPage==='providers') renderProviders(); }
+      if(type==='providers'){ providers=parsed.map(normalizeProvider).filter(Boolean); lsSave(KEYS.providers,providers); renderProviders(); }
       if(type==='pending'){ pendings=parsed; pendings.forEach(t=>{ if(typeof t.notifMsg!=='string') t.notifMsg=''; }); lsSave(KEYS.pending,pendings); if(currentPage==='pending') renderPending(); }
       if(type==='clients'){ clients=parsed.map(normalizeClient).filter(Boolean); lsSave(KEYS.clients,clients); if(currentPage==='clients') renderClients(); }
       if(type==='notes'){ notes=parsed.map(normalizeNote).filter(Boolean); lsSave(KEYS.notes,notes); if(currentPage==='notes') renderNotes(); }
@@ -1799,16 +1802,29 @@
     if(!navigator.onLine) return;
     const {token,owner,repo}=getGHCreds(); if(!token||!owner||!repo) return;
     const dirty=getDirty();
+    const dataMap={providers,pending:pendings,clients,notes,contacts};
     if(isSyncCredsOn()) await pullCredsFromGitHub();
-    for(const t of ['providers','pending','clients','notes','contacts']){ if(dirty[t]) continue; try{ await pullFromGitHub(t); }catch(e){} }
+    for(const t of ['providers','pending','clients','notes','contacts']){
+      const isEmpty=(dataMap[t]||[]).length===0;
+      if(dirty[t] && !isEmpty) continue;
+      try{ await pullFromGitHub(t); }catch(e){}
+    }
     updateSyncBadge();
   }
   async function initialPullIfClean(){
     if(!navigator.onLine) return;
     const {token,owner,repo}=getGHCreds(); if(!token||!owner||!repo) return;
-    const dirty=getDirty(); if(Object.values(dirty).some(Boolean)) return;
+    // Always pull credentials (token, password, config) on startup
     if(isSyncCredsOn()) await pullCredsFromGitHub();
-    for(const t of ['providers','pending','clients','notes','contacts']){ try{ await pullFromGitHub(t); }catch(e){} }
+    // Pull data: always pull types that are NOT locally dirty (local changes take priority)
+    // Exception: if local array is empty, always pull regardless of dirty flag
+    const dirty=getDirty();
+    const dataMap={providers,pending:pendings,clients,notes,contacts};
+    for(const t of ['providers','pending','clients','notes','contacts']){
+      const isEmpty = (dataMap[t]||[]).length===0;
+      if(dirty[t] && !isEmpty) continue; // skip: has local unsync'd changes AND data exists
+      try{ await pullFromGitHub(t); }catch(e){}
+    }
     updateSyncBadge();
   }
   function updateSyncBadge(){
@@ -1948,9 +1964,18 @@
   updateSyncBadge(); refreshAutoSwitches();
   if(pendings.some(t=>t.notifDays>0)) requestNotifPerm(true);
   pendings.forEach(t=>{ if(t.notifDays>0 && !t.nextNotif) scheduleNextFor(t); });
+  // Save pending state changes (alarm schedules) without triggering dirty
+  suppressDirty=true;
   lsSave(KEYS.pending,pendings);
+  suppressDirty=false;
   checkAlarms(); setInterval(checkAlarms,60000);
-  initialPullIfClean().then(()=>{ applyCustom(); setTimeout(trySyncAll,800); });
+  // Pull from GitHub immediately on startup — this loads saved data from other devices
+  initialPullIfClean().then(()=>{
+    applyCustom();
+    renderProviders(); // always re-render after pull
+    updateReminder();
+    setTimeout(trySyncAll,800);
+  });
   startPullLoop();
   updateReminder();
 })();
