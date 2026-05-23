@@ -61,7 +61,7 @@
     "note": "Negra que vende queso",
     "priority": "alta",
     "date": "2026-05-23",
-    "done": false,
+    "done": true,
     "notifDays": 0,
     "notifTimes": 3,
     "notifHour": "09:00",
