@@ -5,7 +5,7 @@
   "authPw": "d5711aa186ee9c2ae7b390d31ff274490e7c911deaa64a520325055fff007959",
   "authQ": "nombre de tu mascota",
   "authA": "9db3a25b009c1e439aa688ba0eb3b9f2999d891e1d8849f3e500f233cc0705e4",
-  "alarmSound": "chime",
+  "alarmSound": "bell",
   "custom": {
     "name": "Mi Agenda",
     "iconEmoji": "",
@@ -21,5 +21,5 @@
       "topContacts": true
     }
   },
-  "ts": 1779536809805
+  "ts": 1779536949361
 }
