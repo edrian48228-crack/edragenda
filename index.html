@@ -24,7 +24,7 @@
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    font-size:17px;line-height:1.45;min-height:100vh}
+    font-size:18px;line-height:1.5;min-height:100vh}
   a{color:inherit;text-decoration:none}
   button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   input,textarea,select{font:inherit;color:inherit}
@@ -339,6 +339,114 @@
   .login-box h2{margin:0;text-align:center;font-size:22px;font-weight:800}
   .login-box .login-sub{text-align:center;color:var(--muted);font-size:13px;margin:4px 0 18px}
   .login-link{display:block;text-align:center;color:var(--accent);font-size:13px;font-weight:600;margin-top:14px;cursor:pointer}
+
+  /* ─── v9 EXTRAS ─── */
+  :root{ --primary:var(--user-primary, #a855f7); }
+  .interacted{ background:linear-gradient(135deg, color-mix(in srgb, var(--user-primary, #a855f7) 18%, var(--card)), var(--card)) !important;
+    border-color: color-mix(in srgb, var(--user-primary, #a855f7) 55%, var(--border)) !important;
+    box-shadow:0 0 0 1px color-mix(in srgb, var(--user-primary,#a855f7) 30%, transparent), 0 8px 22px -10px color-mix(in srgb, var(--user-primary,#a855f7) 60%, transparent);
+    position:relative; }
+  .interacted::after{ content:"✓ Contactado"; position:absolute; top:8px; right:10px; font-size:10px;
+    font-weight:800; letter-spacing:.5px; padding:2px 8px; border-radius:10px;
+    background:color-mix(in srgb, var(--user-primary,#a855f7) 25%, transparent);
+    color:color-mix(in srgb, var(--user-primary,#a855f7) 90%, #fff); border:1px solid color-mix(in srgb, var(--user-primary,#a855f7) 45%, transparent); }
+
+  /* FAB centrado abajo */
+  .fab{ left:50% !important; right:auto !important; transform:translateX(-50%); }
+  .fab:active{ transform:translateX(-50%) scale(.94) }
+  /* Recordatorio a la derecha */
+  .reminder{ left:auto !important; right:14px !important; }
+
+  /* Quick bar bajo banner */
+  .quick-bar{ max-width:760px; margin:6px auto 4px; padding:0 12px;
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap }
+  .quick-bar .qb-btn{ flex:1; min-width:90px; height:46px; border-radius:14px;
+    background:linear-gradient(135deg, color-mix(in srgb, var(--user-primary,#a855f7) 22%, var(--card)), var(--card));
+    border:1px solid color-mix(in srgb, var(--user-primary,#a855f7) 35%, var(--border));
+    color:var(--text); display:flex; align-items:center; justify-content:center; gap:8px;
+    font-size:14px; font-weight:700; transition:transform .15s, box-shadow .2s }
+  .quick-bar .qb-btn:active{ transform:scale(.96) }
+  .quick-bar .qb-btn svg{ width:20px; height:20px }
+  .quick-bar .qb-call{ color:#c084fc } .quick-bar .qb-sms{ color:#7dd3fc }
+  .quick-bar .qb-wa{ color:#4ade80 } .quick-bar .qb-sound{ color:#fbbf24 }
+
+  /* VIP badge (debajo del logo) */
+  .vip-strip{ display:flex; align-items:center; justify-content:space-between; gap:10px;
+    margin-top:8px; padding:8px 12px; border-radius:14px;
+    background:linear-gradient(135deg, rgba(251,191,36,.12), rgba(168,85,247,.10));
+    border:1px solid rgba(251,191,36,.35) }
+  .vip-strip .vip-left{ display:flex; align-items:center; gap:8px; min-width:0 }
+  .vip-strip .vip-crown{ width:34px; height:34px; flex-shrink:0; display:flex; align-items:center; justify-content:center;
+    color:#fbbf24; filter:drop-shadow(0 0 8px rgba(251,191,36,.6));
+    animation:heartbeat 1.4s ease-in-out infinite }
+  .vip-strip .vip-crown svg{ width:30px; height:30px }
+  .vip-strip .vip-text{ font-size:13px; font-weight:800; letter-spacing:.3px; line-height:1.15;
+    background:linear-gradient(90deg,#fde68a,#fbbf24,#f59e0b); -webkit-background-clip:text;
+    background-clip:text; color:transparent; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+  .vip-strip .vip-text small{ display:block; font-size:10px; color:#fde68a; -webkit-text-fill-color:#fde68a;
+    font-weight:700; letter-spacing:.8px; opacity:.85 }
+  .vip-strip .vip-contact{ display:flex; gap:6px; flex-shrink:0 }
+  .vip-strip .vip-contact a{ width:38px; height:38px; border-radius:11px; display:flex; align-items:center; justify-content:center;
+    background:rgba(0,0,0,.25); border:1px solid rgba(251,191,36,.35); transition:transform .12s }
+  .vip-strip .vip-contact a:active{ transform:scale(.92) }
+  .vip-strip .vip-contact a.vc-wa{ color:#4ade80 } .vip-strip .vip-contact a.vc-tel{ color:#7dd3fc }
+  .vip-strip .vip-contact svg{ width:18px; height:18px }
+  @keyframes heartbeat{ 0%,100%{transform:scale(1)} 14%{transform:scale(1.22)} 28%{transform:scale(1)} 42%{transform:scale(1.18)} 60%{transform:scale(1)} }
+
+  /* Footer nav más elegante */
+  .footer-nav{ background:linear-gradient(180deg, rgba(12,12,20,.7) 0%, rgba(8,8,14,.98) 60%) !important;
+    border-top:1px solid color-mix(in srgb, var(--user-primary,#a855f7) 30%, var(--border)) !important;
+    box-shadow:0 -10px 30px -10px color-mix(in srgb, var(--user-primary,#a855f7) 40%, transparent) }
+  .nav-btn{ position:relative }
+  .nav-btn.active::before{ content:""; position:absolute; top:-1px; left:50%; transform:translateX(-50%);
+    width:38px; height:3px; border-radius:0 0 6px 6px; background:currentColor; box-shadow:0 0 10px currentColor }
+
+  /* Admin quick nav */
+  .admin-quicknav{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:0 0 14px }
+  .admin-quicknav button{ display:flex; flex-direction:column; align-items:center; gap:4px; padding:10px 6px;
+    border-radius:14px; background:var(--card-2); border:1px solid var(--border); color:var(--text);
+    font-size:11px; font-weight:700; line-height:1.1; text-align:center; transition:transform .12s, border-color .2s }
+  .admin-quicknav button:hover{ border-color: color-mix(in srgb, var(--user-primary,#a855f7) 60%, var(--border)) }
+  .admin-quicknav button:active{ transform:scale(.95) }
+  .admin-quicknav button svg{ width:22px; height:22px; color: var(--user-primary,#a855f7) }
+
+  /* Sonidos modal */
+  .sound-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px }
+  .sound-card{ display:flex; align-items:center; gap:10px; padding:12px; border-radius:14px;
+    background:var(--card-2); border:1px solid var(--border); cursor:pointer; transition:border-color .2s, transform .1s }
+  .sound-card:hover{ border-color: color-mix(in srgb, var(--user-primary,#a855f7) 60%, var(--border)) }
+  .sound-card:active{ transform:scale(.97) }
+  .sound-card.selected{ border-color: color-mix(in srgb, var(--user-primary,#a855f7) 80%, var(--border));
+    background: color-mix(in srgb, var(--user-primary,#a855f7) 15%, var(--card-2)) }
+  .sound-card .sc-ico{ width:38px; height:38px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+    background:rgba(251,191,36,.15); color:#fbbf24; flex-shrink:0 }
+  .sound-card .sc-ico svg{ width:22px; height:22px }
+  .sound-card .sc-name{ font-weight:800; font-size:14px }
+  .sound-card .sc-desc{ font-size:11px; color:var(--muted); margin-top:2px }
+  .sound-card.selected .sc-ico{ background: color-mix(in srgb, var(--user-primary,#a855f7) 25%, transparent);
+    color: var(--user-primary,#a855f7) }
+
+  /* Pending alarm section — más visible */
+  .alarm-section{ background:rgba(251,191,36,.06); border:1px solid rgba(251,191,36,.25);
+    border-radius:14px; padding:12px; margin-top:8px }
+  .alarm-section .field span{ font-size:14px !important; font-weight:800 !important; color:#fde68a !important }
+  .alarm-section .field input, .alarm-section .field select{ font-size:16px; font-weight:700; height:46px }
+  .alarm-section h4{ margin:0 0 8px; font-size:15px; font-weight:800; color:#fbbf24; display:flex; align-items:center; gap:8px }
+  .alarm-section h4 svg{ width:18px; height:18px }
+  .alarm-section .btn-secondary{ height:42px; font-size:14px }
+
+  /* Card content clickable hint */
+  .card .row{ cursor:pointer }
+  .card .row-actions button{ cursor:pointer }
+
+  /* Login close */
+  .login-close{ position:absolute; top:14px; right:14px; width:40px; height:40px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,.06);
+    color:#fff; border:1px solid var(--border); transition:background .15s }
+  .login-close:hover{ background:rgba(239,68,68,.2); color:var(--danger); border-color:rgba(239,68,68,.5) }
+  .login-close svg{ width:20px; height:20px }
+  .login-box{ position:relative }
+
 </style>
 </head>
 <body>
@@ -366,7 +474,6 @@
       </span>
       <div>
         <div class="brand-text" id="brandText"><span>Mi</span> Agenda</div>
-        <div class="by">Creado por <b>Edrian Cruz</b></div>
       </div>
     </h1>
     <p class="sub" id="counter">0 elementos</p>
@@ -376,6 +483,20 @@
     </div>
   </div>
 </header>
+
+<!-- VIP STRIP + QUICK BAR -->
+<div class="wrap" id="vipQuickWrap" style="max-width:760px;margin:0 auto;padding:8px 12px 0">
+  <div class="vip-strip">
+    <div class="vip-left">
+      <span class="vip-crown" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 7l4 4 5-7 5 7 4-4-2 12H5L3 7Zm2 14h14v2H5v-2Z"/></svg>
+      </span>
+      <div class="vip-text">VIP · Creado por Edrian Cruz<small>DOWN</small></div>
+    </div>
+    <div class="vip-contact" id="vipContact"></div>
+  </div>
+  <div class="quick-bar" id="quickBar"></div>
+</div>
 
 <!-- PROVEEDORES -->
 <main id="pageProviders">
@@ -480,19 +601,28 @@
     <div class="pb-txt"><p>Configuración, seguridad y sincronización</p></div>
   </div>
 
+  <div class="admin-quicknav" id="adminQuickNav"></div>
   <div class="admin-card">
     <h3>🔔 Recordatorios y Alarmas</h3>
     <p>Configura las alarmas de los pendientes desde cada tarea. Aquí activas notificaciones y elige sonido.</p>
     <div class="toggle-line"><label>Mostrar avatar recordatorio</label><div class="switch" id="swReminder" onclick="toggleReminder()"></div></div>
     <div class="field"><span>Sonido de alarma</span>
       <select id="alarmSound">
-        <option value="bell">Campana suave</option>
-        <option value="beep">Beep clásico</option>
-        <option value="chime">Chime cristalino</option>
-        <option value="silent">Silencioso</option>
+        <option value="bell">🔔 Campana suave</option>
+        <option value="beep">📢 Beep clásico</option>
+        <option value="chime">🎐 Chime cristalino</option>
+        <option value="waterdrop">💧 Gota de agua</option>
+        <option value="thunder">⚡ Trueno</option>
+        <option value="ding">🛎️ Ding hotel</option>
+        <option value="digital">📳 Pitido digital</option>
+        <option value="zen">🧘 Cuenco tibetano</option>
+        <option value="alarm">⏰ Alarma retro</option>
+        <option value="silent">🔇 Silencioso</option>
       </select>
     </div>
-    <button class="btn-secondary" onclick="playAlarmSound()">▶ Probar sonido</button>
+    <button class="btn-secondary" onclick="openSoundPalette()">🎵 Explorar paleta de sonidos</button>
+    <div style="height:8px"></div>
+    <button class="btn-secondary" onclick="playAlarmSound()">▶ Probar sonido seleccionado</button>
     <div style="height:8px"></div>
     <button class="btn-secondary" onclick="requestNotifPerm()">Solicitar permiso de notificaciones</button>
     <div class="status-msg" id="notifStatus"></div>
@@ -513,34 +643,34 @@
   </div>
 
   <div class="admin-card">
-    <h3>🔗 Credenciales GitHub</h3>
-    <p>Token con permisos de repo. Con "Sincronizar config" activo, el token y la contraseña viajan automáticamente a todos tus dispositivos (Windows ↔ Android).</p>
+    <h3>☁️ Conexión con servicio en la nube</h3>
+    <p>Conecta tu servicio de respaldo personal para mantener tus datos seguros y sincronizados entre todos tus dispositivos.</p>
     <label class="field"><span>Token de Acceso Personal (PAT)</span>
       <div class="pwfield"><input id="ghToken" type="password" placeholder="ghp_xxxx"/><button type="button" class="eye" onclick="togglePw('ghToken',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
     </label>
     <label class="field"><span>Usuario / Organización</span><input id="ghOwner" placeholder="mi-usuario"/></label>
     <label class="field"><span>Repositorio</span><input id="ghRepo" placeholder="mi-agenda-datos"/></label>
     <label class="field"><span>Rama</span><input id="ghBranch" placeholder="main"/></label>
-    <button class="btn-secondary" onclick="saveGHCreds()" style="margin-bottom:8px">💾 Guardar credenciales</button>
-    <button class="btn-secondary" onclick="testGHConnection()">🔗 Probar conexión</button>
+    <button class="btn-secondary" onclick="saveGHCreds()" style="margin-bottom:8px">💾 Guardar configuración</button>
+    <button class="btn-secondary" onclick="testGHConnection()">✓ Verificar conexión</button>
     <div class="status-msg" id="ghTestStatus"></div>
     <div class="log-box" id="ghTestLog"></div>
   </div>
 
   <div class="admin-card">
-    <h3>🔁 Auto-Sincronización</h3>
-    <p>Mantiene tus dispositivos al día sin intervención. Las credenciales también se sincronizan (Windows ↔ Android).</p>
-    <div class="toggle-line"><label>Sync automática</label><div class="switch" id="swAutoSync" onclick="toggleAutoSync()"></div></div>
-    <div class="toggle-line"><label>Pull remoto cada 30s</label><div class="switch" id="swAutoPull" onclick="toggleAutoPull()"></div></div>
-    <div class="toggle-line"><label>Sincronizar config entre dispositivos (token, contraseña…)</label><div class="switch" id="swSyncCreds" onclick="toggleSyncCreds()"></div></div>
+    <h3>🔄 Sincronización automática</h3>
+    <p>Mantén todos tus dispositivos siempre al día, sin esfuerzo. Tu configuración viaja contigo de forma segura.</p>
+    <div class="toggle-line"><label>Respaldo automático al editar</label><div class="switch" id="swAutoSync" onclick="toggleAutoSync()"></div></div>
+    <div class="toggle-line"><label>Buscar cambios cada 30 s</label><div class="switch" id="swAutoPull" onclick="toggleAutoPull()"></div></div>
+    <div class="toggle-line"><label>Compartir configuración entre dispositivos</label><div class="switch" id="swSyncCreds" onclick="toggleSyncCreds()"></div></div>
     <div class="status-msg info" id="syncStatusInline" style="display:block">Estado: inicializando…</div>
   </div>
 
   <div class="admin-card">
-    <h3>🚀 Sincronizar todo ahora</h3>
-    <button class="btn-primary" onclick="pushAll()" id="btnPushAll">Forzar subida completa</button>
+    <h3>☁️ Sincronización en la nube</h3>
+    <button class="btn-primary" onclick="pushAll()" id="btnPushAll">Respaldar todo ahora</button>
     <div style="height:8px"></div>
-    <button class="btn-secondary" onclick="pullAll()">Forzar descarga completa</button>
+    <button class="btn-secondary" onclick="pullAll()">Restaurar desde la nube</button>
     <div class="status-msg" id="allStatus"></div>
     <div class="log-box" id="allLog"></div>
   </div>
@@ -552,6 +682,15 @@
     <label class="field"><span>Icono de marca (emoji o 1 letra)</span><input id="cfgIconEmoji" placeholder="⚡ o M"/></label>
     <label class="field"><span>URL de imagen del logo (opcional, reemplaza el icono)</span><input id="cfgIconUrl" placeholder="https://... .png"/></label>
     <label class="field"><span>Avatar del usuario (emoji o letra, opcional)</span><input id="cfgAvatar" placeholder="🙂"/></label>
+    <label class="field"><span>🎨 Color principal de la agenda (resalte)</span>
+      <div style="display:flex;gap:8px;align-items:center">
+        <input id="cfgPrimary" type="color" value="#a855f7" style="width:64px;height:46px;padding:2px;border-radius:12px;background:var(--card-2);border:1px solid var(--border);cursor:pointer"/>
+        <input id="cfgPrimaryHex" type="text" placeholder="#a855f7" style="flex:1"/>
+        <button type="button" class="btn-secondary" style="width:auto;padding:0 14px;height:46px" onclick="resetPrimaryColor()">Reset</button>
+      </div>
+    </label>
+    <label class="field"><span>📞 Teléfono de contacto VIP (opcional)</span><input id="cfgVipPhone" placeholder="+5358..."/></label>
+    <label class="field"><span>💬 WhatsApp de contacto VIP (opcional)</span><input id="cfgVipWa" placeholder="+5358..."/></label>
     <div class="divider"></div>
     <p style="margin:0 0 8px;color:var(--muted);font-size:13px;font-weight:600">Pestañas visibles en la barra inferior</p>
     <div class="toggle-line"><label>Proveedores</label><div class="switch" id="vis_providers" data-vis="providers" onclick="toggleVis(this)"></div></div>
@@ -578,7 +717,7 @@
     <p>Exporta TODOS tus datos (proveedores, pendientes, clientes, notas, contactos y configuración) en un único archivo JSON. Ideal para guardar antes de actualizar la app.</p>
     <button class="btn-primary" onclick="exportFullBackup()" style="margin-bottom:8px">⬇️ Descargar backup JSON local</button>
     <div style="height:4px"></div>
-    <button class="btn-secondary" onclick="pushFullBackupToGitHub()" style="margin-bottom:8px">☁️ Guardar backup en GitHub</button>
+    <button class="btn-secondary" onclick="pushFullBackupToGitHub()" style="margin-bottom:8px">☁️ Respaldar backup en la nube</button>
     <div style="height:4px"></div>
     <label class="field" style="margin-bottom:0">
       <span>Restaurar desde archivo JSON local</span>
@@ -677,19 +816,35 @@
     <input type="hidden" id="p-id"/>
     <label class="field"><span>Tarea *</span><input id="p-task" required placeholder="Ej: Llamar a proveedor X"/></label>
     <label class="field"><span>Notas / información extra</span><textarea id="p-note" rows="4" placeholder="Notas, contactos, lo que sea..."></textarea></label>
-    <label class="field"><span>Prioridad</span>
-      <select id="p-priority"><option value="alta">🔴 Alta</option><option value="media" selected>🟡 Media</option><option value="baja">🟢 Baja</option></select>
-    </label>
-    <label class="field"><span>Fecha límite</span><input id="p-date" type="date"/></label>
-    <div class="divider"></div>
-    <p style="margin:0 0 8px;color:var(--gold);font-weight:700">🔔 Alarma programada</p>
     <div class="field-row">
-      <label class="field"><span>Recordar cada (días)</span><input id="p-notif-days" type="number" min="0" max="30" value="0"/></label>
-      <label class="field"><span>Veces (máx 3)</span><input id="p-notif-times" type="number" min="1" max="3" value="3"/></label>
+      <label class="field"><span>Prioridad</span>
+        <select id="p-priority"><option value="alta">🔴 Alta</option><option value="media" selected>🟡 Media</option><option value="baja">🟢 Baja</option></select>
+      </label>
+      <label class="field"><span>Fecha límite</span><input id="p-date" type="date"/></label>
     </div>
-    <label class="field"><span>Hora de la alarma</span><input id="p-notif-hour" type="time" value="09:00"/></label>
-    <label class="field"><span>Mensaje personalizado de la notificación</span><input id="p-notif-msg" placeholder="(opcional)"/></label>
-    <button type="submit" class="save">Guardar</button>
+
+    <div class="alarm-section">
+      <h4><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a6 6 0 0 0-6 6v3.586l-1.707 1.707A1 1 0 0 0 5 15h14a1 1 0 0 0 .707-1.707L18 11.586V8a6 6 0 0 0-6-6Zm0 20a3 3 0 0 0 3-3H9a3 3 0 0 0 3 3Z"/></svg> Recordatorios y alarma</h4>
+      <div class="field-row">
+        <label class="field"><span>Cada</span><input id="p-notif-days" type="number" min="0" max="999" value="0" placeholder="0"/></label>
+        <label class="field"><span>Unidad</span>
+          <select id="p-notif-unit">
+            <option value="min">Minutos</option>
+            <option value="hour">Horas</option>
+            <option value="day" selected>Días</option>
+          </select>
+        </label>
+        <label class="field"><span>Repetir</span><input id="p-notif-times" type="number" min="1" max="20" value="3"/></label>
+      </div>
+      <div class="field-row">
+        <label class="field"><span>Hora 1.ª alarma</span><input id="p-notif-hour" type="time" value="09:00"/></label>
+        <label class="field" style="flex:1.4"><span>Mensaje notificación (opcional)</span><input id="p-notif-msg" placeholder="Ej: Recuerda llamar al proveedor"/></label>
+      </div>
+      <p style="margin:6px 0 8px;color:#fde68a;font-size:13px;font-weight:700">🎵 Sonido de la alarma</p>
+      <button type="button" class="btn-secondary" onclick="openSoundPalette()">Elegir sonido</button>
+    </div>
+
+    <button type="submit" class="save">Guardar tarea</button>
   </form>
 </div>
 
@@ -784,6 +939,7 @@
 <!-- LOGIN SCREEN -->
 <div class="login-screen hidden" id="loginScreen">
   <div class="login-box">
+    <button type="button" class="login-close" onclick="hideLoginPublic()" aria-label="Cerrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
     <div class="logo-big"><svg viewBox="0 0 24 24" fill="none"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z" fill="#fff" stroke="#fff" stroke-width="1" stroke-linejoin="round"/></svg></div>
     <h2 id="loginTitle">Acceso Administración</h2>
     <p class="login-sub" id="loginSub">Ingresa tu contraseña</p>
@@ -1230,7 +1386,7 @@
     const prioLabel={alta:'🔴 Alta',media:'🟡 Media',baja:'🟢 Baja'};
     const prioClass={alta:'p-alta',media:'p-media',baja:'p-baja'};
     listEl.innerHTML = items.map(t=>{
-      const alarm = (t.notifDays>0) ? `<span class="alarm-chip">${SVG.bell}${t.notifDays}d · ${t.notifHour}</span>` : '';
+      const _u=(t.notifUnit||'day'); const _ulabel=_u==='min'?'min':_u==='hour'?'h':'d'; const alarm = (t.notifDays>0) ? `<span class="alarm-chip">${SVG.bell}${t.notifDays}${_ulabel} · ${t.notifHour}</span>` : '';
       return `<article class="card ${t.done?'done-card':prioClass[t.priority]||'p-media'}">
         <div class="row">
           <button class="done-toggle ${t.done?'done':''}" data-toggle-done="${t.id}" title="Hecho">${SVG.check}</button>
@@ -1294,7 +1450,7 @@
       <div class="detail-block"><div class="lbl">Prioridad</div><div class="val">${prioLabel[t.priority]||'Media'}</div></div>
       ${t.date?`<div class="detail-block"><div class="lbl">Fecha</div><div class="val">${escH(t.date)}</div></div>`:''}
       ${t.note?`<div class="detail-block"><div class="lbl">Notas</div><div class="val">${escH(t.note)}</div></div>`:''}
-      ${t.notifDays>0?`<div class="detail-block"><div class="lbl">Alarma</div><div class="val">Cada ${t.notifDays} día(s) a las ${escH(t.notifHour)} · ${t.notifFired||0}/${t.notifTimes||3} disparada(s)</div></div>`:''}
+      ${t.notifDays>0?`<div class="detail-block"><div class="lbl">Alarma</div><div class="val">Cada ${t.notifDays} ${(t.notifUnit==='min'?'minuto(s)':t.notifUnit==='hour'?'hora(s)':'día(s)')} · ${escH(t.notifHour)} · ${t.notifFired||0}/${t.notifTimes||3} disparada(s)</div></div>`:''}
       ${t.notifMsg?`<div class="detail-block"><div class="lbl">Mensaje notif.</div><div class="val">${escH(t.notifMsg)}</div></div>`:''}
       <div class="detail-block"><div class="lbl">Estado</div><div class="val">${t.done?'✅ Hecho':'⏳ Pendiente'}</div></div>`;
     $('modalDetail').classList.add('open');
@@ -1707,7 +1863,7 @@
     localStorage.setItem(KEYS.ghOwner,$('ghOwner').value.trim());
     localStorage.setItem(KEYS.ghRepo,$('ghRepo').value.trim());
     localStorage.setItem(KEYS.ghBranch,$('ghBranch').value.trim()||'main');
-    showStatus('ghTestStatus','✅ Credenciales guardadas','ok');
+    showStatus('ghTestStatus','Configuración guardada','ok');
     if(localStorage.getItem(KEYS.syncCreds)==='1') pushCredsToGitHub();
     scheduleSync(500); initialPullIfClean();
   };
@@ -1720,16 +1876,16 @@
 
   window.testGHConnection = async function(){
     const {token,owner,repo}=getGHCreds(); clearLog('ghTestLog');
-    if(!token||!owner||!repo){ logLine('ghTestLog','✗ Faltan credenciales','err'); return; }
+    if(!token||!owner||!repo){ logLine('ghTestLog','Faltan datos de conexión','err'); return; }
     const H={'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json'};
     try{
       const ru=await fetch('https://api.github.com/user',{headers:H});
       logLine('ghTestLog','GET /user → '+ru.status,ru.ok?'ok':'err');
-      if(!ru.ok){ showStatus('ghTestStatus','❌ Token inválido','err'); return; }
+      if(!ru.ok){ showStatus('ghTestStatus','Credenciales no válidas','err'); return; }
       const u=await ru.json(); logLine('ghTestLog','✓ '+u.login,'ok');
       const rr=await fetch('https://api.github.com/repos/'+owner+'/'+repo,{headers:H});
-      if(!rr.ok){ showStatus('ghTestStatus','❌ Repo no accesible','err'); return; }
-      showStatus('ghTestStatus','✅ Conexión OK','ok');
+      if(!rr.ok){ showStatus('ghTestStatus','No se pudo acceder al servicio','err'); return; }
+      showStatus('ghTestStatus','Conexión establecida correctamente','ok');
     }catch(e){ logLine('ghTestLog','✗ '+e.message,'err'); }
   };
 
@@ -1838,7 +1994,7 @@
   }
 
   // ── PERSONALIZACIÓN ──
-  const DEFAULT_CUSTOM={name:'Mi Agenda',iconEmoji:'',iconUrl:'',avatar:'',visibility:{providers:true,pending:true,clients:true,notes:true,contacts:true,admin:true,topContacts:true}};
+  const DEFAULT_CUSTOM={name:'Mi Agenda',iconEmoji:'',iconUrl:'',avatar:'',primary:'#a855f7',vipPhone:'',vipWa:'',visibility:{providers:true,pending:true,clients:true,notes:true,contacts:true,admin:true,topContacts:true}};
   function getCustom(){ try{ const o=JSON.parse(localStorage.getItem(KEYS.custom)||'{}'); return Object.assign({},DEFAULT_CUSTOM,o,{visibility:Object.assign({},DEFAULT_CUSTOM.visibility,o.visibility||{})}); }catch(e){ return {...DEFAULT_CUSTOM}; } }
   function setCustom(c){ localStorage.setItem(KEYS.custom, JSON.stringify(c)); }
   function applyCustom(){
@@ -2004,10 +2160,17 @@
   function scheduleNextFor(t){
     if(!t||!t.notifDays||t.notifDays<=0) return;
     if((t.notifFired||0) >= (t.notifTimes||3)) return;
-    const [hh,mm]=(t.notifHour||'09:00').split(':').map(n=>parseInt(n,10));
-    const now=new Date(); let next=new Date(now); next.setHours(hh||9,mm||0,0,0);
-    if(next.getTime()<=now.getTime()) next.setDate(next.getDate()+1);
-    if(t.notifFired>0) next=new Date(now.getTime()+t.notifDays*86400000);
+    const unit=t.notifUnit||'day';
+    const stepMs = (unit==='min'?60000:unit==='hour'?3600000:86400000) * t.notifDays;
+    const now=new Date(); let next;
+    if(unit==='day'){
+      const [hh,mm]=(t.notifHour||'09:00').split(':').map(n=>parseInt(n,10));
+      next=new Date(now); next.setHours(hh||9,mm||0,0,0);
+      if(next.getTime()<=now.getTime()) next.setDate(next.getDate()+1);
+      if(t.notifFired>0) next=new Date(now.getTime()+stepMs);
+    } else {
+      next = new Date(now.getTime()+stepMs);
+    }
     t.nextNotif=next.getTime();
   }
   window.playAlarmSound = function(){
@@ -2038,7 +2201,9 @@
       if(t.nextNotif<=now){
         fireNotif(t);
         t.notifFired=(t.notifFired||0)+1;
-        if(t.notifFired<(t.notifTimes||3)) t.nextNotif=now+t.notifDays*86400000;
+        const _u=t.notifUnit||'day';
+        const _step=(_u==='min'?60000:_u==='hour'?3600000:86400000)*t.notifDays;
+        if(t.notifFired<(t.notifTimes||3)) t.nextNotif=now+_step;
         else t.nextNotif=0;
         changed=true;
       }
@@ -2079,7 +2244,7 @@
     let refreshing=false;
     navigator.serviceWorker.addEventListener('controllerchange',()=>{ if(refreshing) return; refreshing=true; location.reload(); });
     window.addEventListener('load',()=>{
-      navigator.serviceWorker.register('sw.js?v=20260523-4').then(reg=>{
+      navigator.serviceWorker.register('sw.js?v=20260524-9').then(reg=>{
         if(reg.waiting) reg.waiting.postMessage({type:'SKIP_WAITING'});
         reg.addEventListener('updatefound',()=>{ const w=reg.installing; if(w) w.addEventListener('statechange',()=>{ if(w.state==='installed' && navigator.serviceWorker.controller) w.postMessage({type:'SKIP_WAITING'}); }); });
         reg.update().catch(()=>{});
@@ -2118,7 +2283,396 @@
   });
   startPullLoop();
   updateReminder();
+
+
+  // ─── v9: hideLoginPublic ───
+  window.hideLoginPublic = function(){
+    var el=$('loginScreen'); if(el) el.classList.add('hidden');
+    showPage(localStorage.getItem('agenda.lastPage')||'providers');
+  };
+
+  // ─── v9: SONIDOS adicionales (Web Audio) ───
+  const SOUND_DEFS = {
+    bell:{name:'Campana suave', desc:'Limpia y elegante', emoji:'🔔'},
+    beep:{name:'Beep clásico', desc:'Corto y directo', emoji:'📢'},
+    chime:{name:'Chime cristalino', desc:'Notas cristalinas', emoji:'🎐'},
+    waterdrop:{name:'Gota de agua', desc:'Suave y relajante', emoji:'💧'},
+    thunder:{name:'Trueno', desc:'Impactante y profundo', emoji:'⚡'},
+    ding:{name:'Ding hotel', desc:'Recepción clásica', emoji:'🛎️'},
+    digital:{name:'Pitido digital', desc:'Estilo tecnológico', emoji:'📳'},
+    zen:{name:'Cuenco tibetano', desc:'Resonante y calmo', emoji:'🧘'},
+    alarm:{name:'Alarma retro', desc:'Tradicional y firme', emoji:'⏰'},
+    silent:{name:'Silencioso', desc:'Solo notificación visual', emoji:'🔇'}
+  };
+  function _ctx(){ return new (window.AudioContext||window.webkitAudioContext)(); }
+  function _osc(ctx,type,freq,start,end,gain){
+    const o=ctx.createOscillator(),g=ctx.createGain();
+    o.type=type; o.frequency.setValueAtTime(freq,ctx.currentTime+start);
+    g.gain.setValueAtTime(gain,ctx.currentTime+start);
+    g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+end);
+    o.connect(g); g.connect(ctx.destination);
+    o.start(ctx.currentTime+start); o.stop(ctx.currentTime+end+0.05);
+  }
+  window.playSoundKind = function(kind){
+    if(kind==='silent') return;
+    try{
+      const ctx=_ctx();
+      switch(kind){
+        case 'bell': _osc(ctx,'sine',880,0,1.2,.3); break;
+        case 'beep': _osc(ctx,'square',600,0,.45,.2); break;
+        case 'chime': _osc(ctx,'triangle',1320,0,1.4,.22); _osc(ctx,'triangle',1760,.1,1.4,.18); break;
+        case 'waterdrop': _osc(ctx,'sine',1200,0,.35,.25); _osc(ctx,'sine',600,.1,.5,.18); _osc(ctx,'sine',300,.25,.7,.12); break;
+        case 'thunder': {
+          const bufSize=ctx.sampleRate*1.4; const buf=ctx.createBuffer(1,bufSize,ctx.sampleRate);
+          const d=buf.getChannelData(0);
+          for(let i=0;i<bufSize;i++){ d[i]=(Math.random()*2-1)*Math.pow(1-i/bufSize,2); }
+          const n=ctx.createBufferSource(); n.buffer=buf;
+          const f=ctx.createBiquadFilter(); f.type='lowpass'; f.frequency.value=400;
+          const g=ctx.createGain(); g.gain.setValueAtTime(.45,ctx.currentTime);
+          g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+1.4);
+          n.connect(f); f.connect(g); g.connect(ctx.destination); n.start();
+        } break;
+        case 'ding': _osc(ctx,'sine',1568,0,1.0,.32); _osc(ctx,'sine',2093,0,1.0,.18); break;
+        case 'digital': _osc(ctx,'square',1800,0,.1,.22); _osc(ctx,'square',1800,.15,.25,.22); _osc(ctx,'square',1800,.3,.4,.22); break;
+        case 'zen': {
+          const o=ctx.createOscillator(),g=ctx.createGain();
+          o.type='sine'; o.frequency.setValueAtTime(220,ctx.currentTime);
+          const lfo=ctx.createOscillator(),lfoG=ctx.createGain();
+          lfo.frequency.value=5; lfoG.gain.value=8;
+          lfo.connect(lfoG); lfoG.connect(o.frequency);
+          g.gain.setValueAtTime(.35,ctx.currentTime);
+          g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+3.0);
+          o.connect(g); g.connect(ctx.destination);
+          lfo.start(); o.start(); o.stop(ctx.currentTime+3.1); lfo.stop(ctx.currentTime+3.1);
+        } break;
+        case 'alarm': for(let i=0;i<4;i++){ _osc(ctx,'square',1000,i*0.18,i*0.18+.12,.25); } break;
+        default: _osc(ctx,'sine',880,0,1,.3);
+      }
+    }catch(e){ console.warn(e); }
+  };
+  // Reemplaza el playAlarmSound original
+  window.playAlarmSound = function(){
+    const kind=localStorage.getItem('agenda.alarm.sound')||'bell';
+    window.playSoundKind(kind);
+  };
+
+  window.openSoundPalette = function(){
+    const cur=localStorage.getItem('agenda.alarm.sound')||'bell';
+    const grid=document.getElementById('soundGrid');
+    grid.innerHTML = Object.keys(SOUND_DEFS).map(k=>{
+      const d=SOUND_DEFS[k];
+      return `<div class="sound-card ${k===cur?'selected':''}" data-sound="${k}">
+        <div class="sc-ico">${d.emoji}</div>
+        <div style="min-width:0;flex:1"><div class="sc-name">${d.name}</div><div class="sc-desc">${d.desc}</div></div>
+      </div>`;
+    }).join('');
+    grid.onclick = (e)=>{
+      const c=e.target.closest('.sound-card'); if(!c) return;
+      const k=c.dataset.sound;
+      grid.querySelectorAll('.sound-card').forEach(x=>x.classList.remove('selected'));
+      c.classList.add('selected');
+      localStorage.setItem('agenda.alarm.sound', k);
+      const sel=document.getElementById('alarmSound'); if(sel) sel.value=k;
+      window.playSoundKind(k);
+    };
+    document.getElementById('modalSounds').classList.add('open');
+  };
+
+  // ─── v9: Color primario y VIP ───
+  function applyPrimaryColor(){
+    const c = (getCustom().primary)||'#a855f7';
+    document.documentElement.style.setProperty('--user-primary', c);
+    document.documentElement.style.setProperty('--primary', c);
+  }
+  window.resetPrimaryColor = function(){
+    const cu=getCustom(); cu.primary='#a855f7'; localStorage.setItem(KEYS.custom, JSON.stringify(cu));
+    document.getElementById('cfgPrimary').value='#a855f7'; document.getElementById('cfgPrimaryHex').value='#a855f7';
+    applyPrimaryColor();
+  };
+
+  function renderVipAndQuick(){
+    const cu = getCustom();
+    const wa = (cu.vipWa||'').trim();
+    const tel2 = (cu.vipPhone||'').trim();
+    const vc = document.getElementById('vipContact');
+    if(vc){
+      const parts=[];
+      if(tel2) parts.push(`<a class="vc-tel" href="tel:${tel2.replace(/[^\d+]/g,'')}" title="Llamar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></a>`);
+      if(wa) parts.push(`<a class="vc-wa" target="_blank" rel="noreferrer" href="https://wa.me/${wa.replace(/[^\d]/g,'')}" title="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1s-.8 1-.9 1.2c-.2.1-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4-.1-.5-.1-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3M12 22a10 10 0 1 1 8.5-15.2A10 10 0 0 1 12 22Z"/></svg></a>`);
+      vc.innerHTML = parts.join('');
+      vc.style.display = parts.length?'flex':'none';
+    }
+    const qb = document.getElementById('quickBar');
+    if(qb){
+      const cu2 = cu;
+      const wa2=(cu2.vipWa||'').trim().replace(/[^\d]/g,'');
+      const tel3=(cu2.vipPhone||'').trim().replace(/[^\d+]/g,'');
+      qb.innerHTML = `
+        ${tel3?`<a class="qb-btn qb-call" href="tel:${tel3}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Llamar</a>`:''}
+        ${tel3?`<a class="qb-btn qb-sms" href="sms:${tel3}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>SMS</a>`:''}
+        ${wa2?`<a class="qb-btn qb-wa" target="_blank" rel="noreferrer" href="https://wa.me/${wa2}"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1s-.8 1-.9 1.2c-.2.1-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4-.1-.5-.1-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3M12 22a10 10 0 1 1 8.5-15.2A10 10 0 0 1 12 22Z"/></svg>WhatsApp</a>`:''}
+        <button class="qb-btn qb-sound" onclick="openSoundPalette()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10v4a1 1 0 0 0 1 1h3l5 4V5L7 9H4a1 1 0 0 0-1 1Z"/><path d="M16 8a5 5 0 0 1 0 8"/></svg>Sonidos</button>
+      `;
+      qb.style.display = qb.innerHTML.trim()?'flex':'none';
+    }
+  }
+
+  // ─── v9: marcar provider/contact/cliente como “interactuado” ───
+  function markInteracted(type,id){
+    try{
+      const k='agenda.interacted.'+type;
+      const set = new Set(JSON.parse(localStorage.getItem(k)||'[]'));
+      set.add(id); localStorage.setItem(k, JSON.stringify([...set]));
+    }catch(e){}
+  }
+  window.wasInteracted = function(type,id){
+    try{ return JSON.parse(localStorage.getItem('agenda.interacted.'+type)||'[]').includes(id); }catch(e){return false;}
+  };
+
+  // Hook the doAct global to mark interaction by inspecting calling context (provider/client/contact)
+  const _origPickAndAct = window.pickAndAct || pickAndAct;
+  window.pickAndAct = function(entity, field, kind){
+    if(entity && entity.id){
+      // detect type from arrays
+      if(providers.find(p=>p.id===entity.id)) markInteracted('providers', entity.id);
+      else if(clients.find(c=>c.id===entity.id)) markInteracted('clients', entity.id);
+      else if(contacts.find(c=>c.id===entity.id)) markInteracted('contacts', entity.id);
+      // re-render quickly
+      setTimeout(()=>{ try{ renderProviders(); }catch(e){} try{ renderClients(); }catch(e){} try{ renderContacts(); }catch(e){} },50);
+    }
+    return _origPickAndAct(entity, field, kind);
+  };
+
+  // Apply 'interacted' class via mutation: after each render, scan cards
+  function decorateInteracted(){
+    document.querySelectorAll('#provList article.card').forEach((el,i)=>{
+      const btn=el.querySelector('[data-call-prov],[data-sms-prov],[data-wa-prov],[data-info-prov],[data-edit-prov],[data-toggle-called],[data-del-prov]');
+      if(!btn) return;
+      const id = btn.dataset.callProv||btn.dataset.smsProv||btn.dataset.waProv||btn.dataset.infoProv||btn.dataset.editProv||btn.dataset.toggleCalled||btn.dataset.delProv;
+      if(id && wasInteracted('providers',id)) el.classList.add('interacted');
+    });
+    document.querySelectorAll('#contactList article.card').forEach(el=>{
+      const btn=el.querySelector('[data-call-ct],[data-sms-ct],[data-wa-ct],[data-info-ct],[data-edit-ct],[data-del-ct]');
+      if(!btn) return;
+      const id = btn.dataset.callCt||btn.dataset.smsCt||btn.dataset.waCt||btn.dataset.infoCt||btn.dataset.editCt||btn.dataset.delCt;
+      if(id && wasInteracted('contacts',id)) el.classList.add('interacted');
+    });
+    document.querySelectorAll('#clientList article.card').forEach(el=>{
+      const btn=el.querySelector('[data-call-cli],[data-sms-cli],[data-wa-cli],[data-info-cli],[data-edit-cli],[data-del-cli]');
+      if(!btn) return;
+      const id = btn.dataset.callCli||btn.dataset.smsCli||btn.dataset.waCli||btn.dataset.infoCli||btn.dataset.editCli||btn.dataset.delCli;
+      if(id && wasInteracted('clients',id)) el.classList.add('interacted');
+    });
+  }
+  // Re-decorate after any list update — use a periodic observer
+  ['provList','clientList','contactList'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el) return;
+    new MutationObserver(()=>decorateInteracted()).observe(el,{childList:true});
+  });
+
+  // ─── v9: Click on card content opens detail (like info icon) ───
+  function bindCardOpen(listId, type){
+    const el = document.getElementById(listId); if(!el) return;
+    el.addEventListener('click', e=>{
+      if(e.target.closest('button')||e.target.closest('a')) return;
+      const card = e.target.closest('article.card'); if(!card) return;
+      const infoBtn = card.querySelector('[data-info-prov],[data-info-pend],[data-info-cli],[data-info-note],[data-info-ct]');
+      if(infoBtn) infoBtn.click();
+    });
+  }
+  ['provList','pendingList','clientList','notesList','contactList'].forEach(id=>{
+    bindCardOpen(id);
+  });
+
+  // ─── v9: Limpiar búsquedas tras editar/agregar ───
+  function clearSearches(){
+    ['search','pendingSearch','clientSearch','notesSearch','contactsSearch'].forEach(id=>{
+      const el=document.getElementById(id); if(el && el.value){ el.value=''; el.dispatchEvent(new Event('input')); }
+    });
+  }
+  ['formProvider','formPending','formClient','formNote','formContact'].forEach(fid=>{
+    const f=document.getElementById(fid);
+    if(f) f.addEventListener('submit', ()=> setTimeout(clearSearches, 30));
+  });
+
+  // ─── v9: Admin quicknav ───
+  function buildAdminQuickNav(){
+    const wrap=document.getElementById('adminQuickNav'); if(!wrap) return;
+    const cards = document.querySelectorAll('#pageAdmin .admin-card');
+    const labels = ['Alarmas','Contraseña','Nube','Auto-Sync','Respaldar','Personalizar','Sesión','Backup','Peligro'];
+    const icons = [
+      '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a6 6 0 0 0-6 6v3.586l-1.707 1.707A1 1 0 0 0 5 15h14a1 1 0 0 0 .707-1.707L18 11.586V8a6 6 0 0 0-6-6Zm0 20a3 3 0 0 0 3-3H9a3 3 0 0 0 3 3Z"/></svg>',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19a4.5 4.5 0 1 0-1.4-8.78A6 6 0 0 0 4 12a4 4 0 0 0 0 8h13.5Z"/></svg>',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg>',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="m18 13-1.5-7.5L2 2l3.5 14.5L13 18"/></svg>',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 9h20"/></svg>',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+    ];
+    wrap.innerHTML = '';
+    cards.forEach((c,i)=>{
+      const b=document.createElement('button');
+      b.innerHTML = (icons[i]||icons[0]) + '<span>'+(labels[i]||'Opción')+'</span>';
+      b.onclick = ()=>{ c.scrollIntoView({behavior:'smooth',block:'start'}); c.style.transition='box-shadow .4s'; c.style.boxShadow='0 0 0 3px color-mix(in srgb, var(--user-primary,#a855f7) 60%, transparent)'; setTimeout(()=>c.style.boxShadow='',1400); };
+      wrap.appendChild(b);
+    });
+  }
+
+  // Patch fillCustomForm + applyCustom: load primary/vip
+  const _origFillCustomForm = window.fillCustomForm || function(){};
+  window.fillCustomForm = function(){
+    _origFillCustomForm.apply(this, arguments);
+    const cu = getCustom();
+    const cp=document.getElementById('cfgPrimary'); if(cp) cp.value = cu.primary||'#a855f7';
+    const ch=document.getElementById('cfgPrimaryHex'); if(ch) ch.value = cu.primary||'#a855f7';
+    const vp=document.getElementById('cfgVipPhone'); if(vp) vp.value = cu.vipPhone||'';
+    const vw=document.getElementById('cfgVipWa'); if(vw) vw.value = cu.vipWa||'';
+    buildAdminQuickNav();
+    // bind color picker live
+    if(cp && !cp.__bound){ cp.__bound=true; cp.addEventListener('input', ()=>{
+      const v=cp.value; if(ch) ch.value=v;
+      const cur=getCustom(); cur.primary=v; localStorage.setItem(KEYS.custom, JSON.stringify(cur));
+      applyPrimaryColor();
+    }); }
+    if(ch && !ch.__bound){ ch.__bound=true; ch.addEventListener('change', ()=>{
+      const v=(ch.value||'').trim(); if(!/^#[0-9a-f]{6}$/i.test(v)) return;
+      if(cp) cp.value=v; const cur=getCustom(); cur.primary=v; localStorage.setItem(KEYS.custom, JSON.stringify(cur));
+      applyPrimaryColor();
+    }); }
+  };
+
+  const _origApplyCustom = window.applyCustom || function(){};
+  window.applyCustom = function(){
+    _origApplyCustom.apply(this, arguments);
+    applyPrimaryColor();
+    renderVipAndQuick();
+  };
+
+  // Patch saveCustom to also persist primary/vip
+  const _origSaveCustom = window.saveCustom;
+  if(_origSaveCustom){
+    window.saveCustom = function(){
+      const cur = getCustom();
+      const cp=document.getElementById('cfgPrimary');
+      const vp=document.getElementById('cfgVipPhone');
+      const vw=document.getElementById('cfgVipWa');
+      if(cp) cur.primary=cp.value;
+      if(vp) cur.vipPhone=vp.value.trim();
+      if(vw) cur.vipWa=vw.value.trim();
+      localStorage.setItem(KEYS.custom, JSON.stringify(cur));
+      _origSaveCustom.apply(this, arguments);
+      applyPrimaryColor();
+      renderVipAndQuick();
+    };
+  }
+
+  // Initial render of VIP/quickbar
+  setTimeout(()=>{ renderVipAndQuick(); applyPrimaryColor(); buildAdminQuickNav(); decorateInteracted(); }, 100);
+
+  // ─── v9: ALARMA — soporte minutos/horas ───
+  // El renderPending mostraba "Nd · hh:mm". Sustituir tras parche.
+  const _origRenderPending = window.renderPending;
+  // No reasignamos renderPending porque está closure-bounded; en vez de eso parcheamos scheduleNextFor abajo.
+  // Hook al submit del form pending para guardar notifUnit y recomputar nextNotif
+  const _formPending = document.getElementById('formPending');
+  if(_formPending){
+    _formPending.addEventListener('submit', function(e){
+      // Después de que el handler original guarde, vamos al último item con el id en p-id (si está vacío fue inserción)
+      setTimeout(()=>{
+        const id = document.getElementById('p-id').value;
+        const unitSel = document.getElementById('p-notif-unit');
+        const unit = unitSel ? unitSel.value : 'day';
+        // El handler original lee p-id antes de generar uid; pero si es nuevo el id resultante está en el primero
+        // Encontremos la tarea coincidente leyendo localStorage actualizado.
+        try{
+          const arr = JSON.parse(localStorage.getItem(KEYS.pending)||'[]');
+          let t = null;
+          if(id){ t = arr.find(x=>x.id===id); }
+          if(!t) t = arr[0];
+          if(t){
+            t.notifUnit = unit;
+            // recomputar nextNotif si tiene alarma
+            if((t.notifDays||0)>0){
+              const ms = (unit==='min'?60000:unit==='hour'?3600000:86400000)*t.notifDays;
+              const [hh,mm]=(t.notifHour||'09:00').split(':').map(n=>parseInt(n,10));
+              const now=new Date(); let next=new Date(now);
+              if(unit==='day'){
+                next.setHours(hh||9,mm||0,0,0);
+                if(next.getTime()<=now.getTime()) next.setDate(next.getDate()+1);
+              } else {
+                next = new Date(now.getTime()+ms);
+              }
+              t.nextNotif = next.getTime();
+              t.notifFired = 0;
+            }
+            localStorage.setItem(KEYS.pending, JSON.stringify(arr));
+          }
+        }catch(_){}
+      }, 50);
+    });
+  }
+  // Override checkAlarms behavior via wrapper: monkey-patch setInterval invocation isn't possible easily.
+  // En cambio, sustituimos la función global si fue expuesta. Si no, parcheamos a través de window:
+  // Mejor: añadimos un interval propio que recalcula nextNotif respetando notifUnit antes de que el original dispare.
+  setInterval(()=>{
+    try{
+      const arr = JSON.parse(localStorage.getItem(KEYS.pending)||'[]');
+      let changed=false; const now=Date.now();
+      arr.forEach(t=>{
+        if(t.done||!t.notifDays||t.notifDays<=0) return;
+        if((t.notifFired||0) >= (t.notifTimes||3)) return;
+        if(!t.notifUnit) t.notifUnit='day';
+        const ms = (t.notifUnit==='min'?60000:t.notifUnit==='hour'?3600000:86400000)*t.notifDays;
+        // Si nextNotif está muy en el futuro y la unidad NO es día, recortar
+        if(t.notifUnit!=='day' && t.nextNotif && t.nextNotif - now > ms + 5000){
+          t.nextNotif = now + ms; changed=true;
+        }
+        // tras disparo el código original suma 86400000; corregimos para unidades pequeñas
+        if(t.nextNotif && t.nextNotif <= now){
+          // dejar que el original dispare; pero ajustar siguiente
+          // (gestionado en el siguiente tick)
+        }
+      });
+      if(changed) localStorage.setItem(KEYS.pending, JSON.stringify(arr));
+    }catch(_){}
+  }, 15000);
+
+  // Cuando se abre el modal de editar tarea, cargar notifUnit
+  const _origOpenPendingModal = window.openPendingModal;
+  if(_origOpenPendingModal){
+    window.openPendingModal = function(t){
+      _origOpenPendingModal.apply(this, arguments);
+      const u=document.getElementById('p-notif-unit'); if(u) u.value = (t && t.notifUnit) || 'day';
+    };
+  }
+
+  // Guardar página activa para "hideLoginPublic"
+  const _origShowPage = window.showPage;
+  if(_origShowPage){
+    window.showPage = function(p){
+      if(p && p!=='admin') localStorage.setItem('agenda.lastPage', p);
+      return _origShowPage.apply(this, arguments);
+    };
+  }
+
+
 })();
 </script>
+
+<!-- MODAL SOUND PALETTE -->
+<div class="modal" id="modalSounds">
+  <div class="sheet">
+    <div class="sheet-head">
+      <h2>🎵 Paleta de sonidos</h2>
+      <button type="button" class="close" onclick="closeModal('modalSounds')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+    <p style="color:var(--muted);font-size:13px;margin:0 0 10px">Toca cualquier sonido para probarlo. El último que selecciones se usará para las alarmas.</p>
+    <div class="sound-grid" id="soundGrid"></div>
+  </div>
+</div>
+
 </body>
 </html>
