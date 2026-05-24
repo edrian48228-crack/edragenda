@@ -372,26 +372,28 @@
   .quick-bar .qb-wa{ color:#4ade80 } .quick-bar .qb-sound{ color:#fbbf24 }
 
   /* VIP badge (debajo del logo) */
-  .vip-strip{ display:flex; align-items:center; justify-content:space-between; gap:10px;
-    margin-top:8px; padding:8px 12px; border-radius:14px;
-    background:linear-gradient(135deg, rgba(251,191,36,.12), rgba(168,85,247,.10));
-    border:1px solid rgba(251,191,36,.35) }
-  .vip-strip .vip-left{ display:flex; align-items:center; gap:8px; min-width:0 }
-  .vip-strip .vip-crown{ width:34px; height:34px; flex-shrink:0; display:flex; align-items:center; justify-content:center;
-    color:#fbbf24; filter:drop-shadow(0 0 8px rgba(251,191,36,.6));
-    animation:heartbeat 1.4s ease-in-out infinite }
-  .vip-strip .vip-crown svg{ width:30px; height:30px }
-  .vip-strip .vip-text{ font-size:13px; font-weight:800; letter-spacing:.3px; line-height:1.15;
-    background:linear-gradient(90deg,#fde68a,#fbbf24,#f59e0b); -webkit-background-clip:text;
-    background-clip:text; color:transparent; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
-  .vip-strip .vip-text small{ display:block; font-size:10px; color:#fde68a; -webkit-text-fill-color:#fde68a;
-    font-weight:700; letter-spacing:.8px; opacity:.85 }
-  .vip-strip .vip-contact{ display:flex; gap:6px; flex-shrink:0 }
-  .vip-strip .vip-contact a{ width:38px; height:38px; border-radius:11px; display:flex; align-items:center; justify-content:center;
-    background:rgba(0,0,0,.25); border:1px solid rgba(251,191,36,.35); transition:transform .12s }
+  .vip-strip{ display:flex; align-items:center; justify-content:space-between; gap:8px;
+    margin:4px -12px 0; padding:5px 14px; border-radius:0;
+    background:linear-gradient(90deg,#b8860b 0%,#fbbf24 25%,#fde68a 50%,#fbbf24 75%,#b8860b 100%);
+    background-size:200% 100%; animation:goldShine 4s linear infinite;
+    border-top:1px solid rgba(255,215,0,.6); border-bottom:1px solid rgba(180,120,0,.6);
+    box-shadow:0 2px 12px rgba(251,191,36,.35), inset 0 1px 0 rgba(255,255,255,.4) }
+  .vip-strip .vip-left{ display:flex; align-items:center; gap:6px; min-width:0; flex:1 }
+  .vip-strip .vip-crown{ width:20px; height:20px; flex-shrink:0; display:flex; align-items:center; justify-content:center;
+    color:#7c4a03; filter:drop-shadow(0 1px 0 rgba(255,255,255,.5)) }
+  .vip-strip .vip-crown svg{ width:18px; height:18px }
+  .vip-strip .vip-text{ font-size:11px; font-weight:300; letter-spacing:.8px; line-height:1.1;
+    color:#3d2400; -webkit-text-fill-color:#3d2400; text-shadow:0 1px 0 rgba(255,255,255,.4);
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+  @keyframes goldShine{ 0%{background-position:0% 50%} 100%{background-position:200% 50%} }
+
+  .vip-strip .vip-contact{ display:flex; gap:5px; flex-shrink:0 }
+  .vip-strip .vip-contact a{ width:28px; height:28px; border-radius:8px; display:flex; align-items:center; justify-content:center;
+    background:rgba(0,0,0,.25); border:1px solid rgba(251,191,36,.3); transition:transform .12s }
   .vip-strip .vip-contact a:active{ transform:scale(.92) }
   .vip-strip .vip-contact a.vc-wa{ color:#4ade80 } .vip-strip .vip-contact a.vc-tel{ color:#7dd3fc }
-  .vip-strip .vip-contact svg{ width:18px; height:18px }
+  .vip-strip .vip-contact svg{ width:14px; height:14px }
+
   @keyframes heartbeat{ 0%,100%{transform:scale(1)} 14%{transform:scale(1.22)} 28%{transform:scale(1)} 42%{transform:scale(1.18)} 60%{transform:scale(1)} }
 
   /* Footer nav más elegante */
@@ -486,7 +488,8 @@
         <span class="vip-crown" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 7l4 4 5-7 5 7 4-4-2 12H5L3 7Zm2 14h14v2H5v-2Z"/></svg>
         </span>
-        <div class="vip-text">VIP · Creado por Edrian Cruz<small>DOWN</small></div>
+        <div class="vip-text">Creado por Edrian</div>
+
       </div>
       <div class="vip-contact" id="vipContact"></div>
     </div>
