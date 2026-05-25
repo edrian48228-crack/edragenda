@@ -32,19 +32,21 @@
   /* HEADER */
   header{position:sticky;top:0;z-index:10;background:rgba(10,10,15,.92);
     backdrop-filter:blur(10px);border-bottom:1px solid var(--border);
-    padding:14px 16px 12px;padding-top:calc(14px + env(safe-area-inset-top))}
+    padding:8px 16px 8px;padding-top:calc(8px + env(safe-area-inset-top))}
   .wrap{max-width:760px;margin:0 auto}
-  h1{margin:0;font-size:32px;font-weight:900;letter-spacing:-.5px;display:flex;align-items:center;gap:12px}
-  h1 .brand-icon{width:78px;height:78px;display:inline-flex;align-items:center;justify-content:center;
+  h1{margin:0;font-size:32px;font-weight:900;letter-spacing:-.5px;display:flex;align-items:center;gap:6px}
+  h1 .brand-icon{width:60px;height:60px;display:inline-flex;align-items:center;justify-content:center;
     filter:drop-shadow(0 0 18px rgba(251,191,36,.7))}
-  h1 .brand-icon svg{width:68px;height:68px}
-  h1 .brand-icon img{width:78px;height:78px;border-radius:18px;object-fit:cover}
-  h1 .brand-text{font-size:32px;line-height:1.05}
+  h1 .brand-icon svg{width:52px;height:52px}
+  h1 .brand-icon img{width:60px;height:60px;border-radius:14px;object-fit:cover}
+  h1 .brand-text{font-size:28px;line-height:1.05}
   h1 .brand-text span{color:var(--gold)}
   .by{font-size:11px;letter-spacing:.7px;color:rgba(176,176,200,.9);font-weight:700;margin-top:2px}
   .by b{color:var(--gold)}
-  .sub{color:#b0b0c8;font-size:15px;margin-top:6px;font-weight:700}
+  .sub{color:#b0b0c8;font-size:14px;margin-top:3px;font-weight:700;display:flex;align-items:center;gap:8px}
   .sub .hit{color:var(--accent);font-weight:800}
+  .sub .page-tag{font-size:11px;font-weight:800;padding:2px 8px;border-radius:20px;
+    background:rgba(168,85,247,.18);color:var(--primary-2);letter-spacing:.4px;white-space:nowrap}
   /* Top-right contacts shortcut */
   .top-right-btns{display:none!important}
   .top-right-btns .tr-btn{width:42px;height:42px;border-radius:12px;background:rgba(56,189,248,.15);
@@ -127,7 +129,7 @@
   .empty svg{width:56px;height:56px;opacity:.4;margin-bottom:8px}
 
   /* FAB */
-  .fab{position:fixed;bottom:calc(var(--footer-h) + 18px);right:18px;
+  .fab{position:fixed;bottom:calc(var(--footer-h) + 22px);right:18px;
     width:60px;height:60px;border-radius:50%;background:var(--primary);
     color:#fff;display:flex;align-items:center;justify-content:center;
     box-shadow:0 12px 32px -8px rgba(168,85,247,.7),0 4px 14px rgba(0,0,0,.5);
@@ -136,16 +138,16 @@
   .fab svg{width:30px;height:30px;stroke-width:3}
   .fab.hidden{display:none}
 
-  /* Floating reminder avatar */
-  .reminder{position:fixed;left:14px;bottom:calc(var(--footer-h) + 18px);z-index:20;
-    width:58px;height:58px;border-radius:50%;
-    background:linear-gradient(135deg,#22d3ee,#3b82f6);color:#fff;
+  /* Floating reminder — campanita sin fondo */
+  .reminder{position:fixed;left:14px;bottom:calc(var(--footer-h) + 22px);z-index:20;
+    width:42px;height:42px;border-radius:50%;
+    background:none;color:var(--accent);
     display:flex;align-items:center;justify-content:center;
-    box-shadow:0 10px 24px -8px rgba(59,130,246,.6);transition:transform .15s}
+    transition:transform .15s;filter:drop-shadow(0 0 10px rgba(34,211,238,.8))}
   .reminder.hidden{display:none}
-  .reminder:active{transform:scale(.94)}
+  .reminder:active{transform:scale(.9)}
   .reminder svg{width:30px;height:30px}
-  .reminder .dot{position:absolute;top:-2px;right:-2px;min-width:20px;height:20px;padding:0 5px;
+  .reminder .dot{position:absolute;top:-4px;right:-6px;min-width:20px;height:20px;padding:0 5px;
     border-radius:10px;background:var(--danger);color:#fff;font-size:11px;font-weight:800;
     display:flex;align-items:center;justify-content:center;border:2px solid var(--bg)}
 
@@ -157,17 +159,17 @@
     display:flex;align-items:center;justify-content:space-around;padding:0 6px}
   .nav-btn{display:flex;flex-direction:column;align-items:center;gap:5px;
     flex:1;padding:8px 2px;border-radius:14px;color:#cbd0e0;transition:color .2s}
-  .nav-btn svg{width:32px;height:32px;stroke-width:2;transition:transform .2s,filter .2s}
+  .nav-btn svg{width:27px;height:27px;stroke-width:2;transition:transform .2s,filter .2s}
   .nav-btn span{font-size:13px;font-weight:800;letter-spacing:.2px;line-height:1;
     color:#e5e7f0;text-shadow:0 1px 2px rgba(0,0,0,.6);white-space:nowrap}
-  /* Móvil: ocultar texto, iconos aún más grandes, footer más alto para respirar */
+  /* Móvil: ocultar texto, iconos más pequeños */
   @media (max-width:639px){
     .nav-btn span{display:none}
     .nav-btn{gap:0;padding:8px 2px}
-    .nav-btn svg{width:34px;height:34px}
-    :root{--footer-h:80px}
+    .nav-btn svg{width:26px;height:26px}
+    :root{--footer-h:72px}
   }
-  @media (max-width:360px){ .nav-btn span{display:none}; .nav-btn svg{width:30px;height:30px} }
+  @media (max-width:360px){ .nav-btn span{display:none}; .nav-btn svg{width:24px;height:24px} }
   .nav-btn.active{color:var(--primary)}
   .nav-btn.active span{color:var(--primary-2)}
   .nav-btn.active svg{filter:drop-shadow(0 0 8px rgba(168,85,247,.7));transform:scale(1.12)}
@@ -274,8 +276,8 @@
   .status-msg.err{background:rgba(239,68,68,.15);color:var(--danger);border:1px solid rgba(239,68,68,.3);display:block}
   .status-msg.info{background:rgba(168,85,247,.1);color:var(--primary-2);border:1px solid rgba(168,85,247,.2);display:block}
   .divider{height:1px;background:var(--border);margin:6px 0 14px}
-  .toggle-line{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 0}
-  .toggle-line label{font-size:15px;color:var(--text);font-weight:600}
+  .toggle-line{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 0;min-height:44px}
+  .toggle-line label{font-size:14px;color:var(--text);font-weight:600;flex:1;line-height:1.3}
   .switch{position:relative;width:46px;height:26px;background:var(--card-2);border:1px solid var(--border);
     border-radius:20px;cursor:pointer;transition:background .15s}
   .switch::after{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;
@@ -355,8 +357,8 @@
   /* FAB centrado abajo */
   .fab{ left:50% !important; right:auto !important; transform:translateX(-50%); }
   .fab:active{ transform:translateX(-50%) scale(.94) }
-  /* Recordatorio a la derecha */
-  .reminder{ left:auto !important; right:14px !important; }
+  /* Recordatorio a la izquierda (campanita) */
+  .reminder{ left:14px !important; right:auto !important; }
 
   /* Quick bar bajo banner */
   .quick-bar{ max-width:760px; margin:6px auto 4px; padding:0 12px;
@@ -371,21 +373,19 @@
   .quick-bar .qb-call{ color:#c084fc } .quick-bar .qb-sms{ color:#7dd3fc }
   .quick-bar .qb-wa{ color:#4ade80 } .quick-bar .qb-sound{ color:#fbbf24 }
 
-  /* VIP badge (debajo del logo) */
+  /* VIP badge — solo letra brillante, sin fondo ni bordes */
   .vip-strip{ display:flex; align-items:center; justify-content:space-between; gap:8px;
-    margin:4px -12px 0; padding:5px 14px; border-radius:0;
-    background:linear-gradient(90deg,#b8860b 0%,#fbbf24 25%,#fde68a 50%,#fbbf24 75%,#b8860b 100%);
-    background-size:200% 100%; animation:goldShine 4s linear infinite;
-    border-top:1px solid rgba(255,215,0,.6); border-bottom:1px solid rgba(180,120,0,.6);
-    box-shadow:0 2px 12px rgba(251,191,36,.35), inset 0 1px 0 rgba(255,255,255,.4) }
-  .vip-strip .vip-left{ display:flex; align-items:center; gap:6px; min-width:0; flex:1 }
-  .vip-strip .vip-crown{ width:20px; height:20px; flex-shrink:0; display:flex; align-items:center; justify-content:center;
-    color:#7c4a03; filter:drop-shadow(0 1px 0 rgba(255,255,255,.5)) }
-  .vip-strip .vip-crown svg{ width:18px; height:18px }
-  .vip-strip .vip-text{ font-size:11px; font-weight:300; letter-spacing:.8px; line-height:1.1;
-    color:#3d2400; -webkit-text-fill-color:#3d2400; text-shadow:0 1px 0 rgba(255,255,255,.4);
-    white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
-  @keyframes goldShine{ 0%{background-position:0% 50%} 100%{background-position:200% 50%} }
+    margin:2px 0 0; padding:0; background:none; border:none; box-shadow:none }
+  .vip-strip .vip-left{ display:flex; align-items:center; gap:5px; min-width:0; flex:1 }
+  .vip-strip .vip-crown{ width:16px; height:16px; flex-shrink:0; display:flex; align-items:center; justify-content:center; display:none }
+  .vip-strip .vip-crown svg{ width:14px; height:14px }
+  @keyframes textGoldShine{ 0%,100%{text-shadow:0 0 8px rgba(251,191,36,.7),0 0 20px rgba(251,191,36,.4)} 50%{text-shadow:0 0 14px rgba(251,191,36,1),0 0 30px rgba(251,191,36,.7),0 0 2px #fff} }
+  .vip-strip .vip-text{ font-size:10px; font-weight:800; letter-spacing:1.2px; line-height:1;
+    background:linear-gradient(90deg,#fbbf24,#fde68a,#fbbf24); background-size:200% auto;
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    animation:textGoldShine 2.5s ease-in-out infinite, goldTextMove 4s linear infinite;
+    white-space:nowrap; text-transform:uppercase }
+  @keyframes goldTextMove{ 0%{background-position:0%} 100%{background-position:200%} }
 
   .vip-strip .vip-contact{ display:flex; gap:5px; flex-shrink:0 }
   .vip-strip .vip-contact a{ width:28px; height:28px; border-radius:8px; display:flex; align-items:center; justify-content:center;
@@ -479,16 +479,16 @@
         <div class="brand-text" id="brandText"><span>Mi</span> Agenda</div>
       </div>
     </h1>
-    <p class="sub" id="counter">0 elementos</p>
+    <p class="sub" id="counter">0 elementos<span class="page-tag" id="pageTag" style="margin-left:4px"></span></p>
 
 
     <!-- VIP banner (sticky en todas las páginas) -->
-    <div class="vip-strip" style="margin-bottom:10px">
+    <div class="vip-strip">
       <div class="vip-left">
         <span class="vip-crown" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 7l4 4 5-7 5 7 4-4-2 12H5L3 7Zm2 14h14v2H5v-2Z"/></svg>
         </span>
-        <div class="vip-text">Creado por Edrian</div>
+        <div class="vip-text">✦ Creado por Edrian Cruz ✦</div>
 
       </div>
       <div class="vip-contact" id="vipContact"></div>
@@ -610,23 +610,7 @@
     <h3>🔔 Recordatorios y Alarmas</h3>
     <p>Configura las alarmas de los pendientes desde cada tarea. Aquí activas notificaciones y elige sonido.</p>
     <div class="toggle-line"><label>Mostrar avatar recordatorio</label><div class="switch" id="swReminder" onclick="toggleReminder()"></div></div>
-    <div class="field"><span>Sonido de alarma</span>
-      <select id="alarmSound">
-        <option value="bell">🔔 Campana suave</option>
-        <option value="beep">📢 Beep clásico</option>
-        <option value="chime">🎐 Chime cristalino</option>
-        <option value="waterdrop">💧 Gota de agua</option>
-        <option value="thunder">⚡ Trueno</option>
-        <option value="ding">🛎️ Ding hotel</option>
-        <option value="digital">📳 Pitido digital</option>
-        <option value="zen">🧘 Cuenco tibetano</option>
-        <option value="alarm">⏰ Alarma retro</option>
-        <option value="silent">🔇 Silencioso</option>
-      </select>
-    </div>
     <button class="btn-secondary" onclick="openSoundPalette()">🎵 Explorar paleta de sonidos</button>
-    <div style="height:8px"></div>
-    <button class="btn-secondary" onclick="playAlarmSound()">▶ Probar sonido seleccionado</button>
     <div style="height:8px"></div>
     <button class="btn-secondary" onclick="requestNotifPerm()">Solicitar permiso de notificaciones</button>
     <div class="status-msg" id="notifStatus"></div>
@@ -672,7 +656,7 @@
 
   <div class="admin-card">
     <h3>☁️ Sincronización en la nube</h3>
-    <button class="btn-primary" onclick="pushAll()" id="btnPushAll">Respaldar todo ahora</button>
+    <button class="btn-primary" onclick="pushAll()" id="btnPushAll">Forzar subida completa</button>
     <div style="height:8px"></div>
     <button class="btn-secondary" onclick="pullAll()">Restaurar desde la nube</button>
     <div class="status-msg" id="allStatus"></div>
@@ -684,8 +668,18 @@
     <p>Cambia el nombre, el icono y qué pestañas se ven. Se sincroniza con todos tus dispositivos.</p>
     <label class="field"><span>Nombre de la agenda</span><input id="cfgName" placeholder="Mi Agenda"/></label>
     <label class="field"><span>Icono de marca (emoji o 1 letra)</span><input id="cfgIconEmoji" placeholder="⚡ o M"/></label>
-    <label class="field"><span>URL de imagen del logo (opcional, reemplaza el icono)</span><input id="cfgIconUrl" placeholder="https://... .png"/></label>
+    <label class="field"><span>URL de imagen del logo (opcional)</span><input id="cfgIconUrl" placeholder="https://... .png"/></label>
+    <div class="field">
+      <span>📷 Subir imagen del logo (PNG/JPG)</span>
+      <input type="file" id="cfgLogoFile" accept="image/*" style="width:100%;padding:10px 14px;background:var(--card-2);border:1px solid var(--border);border-radius:12px;font-size:14px;color:var(--text);cursor:pointer;outline:none" onchange="handleLogoUpload(this)"/>
+      <div id="logoPreview" style="margin-top:8px;display:none"><img id="logoPreviewImg" style="width:64px;height:64px;border-radius:14px;object-fit:cover;border:2px solid var(--border)"/><button type="button" class="btn-secondary" style="width:auto;padding:0 12px;height:36px;margin-left:8px;font-size:13px" onclick="clearLogoUpload()">Quitar logo</button></div>
+    </div>
     <label class="field"><span>Avatar del usuario (emoji o letra, opcional)</span><input id="cfgAvatar" placeholder="🙂"/></label>
+    <div class="field">
+      <span>🖼 Subir avatar (PNG/JPG)</span>
+      <input type="file" id="cfgAvatarFile" accept="image/*" style="width:100%;padding:10px 14px;background:var(--card-2);border:1px solid var(--border);border-radius:12px;font-size:14px;color:var(--text);cursor:pointer;outline:none" onchange="handleAvatarUpload(this)"/>
+      <div id="avatarPreview" style="margin-top:8px;display:none"><img id="avatarPreviewImg" style="width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid var(--border)"/><button type="button" class="btn-secondary" style="width:auto;padding:0 12px;height:36px;margin-left:8px;font-size:13px" onclick="clearAvatarUpload()">Quitar avatar</button></div>
+    </div>
     <label class="field"><span>🎨 Color principal de la agenda (resalte)</span>
       <div style="display:flex;gap:8px;align-items:center">
         <input id="cfgPrimary" type="color" value="#a855f7" style="width:64px;height:46px;padding:2px;border-radius:12px;background:var(--card-2);border:1px solid var(--border);cursor:pointer"/>
@@ -702,7 +696,6 @@
     <div class="toggle-line"><label>Clientes</label><div class="switch" id="vis_clients" data-vis="clients" onclick="toggleVis(this)"></div></div>
     <div class="toggle-line"><label>Notas</label><div class="switch" id="vis_notes" data-vis="notes" onclick="toggleVis(this)"></div></div>
     <div class="toggle-line"><label>Contactos</label><div class="switch" id="vis_contacts" data-vis="contacts" onclick="toggleVis(this)"></div></div>
-    <div class="toggle-line"><label>Admin</label><div class="switch" id="vis_admin" data-vis="admin" onclick="toggleVis(this)"></div></div>
     <div class="toggle-line"><label>Botón de contactos arriba a la derecha</label><div class="switch" id="vis_topcontacts" data-vis="topContacts" onclick="toggleVis(this)"></div></div>
     <div style="height:6px"></div>
     <button class="btn-primary" onclick="saveCustom()">💾 Guardar personalización</button>
@@ -830,7 +823,7 @@
     <div class="alarm-section">
       <h4><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a6 6 0 0 0-6 6v3.586l-1.707 1.707A1 1 0 0 0 5 15h14a1 1 0 0 0 .707-1.707L18 11.586V8a6 6 0 0 0-6-6Zm0 20a3 3 0 0 0 3-3H9a3 3 0 0 0 3 3Z"/></svg> Recordatorios y alarma</h4>
       <div class="field-row">
-        <label class="field"><span>Cada</span><input id="p-notif-days" type="number" min="0" max="999" value="0" placeholder="0"/></label>
+        <label class="field"><span>Cada</span><input id="p-notif-days" type="number" min="0" max="9999" value="0" placeholder="0"/></label>
         <label class="field"><span>Unidad</span>
           <select id="p-notif-unit">
             <option value="min">Minutos</option>
@@ -838,7 +831,7 @@
             <option value="day" selected>Días</option>
           </select>
         </label>
-        <label class="field"><span>Repetir</span><input id="p-notif-times" type="number" min="1" max="20" value="3"/></label>
+        <label class="field"><span>Repetir</span><input id="p-notif-times" type="number" min="1" max="99" value="3"/></label>
       </div>
       <div class="field-row">
         <label class="field"><span>Hora 1.ª alarma</span><input id="p-notif-hour" type="time" value="09:00"/></label>
@@ -1208,23 +1201,29 @@
     $('headerSearch').style.display = page==='providers' ? '' : 'none';
     $('addBtn').classList.toggle('hidden', page==='admin');
     document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active', b.dataset.page===page));
-    const titles={providers:'<span>Mi</span> Agenda',pending:'<span>Pendientes</span>',clients:'<span>Clientes</span>',notes:'<span>Notas</span>',contacts:'<span>Contactos</span>',admin:'<span>Admin</span>'};
-    $('brandText').innerHTML = titles[page] || '<span>Mi</span> Agenda';
+    const cu=window.getCustom ? window.getCustom() : null;
+    const storeName = (cu&&cu.name) ? cu.name : (()=>{ try{ const o=JSON.parse(localStorage.getItem('agenda.custom.v1')||'{}'); return o.name||'Mi Agenda'; }catch(e){ return 'Mi Agenda'; } })();
+    const storeNameParts = storeName.trim().split(/\s+/);
+    if(storeNameParts.length>=2) $('brandText').innerHTML='<span>'+escH(storeNameParts[0])+'</span> '+escH(storeNameParts.slice(1).join(' '));
+    else $('brandText').innerHTML='<span>'+escH(storeName)+'</span>';
+    const pageTags={providers:'Proveedores',pending:'Pendientes',clients:'Clientes',notes:'Notas',contacts:'Contactos',admin:'Administración'};
+    const pt=$('pageTag'); if(pt){ pt.textContent=pageTags[page]||''; pt.style.background=page==='pending'?'rgba(239,68,68,.18)':page==='clients'?'rgba(34,211,238,.18)':page==='notes'?'rgba(251,191,36,.18)':page==='contacts'?'rgba(56,189,248,.18)':page==='admin'?'rgba(251,191,36,.18)':'rgba(168,85,247,.18)'; pt.style.color=page==='pending'?'var(--danger)':page==='clients'?'var(--accent)':page==='notes'?'var(--gold)':page==='contacts'?'var(--info)':page==='admin'?'var(--gold)':'var(--primary-2)'; }
     if(page==='providers') renderProviders();
     if(page==='pending')   renderPending();
     if(page==='clients')   renderClients();
     if(page==='notes')     renderNotes();
     if(page==='contacts')  renderContacts();
-    if(page==='admin')     renderAdmin();
+    if(page==='admin')     { renderAdmin(); window.scrollTo({top:0,behavior:'smooth'}); }
     updateReminder();
   }
   window.showPage = showPage;
   document.querySelectorAll('.nav-btn').forEach(btn=> btn.addEventListener('click',()=>showPage(btn.dataset.page)));
 
   function setCounter(n, label, q){
+    const pt=$('pageTag'); const tagHtml = pt ? '<span class="page-tag" id="pageTag" style="margin-left:4px">'+escH(pt.textContent)+'</span>' : '';
     let t = n + ' ' + label;
     if(q) t = `<span class="hit">${n}</span> resultado${n===1?'':'s'} para "${escH(q)}"`;
-    $('counter').innerHTML = t;
+    $('counter').innerHTML = t + tagHtml;
   }
 
   // ── MULTI INPUT helpers ──
@@ -1270,9 +1269,11 @@
     listEl.innerHTML = items.map(p=>{
       const ini = (p.name||'?').charAt(0).toUpperCase();
       const hasPh = (p.phones||[]).length>0, hasWa=(p.whatsapps||[]).length>0;
-      const phoneIcon = hasPh?`<button class="iact call" data-call-prov="${p.id}" title="Llamar">${SVG.phone}</button>`:'';
+      const accessedPh = p.accessedPhones || {};
+      const accessedWa = p.accessedWas || {};
+      const phoneIcon = hasPh?`<button class="iact call ${accessedPh[(p.phones||[])[0]]?'iact-accessed':''}" data-call-prov="${p.id}" title="Llamar${accessedPh[(p.phones||[])[0]]?' ✓':''}">${SVG.phone}${accessedPh[(p.phones||[])[0]]?'<span style="position:absolute;top:-3px;right:-3px;width:8px;height:8px;background:var(--success);border-radius:50%;border:1px solid var(--bg)"></span>':''}</button>`:'';
       const smsIcon = hasPh?`<button class="iact sms" data-sms-prov="${p.id}" title="SMS">${SVG.sms}</button>`:'';
-      const waIcon = hasWa?`<button class="iact wa" data-wa-prov="${p.id}" title="WhatsApp">${SVG.wa}</button>`:'';
+      const waIcon = hasWa?`<button class="iact wa ${accessedWa[(p.whatsapps||[])[0]]?'iact-accessed':''}" data-wa-prov="${p.id}" title="WhatsApp${accessedWa[(p.whatsapps||[])[0]]?' ✓':''}">${SVG.wa}${accessedWa[(p.whatsapps||[])[0]]?'<span style="position:absolute;top:-3px;right:-3px;width:8px;height:8px;background:var(--success);border-radius:50%;border:1px solid var(--bg)"></span>':''}</button>`:'';
       const calledBtn = `<button class="iact ${p.called?'done':''}" data-toggle-called="${p.id}" title="${p.called?'Marcar pendiente':'Ya llamé'}">${p.called?SVG.next:SVG.check}</button>`;
       return `<article class="card ${p.called?'called':''}">
         <div class="row">
@@ -1285,7 +1286,7 @@
           </div>
         </div>
         <div class="row-actions">
-          ${phoneIcon}${smsIcon}${waIcon}${calledBtn}
+          <div style="position:relative;display:inline-flex">${phoneIcon}</div><div style="position:relative;display:inline-flex">${waIcon}</div>${smsIcon}${calledBtn}
           <span class="iact-sep"></span>
           <button class="iact info" data-info-prov="${p.id}">${SVG.info}</button>
           <button class="iact edit" data-edit-prov="${p.id}">${SVG.edit}</button>
@@ -1298,9 +1299,9 @@
   $('provList').addEventListener('click', e=>{
     const t = e.target.closest('button'); if(!t) return;
     const d = t.dataset;
-    if(d.callProv) pickAndAct(providers.find(p=>p.id===d.callProv), 'phones', 'call');
-    else if(d.smsProv) pickAndAct(providers.find(p=>p.id===d.smsProv), 'phones', 'sms');
-    else if(d.waProv) pickAndAct(providers.find(p=>p.id===d.waProv), 'whatsapps', 'wa');
+    if(d.callProv){ const pv=providers.find(p=>p.id===d.callProv); if(pv){ if(!pv.accessedPhones) pv.accessedPhones={}; if((pv.phones||[]).length===1) pv.accessedPhones[pv.phones[0]]=true; lsSave(KEYS.providers,providers); } pickAndAct(pv, 'phones', 'call'); }
+    else if(d.smsProv){ const pv=providers.find(p=>p.id===d.smsProv); if(pv){ if(!pv.accessedPhones) pv.accessedPhones={}; if((pv.phones||[]).length===1) pv.accessedPhones[pv.phones[0]]=true; lsSave(KEYS.providers,providers); } pickAndAct(pv, 'phones', 'sms'); }
+    else if(d.waProv){ const pv=providers.find(p=>p.id===d.waProv); if(pv){ if(!pv.accessedWas) pv.accessedWas={}; if((pv.whatsapps||[]).length===1) pv.accessedWas[pv.whatsapps[0]]=true; lsSave(KEYS.providers,providers); } pickAndAct(pv, 'whatsapps', 'wa'); }
     else if(d.toggleCalled){ const p=providers.find(x=>x.id===d.toggleCalled); if(p){ p.called=!p.called; lsSave(KEYS.providers,providers); renderProviders(); } }
     else if(d.infoProv) showProviderDetail(providers.find(p=>p.id===d.infoProv));
     else if(d.editProv) openProviderModal(providers.find(p=>p.id===d.editProv));
@@ -1323,6 +1324,7 @@
     if(!data.name) return;
     const idx=providers.findIndex(p=>p.id===data.id);
     if(idx>=0){ data.called=providers[idx].called||false; providers[idx]=data; } else providers.unshift(data);
+    $('search').value='';
     lsSave(KEYS.providers,providers); renderProviders(); closeModal('modalProvider');
   });
 
@@ -1390,22 +1392,26 @@
     const prioLabel={alta:'🔴 Alta',media:'🟡 Media',baja:'🟢 Baja'};
     const prioClass={alta:'p-alta',media:'p-media',baja:'p-baja'};
     listEl.innerHTML = items.map(t=>{
-      const _u=(t.notifUnit||'day'); const _ulabel=_u==='min'?'min':_u==='hour'?'h':'d'; const alarm = (t.notifDays>0) ? `<span class="alarm-chip">${SVG.bell}${t.notifDays}${_ulabel} · ${t.notifHour}</span>` : '';
+      const _u=(t.notifUnit||'day'); const _ulabel=_u==='min'?'min':_u==='hour'?'h':'d'; const alarm = (t.notifDays>0) ? `<span class="alarm-chip">${SVG.bell}cada ${t.notifDays}${_ulabel}</span>` : '';
+      const prioColors={alta:'var(--danger)',media:'#eab308',baja:'var(--success)'};
+      const prioIcon={alta:'🔴',media:'🟡',baja:'🟢'};
       return `<article class="card ${t.done?'done-card':prioClass[t.priority]||'p-media'}">
-        <div class="row">
-          <button class="done-toggle ${t.done?'done':''}" data-toggle-done="${t.id}" title="Hecho">${SVG.check}</button>
-          <div class="info task-text">
-            <p class="name">${escH(t.task)}</p>
-            ${t.note?`<p class="product">${escH((t.note||'').split('\n')[0])}</p>`:''}
-            <span class="badge ${t.priority==='alta'?'high':t.priority==='baja'?'low':'med'}">${prioLabel[t.priority]||'Media'}</span>
-            ${t.date?`<span style="color:var(--muted);font-size:12px;margin-left:6px">📅 ${escH(t.date)}</span>`:''}
-            ${alarm}
+        <div class="row" style="align-items:flex-start;gap:12px">
+          <button class="done-toggle ${t.done?'done':''}" data-toggle-done="${t.id}" title="Hecho" style="margin-top:2px">${SVG.check}</button>
+          <div class="info task-text" style="flex:1">
+            <p class="name" style="font-size:17px;margin-bottom:4px">${escH(t.task)}</p>
+            ${t.note?`<p class="product" style="color:#9090b0;font-size:13px;margin-bottom:4px;line-height:1.4">${escH((t.note||'').split('\n')[0])}</p>`:''}
+            <div style="display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-top:2px">
+              <span class="badge ${t.priority==='alta'?'high':t.priority==='baja'?'low':'med'}" style="font-size:11px">${prioIcon[t.priority]||'🟡'} ${prioLabel[t.priority]||'Media'}</span>
+              ${t.date?`<span style="color:var(--muted);font-size:12px;font-weight:600">📅 ${escH(t.date)}</span>`:''}
+              ${alarm}
+            </div>
           </div>
         </div>
-        <div class="row-actions">
-          <button class="iact info" data-info-pend="${t.id}">${SVG.info}</button>
-          <button class="iact edit" data-edit-pend="${t.id}">${SVG.edit}</button>
-          <button class="iact del" data-del-pend="${t.id}">${SVG.del}</button>
+        <div class="row-actions" style="margin-top:6px;padding-top:6px;border-top:1px solid rgba(255,255,255,.06)">
+          <button class="iact info" data-info-pend="${t.id}" title="Detalle">${SVG.info}</button>
+          <button class="iact edit" data-edit-pend="${t.id}" title="Editar">${SVG.edit}</button>
+          <button class="iact del" data-del-pend="${t.id}" title="Eliminar">${SVG.del}</button>
         </div>
       </article>`;
     }).join('');
@@ -1443,6 +1449,7 @@
       pendings[idx]=data;
     } else pendings.unshift(data);
     scheduleNextFor(data);
+    $('pendingSearch').value='';
     lsSave(KEYS.pending,pendings); renderPending(); closeModal('modalPending'); updateReminder();
     if(data.notifDays>0) requestNotifPerm(true);
   });
@@ -1533,6 +1540,7 @@
     if(!data.product) return;
     const idx=clients.findIndex(c=>c.id===data.id);
     if(idx>=0) clients[idx]=data; else clients.unshift(data);
+    $('clientSearch').value='';
     lsSave(KEYS.clients,clients); renderClients(); closeModal('modalClient'); updateReminder();
   });
   function showClientDetail(c){
@@ -1594,6 +1602,7 @@
     if(!data.title) return;
     const idx=notes.findIndex(n=>n.id===data.id);
     if(idx>=0) notes[idx]=data; else notes.unshift(data);
+    $('notesSearch').value='';
     lsSave(KEYS.notes,notes); renderNotes(); closeModal('modalNote');
   });
 
@@ -1669,10 +1678,11 @@
     const data={id:$('ct-id').value||uid(),name:$('ct-name').value.trim(),category:$('ct-cat').value,
       phones:readMulti('ct-phones'),whatsapps:readMulti('ct-was'),
       address:$('ct-address').value.trim(),notes:$('ct-notes').value.trim()};
-    if(!data.name) return;
+    if(!data.name){ alert('El nombre es obligatorio'); return; }
     const idx=contacts.findIndex(c=>c.id===data.id);
     if(idx>=0) contacts[idx]=data; else contacts.unshift(data);
-    lsSave(KEYS.contacts,contacts); renderContacts(); closeModal('modalContact');
+    $('contactsSearch').value='';
+    lsSave(KEYS.contacts,contacts); renderContacts(); closeModal('modalContact'); updateReminder();
   });
 
   // ══════════ FAB + Modal close ══════════
@@ -1857,7 +1867,6 @@
     $('ghOwner').value=localStorage.getItem(KEYS.ghOwner)||'';
     $('ghRepo').value=localStorage.getItem(KEYS.ghRepo)||'';
     $('ghBranch').value=localStorage.getItem(KEYS.ghBranch)||'main';
-    $('alarmSound').value=localStorage.getItem(KEYS.alarmSound)||'bell';
     refreshAutoSwitches();
     fillCustomForm();
     $('swRememberSession').classList.toggle('on', isRememberOn());
@@ -2018,8 +2027,8 @@
       else if(c.iconEmoji){ bi.innerHTML='<span style="font-size:42px;line-height:1">'+escH(c.iconEmoji)+'</span>'; }
       // else keep original (do not replace if no preference)
     }
-    // footer visibility
-    document.querySelectorAll('.nav-btn').forEach(b=>{ const p=b.dataset.page; b.style.display = c.visibility[p]===false ? 'none' : ''; });
+    // footer visibility — admin siempre visible
+    document.querySelectorAll('.nav-btn').forEach(b=>{ const p=b.dataset.page; if(p==='admin') return; b.style.display = c.visibility[p]===false ? 'none' : ''; });
     // top contacts btn
     const tc=$('topContactsBtn'); if(tc) tc.style.display = c.visibility.topContacts===false ? 'none' : '';
     // document title
@@ -2041,26 +2050,28 @@
     c.visibility[key] = !(c.visibility[key]!==false);
     setCustom(c); el.classList.toggle('on', c.visibility[key]); applyCustom();
   };
+  window.getCustom = getCustom;
   window.saveCustom = function(){
     const c=getCustom();
     c.name=$('cfgName').value.trim()||'Mi Agenda';
     c.iconEmoji=$('cfgIconEmoji').value.trim();
-    c.iconUrl=$('cfgIconUrl').value.trim();
-    c.avatar=$('cfgAvatar').value.trim();
+    const urlVal=$('cfgIconUrl').value.trim();
+    if(urlVal) c.iconUrl=urlVal; // only override if URL is entered (otherwise keep b64 logo)
+    c.avatar=$('cfgAvatar').value.trim() || c.avatar; // keep b64 avatar if no text entered
     setCustom(c); applyCustom();
     showStatus('customStatus','✅ Personalización guardada','ok');
     if(isSyncCredsOn && isSyncCredsOn()) pushCredsToGitHub();
   };
 
   window.pushAll = async function(){
-    const btn=$('btnPushAll'); btn.disabled=true; btn.textContent='Sincronizando...';
-    clearLog('allLog'); logLine('allLog','▶ Subida masiva...','info');
+    const btn=$('btnPushAll'); btn.disabled=true; btn.textContent='Subiendo...';
+    clearLog('allLog'); logLine('allLog','▶ Forzando subida completa...','info');
     const types=['providers','pending','clients','notes','contacts'];
     let ok=0,err=0;
-    for(const t of types){ const r=await pushToGitHub(t,{force:true}); if(r.ok){ ok++; logLine('allLog','✓ '+t+(r.skipped?' (sin cambios)':' subido'),'ok'); } else { err++; logLine('allLog','✗ '+t+' '+(r.msg||''),'err'); } }
-    if(localStorage.getItem(KEYS.syncCreds)==='1'){ await pushCredsToGitHub(); logLine('allLog','✓ credenciales','ok'); }
-    if(err===0){ showStatus('allStatus','✅ Sincronizado ('+ok+'/'+types.length+')','ok'); setDirty({}); }
-    else showStatus('allStatus','⚠️ '+ok+' OK, '+err+' fallaron','err');
+    for(const t of types){ const r=await pushToGitHub(t,{force:true}); if(r.ok){ ok++; logLine('allLog','✓ '+t+(r.skipped?' (sin cambios)':' ✓ subido'),'ok'); } else { err++; logLine('allLog','✗ '+t+' '+(r.msg||'sin credenciales'),'err'); } }
+    if(localStorage.getItem(KEYS.syncCreds)==='1'){ await pushCredsToGitHub(); logLine('allLog','✓ configuración subida','ok'); }
+    if(err===0){ showStatus('allStatus','✅ Todo sincronizado ('+ok+'/'+types.length+')','ok'); setDirty({}); }
+    else showStatus('allStatus','⚠️ '+ok+' OK, '+err+' fallaron — verifica token/repo en Configuración','err');
     btn.disabled=false; btn.textContent='Forzar subida completa';
   };
   window.pullAll = async function(){
@@ -2155,7 +2166,7 @@
   window.toggleSyncCreds=function(){ localStorage.setItem(KEYS.syncCreds,isSyncCredsOn()?'0':'1'); refreshAutoSwitches(); if(isSyncCredsOn()) pushCredsToGitHub(); };
   window.toggleReminder=function(){ const v=localStorage.getItem(KEYS.reminderOn)!=='0'; localStorage.setItem(KEYS.reminderOn, v?'0':'1'); refreshAutoSwitches(); updateReminder(); };
 
-  $('alarmSound').addEventListener('change', e=>{ localStorage.setItem(KEYS.alarmSound, e.target.value); if(isSyncCredsOn()) pushCredsToGitHub(); });
+  // alarmSound se gestiona desde la paleta de sonidos
 
   window.addEventListener('online', ()=>{ updateSyncBadge(); trySyncAll(); pullAllSilent(); });
   window.addEventListener('offline',()=>updateSyncBadge());
@@ -2189,11 +2200,45 @@
     if(kind==='silent') return;
     try{
       const ctx=new (window.AudioContext||window.webkitAudioContext)();
-      const o=ctx.createOscillator(), g=ctx.createGain();
-      o.connect(g); g.connect(ctx.destination);
-      if(kind==='bell'){ o.type='sine'; o.frequency.value=880; g.gain.setValueAtTime(.3,ctx.currentTime); g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+1.2); o.start(); o.stop(ctx.currentTime+1.3); }
-      else if(kind==='beep'){ o.type='square'; o.frequency.value=600; g.gain.setValueAtTime(.2,ctx.currentTime); g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.5); o.start(); o.stop(ctx.currentTime+.55); }
-      else if(kind==='chime'){ o.type='triangle'; o.frequency.value=1320; g.gain.setValueAtTime(.25,ctx.currentTime); g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+1.5); o.start(); o.stop(ctx.currentTime+1.55); }
+      const now=ctx.currentTime;
+      if(kind==='bell'){ const o=ctx.createOscillator(),g=ctx.createGain(); o.connect(g); g.connect(ctx.destination); o.type='sine'; o.frequency.value=880; g.gain.setValueAtTime(.35,now); g.gain.exponentialRampToValueAtTime(.001,now+1.4); o.start(); o.stop(now+1.5); }
+      else if(kind==='beep'){ const o=ctx.createOscillator(),g=ctx.createGain(); o.connect(g); g.connect(ctx.destination); o.type='square'; o.frequency.value=660; g.gain.setValueAtTime(.25,now); g.gain.exponentialRampToValueAtTime(.001,now+.5); o.start(); o.stop(now+.6); }
+      else if(kind==='chime'){ const o=ctx.createOscillator(),g=ctx.createGain(); o.connect(g); g.connect(ctx.destination); o.type='triangle'; o.frequency.value=1320; g.gain.setValueAtTime(.28,now); g.gain.exponentialRampToValueAtTime(.001,now+1.6); o.start(); o.stop(now+1.7); }
+      else if(kind==='thunder'||kind==='lightning'){ // Trueno / Rayo: ruido bajo potente
+        const buf=ctx.createBuffer(1,ctx.sampleRate*1.2,ctx.sampleRate);
+        const d=buf.getChannelData(0); for(let i=0;i<d.length;i++) d[i]=(Math.random()*2-1)*(1-i/d.length)**1.5;
+        const src=ctx.createBufferSource(),g=ctx.createGain(),lp=ctx.createBiquadFilter();
+        lp.type='lowpass'; lp.frequency.value=kind==='lightning'?800:180;
+        src.buffer=buf; src.connect(lp); lp.connect(g); g.connect(ctx.destination);
+        g.gain.setValueAtTime(kind==='lightning'?.9:1.2,now); g.gain.exponentialRampToValueAtTime(.001,now+1.1); src.start(); src.stop(now+1.3);
+        if(kind==='lightning'){ // añade crackle agudo
+          const o2=ctx.createOscillator(),g2=ctx.createGain(); o2.type='sawtooth'; o2.frequency.value=200;
+          o2.connect(g2); g2.connect(ctx.destination); g2.gain.setValueAtTime(.5,now); g2.gain.exponentialRampToValueAtTime(.001,now+.08); o2.start(); o2.stop(now+.1);
+        }
+      }
+      else if(kind==='water'){ // Agua: ruido blanco filtrado pulsante
+        for(let i=0;i<3;i++){
+          const buf=ctx.createBuffer(1,ctx.sampleRate*.15,ctx.sampleRate);
+          const d=buf.getChannelData(0); for(let j=0;j<d.length;j++) d[j]=Math.random()*2-1;
+          const src=ctx.createBufferSource(),g=ctx.createGain(),bp=ctx.createBiquadFilter();
+          bp.type='bandpass'; bp.frequency.value=800+i*300; bp.Q.value=3;
+          src.buffer=buf; src.connect(bp); bp.connect(g); g.connect(ctx.destination);
+          const t0=now+i*.25; g.gain.setValueAtTime(.4,t0); g.gain.exponentialRampToValueAtTime(.001,t0+.18); src.start(t0); src.stop(t0+.2);
+        }
+      }
+      else if(kind==='wind'){ // Viento: ruido filtrado en crescendo
+        const buf=ctx.createBuffer(1,ctx.sampleRate*1.5,ctx.sampleRate);
+        const d=buf.getChannelData(0); for(let i=0;i<d.length;i++) d[i]=Math.random()*2-1;
+        const src=ctx.createBufferSource(),g=ctx.createGain(),hp=ctx.createBiquadFilter();
+        hp.type='highpass'; hp.frequency.value=400;
+        src.buffer=buf; src.connect(hp); hp.connect(g); g.connect(ctx.destination);
+        g.gain.setValueAtTime(.001,now); g.gain.linearRampToValueAtTime(.7,now+.5); g.gain.exponentialRampToValueAtTime(.001,now+1.4); src.start(); src.stop(now+1.5);
+      }
+      else if(kind==='waterdrop'){ const o=ctx.createOscillator(),g=ctx.createGain(); o.connect(g); g.connect(ctx.destination); o.type='sine'; o.frequency.setValueAtTime(1200,now); o.frequency.exponentialRampToValueAtTime(400,now+.3); g.gain.setValueAtTime(.4,now); g.gain.exponentialRampToValueAtTime(.001,now+.35); o.start(); o.stop(now+.4); }
+      else if(kind==='ding'){ const o=ctx.createOscillator(),g=ctx.createGain(); o.connect(g); g.connect(ctx.destination); o.type='sine'; o.frequency.value=1047; g.gain.setValueAtTime(.4,now); g.gain.exponentialRampToValueAtTime(.001,now+1.0); o.start(); o.stop(now+1.1); }
+      else if(kind==='digital'){ for(let i=0;i<3;i++){ const o=ctx.createOscillator(),g=ctx.createGain(); o.connect(g); g.connect(ctx.destination); o.type='square'; o.frequency.value=880+i*110; const t0=now+i*.2; g.gain.setValueAtTime(.18,t0); g.gain.exponentialRampToValueAtTime(.001,t0+.15); o.start(t0); o.stop(t0+.18); } }
+      else if(kind==='zen'){ const o=ctx.createOscillator(),g=ctx.createGain(); o.connect(g); g.connect(ctx.destination); o.type='sine'; o.frequency.value=528; g.gain.setValueAtTime(.3,now); g.gain.exponentialRampToValueAtTime(.001,now+2.0); o.start(); o.stop(now+2.1); }
+      else if(kind==='alarm'){ for(let i=0;i<4;i++){ const o=ctx.createOscillator(),g=ctx.createGain(); o.connect(g); g.connect(ctx.destination); o.type='square'; o.frequency.value=i%2===0?880:660; const t0=now+i*.15; g.gain.setValueAtTime(.25,t0); g.gain.exponentialRampToValueAtTime(.001,t0+.12); o.start(t0); o.stop(t0+.14); } }
     }catch(e){}
   };
   function fireNotif(t){
@@ -2304,15 +2349,17 @@
 
   // ─── v9: SONIDOS adicionales (Web Audio) ───
   const SOUND_DEFS = {
-    bell:{name:'Campana suave', desc:'Limpia y elegante', emoji:'🔔'},
-    beep:{name:'Beep clásico', desc:'Corto y directo', emoji:'📢'},
-    chime:{name:'Chime cristalino', desc:'Notas cristalinas', emoji:'🎐'},
-    waterdrop:{name:'Gota de agua', desc:'Suave y relajante', emoji:'💧'},
-    thunder:{name:'Trueno', desc:'Impactante y profundo', emoji:'⚡'},
-    ding:{name:'Ding hotel', desc:'Recepción clásica', emoji:'🛎️'},
-    digital:{name:'Pitido digital', desc:'Estilo tecnológico', emoji:'📳'},
+    bell:{name:'Campana', desc:'Limpia y elegante', emoji:'🔔'},
+    chime:{name:'Chime', desc:'Notas cristalinas', emoji:'🎐'},
+    ding:{name:'Ding', desc:'Recepción clásica', emoji:'🛎️'},
     zen:{name:'Cuenco tibetano', desc:'Resonante y calmo', emoji:'🧘'},
+    lightning:{name:'⚡ Rayo', desc:'Crackle eléctrico potente', emoji:'⚡'},
+    thunder:{name:'🌩 Trueno', desc:'Rugido profundo', emoji:'🌩️'},
+    water:{name:'💧 Agua', desc:'Gotas rítmicas frescas', emoji:'💧'},
+    wind:{name:'🌬 Viento', desc:'Ráfaga creciente', emoji:'🌬️'},
     alarm:{name:'Alarma retro', desc:'Tradicional y firme', emoji:'⏰'},
+    digital:{name:'Digital', desc:'Estilo tecnológico', emoji:'📳'},
+    beep:{name:'Beep', desc:'Corto y directo', emoji:'📢'},
     silent:{name:'Silencioso', desc:'Solo notificación visual', emoji:'🔇'}
   };
   function _ctx(){ return new (window.AudioContext||window.webkitAudioContext)(); }
@@ -2333,15 +2380,42 @@
         case 'beep': _osc(ctx,'square',600,0,.45,.2); break;
         case 'chime': _osc(ctx,'triangle',1320,0,1.4,.22); _osc(ctx,'triangle',1760,.1,1.4,.18); break;
         case 'waterdrop': _osc(ctx,'sine',1200,0,.35,.25); _osc(ctx,'sine',600,.1,.5,.18); _osc(ctx,'sine',300,.25,.7,.12); break;
-        case 'thunder': {
-          const bufSize=ctx.sampleRate*1.4; const buf=ctx.createBuffer(1,bufSize,ctx.sampleRate);
-          const d=buf.getChannelData(0);
-          for(let i=0;i<bufSize;i++){ d[i]=(Math.random()*2-1)*Math.pow(1-i/bufSize,2); }
+        case 'lightning': {
+          const buf=ctx.createBuffer(1,ctx.sampleRate*.15,ctx.sampleRate);
+          const d=buf.getChannelData(0); for(let i=0;i<d.length;i++) d[i]=(Math.random()*2-1)*(1-i/d.length)**0.5;
           const n=ctx.createBufferSource(); n.buffer=buf;
-          const f=ctx.createBiquadFilter(); f.type='lowpass'; f.frequency.value=400;
-          const g=ctx.createGain(); g.gain.setValueAtTime(.45,ctx.currentTime);
-          g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+1.4);
+          const f=ctx.createBiquadFilter(); f.type='highpass'; f.frequency.value=800;
+          const g=ctx.createGain(); g.gain.setValueAtTime(1.2,ctx.currentTime); g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.15);
           n.connect(f); f.connect(g); g.connect(ctx.destination); n.start();
+          _osc(ctx,'sawtooth',180,0,.12,.6);
+        } break;
+        case 'thunder': {
+          const bufSize=ctx.sampleRate*1.6; const buf=ctx.createBuffer(1,bufSize,ctx.sampleRate);
+          const d=buf.getChannelData(0);
+          for(let i=0;i<bufSize;i++){ d[i]=(Math.random()*2-1)*Math.pow(1-i/bufSize,1.8)*1.4; }
+          const n=ctx.createBufferSource(); n.buffer=buf;
+          const f=ctx.createBiquadFilter(); f.type='lowpass'; f.frequency.value=220;
+          const g=ctx.createGain(); g.gain.setValueAtTime(.9,ctx.currentTime);
+          g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+1.5);
+          n.connect(f); f.connect(g); g.connect(ctx.destination); n.start();
+        } break;
+        case 'water': {
+          for(let i=0;i<4;i++){
+            const buf=ctx.createBuffer(1,Math.floor(ctx.sampleRate*.12),ctx.sampleRate);
+            const d=buf.getChannelData(0); for(let j=0;j<d.length;j++) d[j]=Math.random()*2-1;
+            const src=ctx.createBufferSource(),g=ctx.createGain(),bp=ctx.createBiquadFilter();
+            bp.type='bandpass'; bp.frequency.value=700+i*400; bp.Q.value=4;
+            src.buffer=buf; src.connect(bp); bp.connect(g); g.connect(ctx.destination);
+            const t0=ctx.currentTime+i*.22; g.gain.setValueAtTime(.5,t0); g.gain.exponentialRampToValueAtTime(.001,t0+.2); src.start(t0); src.stop(t0+.25);
+          }
+        } break;
+        case 'wind': {
+          const buf=ctx.createBuffer(1,ctx.sampleRate*1.5,ctx.sampleRate);
+          const d=buf.getChannelData(0); for(let i=0;i<d.length;i++) d[i]=Math.random()*2-1;
+          const src=ctx.createBufferSource(),g=ctx.createGain(),hp=ctx.createBiquadFilter();
+          hp.type='bandpass'; hp.frequency.value=600; hp.Q.value=0.5;
+          src.buffer=buf; src.connect(hp); hp.connect(g); g.connect(ctx.destination);
+          g.gain.setValueAtTime(.001,ctx.currentTime); g.gain.linearRampToValueAtTime(.8,ctx.currentTime+.6); g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+1.4); src.start(); src.stop(ctx.currentTime+1.5);
         } break;
         case 'ding': _osc(ctx,'sine',1568,0,1.0,.32); _osc(ctx,'sine',2093,0,1.0,.18); break;
         case 'digital': _osc(ctx,'square',1800,0,.1,.22); _osc(ctx,'square',1800,.15,.25,.22); _osc(ctx,'square',1800,.3,.4,.22); break;
@@ -2394,6 +2468,11 @@
     const c = (getCustom().primary)||'#a855f7';
     document.documentElement.style.setProperty('--user-primary', c);
     document.documentElement.style.setProperty('--primary', c);
+    // Update reminder bell color
+    const rb=document.querySelector('.reminder'); if(rb) rb.style.color=c;
+    const rb2=document.querySelector('.reminder'); if(rb2) rb2.style.filter=`drop-shadow(0 0 10px ${c}99)`;
+    // Update FAB color
+    const fab=document.querySelector('.fab'); if(fab) fab.style.background=c;
   }
   window.resetPrimaryColor = function(){
     const cu=getCustom(); cu.primary='#a855f7'; localStorage.setItem(KEYS.custom, JSON.stringify(cu));
@@ -2659,8 +2738,49 @@
     };
   }
 
-  // Guardar página activa para "hideLoginPublic"
-  const _origShowPage = window.showPage;
+  // ─── Logo/Avatar file upload ───
+  function fileToBase64(file){ return new Promise((res,rej)=>{ const r=new FileReader(); r.onload=e=>res(e.target.result); r.onerror=rej; r.readAsDataURL(file); }); }
+  window.handleLogoUpload = async function(inp){
+    if(!inp.files||!inp.files[0]) return;
+    const b64=await fileToBase64(inp.files[0]);
+    const cu=getCustom(); cu.iconUrl=b64; localStorage.setItem(KEYS.custom,JSON.stringify(cu));
+    document.getElementById('cfgIconUrl').value=''; // clear URL field since file takes priority
+    const prev=document.getElementById('logoPreview'); prev.style.display='flex'; prev.style.alignItems='center';
+    document.getElementById('logoPreviewImg').src=b64;
+    applyCustom();
+    if(isSyncCredsOn&&isSyncCredsOn()) pushCredsToGitHub();
+    showStatus('customStatus','✅ Logo cargado y guardado','ok');
+  };
+  window.clearLogoUpload = function(){
+    const cu=getCustom(); cu.iconUrl=''; localStorage.setItem(KEYS.custom,JSON.stringify(cu));
+    document.getElementById('cfgLogoFile').value='';
+    document.getElementById('logoPreview').style.display='none';
+    applyCustom();
+  };
+  window.handleAvatarUpload = async function(inp){
+    if(!inp.files||!inp.files[0]) return;
+    const b64=await fileToBase64(inp.files[0]);
+    const cu=getCustom(); cu.avatar=b64; localStorage.setItem(KEYS.custom,JSON.stringify(cu));
+    const prev=document.getElementById('avatarPreview'); prev.style.display='flex'; prev.style.alignItems='center';
+    document.getElementById('avatarPreviewImg').src=b64;
+    if(isSyncCredsOn&&isSyncCredsOn()) pushCredsToGitHub();
+    showStatus('customStatus','✅ Avatar cargado y guardado','ok');
+  };
+  window.clearAvatarUpload = function(){
+    const cu=getCustom(); cu.avatar=''; localStorage.setItem(KEYS.custom,JSON.stringify(cu));
+    document.getElementById('cfgAvatarFile').value='';
+    document.getElementById('avatarPreview').style.display='none';
+  };
+  // Show previews when admin page opens
+  const _origFillCustomFormBase = window.fillCustomForm;
+  window.fillCustomForm = function(){
+    if(_origFillCustomFormBase) _origFillCustomFormBase.apply(this,arguments);
+    const cu=getCustom();
+    const lp=document.getElementById('logoPreview'); const li=document.getElementById('logoPreviewImg');
+    if(lp&&li&&cu.iconUrl&&cu.iconUrl.startsWith('data:')){ lp.style.display='flex'; lp.style.alignItems='center'; li.src=cu.iconUrl; }
+    const ap=document.getElementById('avatarPreview'); const ai=document.getElementById('avatarPreviewImg');
+    if(ap&&ai&&cu.avatar&&cu.avatar.startsWith('data:')){ ap.style.display='flex'; ap.style.alignItems='center'; ai.src=cu.avatar; }
+  };
   if(_origShowPage){
     window.showPage = function(p){
       if(p && p!=='admin') localStorage.setItem('agenda.lastPage', p);
