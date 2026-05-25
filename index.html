@@ -38,9 +38,9 @@
     padding:8px 16px 8px;padding-top:calc(8px + env(safe-area-inset-top))}
   .wrap{max-width:760px;margin:0 auto}
   h1{margin:0;font-size:32px;font-weight:900;letter-spacing:-.5px;display:flex;align-items:center;gap:6px}
-  h1 .brand-icon{width:52px;height:58px;display:inline-flex;align-items:center;justify-content:center;
-    filter:drop-shadow(0 0 18px rgba(168,85,247,.65))}
-  h1 .brand-icon svg{width:52px;height:58px}
+  h1 .brand-icon{width:56px;height:56px;display:inline-flex;align-items:center;justify-content:center;
+    filter:drop-shadow(0 0 22px rgba(168,85,247,.7))}
+  h1 .brand-icon svg{width:56px;height:56px}
   h1 .brand-icon img{width:60px;height:60px;border-radius:14px;object-fit:cover}
   h1 .brand-text{font-size:34px;line-height:1.05;font-weight:900}
   h1 .brand-text span{color:var(--gold)}
@@ -483,40 +483,42 @@
   <div class="wrap">
     <h1>
       <span class="brand-icon" id="brandIcon" aria-hidden="true">
-        <svg viewBox="0 0 52 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <linearGradient id="bkGold" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#fde68a"/>
-              <stop offset="55%" stop-color="#fbbf24"/>
-              <stop offset="100%" stop-color="#d97706"/>
-            </linearGradient>
-            <linearGradient id="bkSpine" x1="0" y1="0" x2="1" y2="0">
+            <linearGradient id="iconOuter" x1="0" y1="0" x2="1" y2="1">
               <stop offset="0%" stop-color="#7c3aed"/>
-              <stop offset="100%" stop-color="#a855f7"/>
+              <stop offset="50%" stop-color="#a855f7"/>
+              <stop offset="100%" stop-color="#c084fc"/>
             </linearGradient>
-            <filter id="bkGlow" x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur stdDeviation="2" result="blur"/>
+            <linearGradient id="iconGold" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#fde68a"/>
+              <stop offset="50%" stop-color="#fbbf24"/>
+              <stop offset="100%" stop-color="#f59e0b"/>
+            </linearGradient>
+            <linearGradient id="iconShine" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.35"/>
+              <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+            </linearGradient>
+            <filter id="iconGlow">
+              <feGaussianBlur stdDeviation="2.5" result="blur"/>
               <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
             </filter>
           </defs>
-          <!-- Book spine (left side) -->
-          <rect x="0" y="3" width="9" height="50" rx="3" fill="url(#bkSpine)"/>
-          <!-- Book cover -->
-          <rect x="8" y="0" width="40" height="56" rx="4" fill="url(#bkGold)"/>
-          <!-- Cover shine -->
-          <rect x="8" y="0" width="40" height="20" rx="4" fill="rgba(255,255,255,0.25)"/>
-          <!-- Spine highlight -->
-          <rect x="8" y="0" width="4" height="56" rx="2" fill="rgba(255,255,255,0.18)"/>
-          <!-- Agenda lines on cover -->
-          <line x1="16" y1="20" x2="42" y2="20" stroke="rgba(120,60,0,0.35)" stroke-width="1.5" stroke-linecap="round"/>
-          <line x1="16" y1="27" x2="42" y2="27" stroke="rgba(120,60,0,0.35)" stroke-width="1.5" stroke-linecap="round"/>
-          <line x1="16" y1="34" x2="42" y2="34" stroke="rgba(120,60,0,0.35)" stroke-width="1.5" stroke-linecap="round"/>
-          <line x1="16" y1="41" x2="34" y2="41" stroke="rgba(120,60,0,0.35)" stroke-width="1.5" stroke-linecap="round"/>
-          <!-- Calendar/star emblem on top -->
-          <circle cx="29" cy="11" r="6" fill="rgba(120,60,0,0.18)" stroke="rgba(120,60,0,0.3)" stroke-width="0.8"/>
-          <path d="M29 7.5 l1.2 2.4 2.6 0.4 -1.9 1.85 0.45 2.6 -2.35-1.24 -2.35 1.24 0.45-2.6 -1.9-1.85 2.6-0.4Z" fill="rgba(120,60,0,0.55)" stroke="none"/>
-          <!-- Bookmark ribbon -->
-          <path d="M38 0 L42 0 L42 14 L40 11 L38 14 Z" fill="#ef4444" opacity="0.9"/>
+          <!-- Outer rounded square background -->
+          <rect x="2" y="2" width="44" height="44" rx="13" fill="url(#iconOuter)"/>
+          <!-- Inner shine overlay -->
+          <rect x="2" y="2" width="44" height="22" rx="13" fill="url(#iconShine)"/>
+          <!-- Diamond shape -->
+          <polygon points="24,8 38,22 24,40 10,22" fill="url(#iconGold)" filter="url(#iconGlow)" stroke="#92400e" stroke-width="0.8" stroke-linejoin="round"/>
+          <!-- Diamond inner lines -->
+          <polyline points="10,22 24,18 38,22" fill="none" stroke="#fff8" stroke-width="0.8"/>
+          <line x1="24" y1="8" x2="24" y2="18" stroke="#fff8" stroke-width="0.8"/>
+          <!-- Star sparkles -->
+          <circle cx="38" cy="10" r="1.5" fill="#fde68a" opacity="0.9"/>
+          <circle cx="11" cy="12" r="1" fill="#fde68a" opacity="0.7"/>
+          <circle cx="40" cy="34" r="1" fill="#fde68a" opacity="0.7"/>
+          <!-- Tiny cross sparkle top-right -->
+          <path d="M40 8 L40 12 M38 10 L42 10" stroke="#fde68a" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
         </svg>
       </span>
       <div>
@@ -939,7 +941,7 @@
     <div class="field"><span>WhatsApp</span><div class="multi-list" id="ct-was"></div><button type="button" class="multi-add" onclick="addMulti('ct-was')">+ WhatsApp</button></div>
     <label class="field"><span>Dirección</span><input id="ct-address"/></label>
     <label class="field"><span>Notas</span><textarea id="ct-notes" rows="2"></textarea></label>
-    <button type="button" class="save" id="btnSaveContact" onclick="doSaveContact()">Guardar contacto</button>
+    <button type="submit" class="save">Guardar</button>
   </form>
 </div>
 
@@ -1714,15 +1716,15 @@
       const acts=[];
       (c.phones||[]).forEach(p=>{
         const k='tel:'+p; const isAcc=!!acc[k];
-        acts.push(`<a class="pill${isAcc?' accessed':''}" href="tel:${tel(p)}" style="color:var(--primary-2)" data-mca-id="${escH(c.id)}" data-mca-key="${escH(k)}">${SVG.phone}<span>${escH(p)}</span></a>`);
+        acts.push(`<a class="pill${isAcc?' accessed':''}" href="tel:${tel(p)}" style="color:var(--primary-2)" data-access-ct="${c.id}" data-access-key="${escH(k)}" onclick="markContactAccess('${escH(c.id)}','${escH(k)}')">${SVG.phone}<span>${escH(p)}</span></a>`);
         const ks='sms:'+p; const isAccS=!!acc[ks];
-        acts.push(`<a class="pill${isAccS?' accessed':''}" href="sms:${tel(p)}" style="color:var(--info)" data-mca-id="${escH(c.id)}" data-mca-key="${escH(ks)}">${SVG.sms}<span>SMS</span></a>`);
+        acts.push(`<a class="pill${isAccS?' accessed':''}" href="sms:${tel(p)}" style="color:var(--info)" data-access-ct="${c.id}" data-access-key="${escH(ks)}" onclick="markContactAccess('${escH(c.id)}','${escH(ks)}')">${SVG.sms}<span>SMS</span></a>`);
       });
       (c.whatsapps||[]).forEach(w=>{
         const k='wa:'+w; const isAcc=!!acc[k];
-        acts.push(`<a class="pill${isAcc?' accessed':''}" target="_blank" rel="noreferrer" href="https://wa.me/${tel(w).replace(/^\+/,'')}" style="color:var(--success)" data-mca-id="${escH(c.id)}" data-mca-key="${escH(k)}">${SVG.wa}<span>${escH(w)}</span></a>`);
+        acts.push(`<a class="pill${isAcc?' accessed':''}" target="_blank" rel="noreferrer" href="https://wa.me/${tel(w).replace(/^\+/,'')}" style="color:var(--success)" onclick="markContactAccess('${escH(c.id)}','${escH(k)}')">${SVG.wa}<span>${escH(w)}</span></a>`);
       });
-      $('detailBody').innerHTML=`<div class="detail-block"><div class="lbl">Categoría</div><div class="val">${escH(c.category||'otro')}</div></div>${c.address?`<div class="detail-block"><div class="lbl">Dirección</div><div class="val">${escH(c.address)}</div></div>`:''}${c.notes?`<div class="detail-block"><div class="lbl">Notas</div><div class="val">${escH(c.notes)}</div></div>`:''}<div class="detail-actions" id="contactDetailActions">${acts.join('')}</div>`;
+      $('detailBody').innerHTML=`<div class="detail-block"><div class="lbl">Categoría</div><div class="val">${escH(c.category||'otro')}</div></div>${c.address?`<div class="detail-block"><div class="lbl">Dirección</div><div class="val">${escH(c.address)}</div></div>`:''}${c.notes?`<div class="detail-block"><div class="lbl">Notas</div><div class="val">${escH(c.notes)}</div></div>`:''}<div class="detail-actions">${acts.join('')}</div>`;
       $('modalDetail').classList.add('open');
     }
     else if(d.editCt) openContactModal(contacts.find(c=>c.id===d.editCt));
@@ -1735,33 +1737,41 @@
     fillMulti('ct-phones', c?.phones||[]); fillMulti('ct-was', c?.whatsapps||[]);
     $('modalContact').classList.add('open'); setTimeout(()=>$('ct-name').focus(),50);
   }
-  // doSaveContact: called directly from button onclick — bypasses all form/submit issues
-  window.doSaveContact = function(){
-    const nameVal = (document.getElementById('ct-name').value||'').trim();
-    if(!nameVal){ alert('El nombre es requerido'); return; }
-    const idVal = document.getElementById('ct-id').value;
-    const data = {
-      id: idVal || uid(),
+  $('formContact').addEventListener('submit',e=>{
+    e.preventDefault();
+    e.stopPropagation();
+    const nameVal = ($('ct-name').value||'').trim();
+    if(!nameVal){ alert('El nombre es obligatorio'); return; }
+    const data={
+      id: $('ct-id').value || uid(),
       name: nameVal,
-      category: document.getElementById('ct-cat').value || 'otro',
+      category: ($('ct-cat').value||'otro'),
       phones: readMulti('ct-phones').filter(Boolean),
       whatsapps: readMulti('ct-was').filter(Boolean),
-      address: (document.getElementById('ct-address').value||'').trim(),
-      notes: (document.getElementById('ct-notes').value||'').trim()
+      address: ($('ct-address').value||'').trim(),
+      notes: ($('ct-notes').value||'').trim()
     };
+    // Mark dirty BEFORE save to prevent pull from overwriting
     markDirty('contacts');
     const idx = contacts.findIndex(c=>c.id===data.id);
-    if(idx>=0){ contacts[idx]=data; } else { contacts.unshift(data); }
-    try{ localStorage.setItem(KEYS.contacts, JSON.stringify(contacts)); }
-    catch(err){ console.error('Error guardando contacto:', err); }
-    document.getElementById('contactsSearch').value='';
+    if(idx>=0){
+      contacts[idx] = data;
+    } else {
+      contacts.unshift(data);
+    }
+    // Save to localStorage directly
+    try{
+      localStorage.setItem(KEYS.contacts, JSON.stringify(contacts));
+    }catch(err){
+      console.error('Error guardando contacto:', err);
+    }
+    $('contactsSearch').value='';
     closeModal('modalContact');
     renderContacts();
     updateReminder();
-    scheduleSync(800);
-  };
-  // Keep submit handler as backup (does nothing if button is type=button)
-  $('formContact').addEventListener('submit',e=>{ e.preventDefault(); doSaveContact(); });
+    scheduleSync(1000);
+    return false;
+  });
 
   // ══════════ Contact Access Tracking ══════════
   window.markContactAccess = function(contactId, key){
@@ -1769,19 +1779,16 @@
     if(!c.accessed) c.accessed={};
     c.accessed[key]=Date.now();
     lsSave(KEYS.contacts,contacts);
-    // Update all pills in the detail panel
-    document.querySelectorAll('#detailBody .pill[data-mca-id]').forEach(el=>{
-      if(el.dataset.mcaId===contactId && c.accessed[el.dataset.mcaKey]) el.classList.add('accessed');
-    });
+    // Update pill visually without re-opening detail
+    setTimeout(()=>{
+      document.querySelectorAll('.detail-actions .pill').forEach(el=>{
+        if(el.getAttribute('onclick') && el.getAttribute('onclick').includes(contactId)){
+          const elKey=el.getAttribute('data-access-key');
+          if(elKey && c.accessed[elKey]) el.classList.add('accessed');
+        }
+      });
+    },150);
   };
-  // Event delegation on detailBody to track access on click
-  $('detailBody').addEventListener('click', e=>{
-    const pill=e.target.closest('.pill[data-mca-id]');
-    if(!pill) return;
-    const cid=pill.dataset.mcaId, key=pill.dataset.mcaKey;
-    if(!cid||!key) return;
-    markContactAccess(cid, key);
-  });
 
   // ══════════ FAB + Modal close ══════════
   window.closeModal = function(id){ $(id).classList.remove('open'); };
@@ -2127,10 +2134,11 @@
       if(c.iconUrl){ bi.innerHTML='<img src="'+escH(c.iconUrl)+'" alt="logo" style="filter:drop-shadow(0 0 12px '+escH(c.primary||'#fbbf24')+'88)"/>'; }
       else if(c.iconEmoji){ bi.innerHTML='<span class="emoji-icon" style="font-size:42px;line-height:1;filter:drop-shadow(0 0 10px '+escH(c.primary||'#fbbf24')+'99)">'+escH(c.iconEmoji)+'</span>'; }
       else {
-        // Default book/agenda icon — spine uses primary color
+        // Default diamond icon — update gradient to use primary color
         const p=c.primary||'#a855f7';
-        const pd=adjustColor(p,-30);
-        bi.innerHTML=`<svg viewBox="0 0 52 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+        const pd=adjustColor(p,-30); // darker shade
+        const pl=adjustColor(p,40);  // lighter shade
+        bi.innerHTML=`<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <linearGradient id="biOuter" x1="0" y1="0" x2="1" y2="1">
               <stop offset="0%" stop-color="${pd}"/>
@@ -2147,23 +2155,16 @@
               <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
             </linearGradient>
           </defs>
-          <defs>
-            <linearGradient id="biSpine2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${pd}"/><stop offset="100%" stop-color="${p}"/></linearGradient>
-            <linearGradient id="biGold2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fde68a"/><stop offset="55%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#d97706"/></linearGradient>
-          </defs>
-          <rect x="0" y="3" width="9" height="50" rx="3" fill="url(#biSpine2)"/>
-          <rect x="8" y="0" width="40" height="56" rx="4" fill="url(#biGold2)"/>
-          <rect x="8" y="0" width="40" height="20" rx="4" fill="rgba(255,255,255,0.22)"/>
-          <rect x="8" y="0" width="4" height="56" rx="2" fill="rgba(255,255,255,0.15)"/>
-          <line x1="16" y1="20" x2="42" y2="20" stroke="rgba(120,60,0,0.35)" stroke-width="1.5" stroke-linecap="round"/>
-          <line x1="16" y1="27" x2="42" y2="27" stroke="rgba(120,60,0,0.35)" stroke-width="1.5" stroke-linecap="round"/>
-          <line x1="16" y1="34" x2="42" y2="34" stroke="rgba(120,60,0,0.35)" stroke-width="1.5" stroke-linecap="round"/>
-          <line x1="16" y1="41" x2="34" y2="41" stroke="rgba(120,60,0,0.35)" stroke-width="1.5" stroke-linecap="round"/>
-          <circle cx="29" cy="11" r="6" fill="rgba(120,60,0,0.15)" stroke="rgba(120,60,0,0.28)" stroke-width="0.8"/>
-          <path d="M29 7.5 l1.2 2.4 2.6 0.4 -1.9 1.85 0.45 2.6 -2.35-1.24 -2.35 1.24 0.45-2.6 -1.9-1.85 2.6-0.4Z" fill="rgba(120,60,0,0.5)"/>
-          <path d="M38 0 L42 0 L42 14 L40 11 L38 14 Z" fill="#ef4444" opacity="0.88"/>
+          <rect x="2" y="2" width="44" height="44" rx="13" fill="url(#biOuter)"/>
+          <rect x="2" y="2" width="44" height="22" rx="13" fill="url(#biShine)"/>
+          <polygon points="24,8 38,22 24,40 10,22" fill="url(#biGold)" stroke="#92400e" stroke-width="0.8" stroke-linejoin="round"/>
+          <polyline points="10,22 24,18 38,22" fill="none" stroke="#fff8" stroke-width="0.8"/>
+          <line x1="24" y1="8" x2="24" y2="18" stroke="#fff8" stroke-width="0.8"/>
+          <circle cx="38" cy="10" r="1.5" fill="#fde68a" opacity="0.9"/>
+          <circle cx="11" cy="12" r="1" fill="#fde68a" opacity="0.7"/>
+          <path d="M40 8 L40 12 M38 10 L42 10" stroke="#fde68a" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
         </svg>`;
-        bi.style.filter=`drop-shadow(0 0 18px ${p}99)`;
+        bi.style.filter=`drop-shadow(0 0 22px ${p}aa)`;
       }
     }
     // footer visibility — admin siempre visible
@@ -2228,15 +2229,13 @@
     // Live preview
     document.documentElement.style.setProperty('--user-primary', val);
     document.documentElement.style.setProperty('--primary', val);
-    // PERSIST immediately so color survives page navigation
-    try{ const c=getCustom(); c.primary=val; localStorage.setItem(KEYS.custom,JSON.stringify(c)); }catch(e){}
     const bt=$('brandText');
     if(bt){ const span=bt.querySelector('span'); if(span) span.style.color=val; }
     const bi=$('brandIcon');
     if(bi && !bi.querySelector('img') && !bi.querySelector('span.emoji-icon')){
-      const pd3=adjustColor(val,-30);
-      bi.innerHTML=`<svg viewBox="0 0 52 56" fill="none"><defs><linearGradient id="biLvSpine" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${pd3}"/><stop offset="100%" stop-color="${val}"/></linearGradient><linearGradient id="biLvGold" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fde68a"/><stop offset="55%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#d97706"/></linearGradient></defs><rect x="0" y="3" width="9" height="50" rx="3" fill="url(#biLvSpine)"/><rect x="8" y="0" width="40" height="56" rx="4" fill="url(#biLvGold)"/><rect x="8" y="0" width="40" height="20" rx="4" fill="rgba(255,255,255,0.22)"/><rect x="8" y="0" width="4" height="56" rx="2" fill="rgba(255,255,255,0.15)"/><line x1="16" y1="20" x2="42" y2="20" stroke="rgba(120,60,0,0.35)" stroke-width="1.5" stroke-linecap="round"/><line x1="16" y1="27" x2="42" y2="27" stroke="rgba(120,60,0,0.35)" stroke-width="1.5" stroke-linecap="round"/><line x1="16" y1="34" x2="42" y2="34" stroke="rgba(120,60,0,0.35)" stroke-width="1.5" stroke-linecap="round"/><circle cx="29" cy="11" r="6" fill="rgba(120,60,0,0.15)" stroke="rgba(120,60,0,0.28)" stroke-width="0.8"/><path d="M29 7.5 l1.2 2.4 2.6 0.4 -1.9 1.85 0.45 2.6 -2.35-1.24 -2.35 1.24 0.45-2.6 -1.9-1.85 2.6-0.4Z" fill="rgba(120,60,0,0.5)"/><path d="M38 0 L42 0 L42 14 L40 11 L38 14 Z" fill="#ef4444" opacity="0.88"/></svg>`;
-      bi.style.filter=`drop-shadow(0 0 18px ${val}99)`;
+      const pd2=adjustColor(val,-30); const pl2=adjustColor(val,40);
+      bi.innerHTML=`<svg viewBox="0 0 48 48" fill="none"><defs><linearGradient id="biLive" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${pd2}"/><stop offset="50%" stop-color="${val}"/><stop offset="100%" stop-color="${pl2}"/></linearGradient><linearGradient id="biGold2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fde68a"/><stop offset="50%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#f59e0b"/></linearGradient></defs><rect x="2" y="2" width="44" height="44" rx="13" fill="url(#biLive)"/><rect x="2" y="2" width="44" height="22" rx="13" fill="rgba(255,255,255,.2)"/><polygon points="24,8 38,22 24,40 10,22" fill="url(#biGold2)" stroke="#92400e" stroke-width="0.8"/><polyline points="10,22 24,18 38,22" fill="none" stroke="#fff8" stroke-width="0.8"/><line x1="24" y1="8" x2="24" y2="18" stroke="#fff8" stroke-width="0.8"/><circle cx="38" cy="10" r="1.5" fill="#fde68a" opacity="0.9"/><path d="M40 8 L40 12 M38 10 L42 10" stroke="#fde68a" stroke-width="1" stroke-linecap="round" opacity="0.8"/></svg>`;
+      bi.style.filter=`drop-shadow(0 0 22px ${val}aa)`;
     }
     applyHeaderGradient(val);
   };
