@@ -20,7 +20,7 @@
     "note": "Llamar al numero 50806651",
     "priority": "media",
     "date": "2026-05-31",
-    "done": true,
+    "done": false,
     "notifDays": 1,
     "notifTimes": 3,
     "notifHour": "09:00",
