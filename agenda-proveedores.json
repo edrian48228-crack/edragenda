@@ -1,8 +1,25 @@
 [
   {
+    "id": "mplkdg18hxvgd6",
+    "name": "Vendedor",
+    "product": "mica y cober x cantidad",
+    "price": "",
+    "phones": [
+      "59797774",
+      "55141347"
+    ],
+    "whatsapps": [],
+    "phone": "59797774",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "aguilera % 10 y 11 sur",
+    "notes": "",
+    "called": false
+  },
+  {
     "id": "mplj80gm95b2b0",
     "name": "vendedor edel",
-    "product": "mica y pantalla",
+    "product": "mica y pantalla x cantidad",
     "price": "",
     "phones": [
       "54069357"
@@ -145,12 +162,14 @@
     "phones": [
       "51464088"
     ],
-    "whatsapps": [],
+    "whatsapps": [
+      "51464088"
+    ],
     "phone": "51464088",
-    "whatsapp": "",
+    "whatsapp": "51464088",
     "facebook": "",
     "address": "",
-    "notes": "",
+    "notes": "Encarga pantallas por WhatsApp",
     "called": false
   },
   {
@@ -188,7 +207,7 @@
   {
     "id": "mpkiugj57hjagb",
     "name": "vendedor",
-    "product": "pantalla",
+    "product": "pantalla y mica x cantidad",
     "price": "",
     "phones": [
       "50582599"
@@ -231,7 +250,10 @@
     "facebook": "",
     "address": "10  sur",
     "notes": "",
-    "called": false
+    "called": false,
+    "accessedPhones": {
+      "53472462": true
+    }
   },
   {
     "id": "mpkipm7snl7qxl",
@@ -280,7 +302,8 @@
     "facebook": "",
     "address": "Calixto garcia y el 4 sur",
     "notes": "",
-    "called": false
+    "called": false,
+    "accessedPhones": {}
   },
   {
     "id": "mpkiha2s9ud8bt",
@@ -538,7 +561,7 @@
   },
   {
     "id": "mpjpcermel2sx6",
-    "name": "yojan",
+    "name": "yoja(este usuario es revendedor)",
     "product": "Mica por cantidad",
     "price": "450",
     "phones": [
@@ -550,9 +573,6 @@
     "facebook": "",
     "address": "1 oeste entre 8 y 9 norte. preguntar por yojan",
     "notes": "Mas de 10 micas a 450 cup",
-    "called": false,
-    "accessedPhones": {
-      "58800027": true
-    }
+    "called": false
   }
 ]
