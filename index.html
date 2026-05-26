@@ -57,19 +57,14 @@
     transition:transform .12s,background .15s}
   .top-right-btns .tr-btn:active{transform:scale(.92)}
   .top-right-btns .tr-btn svg{width:22px;height:22px}
-  /* Toggle search button */
-  .search-toggle-btn{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--muted);background:none;border:0;cursor:pointer;transition:color .15s,transform .1s;flex-shrink:0}
-  .search-toggle-btn:active{transform:scale(.9)}
-  .search-toggle-btn svg{width:18px;height:18px}
-  .search-toggle-btn.active{color:var(--primary)}
-  #headerSearch{transition:max-height .25s ease,opacity .2s ease,margin-top .2s ease;max-height:80px;overflow:hidden}
-  #headerSearch.collapsed{max-height:0;opacity:0;margin-top:0;pointer-events:none}
-  /* Hide inline search row */
-  .search-row-wrap.collapsed .inline-search-area{display:none}
-  .prov-search-toggle{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;color:var(--muted);background:var(--card);border:1px solid var(--border);cursor:pointer;flex-shrink:0;transition:color .15s,border-color .15s}
-  .prov-search-toggle:active{transform:scale(.9)}
-  .prov-search-toggle svg{width:17px;height:17px}
-  .prov-search-toggle.active{color:var(--primary);border-color:rgba(168,85,247,.5)}
+  /* Search hide toggle (right of vip-strip) */
+  .hdr-search-toggle{display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:9px;color:var(--muted);background:none;border:none;cursor:pointer;flex-shrink:0;transition:color .15s}
+  .hdr-search-toggle svg{width:17px;height:17px;pointer-events:none}
+  .hdr-search-toggle.vis{color:var(--primary)}
+  /* Search hide animation — NO max-height (causes jitter). Use display toggle via JS */
+  #headerSearch{overflow:hidden;transition:opacity .18s}
+  #headerSearch.hidden-search{display:none}
+  .search{position:relative;margin-top:10px}
   .search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);
     width:20px;height:20px;color:var(--primary)}
   .search input{width:100%;height:46px;padding:0 16px 0 44px;
@@ -95,13 +90,8 @@
   .card{background:var(--card);border:1px solid var(--border);border-radius:16px;
     padding:12px;margin-bottom:10px;transition:border-color .2s}
   .card:hover{border-color:rgba(168,85,247,.5)}
-  .card.called{background:rgba(30,30,42,.7);border-color:rgba(80,80,100,.35);box-shadow:none;filter:saturate(0.25) brightness(0.75)}
-  .card.called .name{text-decoration:line-through;color:rgba(160,160,180,.55)}
-  .card.called .product{color:rgba(120,120,140,.5)!important}
-  .card.called .price{color:rgba(120,120,140,.5)!important}
-  .card.called .badge{opacity:.35}
-  .card.called .avatar{background:rgba(100,100,120,.35)!important;color:rgba(140,140,160,.5)!important}
-  .iact.called-check{color:rgba(140,200,140,.7);background:rgba(80,120,80,.18);border-radius:10px}
+  .card.called{background:rgba(28,28,40,.8);border-color:rgba(70,70,90,.4);filter:saturate(0.25) brightness(0.72)}
+  .card.called .name{text-decoration:line-through;color:rgba(150,150,168,.5)}
   .row{display:flex;gap:10px;align-items:flex-start}
   .avatar{width:42px;height:42px;border-radius:50%;flex-shrink:0;
     display:flex;align-items:center;justify-content:center;
@@ -223,9 +213,9 @@
   .log-box .lg-dim{color:#6b7280}
 
   /* PENDING */
-  .p-alta{border-left:4px solid var(--danger);background:linear-gradient(135deg,rgba(239,68,68,.09) 0%,var(--card) 50%)}
-  .p-media{border-left:4px solid #eab308;background:linear-gradient(135deg,rgba(234,179,8,.08) 0%,var(--card) 50%)}
-  .p-baja{border-left:4px solid var(--success);background:linear-gradient(135deg,rgba(34,197,94,.08) 0%,var(--card) 50%)}
+  .p-alta{border-left:4px solid var(--danger);background:linear-gradient(to right,rgba(239,68,68,.10) 0%,var(--card) 45%)}
+  .p-media{border-left:4px solid #eab308;background:linear-gradient(to right,rgba(234,179,8,.09) 0%,var(--card) 45%)}
+  .p-baja{border-left:4px solid var(--success);background:linear-gradient(to right,rgba(34,197,94,.09) 0%,var(--card) 45%)}
   .card.done-card{background:rgba(30,30,42,.7);border-color:rgba(80,80,100,.35);box-shadow:none;filter:saturate(0.3)}
   .card.done-card .name{text-decoration:line-through;color:rgba(160,160,180,.55);text-shadow:none}
   .card.done-card .product{color:rgba(120,120,140,.5)!important}
@@ -416,7 +406,7 @@
   .vip-strip .vip-crown{ width:16px; height:16px; flex-shrink:0; display:flex; align-items:center; justify-content:center; display:none }
   .vip-strip .vip-crown svg{ width:14px; height:14px }
   @keyframes textGoldShine{ 0%,100%{text-shadow:0 0 8px rgba(251,191,36,.7),0 0 20px rgba(251,191,36,.4)} 50%{text-shadow:0 0 14px rgba(251,191,36,1),0 0 30px rgba(251,191,36,.7),0 0 2px #fff} }
-  .vip-strip .vip-text{ font-size:10px; font-weight:800; letter-spacing:1.3px; line-height:1;
+  .vip-strip .vip-text{ font-size:10px; font-weight:800; letter-spacing:1.1px; line-height:1;
     background:linear-gradient(90deg,#fbbf24,#fde68a,#fbbf24); background-size:200% auto;
     -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
     animation:textGoldShine 2.5s ease-in-out infinite, goldTextMove 4s linear infinite;
@@ -427,7 +417,6 @@
   .vip-strip .vip-contact a{ width:28px; height:28px; border-radius:8px; display:flex; align-items:center; justify-content:center;
     background:none; border:none; transition:transform .12s,opacity .15s }
   .vip-strip .vip-contact a:active{ transform:scale(.92) }
-  .vip-strip .vip-contact a:hover{ opacity:.75 }
   .vip-strip .vip-contact a.vc-wa{ color:#4ade80 } .vip-strip .vip-contact a.vc-tel{ color:#7dd3fc }
   .vip-strip .vip-contact svg{ width:14px; height:14px }
 
@@ -443,12 +432,6 @@
 
   /* Admin quick nav */
   .admin-quicknav{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:0 0 14px }
-  /* Emoji palette */
-  .emoji-pick{width:40px;height:40px;border-radius:12px;background:var(--card);border:2px solid transparent;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .15s,transform .1s,background .15s}
-  .emoji-pick:hover{background:rgba(168,85,247,.15);border-color:rgba(168,85,247,.5)}
-  .emoji-pick.selected{border-color:var(--primary);background:rgba(168,85,247,.18);box-shadow:0 0 12px rgba(168,85,247,.4)}
-  .emoji-pick:active{transform:scale(.92)}
-  .emoji-none{width:48px;font-size:11px!important}
   .admin-quicknav button{ display:flex; flex-direction:column; align-items:center; gap:4px; padding:10px 6px;
     border-radius:14px; background:var(--card-2); border:1px solid var(--border); color:var(--text);
     font-size:11px; font-weight:700; line-height:1.1; text-align:center; transition:transform .12s, border-color .2s }
@@ -492,6 +475,12 @@
   .login-close:hover{ background:rgba(239,68,68,.2); color:var(--danger); border-color:rgba(239,68,68,.5) }
   .login-close svg{ width:20px; height:20px }
   .login-box{ position:relative }
+  /* Emoji palette picker */
+  .emoji-pick{width:42px;height:42px;border-radius:12px;background:var(--card);border:2px solid transparent;font-size:22px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:border-color .15s,transform .1s,background .15s;padding:0}
+  .emoji-pick:hover{background:rgba(168,85,247,.15);border-color:rgba(168,85,247,.45)}
+  .emoji-pick.sel{border-color:var(--primary);background:rgba(168,85,247,.2);box-shadow:0 0 10px rgba(168,85,247,.4)}
+  .emoji-pick:active{transform:scale(.9)}
+  .emoji-none{font-size:11px!important;width:48px;color:var(--muted);font-weight:700;letter-spacing:0}
 
 </style>
 </head>
@@ -562,8 +551,8 @@
 
       </div>
       <div class="vip-contact" id="vipContact"></div>
-      <button class="search-toggle-btn active" id="headerSearchToggle" title="Ocultar búsqueda" onclick="toggleHeaderSearch()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/><path d="M11 8v6M8 11h6" opacity="0.6"/></svg>
+      <button class="hdr-search-toggle vis" id="hdrSearchBtn" title="Mostrar/ocultar búsqueda" onclick="toggleHdrSearch()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 10.5a4 4 0 1 0 3 3"/><path d="m19 19-3-3"/><path d="M3 3l18 18" stroke-width="1.8" opacity=".45"/></svg>
       </button>
     </div>
 
@@ -583,10 +572,10 @@
     </div>
     <div class="pb-txt"><h2>Proveedores</h2><p>Tus proveedores y contactos comerciales</p></div>
   </div>
-  <div class="search-row" id="provSearchRow">
+  <div class="search-row">
     <button class="sort-btn" id="sortProvBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M6 12h12M10 18h4"/></svg><span id="sortProvLabel">Recientes</span></button>
     <button class="sort-btn" onclick="clearAll('providers')" title="Eliminar todo" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
-    <button class="sort-btn prov-search-toggle active" id="provSearchToggle" title="Mostrar/ocultar búsqueda" onclick="toggleProvSearch()" style="width:44px;padding:0;justify-content:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+    <button class="sort-btn" id="provSrchBtn" onclick="toggleHdrSearch()" title="Ocultar/mostrar búsqueda" style="width:44px;padding:0;justify-content:center;color:var(--primary)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
   </div>
   <div id="provList"></div>
 </main>
@@ -742,37 +731,30 @@
     <p>Cambia el nombre, el icono y qué pestañas se ven. Se sincroniza con todos tus dispositivos.</p>
     <label class="field"><span>Nombre de la agenda</span><input id="cfgName" placeholder="Mi Agenda"/></label>
     <div class="field">
-      <span>Icono de la agenda — selecciona un emoji o sube imagen</span>
-      <div id="emojiPalette" style="display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;padding:10px;background:var(--card-2);border:1px solid var(--border);border-radius:14px">
-        <!-- rayos modernos (default) -->
-        <button type="button" class="emoji-pick" data-emoji="⚡" title="Rayo clásico" onclick="pickEmoji('⚡')">⚡</button>
-        <button type="button" class="emoji-pick" data-emoji="🌩️" title="Nube con rayo" onclick="pickEmoji('🌩️')">🌩️</button>
-        <button type="button" class="emoji-pick" data-emoji="⛈️" title="Tormenta eléctrica" onclick="pickEmoji('⛈️')">⛈️</button>
-        <button type="button" class="emoji-pick" data-emoji="🔋" title="Energía" onclick="pickEmoji('🔋')">🔋</button>
-        <button type="button" class="emoji-pick" data-emoji="💥" title="Explosión" onclick="pickEmoji('💥')">💥</button>
-        <!-- fuego / energía -->
-        <button type="button" class="emoji-pick" data-emoji="🔥" title="Fuego" onclick="pickEmoji('🔥')">🔥</button>
-        <button type="button" class="emoji-pick" data-emoji="✨" title="Brillante" onclick="pickEmoji('✨')">✨</button>
-        <button type="button" class="emoji-pick" data-emoji="💎" title="Diamante" onclick="pickEmoji('💎')">💎</button>
-        <!-- negocios -->
-        <button type="button" class="emoji-pick" data-emoji="📋" title="Agenda" onclick="pickEmoji('📋')">📋</button>
-        <button type="button" class="emoji-pick" data-emoji="📊" title="Estadísticas" onclick="pickEmoji('📊')">📊</button>
-        <button type="button" class="emoji-pick" data-emoji="🛒" title="Compras" onclick="pickEmoji('🛒')">🛒</button>
-        <button type="button" class="emoji-pick" data-emoji="💼" title="Maletín" onclick="pickEmoji('💼')">💼</button>
-        <button type="button" class="emoji-pick" data-emoji="🏪" title="Tienda" onclick="pickEmoji('🏪')">🏪</button>
-        <button type="button" class="emoji-pick" data-emoji="💰" title="Dinero" onclick="pickEmoji('💰')">💰</button>
-        <!-- estrellas / misc -->
-        <button type="button" class="emoji-pick" data-emoji="⭐" title="Estrella" onclick="pickEmoji('⭐')">⭐</button>
-        <button type="button" class="emoji-pick" data-emoji="🚀" title="Cohete" onclick="pickEmoji('🚀')">🚀</button>
-        <button type="button" class="emoji-pick" data-emoji="🎯" title="Objetivo" onclick="pickEmoji('🎯')">🎯</button>
-        <button type="button" class="emoji-pick" data-emoji="🏆" title="Trofeo" onclick="pickEmoji('🏆')">🏆</button>
-        <button type="button" class="emoji-pick" data-emoji="🌟" title="Estrella brillante" onclick="pickEmoji('🌟')">🌟</button>
-        <button type="button" class="emoji-pick" data-emoji="🎪" title="Carpa" onclick="pickEmoji('🎪')">🎪</button>
-        <!-- reset sin emoji (usa SVG default) -->
-        <button type="button" class="emoji-pick emoji-none" title="Sin emoji — usar logo SVG" onclick="pickEmoji('')" style="font-size:11px;font-weight:700;color:var(--muted);letter-spacing:0">SVG</button>
+      <span>Icono de la agenda (elige emoji o sube imagen)</span>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 4px;padding:10px;background:var(--card-2);border:1px solid var(--border);border-radius:14px">
+        <button type="button" class="emoji-pick sel" data-emo="⚡" onclick="pickEmojiIcon('⚡')">⚡</button>
+        <button type="button" class="emoji-pick" data-emo="🌩️" onclick="pickEmojiIcon('🌩️')">🌩️</button>
+        <button type="button" class="emoji-pick" data-emo="⛈️" onclick="pickEmojiIcon('⛈️')">⛈️</button>
+        <button type="button" class="emoji-pick" data-emo="💥" onclick="pickEmojiIcon('💥')">💥</button>
+        <button type="button" class="emoji-pick" data-emo="🔋" onclick="pickEmojiIcon('🔋')">🔋</button>
+        <button type="button" class="emoji-pick" data-emo="🔥" onclick="pickEmojiIcon('🔥')">🔥</button>
+        <button type="button" class="emoji-pick" data-emo="✨" onclick="pickEmojiIcon('✨')">✨</button>
+        <button type="button" class="emoji-pick" data-emo="💎" onclick="pickEmojiIcon('💎')">💎</button>
+        <button type="button" class="emoji-pick" data-emo="📋" onclick="pickEmojiIcon('📋')">📋</button>
+        <button type="button" class="emoji-pick" data-emo="📊" onclick="pickEmojiIcon('📊')">📊</button>
+        <button type="button" class="emoji-pick" data-emo="🛒" onclick="pickEmojiIcon('🛒')">🛒</button>
+        <button type="button" class="emoji-pick" data-emo="💼" onclick="pickEmojiIcon('💼')">💼</button>
+        <button type="button" class="emoji-pick" data-emo="🏪" onclick="pickEmojiIcon('🏪')">🏪</button>
+        <button type="button" class="emoji-pick" data-emo="💰" onclick="pickEmojiIcon('💰')">💰</button>
+        <button type="button" class="emoji-pick" data-emo="⭐" onclick="pickEmojiIcon('⭐')">⭐</button>
+        <button type="button" class="emoji-pick" data-emo="🚀" onclick="pickEmojiIcon('🚀')">🚀</button>
+        <button type="button" class="emoji-pick" data-emo="🎯" onclick="pickEmojiIcon('🎯')">🎯</button>
+        <button type="button" class="emoji-pick" data-emo="🏆" onclick="pickEmojiIcon('🏆')">🏆</button>
+        <button type="button" class="emoji-pick" data-emo="🌟" onclick="pickEmojiIcon('🌟')">🌟</button>
+        <button type="button" class="emoji-pick emoji-none" data-emo="" onclick="pickEmojiIcon('')">SVG</button>
       </div>
-      <input type="hidden" id="cfgIconEmoji" placeholder="⚡ o M"/>
-      <div style="font-size:12px;color:var(--muted);margin-top:2px">Seleccionado: <span id="emojiPickedLabel" style="font-size:16px">⚡</span></div>
+      <input type="hidden" id="cfgIconEmoji" value="⚡"/>
     </div>
     <label class="field"><span>URL de imagen del logo (opcional)</span><input id="cfgIconUrl" placeholder="https://... .png"/></label>
     <div class="field">
@@ -1324,47 +1306,6 @@
   }
   window.showPage = showPage;
   document.querySelectorAll('.nav-btn').forEach(btn=> btn.addEventListener('click',()=>showPage(btn.dataset.page)));
-
-  // ── SEARCH TOGGLE FUNCTIONS ──
-  window.toggleHeaderSearch = function(){
-    const searchEl = $('headerSearch');
-    const btn = $('headerSearchToggle');
-    const collapsed = searchEl.classList.toggle('collapsed');
-    btn.classList.toggle('active', !collapsed);
-    btn.title = collapsed ? 'Mostrar búsqueda' : 'Ocultar búsqueda';
-    if(collapsed){ btn.querySelector('svg').innerHTML='<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/><path d="M8 11h6" opacity="0.6"/>'; }
-    else { btn.querySelector('svg').innerHTML='<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/><path d="M11 8v6M8 11h6" opacity="0.6"/>'; }
-  };
-  window.toggleProvSearch = function(){
-    const searchEl = $('headerSearch');
-    const btn = $('provSearchToggle');
-    const active = btn.classList.toggle('active');
-    // In providers page, toggling this also hides the header search
-    if(!active){
-      searchEl.classList.add('collapsed');
-    } else {
-      searchEl.classList.remove('collapsed');
-    }
-  };
-
-  // ── EMOJI PICKER ──
-  window.pickEmoji = function(emoji){
-    const inp = $('cfgIconEmoji'); if(inp) inp.value = emoji;
-    const lbl = $('emojiPickedLabel'); if(lbl) lbl.textContent = emoji || '(SVG)';
-    document.querySelectorAll('.emoji-pick').forEach(b=>b.classList.toggle('selected', b.dataset.emoji===emoji));
-  };
-  // Initialize emoji palette selected state from saved value
-  function initEmojiPalette(){
-    const c = getCustom();
-    const saved = c.iconEmoji || '⚡';
-    const lbl = $('emojiPickedLabel'); if(lbl) lbl.textContent = saved || '(SVG)';
-    document.querySelectorAll('.emoji-pick').forEach(b=>b.classList.toggle('selected', b.dataset.emoji===saved));
-  }
-  const _origFillCustomForm0 = window.fillCustomForm;
-  window.fillCustomForm = function(){
-    if(_origFillCustomForm0) _origFillCustomForm0.apply(this, arguments);
-    initEmojiPalette();
-  };
 
   function setCounter(n, label, q){
     const pt=$('pageTag'); const tagHtml = pt ? '<span class="page-tag" id="pageTag" style="margin-left:4px">'+escH(pt.textContent)+'</span>' : '';
@@ -2233,11 +2174,11 @@
     const bi=$('brandIcon');
     if(bi){
       if(c.iconUrl){ bi.innerHTML='<img src="'+escH(c.iconUrl)+'" alt="logo" style="filter:drop-shadow(0 0 12px '+escH(c.primary||'#fbbf24')+'88)"/>'; }
-      else if(c.iconEmoji !== undefined && c.iconEmoji !== null){ 
-        // use emoji (⚡ is the default); if empty string means user chose "SVG" option
+      else if(c.iconEmoji !== ''){
+        // Has an emoji (including ⚡ default) — show it without background
         const emo = c.iconEmoji || '⚡';
-        bi.innerHTML='<span class="emoji-icon" style="font-size:42px;line-height:1;filter:drop-shadow(0 0 10px '+escH(c.primary||'#fbbf24')+'99)">'+escH(emo)+'</span>'; }
-      else {
+        bi.innerHTML='<span class="emoji-icon" style="font-size:42px;line-height:1;filter:drop-shadow(0 0 10px '+escH(c.primary||'#fbbf24')+'99)">'+escH(emo)+'</span>';
+      } else {
         // Default diamond icon — update gradient to use primary color
         const p=c.primary||'#a855f7';
         const pd=adjustColor(p,-30); // darker shade
@@ -2283,11 +2224,14 @@
   function fillCustomForm(){
     const c=getCustom();
     if($('cfgName')) $('cfgName').value=c.name||'';
-    if($('cfgIconEmoji')) $('cfgIconEmoji').value=c.iconEmoji||'';
+    if($('cfgIconEmoji')) $('cfgIconEmoji').value=c.iconEmoji!==undefined?c.iconEmoji:'⚡';
     if($('cfgIconUrl')) $('cfgIconUrl').value=c.iconUrl||'';
     if($('cfgAvatar')) $('cfgAvatar').value=c.avatar||'';
     if($('cfgPrimary')) $('cfgPrimary').value=c.primary||'#a855f7';
     if($('cfgPrimaryHex')) $('cfgPrimaryHex').value=c.primary||'#a855f7';
+    // sync emoji palette
+    const savedEmo = c.iconEmoji!==undefined?c.iconEmoji:'⚡';
+    document.querySelectorAll('.emoji-pick').forEach(b=>b.classList.toggle('sel', b.dataset.emo===savedEmo));
     ['providers','pending','clients','notes','contacts','admin','topContacts'].forEach(k=>{
       const sw=$('vis_'+(k==='topContacts'?'topcontacts':k));
       if(sw) sw.classList.toggle('on', c.visibility[k]!==false);
@@ -3081,6 +3025,45 @@
     };
   }
 
+  // ── SEARCH HIDE TOGGLE ──
+  let _searchVisible = true;
+  window.toggleHdrSearch = function(){
+    const el = document.getElementById('headerSearch');
+    const btn = document.getElementById('hdrSearchBtn');
+    const provBtn = document.getElementById('provSrchBtn');
+    if(!el) return;
+    _searchVisible = !_searchVisible;
+    el.style.display = _searchVisible ? '' : 'none';
+    if(btn){
+      btn.classList.toggle('vis', _searchVisible);
+      if(_searchVisible){
+        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 10.5a4 4 0 1 0 3 3"/><path d="m19 19-3-3"/><path d="M3 3l18 18" stroke-width="1.8" opacity=".45"/></svg>';
+        btn.title = 'Ocultar búsqueda';
+      } else {
+        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>';
+        btn.title = 'Mostrar búsqueda';
+      }
+    }
+    if(provBtn) provBtn.style.color = _searchVisible ? 'var(--primary)' : 'var(--muted)';
+  };
+
+  // ── EMOJI ICON PICKER ──
+  window.pickEmojiIcon = function(emo){
+    const inp = document.getElementById('cfgIconEmoji');
+    if(inp) inp.value = emo;
+    document.querySelectorAll('.emoji-pick').forEach(b => b.classList.toggle('sel', b.dataset.emo === emo));
+  };
+
+  // Sync emoji palette when admin form opens
+  const _origFillCustomForm2 = window.fillCustomForm;
+  window.fillCustomForm = function(){
+    if(_origFillCustomForm2) _origFillCustomForm2.apply(this, arguments);
+    const cu = (typeof getCustom === 'function') ? getCustom() : {};
+    const saved = (cu.iconEmoji !== undefined && cu.iconEmoji !== null) ? cu.iconEmoji : '⚡';
+    const inp = document.getElementById('cfgIconEmoji');
+    if(inp) inp.value = saved;
+    document.querySelectorAll('.emoji-pick').forEach(b => b.classList.toggle('sel', b.dataset.emo === saved));
+  };
 
 })();
 </script>
