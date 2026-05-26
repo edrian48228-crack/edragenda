@@ -43,7 +43,7 @@
   h1 .brand-icon svg{width:56px;height:56px}
   h1 .brand-icon img{width:60px;height:60px;border-radius:14px;object-fit:cover}
   h1 .brand-text{font-size:34px;line-height:1.05;font-weight:900}
-  h1 .brand-text span{color:var(--gold)}
+  h1 .brand-text span{color:var(--user-primary,var(--gold));transition:color .25s}
   .by{font-size:11px;letter-spacing:.7px;color:rgba(176,176,200,.9);font-weight:700;margin-top:2px}
   .by b{color:var(--gold)}
   .sub{color:#b0b0c8;font-size:14px;margin-top:3px;font-weight:700;display:flex;align-items:center;gap:8px}
@@ -90,8 +90,11 @@
   .card{background:var(--card);border:1px solid var(--border);border-radius:16px;
     padding:12px;margin-bottom:10px;transition:border-color .2s}
   .card:hover{border-color:rgba(168,85,247,.5)}
-  .card.called{background:rgba(28,28,40,.8);border-color:rgba(70,70,90,.4);filter:saturate(0.25) brightness(0.72)}
-  .card.called .name{text-decoration:line-through;color:rgba(150,150,168,.5)}
+  .card.called{background:rgba(30,30,42,.7);border-color:rgba(80,80,100,.35);box-shadow:none;filter:saturate(0.3)}
+  .card.called .name{text-decoration:line-through;color:rgba(160,160,180,.55);text-shadow:none}
+  .card.called .product,.card.called .addr{color:rgba(120,120,140,.5)!important}
+  .card.called .badge{opacity:.35}
+  .card.called .iact.done{background:rgba(100,100,120,.5);color:#fff;border-radius:9px}
   .row{display:flex;gap:10px;align-items:flex-start}
   .avatar{width:42px;height:42px;border-radius:50%;flex-shrink:0;
     display:flex;align-items:center;justify-content:center;
@@ -414,11 +417,12 @@
   @keyframes goldTextMove{ 0%{background-position:0%} 100%{background-position:200%} }
 
   .vip-strip .vip-contact{ display:flex; gap:5px; flex-shrink:0 }
-  .vip-strip .vip-contact a{ width:28px; height:28px; border-radius:8px; display:flex; align-items:center; justify-content:center;
-    background:none; border:none; transition:transform .12s,opacity .15s }
+  .vip-strip .vip-contact a{ width:30px; height:30px; border-radius:8px; display:flex; align-items:center; justify-content:center;
+    background:transparent!important; border:none; transition:transform .12s,color .15s }
   .vip-strip .vip-contact a:active{ transform:scale(.92) }
-  .vip-strip .vip-contact a.vc-wa{ color:#4ade80 } .vip-strip .vip-contact a.vc-tel{ color:#7dd3fc }
-  .vip-strip .vip-contact svg{ width:14px; height:14px }
+  .vip-strip .vip-contact a.vc-wa{ color:var(--success) } .vip-strip .vip-contact a.vc-wa:hover{ color:#4ade80 }
+  .vip-strip .vip-contact a.vc-tel{ color:var(--info) } .vip-strip .vip-contact a.vc-tel:hover{ color:#7dd3fc }
+  .vip-strip .vip-contact svg{ width:18px; height:18px }
 
   @keyframes heartbeat{ 0%,100%{transform:scale(1)} 14%{transform:scale(1.22)} 28%{transform:scale(1)} 42%{transform:scale(1.18)} 60%{transform:scale(1)} }
 
@@ -495,7 +499,7 @@
   </div>
   <div class="wrap">
     <h1>
-      <span class="brand-icon" id="brandIcon" aria-hidden="true" onclick="showPage('providers')" style="cursor:pointer">
+      <span class="brand-icon" id="brandIcon" aria-hidden="true" onclick="brandHome()" style="cursor:pointer">
         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <linearGradient id="iconOuter" x1="0" y1="0" x2="1" y2="1">
@@ -534,7 +538,7 @@
           <path d="M40 8 L40 12 M38 10 L42 10" stroke="#fde68a" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
         </svg>
       </span>
-      <div onclick="showPage('providers')" style="cursor:pointer">
+      <div onclick="brandHome()" style="cursor:pointer">
         <div class="brand-text" id="brandText"><span>Mi</span> Agenda</div>
       </div>
     </h1>
@@ -575,7 +579,7 @@
   <div class="search-row">
     <button class="sort-btn" id="sortProvBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M6 12h12M10 18h4"/></svg><span id="sortProvLabel">Recientes</span></button>
     <button class="sort-btn" onclick="clearAll('providers')" title="Eliminar todo" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
-    <button class="sort-btn" id="provSrchBtn" onclick="toggleHdrSearch()" title="Ocultar/mostrar búsqueda" style="width:44px;padding:0;justify-content:center;color:var(--primary)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+    <button id="provSrchBtn" onclick="toggleHdrSearch()" title="Ocultar/mostrar búsqueda" aria-label="Ocultar/mostrar búsqueda" style="margin-left:auto;width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:none;border:none;color:var(--muted);transition:color .15s,transform .12s" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--muted)'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px"><path d="M10.5 10.5a4 4 0 1 0 3 3"/><path d="m19 19-3-3"/><path d="M3 3l18 18" stroke-width="1.8" opacity=".55"/></svg></button>
   </div>
   <div id="provList"></div>
 </main>
@@ -1554,13 +1558,15 @@
     if(!t) return;
     $('detailTitle').textContent = t.task || 'Tarea';
     const prioLabel={alta:'🔴 Alta',media:'🟡 Media',baja:'🟢 Baja'};
+    const prioColor={alta:'#ef4444',media:'#eab308',baja:'#22c55e'};
+    const prioCol=prioColor[t.priority]||'#eab308';
     $('detailBody').innerHTML = `
-      <div class="detail-block"><div class="lbl">Prioridad</div><div class="val">${prioLabel[t.priority]||'Media'}</div></div>
-      ${t.date?`<div class="detail-block"><div class="lbl">Fecha</div><div class="val">${escH(t.date)}</div></div>`:''}
-      ${t.note?`<div class="detail-block"><div class="lbl">Notas</div><div class="val">${escH(t.note)}</div></div>`:''}
-      ${t.notifDays>0?`<div class="detail-block"><div class="lbl">Alarma</div><div class="val">Cada ${t.notifDays} ${(t.notifUnit==='min'?'minuto(s)':t.notifUnit==='hour'?'hora(s)':'día(s)')} · ${escH(t.notifHour)} · ${t.notifFired||0}/${t.notifTimes||3} disparada(s)</div></div>`:''}
-      ${t.notifMsg?`<div class="detail-block"><div class="lbl">Mensaje notif.</div><div class="val">${escH(t.notifMsg)}</div></div>`:''}
-      <div class="detail-block"><div class="lbl">Estado</div><div class="val">${t.done?'✅ Hecho':'⏳ Pendiente'}</div></div>`;
+      <div class="detail-block"><div class="lbl">Prioridad</div><div class="val" style="color:${prioCol};font-weight:800">${prioLabel[t.priority]||'Media'}</div></div>
+      ${t.date?`<div class="detail-block"><div class="lbl">Fecha</div><div class="val" style="color:var(--accent)">${escH(t.date)}</div></div>`:''}
+      ${t.note?`<div class="detail-block"><div class="lbl">Notas</div><div class="val" style="color:#e0e0f0">${escH(t.note)}</div></div>`:''}
+      ${t.notifDays>0?`<div class="detail-block"><div class="lbl">Alarma</div><div class="val" style="color:var(--gold)">⏰ Cada ${t.notifDays} ${(t.notifUnit==='min'?'minuto(s)':t.notifUnit==='hour'?'hora(s)':'día(s)')} · ${escH(t.notifHour)} · ${t.notifFired||0}/${t.notifTimes||3} disparada(s)</div></div>`:''}
+      ${t.notifMsg?`<div class="detail-block"><div class="lbl">Mensaje notif.</div><div class="val" style="color:var(--primary-2)">${escH(t.notifMsg)}</div></div>`:''}
+      <div class="detail-block"><div class="lbl">Estado</div><div class="val" style="color:${t.done?'var(--success)':'var(--gold)'};font-weight:800">${t.done?'✅ Hecho':'⏳ Pendiente'}</div></div>`;
     $('modalDetail').classList.add('open');
   }
 
@@ -2153,9 +2159,12 @@
     }catch(e){}
   }
 
+  // Click on logo/name -> scroll current page to top
+  window.brandHome=function(){ try{ window.scrollTo({top:0,behavior:'smooth'}); var p=document.querySelector('main:not(.hidden), .page.active'); if(p) p.scrollTop=0; }catch(e){} };
+
   // ── PERSONALIZACIÓN ──
-  const DEFAULT_CUSTOM={name:'Mi Agenda',iconEmoji:'⚡',iconUrl:'',avatar:'',primary:'#a855f7',vipPhone:'',vipWa:'',visibility:{providers:true,pending:true,clients:true,notes:true,contacts:true,admin:true,topContacts:true}};
-  function getCustom(){ try{ const o=JSON.parse(localStorage.getItem(KEYS.custom)||'{}'); return Object.assign({},DEFAULT_CUSTOM,o,{visibility:Object.assign({},DEFAULT_CUSTOM.visibility,o.visibility||{})}); }catch(e){ return {...DEFAULT_CUSTOM}; } }
+  const DEFAULT_CUSTOM={name:'Mi Agenda',iconEmoji:'',iconUrl:'icon-192.png',avatar:'',primary:'#a855f7',vipPhone:'',vipWa:'',visibility:{providers:true,pending:true,clients:true,notes:true,contacts:true,admin:true,topContacts:true}};
+  function getCustom(){ try{ const o=JSON.parse(localStorage.getItem(KEYS.custom)||'{}'); if(!o._logoMig && (!o.iconUrl || o.iconUrl==='') && (o.iconEmoji==='⚡'||o.iconEmoji===undefined)){ o.iconUrl='icon-192.png'; o.iconEmoji=''; o._logoMig=1; localStorage.setItem(KEYS.custom, JSON.stringify(o)); } return Object.assign({},DEFAULT_CUSTOM,o,{visibility:Object.assign({},DEFAULT_CUSTOM.visibility,o.visibility||{})}); }catch(e){ return {...DEFAULT_CUSTOM}; } }
   function setCustom(c){ localStorage.setItem(KEYS.custom, JSON.stringify(c)); }
   function applyCustom(){
     const c=getCustom();
@@ -2173,7 +2182,7 @@
     // brand icon — tint with primary color if using default SVG
     const bi=$('brandIcon');
     if(bi){
-      if(c.iconUrl){ bi.innerHTML='<img src="'+escH(c.iconUrl)+'" alt="logo" style="filter:drop-shadow(0 0 12px '+escH(c.primary||'#fbbf24')+'88)"/>'; }
+      if(c.iconUrl){ var _lu=c.iconUrl; if(_lu.indexOf('data:')!==0){ _lu += (_lu.indexOf('?')>=0?'&':'?')+'v='+(c._iconV||1); } bi.innerHTML='<img src="'+escH(_lu)+'" alt="logo" style="filter:drop-shadow(0 0 12px '+escH(c.primary||'#fbbf24')+'88)"/>'; }
       else if(c.iconEmoji !== ''){
         // Has an emoji (including ⚡ default) — show it without background
         const emo = c.iconEmoji || '⚡';
@@ -2248,7 +2257,7 @@
     c.name=$('cfgName').value.trim()||'Mi Agenda';
     c.iconEmoji=$('cfgIconEmoji').value.trim();
     const urlVal=$('cfgIconUrl').value.trim();
-    if(urlVal) c.iconUrl=urlVal; // only override if URL is entered (otherwise keep b64 logo)
+    if(urlVal && urlVal!==c.iconUrl){ c.iconUrl=urlVal; c._iconV=Date.now(); } else if(urlVal){ c.iconUrl=urlVal; }
     c.avatar=$('cfgAvatar').value.trim() || c.avatar; // keep b64 avatar if no text entered
     const hexVal=$('cfgPrimaryHex').value.trim();
     if(hexVal && /^#[0-9a-fA-F]{6}$/.test(hexVal)) c.primary=hexVal;
