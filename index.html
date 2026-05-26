@@ -76,19 +76,15 @@
   .page-banner .pb-ico{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:var(--card-2);border:1px solid var(--border)}
   .page-banner .pb-ico svg{width:30px;height:30px}
   .page-banner .pb-txt{flex:1}
-  .page-banner .pb-txt h2{margin:0 0 2px;font-size:30px;font-weight:900;letter-spacing:-.3px;color:var(--text)}
+  .page-banner .pb-txt h2{margin:0 0 2px;font-size:26px;font-weight:900;letter-spacing:-.3px;color:var(--text)}
   .page-banner .pb-txt p{margin:0;color:#b0b0c8;font-size:14px;font-weight:600}
 
   /* CARDS */
   .card{background:var(--card);border:1px solid var(--border);border-radius:16px;
     padding:12px;margin-bottom:10px;transition:border-color .2s}
   .card:hover{border-color:rgba(168,85,247,.5)}
-  .card.called{background:rgba(30,30,42,.75);border-color:rgba(80,80,100,.4);box-shadow:0 0 0 1px rgba(160,160,200,.13),0 2px 12px rgba(140,140,200,.08);filter:saturate(0.18) brightness(0.9)}
-  .card.called .name{text-decoration:line-through;color:rgba(160,160,185,.55);text-shadow:none}
-  .card.called .product,.card.called .price,.card.called .addr{color:rgba(120,120,145,.45)!important}
-  .card.called .badge{opacity:.3}
-  .card.called .iact{opacity:.55}
-  .card.called .avatar{background:rgba(100,100,120,.25)!important;color:rgba(140,140,160,.5)!important;box-shadow:none}
+  .card.called{opacity:.58}
+  .card.called .name{text-decoration:line-through}
   .row{display:flex;gap:10px;align-items:flex-start}
   .avatar{width:42px;height:42px;border-radius:50%;flex-shrink:0;
     display:flex;align-items:center;justify-content:center;
@@ -103,7 +99,7 @@
   .avatar.contact-avatar svg{width:28px;height:28px}
 
   .info{flex:1;min-width:0}
-  .name{font-size:20px;font-weight:800;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .name{font-size:18px;font-weight:800;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .product{color:#b0b0c8;font-size:15px;font-weight:600;margin:2px 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .price{color:var(--accent);font-size:16px;font-weight:800;margin:3px 0 0}
   .addr{color:#7a7a96;font-size:12px;font-weight:600;margin:2px 0 0;display:flex;align-items:center;gap:4px}
@@ -210,9 +206,9 @@
   .log-box .lg-dim{color:#6b7280}
 
   /* PENDING */
-  .p-alta{border-left:3px solid var(--danger);background:linear-gradient(135deg,rgba(239,68,68,.07) 0%,var(--card) 60%)}
-  .p-media{border-left:3px solid #eab308;background:linear-gradient(135deg,rgba(234,179,8,.07) 0%,var(--card) 60%)}
-  .p-baja{border-left:3px solid var(--success);background:linear-gradient(135deg,rgba(34,197,94,.07) 0%,var(--card) 60%)}
+  .p-alta{border-left:3px solid var(--danger)}
+  .p-media{border-left:3px solid #eab308}
+  .p-baja{border-left:3px solid var(--success)}
   .card.done-card{background:rgba(30,30,42,.7);border-color:rgba(80,80,100,.35);box-shadow:none;filter:saturate(0.3)}
   .card.done-card .name{text-decoration:line-through;color:rgba(160,160,180,.55);text-shadow:none}
   .card.done-card .product{color:rgba(120,120,140,.5)!important}
@@ -235,9 +231,9 @@
   .inline-search{position:relative;flex:1}
   .inline-search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);
     width:18px;height:18px;color:var(--muted)}
-  .inline-search input{width:100%;height:48px;padding:0 14px 0 44px;
+  .inline-search input{width:100%;height:44px;padding:0 14px 0 44px;
     background:var(--card);color:var(--text);border:1px solid var(--border);
-    border-radius:14px;font-size:16px;outline:none;transition:border-color .2s}
+    border-radius:14px;font-size:15px;outline:none;transition:border-color .2s}
   .inline-search.accent svg{color:var(--accent)}
   .inline-search.accent input:focus{border-color:var(--accent)}
   .inline-search.danger svg{color:var(--danger)}
@@ -412,8 +408,7 @@
 
   .vip-strip .vip-contact{ display:flex; gap:5px; flex-shrink:0 }
   .vip-strip .vip-contact a{ width:28px; height:28px; border-radius:8px; display:flex; align-items:center; justify-content:center;
-    background:none; border:none; transition:transform .12s,opacity .15s;opacity:.85 }
-  .vip-strip .vip-contact a:hover{opacity:1}
+    background:rgba(0,0,0,.25); border:1px solid rgba(251,191,36,.3); transition:transform .12s }
   .vip-strip .vip-contact a:active{ transform:scale(.92) }
   .vip-strip .vip-contact a.vc-wa{ color:#4ade80 } .vip-strip .vip-contact a.vc-tel{ color:#7dd3fc }
   .vip-strip .vip-contact svg{ width:14px; height:14px }
@@ -487,7 +482,7 @@
   </div>
   <div class="wrap">
     <h1>
-      <span class="brand-icon" id="brandIcon" aria-hidden="true" onclick="scrollToPageTop()" style="cursor:pointer">
+      <span class="brand-icon" id="brandIcon" aria-hidden="true">
         <svg viewBox="0 0 52 56" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <linearGradient id="bkGold" x1="0" y1="0" x2="0" y2="1">
@@ -525,7 +520,7 @@
         </svg>
       </span>
       <div>
-        <div class="brand-text" id="brandText" onclick="scrollToPageTop()" style="cursor:pointer"><span>Mi</span> Agenda</div>
+        <div class="brand-text" id="brandText"><span>Mi</span> Agenda</div>
       </div>
     </h1>
     <p class="sub" id="counter">0 elementos<span class="page-tag" id="pageTag" style="margin-left:4px"></span></p>
@@ -538,9 +533,6 @@
           <svg viewBox="0 0 24 24" width="16" height="16"><defs><linearGradient id="crownGold" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fde68a"/><stop offset="50%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#b45309"/></linearGradient></defs><path d="M12 2L8 9 2 6l3 13h14l3-13-6 3-4-7z" fill="url(#crownGold)" stroke="#92400e" stroke-width="0.8" stroke-linejoin="round"/><path d="M5 19h14v1.5a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5V19z" fill="#b45309"/><circle cx="12" cy="2" r="1.2" fill="#fde68a"/><circle cx="2" cy="6" r="1.2" fill="#fde68a"/><circle cx="22" cy="6" r="1.2" fill="#fde68a"/></svg>
         </span>
         <div class="vip-text">✦ Creado por Edrian Cruz ✦</div>
-        <button id="toggleSearchBtn" onclick="toggleHeaderSearch()" title="Ocultar/mostrar búsqueda" style="background:none;border:none;padding:0;margin-left:8px;display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;color:rgba(251,191,36,.7);cursor:pointer;flex-shrink:0;transition:color .2s,transform .2s">
-          <svg id="toggleSearchIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px"><path d="M3 6h18"/><path d="M3 12h14"/><path d="M3 18h10"/><path d="M21 15l-3 3 3 3"/></svg>
-        </button>
 
       </div>
       <div class="vip-contact" id="vipContact"></div>
@@ -562,10 +554,9 @@
     </div>
     <div class="pb-txt"><h2>Proveedores</h2><p>Tus proveedores y contactos comerciales</p></div>
   </div>
-  <div class="search-row" id="provSearchRow">
+  <div class="search-row">
     <button class="sort-btn" id="sortProvBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M6 12h12M10 18h4"/></svg><span id="sortProvLabel">Recientes</span></button>
     <button class="sort-btn" onclick="clearAll('providers')" title="Eliminar todo" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
-    <button class="sort-btn" id="toggleProvSearchBtn" onclick="toggleProvSearch()" title="Ocultar/mostrar búsqueda" style="color:var(--primary-2);padding:0 10px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/><path d="M15 11H7M11 7v8" style="display:none" id="provSearchPlusLine"/></svg></button>
   </div>
   <div id="provList"></div>
 </main>
@@ -594,7 +585,7 @@
     <div class="pb-ico" style="background:rgba(34,211,238,.12);border-color:rgba(34,211,238,.4)">
       <svg viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
     </div>
-    <div class="pb-txt"><h2>Clientes</h2><p>Pedidos y solicitudes</p></div>
+    <div class="pb-txt"><h2>Clientes</h2><p>Lo que tus clientes están pidiendo</p></div>
   </div>
   <div class="search-row">
     <div class="inline-search accent">
@@ -721,23 +712,6 @@
     <p>Cambia el nombre, el icono y qué pestañas se ven. Se sincroniza con todos tus dispositivos.</p>
     <label class="field"><span>Nombre de la agenda</span><input id="cfgName" placeholder="Mi Agenda"/></label>
     <label class="field"><span>Icono de marca (emoji o 1 letra)</span><input id="cfgIconEmoji" placeholder="⚡ o M"/></label>
-    <div style="margin:-4px 0 10px">
-      <p style="margin:0 0 6px;color:var(--muted);font-size:13px;font-weight:600">⚡ Rayos y energía — clic para seleccionar</p>
-      <div style="display:flex;flex-wrap:wrap;gap:6px">
-        <button type="button" onclick="pickLogoEmoji(this)" data-em="⚡" title="Rayo clásico" style="font-size:22px;background:none;border:1px solid var(--border);border-radius:10px;width:42px;height:42px;cursor:pointer;transition:border-color .15s">⚡</button>
-        <button type="button" onclick="pickLogoEmoji(this)" data-em="🌩️" title="Nube con rayo" style="font-size:22px;background:none;border:1px solid var(--border);border-radius:10px;width:42px;height:42px;cursor:pointer;transition:border-color .15s">🌩️</button>
-        <button type="button" onclick="pickLogoEmoji(this)" data-em="🔋" title="Batería" style="font-size:22px;background:none;border:1px solid var(--border);border-radius:10px;width:42px;height:42px;cursor:pointer;transition:border-color .15s">🔋</button>
-        <button type="button" onclick="pickLogoEmoji(this)" data-em="💡" title="Foco / idea" style="font-size:22px;background:none;border:1px solid var(--border);border-radius:10px;width:42px;height:42px;cursor:pointer;transition:border-color .15s">💡</button>
-        <button type="button" onclick="pickLogoEmoji(this)" data-em="🌪️" title="Torbellino" style="font-size:22px;background:none;border:1px solid var(--border);border-radius:10px;width:42px;height:42px;cursor:pointer;transition:border-color .15s">🌪️</button>
-        <button type="button" onclick="pickLogoEmoji(this)" data-em="✨" title="Destellos" style="font-size:22px;background:none;border:1px solid var(--border);border-radius:10px;width:42px;height:42px;cursor:pointer;transition:border-color .15s">✨</button>
-        <button type="button" onclick="pickLogoEmoji(this)" data-em="🔥" title="Fuego" style="font-size:22px;background:none;border:1px solid var(--border);border-radius:10px;width:42px;height:42px;cursor:pointer;transition:border-color .15s">🔥</button>
-        <button type="button" onclick="pickLogoEmoji(this)" data-em="🌀" title="Espiral" style="font-size:22px;background:none;border:1px solid var(--border);border-radius:10px;width:42px;height:42px;cursor:pointer;transition:border-color .15s">🌀</button>
-        <button type="button" onclick="pickLogoEmoji(this)" data-em="💥" title="Explosión" style="font-size:22px;background:none;border:1px solid var(--border);border-radius:10px;width:42px;height:42px;cursor:pointer;transition:border-color .15s">💥</button>
-        <button type="button" onclick="pickLogoEmoji(this)" data-em="🚀" title="Cohete" style="font-size:22px;background:none;border:1px solid var(--border);border-radius:10px;width:42px;height:42px;cursor:pointer;transition:border-color .15s">🚀</button>
-        <button type="button" onclick="pickLogoEmoji(this)" data-em="⭐" title="Estrella" style="font-size:22px;background:none;border:1px solid var(--border);border-radius:10px;width:42px;height:42px;cursor:pointer;transition:border-color .15s">⭐</button>
-        <button type="button" onclick="pickLogoEmoji(this)" data-em="💎" title="Diamante" style="font-size:22px;background:none;border:1px solid var(--border);border-radius:10px;width:42px;height:42px;cursor:pointer;transition:border-color .15s">💎</button>
-      </div>
-    </div>
     <label class="field"><span>URL de imagen del logo (opcional)</span><input id="cfgIconUrl" placeholder="https://... .png"/></label>
     <div class="field">
       <span>📷 Subir imagen del logo (PNG/JPG)</span>
@@ -2986,48 +2960,6 @@
     const cu=getCustom(); cu.avatar=''; localStorage.setItem(KEYS.custom,JSON.stringify(cu));
     document.getElementById('cfgAvatarFile').value='';
     document.getElementById('avatarPreview').style.display='none';
-  };
-
-  // ── TOGGLE HEADER SEARCH (ocultar/mostrar barra búsqueda principal) ──
-  let _headerSearchVisible = true;
-  window.toggleHeaderSearch = function(){
-    _headerSearchVisible = !_headerSearchVisible;
-    const hs = document.getElementById('headerSearch');
-    const ico = document.getElementById('toggleSearchIcon');
-    if(hs) hs.style.display = _headerSearchVisible ? '' : 'none';
-    if(ico){
-      if(_headerSearchVisible){
-        ico.innerHTML='<path d="M3 6h18"/><path d="M3 12h14"/><path d="M3 18h10"/><path d="M21 15l-3 3 3 3"/>';
-      } else {
-        ico.innerHTML='<path d="M3 6h18"/><path d="M3 12h14"/><path d="M3 18h10"/><path d="M17 21l3-3-3-3"/>';
-      }
-    }
-  };
-
-  // ── TOGGLE PROVIDER SEARCH (ocultar/mostrar búsqueda de la sección providers) ──
-  let _provSearchVisible = true;
-  window.toggleProvSearch = function(){
-    _provSearchVisible = !_provSearchVisible;
-    const sh = document.getElementById('headerSearch');
-    // providers uses the main headerSearch bar
-    if(sh) sh.style.display = (_provSearchVisible && _headerSearchVisible) ? '' : 'none';
-    const btn = document.getElementById('toggleProvSearchBtn');
-    if(btn) btn.style.color = _provSearchVisible ? 'var(--primary-2)' : 'var(--muted)';
-  };
-
-  // ── SCROLL AL INICIO DE LA SESIÓN ACTUAL ──
-  window.scrollToPageTop = function(){
-    window.scrollTo({top:0, behavior:'smooth'});
-  };
-
-  // ── EMOJI LOGO PICKER ──
-  window.pickLogoEmoji = function(btn){
-    const em = btn.dataset.em;
-    const inp = document.getElementById('cfgIconEmoji');
-    if(inp){ inp.value = em; }
-    // Highlight selected
-    document.querySelectorAll('[data-em]').forEach(b=>b.style.borderColor='var(--border)');
-    btn.style.borderColor='var(--primary)';
   };
   // Show previews when admin page opens
   const _origFillCustomFormBase = window.fillCustomForm;
