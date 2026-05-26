@@ -152,7 +152,10 @@
     "facebook": "",
     "address": "",
     "notes": "",
-    "called": false
+    "called": false,
+    "accessedPhones": {
+      "58894099": true
+    }
   },
   {
     "id": "mpkixly7nlof0s",
@@ -162,14 +165,12 @@
     "phones": [
       "51464088"
     ],
-    "whatsapps": [
-      "51464088"
-    ],
+    "whatsapps": [],
     "phone": "51464088",
-    "whatsapp": "51464088",
+    "whatsapp": "",
     "facebook": "",
     "address": "",
-    "notes": "Encarga pantallas por WhatsApp",
+    "notes": "",
     "called": false
   },
   {
@@ -250,10 +251,7 @@
     "facebook": "",
     "address": "10  sur",
     "notes": "",
-    "called": false,
-    "accessedPhones": {
-      "53472462": true
-    }
+    "called": false
   },
   {
     "id": "mpkipm7snl7qxl",
@@ -302,8 +300,7 @@
     "facebook": "",
     "address": "Calixto garcia y el 4 sur",
     "notes": "",
-    "called": false,
-    "accessedPhones": {}
+    "called": false
   },
   {
     "id": "mpkiha2s9ud8bt",
