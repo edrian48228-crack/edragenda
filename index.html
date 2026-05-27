@@ -57,14 +57,18 @@
     transition:transform .12s,background .15s}
   .top-right-btns .tr-btn:active{transform:scale(.92)}
   .top-right-btns .tr-btn svg{width:22px;height:22px}
-  .search{position:relative;margin-top:10px}
-  .search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);
-    width:20px;height:20px;color:var(--primary)}
-  .search input{width:100%;height:46px;padding:0 16px 0 44px;
+  .search{position:relative;margin-top:7px;transition:all .3s ease}
+  .search.search-hidden{display:none}
+  .search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);
+    width:16px;height:16px;color:var(--primary)}
+  .search input{width:100%;height:38px;padding:0 12px 0 36px;
     background:var(--card);color:var(--text);border:1px solid var(--border);
-    border-radius:14px;font-size:15px;outline:none;transition:border-color .2s}
+    border-radius:12px;font-size:13px;outline:none;transition:border-color .2s}
   .search input:focus{border-color:var(--primary)}
   .search input::placeholder{color:var(--muted)}
+  .search-toggle-btn{display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;border:none;background:none;color:var(--muted);cursor:pointer;transition:color .2s;flex-shrink:0}
+  .search-toggle-btn:hover{color:var(--primary)}
+  .search-toggle-btn svg{width:18px;height:18px}
 
   main{padding:14px 12px 220px;max-width:760px;margin:0 auto}
   main.hidden{display:none}
@@ -76,15 +80,20 @@
   .page-banner .pb-ico{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:var(--card-2);border:1px solid var(--border)}
   .page-banner .pb-ico svg{width:30px;height:30px}
   .page-banner .pb-txt{flex:1}
-  .page-banner .pb-txt h2{margin:0 0 2px;font-size:26px;font-weight:900;letter-spacing:-.3px;color:var(--text)}
-  .page-banner .pb-txt p{margin:0;color:#b0b0c8;font-size:14px;font-weight:600}
+  .page-banner .pb-txt h2{margin:0 0 2px;font-size:28px;font-weight:900;letter-spacing:-.3px;color:var(--text)}
+  .page-banner .pb-txt p{margin:0;color:#b0b0c8;font-size:13px;font-weight:600}
 
   /* CARDS */
   .card{background:var(--card);border:1px solid var(--border);border-radius:16px;
     padding:12px;margin-bottom:10px;transition:border-color .2s}
   .card:hover{border-color:rgba(168,85,247,.5)}
-  .card.called{opacity:.58}
-  .card.called .name{text-decoration:line-through}
+  .card.called{background:rgba(30,30,42,.7);border-color:rgba(80,80,100,.35);box-shadow:none;filter:saturate(0.3) brightness(0.85);opacity:.7}
+  .card.called .name{text-decoration:line-through;color:rgba(160,160,180,.55)}
+  .card.called .avatar{background:rgba(100,100,120,.3)!important;color:rgba(160,160,180,.4)!important}
+  .card.called .product,.card.called .price{color:rgba(120,120,140,.5)!important}
+  .card.called .iact{opacity:.45}
+  .card.called::after{content:'✓ VISTO';position:absolute;top:-10px;right:12px;font-size:11px;font-weight:900;letter-spacing:1.2px;padding:3px 10px;border-radius:999px;background:linear-gradient(135deg,rgba(120,120,140,.7),rgba(80,80,100,.6));color:rgba(200,200,220,.8);border:1.5px solid rgba(120,120,120,.3);box-shadow:0 2px 8px rgba(0,0,0,.4)}
+  .card.called{position:relative}
   .row{display:flex;gap:10px;align-items:flex-start}
   .avatar{width:42px;height:42px;border-radius:50%;flex-shrink:0;
     display:flex;align-items:center;justify-content:center;
@@ -99,7 +108,7 @@
   .avatar.contact-avatar svg{width:28px;height:28px}
 
   .info{flex:1;min-width:0}
-  .name{font-size:18px;font-weight:800;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .name{font-size:20px;font-weight:800;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .product{color:#b0b0c8;font-size:15px;font-weight:600;margin:2px 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .price{color:var(--accent);font-size:16px;font-weight:800;margin:3px 0 0}
   .addr{color:#7a7a96;font-size:12px;font-weight:600;margin:2px 0 0;display:flex;align-items:center;gap:4px}
@@ -206,9 +215,9 @@
   .log-box .lg-dim{color:#6b7280}
 
   /* PENDING */
-  .p-alta{border-left:3px solid var(--danger)}
-  .p-media{border-left:3px solid #eab308}
-  .p-baja{border-left:3px solid var(--success)}
+  .p-alta{border-left:4px solid var(--danger);background:linear-gradient(135deg,rgba(239,68,68,.06) 0%,var(--card) 60%)!important}
+  .p-media{border-left:4px solid #eab308;background:linear-gradient(135deg,rgba(234,179,8,.06) 0%,var(--card) 60%)!important}
+  .p-baja{border-left:4px solid var(--success);background:linear-gradient(135deg,rgba(34,197,94,.06) 0%,var(--card) 60%)!important}
   .card.done-card{background:rgba(30,30,42,.7);border-color:rgba(80,80,100,.35);box-shadow:none;filter:saturate(0.3)}
   .card.done-card .name{text-decoration:line-through;color:rgba(160,160,180,.55);text-shadow:none}
   .card.done-card .product{color:rgba(120,120,140,.5)!important}
@@ -231,9 +240,9 @@
   .inline-search{position:relative;flex:1}
   .inline-search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);
     width:18px;height:18px;color:var(--muted)}
-  .inline-search input{width:100%;height:44px;padding:0 14px 0 44px;
+  .inline-search input{width:100%;height:46px;padding:0 14px 0 44px;
     background:var(--card);color:var(--text);border:1px solid var(--border);
-    border-radius:14px;font-size:15px;outline:none;transition:border-color .2s}
+    border-radius:14px;font-size:16px;outline:none;transition:border-color .2s;font-weight:600}
   .inline-search.accent svg{color:var(--accent)}
   .inline-search.accent input:focus{border-color:var(--accent)}
   .inline-search.danger svg{color:var(--danger)}
@@ -408,7 +417,8 @@
 
   .vip-strip .vip-contact{ display:flex; gap:5px; flex-shrink:0 }
   .vip-strip .vip-contact a{ width:28px; height:28px; border-radius:8px; display:flex; align-items:center; justify-content:center;
-    background:rgba(0,0,0,.25); border:1px solid rgba(251,191,36,.3); transition:transform .12s }
+    background:none; border:none; transition:transform .12s,filter .15s }
+  .vip-strip .vip-contact a:hover{filter:brightness(1.3)}
   .vip-strip .vip-contact a:active{ transform:scale(.92) }
   .vip-strip .vip-contact a.vc-wa{ color:#4ade80 } .vip-strip .vip-contact a.vc-tel{ color:#7dd3fc }
   .vip-strip .vip-contact svg{ width:14px; height:14px }
@@ -482,47 +492,37 @@
   </div>
   <div class="wrap">
     <h1>
-      <span class="brand-icon" id="brandIcon" aria-hidden="true">
+      <span class="brand-icon" id="brandIcon" style="cursor:pointer" onclick="goHome()" title="Ir al inicio" aria-label="Inicio">
         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <linearGradient id="iconOuter" x1="0" y1="0" x2="1" y2="1">
+            <linearGradient id="boltBg" x1="0" y1="0" x2="1" y2="1">
               <stop offset="0%" stop-color="#7c3aed"/>
-              <stop offset="50%" stop-color="#a855f7"/>
-              <stop offset="100%" stop-color="#c084fc"/>
+              <stop offset="100%" stop-color="#a855f7"/>
             </linearGradient>
-            <linearGradient id="iconGold" x1="0" y1="0" x2="1" y2="1">
+            <linearGradient id="boltColor" x1="0" y1="0" x2="0.5" y2="1">
               <stop offset="0%" stop-color="#fde68a"/>
-              <stop offset="50%" stop-color="#fbbf24"/>
+              <stop offset="55%" stop-color="#fbbf24"/>
               <stop offset="100%" stop-color="#f59e0b"/>
             </linearGradient>
-            <linearGradient id="iconShine" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.35"/>
-              <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
-            </linearGradient>
-            <filter id="iconGlow">
-              <feGaussianBlur stdDeviation="2.5" result="blur"/>
+            <filter id="boltGlow">
+              <feGaussianBlur stdDeviation="2" result="blur"/>
               <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
             </filter>
+            <linearGradient id="boltShine" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#fff" stop-opacity="0.28"/>
+              <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+            </linearGradient>
           </defs>
-          <!-- Outer rounded square background -->
-          <rect x="2" y="2" width="44" height="44" rx="13" fill="url(#iconOuter)"/>
-          <!-- Inner shine overlay -->
-          <rect x="2" y="2" width="44" height="22" rx="13" fill="url(#iconShine)"/>
-          <!-- Diamond shape -->
-          <polygon points="24,8 38,22 24,40 10,22" fill="url(#iconGold)" filter="url(#iconGlow)" stroke="#92400e" stroke-width="0.8" stroke-linejoin="round"/>
-          <!-- Diamond inner lines -->
-          <polyline points="10,22 24,18 38,22" fill="none" stroke="#fff8" stroke-width="0.8"/>
-          <line x1="24" y1="8" x2="24" y2="18" stroke="#fff8" stroke-width="0.8"/>
-          <!-- Star sparkles -->
-          <circle cx="38" cy="10" r="1.5" fill="#fde68a" opacity="0.9"/>
-          <circle cx="11" cy="12" r="1" fill="#fde68a" opacity="0.7"/>
-          <circle cx="40" cy="34" r="1" fill="#fde68a" opacity="0.7"/>
-          <!-- Tiny cross sparkle top-right -->
-          <path d="M40 8 L40 12 M38 10 L42 10" stroke="#fde68a" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
+          <rect x="2" y="2" width="44" height="44" rx="13" fill="url(#boltBg)"/>
+          <rect x="2" y="2" width="44" height="22" rx="13" fill="url(#boltShine)"/>
+          <path d="M27 5 L14 26 H22 L19 43 L36 20 H27 Z" fill="url(#boltColor)" filter="url(#boltGlow)" stroke="#92400e" stroke-width="0.6" stroke-linejoin="round"/>
+          <circle cx="36" cy="9" r="1.4" fill="#fde68a" opacity="0.9"/>
+          <circle cx="12" cy="11" r="0.9" fill="#fde68a" opacity="0.7"/>
+          <path d="M37.5 7 L37.5 11 M35.5 9 L39.5 9" stroke="#fde68a" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
         </svg>
       </span>
       <div>
-        <div class="brand-text" id="brandText"><span>Mi</span> Agenda</div>
+        <div class="brand-text" id="brandText" style="cursor:pointer" onclick="goHome()" title="Ir al inicio"><span>Mi</span> Agenda</div>
       </div>
     </h1>
     <p class="sub" id="counter">0 elementos<span class="page-tag" id="pageTag" style="margin-left:4px"></span></p>
@@ -538,6 +538,9 @@
 
       </div>
       <div class="vip-contact" id="vipContact"></div>
+      <button class="search-toggle-btn" id="headerSearchToggle" onclick="toggleHeaderSearch()" title="Ocultar/mostrar búsqueda">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      </button>
     </div>
 
     <div class="search" id="headerSearch">
@@ -556,7 +559,14 @@
     </div>
     <div class="pb-txt"><h2>Proveedores</h2><p>Tus proveedores y contactos comerciales</p></div>
   </div>
-  <div class="search-row">
+  <div class="search-row" id="provSearchRow">
+    <div class="inline-search" id="provInlineSearchWrap" style="flex:1">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="provSearch" type="search" placeholder="Buscar proveedor..." autocomplete="off" oninput="renderProvidersByInline()"/>
+    </div>
+    <button class="sort-btn" style="padding:0 8px" title="Ocultar búsqueda" onclick="toggleProvSearch(this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+    </button>
     <button class="sort-btn" id="sortProvBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M6 12h12M10 18h4"/></svg><span id="sortProvLabel">Recientes</span></button>
     <button class="sort-btn" onclick="clearAll('providers')" title="Eliminar todo" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
   </div>
@@ -587,7 +597,7 @@
     <div class="pb-ico" style="background:rgba(34,211,238,.12);border-color:rgba(34,211,238,.4)">
       <svg viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
     </div>
-    <div class="pb-txt"><h2>Clientes</h2><p>Lo que tus clientes están pidiendo</p></div>
+    <div class="pb-txt"><h2>Clientes</h2><p>Solicitudes activas</p></div>
   </div>
   <div class="search-row">
     <div class="inline-search accent">
@@ -713,7 +723,13 @@
     <h3>🎨 Personalización de la app</h3>
     <p>Cambia el nombre, el icono y qué pestañas se ven. Se sincroniza con todos tus dispositivos.</p>
     <label class="field"><span>Nombre de la agenda</span><input id="cfgName" placeholder="Mi Agenda"/></label>
-    <label class="field"><span>Icono de marca (emoji o 1 letra)</span><input id="cfgIconEmoji" placeholder="⚡ o M"/></label>
+    <div class="field"><span>Icono de la agenda (elige de la paleta)</span>
+      <div id="emojiPalette" style="display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 10px;padding:12px;background:var(--card-2);border:1px solid var(--border);border-radius:14px"></div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <input id="cfgIconEmoji" placeholder="o escribe tu emoji" style="flex:1" oninput="updateEmojiPreview(this.value)"/>
+        <div id="emojiPreviewLive" style="width:44px;height:44px;border-radius:12px;background:rgba(168,85,247,.15);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;border:1px solid var(--border)">⚡</div>
+      </div>
+    </div>
     <label class="field"><span>URL de imagen del logo (opcional)</span><input id="cfgIconUrl" placeholder="https://... .png"/></label>
     <div class="field">
       <span>📷 Subir imagen del logo (PNG/JPG)</span>
@@ -1290,8 +1306,8 @@
   // ══════════ PROVEEDORES ══════════
   let sortProvMode = localStorage.getItem(KEYS.sortProv)||'recent';
   const SORT_PROV={recent:'Recientes',name:'A→Z',price:'Por precio',called:'No llamados primero'};
-  $('sortProvBtn').onclick=()=>{ const ks=Object.keys(SORT_PROV); sortProvMode=ks[(ks.indexOf(sortProvMode)+1)%ks.length]; localStorage.setItem(KEYS.sortProv,sortProvMode); $('sortProvLabel').textContent=SORT_PROV[sortProvMode]; renderProviders(); };
-  $('sortProvLabel').textContent=SORT_PROV[sortProvMode];
+  const _sortProvBtn = $('sortProvBtn'); if(_sortProvBtn) _sortProvBtn.onclick=()=>{ const ks=Object.keys(SORT_PROV); sortProvMode=ks[(ks.indexOf(sortProvMode)+1)%ks.length]; localStorage.setItem(KEYS.sortProv,sortProvMode); const sl=$('sortProvLabel'); if(sl) sl.textContent=SORT_PROV[sortProvMode]; renderProviders(); };
+  const _spl=$('sortProvLabel'); if(_spl) _spl.textContent=SORT_PROV[sortProvMode];
 
   function sortProviders(arr){
     const a=arr.slice();
@@ -1302,7 +1318,9 @@
   }
   function renderProviders(){
     const listEl = $('provList');
-    const q = ($('search').value||'').trim().toLowerCase();
+    const provInline = $('provSearch');
+    const mainSrch = $('search');
+    const q = ((provInline&&provInline.value)||(mainSrch&&mainSrch.value)||'').trim().toLowerCase();
     let items = providers.filter(p => {
       if(!q) return true;
       return [p.name,p.product,p.price,...(p.phones||[]),...(p.whatsapps||[]),p.notes,p.address].filter(Boolean).some(f=>String(f).toLowerCase().includes(q));
@@ -2134,35 +2152,28 @@
       if(c.iconUrl){ bi.innerHTML='<img src="'+escH(c.iconUrl)+'" alt="logo" style="filter:drop-shadow(0 0 12px '+escH(c.primary||'#fbbf24')+'88)"/>'; }
       else if(c.iconEmoji){ bi.innerHTML='<span class="emoji-icon" style="font-size:42px;line-height:1;filter:drop-shadow(0 0 10px '+escH(c.primary||'#fbbf24')+'99)">'+escH(c.iconEmoji)+'</span>'; }
       else {
-        // Default diamond icon — update gradient to use primary color
+        // Default BOLT icon — modern lightning bolt
         const p=c.primary||'#a855f7';
-        const pd=adjustColor(p,-30); // darker shade
-        const pl=adjustColor(p,40);  // lighter shade
+        const pd=adjustColor(p,-30);
+        const pl=adjustColor(p,40);
         bi.innerHTML=`<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <linearGradient id="biOuter" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="${pd}"/>
-              <stop offset="50%" stop-color="${p}"/>
-              <stop offset="100%" stop-color="${pl}"/>
+              <stop offset="0%" stop-color="${pd}"/><stop offset="100%" stop-color="${pl}"/>
             </linearGradient>
-            <linearGradient id="biGold" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#fde68a"/>
-              <stop offset="50%" stop-color="#fbbf24"/>
-              <stop offset="100%" stop-color="#f59e0b"/>
+            <linearGradient id="biGold" x1="0" y1="0" x2="0.5" y2="1">
+              <stop offset="0%" stop-color="#fde68a"/><stop offset="55%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#f59e0b"/>
             </linearGradient>
+            <filter id="biGlow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
             <linearGradient id="biShine" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.35"/>
-              <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.28"/><stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
             </linearGradient>
           </defs>
           <rect x="2" y="2" width="44" height="44" rx="13" fill="url(#biOuter)"/>
           <rect x="2" y="2" width="44" height="22" rx="13" fill="url(#biShine)"/>
-          <polygon points="24,8 38,22 24,40 10,22" fill="url(#biGold)" stroke="#92400e" stroke-width="0.8" stroke-linejoin="round"/>
-          <polyline points="10,22 24,18 38,22" fill="none" stroke="#fff8" stroke-width="0.8"/>
-          <line x1="24" y1="8" x2="24" y2="18" stroke="#fff8" stroke-width="0.8"/>
-          <circle cx="38" cy="10" r="1.5" fill="#fde68a" opacity="0.9"/>
-          <circle cx="11" cy="12" r="1" fill="#fde68a" opacity="0.7"/>
-          <path d="M40 8 L40 12 M38 10 L42 10" stroke="#fde68a" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
+          <path d="M27 5 L14 26 H22 L19 43 L36 20 H27 Z" fill="url(#biGold)" filter="url(#biGlow)" stroke="#92400e" stroke-width="0.6" stroke-linejoin="round"/>
+          <circle cx="36" cy="9" r="1.4" fill="#fde68a" opacity="0.9"/>
+          <path d="M37.5 7 L37.5 11 M35.5 9 L39.5 9" stroke="#fde68a" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
         </svg>`;
         bi.style.filter=`drop-shadow(0 0 22px ${p}aa)`;
       }
@@ -2234,7 +2245,7 @@
     const bi=$('brandIcon');
     if(bi && !bi.querySelector('img') && !bi.querySelector('span.emoji-icon')){
       const pd2=adjustColor(val,-30); const pl2=adjustColor(val,40);
-      bi.innerHTML=`<svg viewBox="0 0 48 48" fill="none"><defs><linearGradient id="biLive" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${pd2}"/><stop offset="50%" stop-color="${val}"/><stop offset="100%" stop-color="${pl2}"/></linearGradient><linearGradient id="biGold2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fde68a"/><stop offset="50%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#f59e0b"/></linearGradient></defs><rect x="2" y="2" width="44" height="44" rx="13" fill="url(#biLive)"/><rect x="2" y="2" width="44" height="22" rx="13" fill="rgba(255,255,255,.2)"/><polygon points="24,8 38,22 24,40 10,22" fill="url(#biGold2)" stroke="#92400e" stroke-width="0.8"/><polyline points="10,22 24,18 38,22" fill="none" stroke="#fff8" stroke-width="0.8"/><line x1="24" y1="8" x2="24" y2="18" stroke="#fff8" stroke-width="0.8"/><circle cx="38" cy="10" r="1.5" fill="#fde68a" opacity="0.9"/><path d="M40 8 L40 12 M38 10 L42 10" stroke="#fde68a" stroke-width="1" stroke-linecap="round" opacity="0.8"/></svg>`;
+      bi.innerHTML=`<svg viewBox="0 0 48 48" fill="none"><defs><linearGradient id="biLive" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${pd2}"/><stop offset="100%" stop-color="${pl2}"/></linearGradient><linearGradient id="biGold2" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#fde68a"/><stop offset="55%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#f59e0b"/></linearGradient><filter id="biGlowL"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><rect x="2" y="2" width="44" height="44" rx="13" fill="url(#biLive)"/><rect x="2" y="2" width="44" height="22" rx="13" fill="rgba(255,255,255,.2)"/><path d="M27 5 L14 26 H22 L19 43 L36 20 H27 Z" fill="url(#biGold2)" filter="url(#biGlowL)" stroke="#92400e" stroke-width="0.6" stroke-linejoin="round"/><circle cx="36" cy="9" r="1.4" fill="#fde68a" opacity="0.9"/><path d="M37.5 7 L37.5 11 M35.5 9 L39.5 9" stroke="#fde68a" stroke-width="1" stroke-linecap="round" opacity="0.8"/></svg>`;
       bi.style.filter=`drop-shadow(0 0 22px ${val}aa)`;
     }
     applyHeaderGradient(val);
@@ -2977,6 +2988,160 @@
     };
   }
 
+  // ─── goHome: navegar al inicio ───
+  window.goHome = function(){
+    const cu = getCustom ? getCustom() : {};
+    const vis = (cu && cu.visibility) || {};
+    // Primera página visible
+    const pages = ['providers','pending','clients','notes','contacts'];
+    for(const p of pages){
+      if(vis[p] !== false){ showPage(p); break; }
+    }
+  };
+
+  // ─── toggleHeaderSearch: ocultar/mostrar cuadro búsqueda header ───
+  window.toggleHeaderSearch = function(){
+    const hs = document.getElementById('headerSearch');
+    const btn = document.getElementById('headerSearchToggle');
+    if(!hs) return;
+    const hidden = hs.classList.toggle('search-hidden');
+    if(btn){
+      btn.title = hidden ? 'Mostrar búsqueda' : 'Ocultar búsqueda';
+      btn.style.color = hidden ? 'var(--primary)' : 'var(--muted)';
+    }
+  };
+
+  // ─── toggleProvSearch: ocultar/mostrar búsqueda en proveedores ───
+  window.toggleProvSearch = function(btn){
+    const wrap = document.getElementById('provInlineSearchWrap');
+    if(!wrap) return;
+    const hidden = wrap.style.display === 'none';
+    wrap.style.display = hidden ? '' : 'none';
+    btn.style.color = hidden ? 'var(--muted)' : 'var(--primary)';
+  };
+
+  // ─── renderProvidersByInline: búsqueda en proveedores desde barra inline ───
+  window.renderProvidersByInline = function(){
+    const inp = document.getElementById('provSearch');
+    if(!inp) return;
+    // Sync con la búsqueda global del header
+    const mainSearch = document.getElementById('search');
+    if(mainSearch) mainSearch.value = inp.value;
+    if(typeof renderProviders === 'function') renderProviders();
+  };
+
+  // ─── PALETA DE EMOJIS para el logo ───
+  const LOGO_EMOJIS = [
+    // Rayos (varios tipos)
+    {e:'⚡',l:'Rayo clásico'},
+    {e:'🌩️',l:'Tormenta'},
+    {e:'💥',l:'Explosión'},
+    {e:'✨',l:'Destello'},
+    {e:'🔱',l:'Tridente-Rayo'},
+    {e:'⚡️',l:'Rayo eléctrico'},
+    // Agenda / negocio
+    {e:'📋',l:'Portapapeles'},
+    {e:'📒',l:'Libreta'},
+    {e:'📓',l:'Cuaderno'},
+    {e:'📔',l:'Agenda'},
+    {e:'🗒️',l:'Bloc'},
+    {e:'📊',l:'Estadísticas'},
+    {e:'💼',l:'Maletín'},
+    {e:'🏆',l:'Trofeo'},
+    {e:'💎',l:'Diamante'},
+    {e:'🌟',l:'Estrella brillante'},
+    {e:'🎯',l:'Diana'},
+    {e:'🚀',l:'Cohete'},
+    {e:'🔥',l:'Fuego'},
+    {e:'💡',l:'Idea'},
+    {e:'🛡️',l:'Escudo'},
+    {e:'🌀',l:'Vórtice'},
+    {e:'🔮',l:'Bola de cristal'},
+    {e:'⚙️',l:'Engranaje'},
+    {e:'🎪',l:'Carpa'},
+  ];
+  function buildEmojiPalette(){
+    const palette = document.getElementById('emojiPalette'); if(!palette) return;
+    const cur = (getCustom ? getCustom().iconEmoji : '') || '⚡';
+    palette.innerHTML = LOGO_EMOJIS.map(item=>{
+      const isSel = item.e === cur;
+      return `<button type="button" title="${item.l}" onclick="selectLogoEmoji('${item.e}')" style="width:44px;height:44px;border-radius:12px;border:2px solid ${isSel?'var(--primary)':'var(--border)'};background:${isSel?'rgba(168,85,247,.2)':'var(--card)'};font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .15s,background .15s;flex-shrink:0" data-emoji="${item.e}">${item.e}</button>`;
+    }).join('');
+  }
+  window.selectLogoEmoji = function(emoji){
+    document.querySelectorAll('#emojiPalette button').forEach(b=>{
+      const sel = b.dataset.emoji === emoji;
+      b.style.borderColor = sel ? 'var(--primary)' : 'var(--border)';
+      b.style.background = sel ? 'rgba(168,85,247,.2)' : 'var(--card)';
+    });
+    const inp = document.getElementById('cfgIconEmoji');
+    if(inp) inp.value = emoji;
+    const prev = document.getElementById('emojiPreviewLive');
+    if(prev) prev.textContent = emoji;
+    // Apply immediately
+    const cu = getCustom ? getCustom() : {};
+    cu.iconEmoji = emoji;
+    cu.iconUrl = ''; // clear URL logo if emoji selected
+    localStorage.setItem('agenda.custom.v1', JSON.stringify(cu));
+    if(window.applyCustom) applyCustom();
+  };
+  window.updateEmojiPreview = function(val){
+    const prev = document.getElementById('emojiPreviewLive');
+    if(prev && val) prev.textContent = val;
+  };
+  // Build palette when admin renders
+  const _origBuildAdminQuickNav2 = window.buildAdminQuickNav || function(){};
+  window.buildAdminQuickNav = function(){
+    if(_origBuildAdminQuickNav2) _origBuildAdminQuickNav2();
+    buildEmojiPalette();
+    // Set default emoji preview
+    const cu = getCustom ? getCustom() : {};
+    const prev = document.getElementById('emojiPreviewLive');
+    if(prev) prev.textContent = cu.iconEmoji || '⚡';
+  };
+  // Initialize emoji palette on first admin load
+  setTimeout(()=>buildEmojiPalette(), 200);
+
+  // ─── Override applyCustom to handle bolt logo default ───
+  const _origApplyCustom3 = window.applyCustom;
+  window.applyCustom = function(){
+    if(_origApplyCustom3) _origApplyCustom3.apply(this, arguments);
+    const cu = getCustom ? getCustom() : {};
+    const bi = document.getElementById('brandIcon');
+    // If no custom logo set, keep the bolt SVG from HTML
+    if(bi && !cu.iconUrl && !cu.iconEmoji){
+      // The bolt is already in HTML; applyCustom may have overwritten it
+      // Only if it's empty, restore bolt
+      if(!bi.innerHTML.trim()){
+        const p = cu.primary || '#a855f7';
+        bi.innerHTML = renderBoltSVG(p);
+      }
+    }
+    buildEmojiPalette();
+  };
+  function renderBoltSVG(p){
+    const pd = adjustColorFn(p,-30), pl = adjustColorFn(p,30);
+    return `<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="boltBgD" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${pd}"/><stop offset="100%" stop-color="${pl}"/></linearGradient>
+        <linearGradient id="boltColorD" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#fde68a"/><stop offset="55%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#f59e0b"/></linearGradient>
+        <filter id="boltGlowD"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <linearGradient id="boltShineD" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fff" stop-opacity="0.28"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/></linearGradient>
+      </defs>
+      <rect x="2" y="2" width="44" height="44" rx="13" fill="url(#boltBgD)"/>
+      <rect x="2" y="2" width="44" height="22" rx="13" fill="url(#boltShineD)"/>
+      <path d="M27 5 L14 26 H22 L19 43 L36 20 H27 Z" fill="url(#boltColorD)" filter="url(#boltGlowD)" stroke="#92400e" stroke-width="0.6" stroke-linejoin="round"/>
+      <circle cx="36" cy="9" r="1.4" fill="#fde68a" opacity="0.9"/>
+      <path d="M37.5 7 L37.5 11 M35.5 9 L39.5 9" stroke="#fde68a" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
+    </svg>`;
+  }
+  function adjustColorFn(hex,amt){
+    try{
+      const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+      const clamp=v=>Math.min(255,Math.max(0,v+amt));
+      return '#'+[clamp(r),clamp(g),clamp(b)].map(v=>v.toString(16).padStart(2,'0')).join('');
+    }catch(e){return hex;}
+  }
 
 })();
 </script>
