@@ -199,9 +199,13 @@
 
   /* Install */
   #installBtn{position:fixed;top:calc(env(safe-area-inset-top) + 10px);left:50%;transform:translateX(-50%);z-index:20;
-    background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;
-    border:0;border-radius:12px;padding:8px 12px;font-size:12px;font-weight:700;
-    box-shadow:0 6px 18px rgba(34,197,94,.45);display:none;align-items:center;gap:6px}
+    background:linear-gradient(135deg,#3b82f6 0%,#2563eb 50%,#1d4ed8 100%);color:#fff;
+    border:0;border-radius:999px;padding:10px 20px;font-size:13px;font-weight:700;
+    box-shadow:0 4px 20px rgba(37,99,235,.55),0 1px 0 rgba(255,255,255,.15) inset;
+    display:none;align-items:center;gap:7px;letter-spacing:.02em;
+    transition:transform .15s,box-shadow .15s}
+  #installBtn:active{transform:translateX(-50%) scale(.97)}
+  #installBtn:hover{box-shadow:0 6px 28px rgba(37,99,235,.7),0 1px 0 rgba(255,255,255,.15) inset}
   #installBtn.show{display:inline-flex}
   #installBtn svg{width:16px;height:16px}
 
@@ -466,6 +470,10 @@
   .alarm-section h4{ margin:0 0 8px; font-size:15px; font-weight:800; color:#fbbf24; display:flex; align-items:center; gap:8px }
   .alarm-section h4 svg{ width:18px; height:18px }
   .alarm-section .btn-secondary{ height:42px; font-size:14px }
+  .alarm-preset-btn{padding:7px 13px;border-radius:20px;border:1px solid rgba(251,191,36,.4);background:rgba(251,191,36,.08);color:#fde68a;font-size:12px;font-weight:700;cursor:pointer;transition:all .15s;white-space:nowrap}
+  .alarm-preset-btn:active,.alarm-preset-btn.selected{background:rgba(251,191,36,.25);border-color:#fbbf24;color:#fff}
+  .alarm-preset-custom{border-color:rgba(168,85,247,.4);background:rgba(168,85,247,.08);color:#c084fc}
+  .alarm-preset-custom.selected{background:rgba(168,85,247,.25);border-color:#c084fc;color:#fff}
 
   /* Card content clickable hint */
   .card .row{ cursor:pointer }
@@ -525,9 +533,6 @@
 
       </div>
       <div class="vip-contact" id="vipContact"></div>
-      <button class="search-toggle-btn" id="headerSearchToggle" onclick="toggleHeaderSearch()" title="Ocultar/mostrar búsqueda">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      </button>
     </div>
 
     <div class="search" id="headerSearch">
@@ -551,9 +556,6 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
       <input id="provSearch" type="search" placeholder="Buscar proveedor..." autocomplete="off" oninput="renderProvidersByInline()"/>
     </div>
-    <button class="sort-btn" id="provSearchToggleBtn" style="padding:0 10px;color:var(--muted)" title="Ocultar/mostrar búsqueda" onclick="toggleProvSearch(this)">
-      <svg id="provSearchToggleIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-    </button>
     <button class="sort-btn" id="sortProvBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M6 12h12M10 18h4"/></svg><span id="sortProvLabel">Recientes</span></button>
     <button class="sort-btn" onclick="clearAll('providers')" title="Eliminar todo" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
   </div>
@@ -713,7 +715,6 @@
     <div class="field"><span>Icono de la agenda (elige de la paleta)</span>
       <div id="emojiPalette" style="display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 10px;padding:12px;background:var(--card-2);border:1px solid var(--border);border-radius:14px"></div>
       <div style="display:flex;gap:8px;align-items:center">
-        <input id="cfgIconEmoji" placeholder="o escribe tu emoji" style="flex:1" oninput="updateEmojiPreview(this.value)"/>
         <div id="emojiPreviewLive" style="width:44px;height:44px;border-radius:12px;background:rgba(168,85,247,.15);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;border:1px solid var(--border)">⚡</div>
       </div>
     </div>
@@ -870,24 +871,48 @@
     </div>
 
     <div class="alarm-section">
-      <h4><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a6 6 0 0 0-6 6v3.586l-1.707 1.707A1 1 0 0 0 5 15h14a1 1 0 0 0 .707-1.707L18 11.586V8a6 6 0 0 0-6-6Zm0 20a3 3 0 0 0 3-3H9a3 3 0 0 0 3 3Z"/></svg> Recordatorios y alarma</h4>
-      <div class="field-row">
-        <label class="field"><span>Cada</span><input id="p-notif-days" type="number" min="0" max="9999" value="0" placeholder="0"/></label>
-        <label class="field"><span>Unidad</span>
-          <select id="p-notif-unit">
-            <option value="min">Minutos</option>
-            <option value="hour">Horas</option>
-            <option value="day" selected>Días</option>
-          </select>
-        </label>
-        <label class="field"><span>Repetir</span><input id="p-notif-times" type="number" min="1" max="99" value="3"/></label>
+      <h4><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a6 6 0 0 0-6 6v3.586l-1.707 1.707A1 1 0 0 0 5 15h14a1 1 0 0 0 .707-1.707L18 11.586V8a6 6 0 0 0-6-6Zm0 20a3 3 0 0 0 3-3H9a3 3 0 0 0 3 3Z"/></svg> Alarma</h4>
+
+      <!-- Presets rápidos -->
+      <div id="alarmPresets" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">
+        <button type="button" class="alarm-preset-btn" data-val="1" data-unit="min" onclick="setAlarmPreset(this)">1 min</button>
+        <button type="button" class="alarm-preset-btn" data-val="30" data-unit="min" onclick="setAlarmPreset(this)">30 min</button>
+        <button type="button" class="alarm-preset-btn" data-val="1" data-unit="hour" onclick="setAlarmPreset(this)">1 hora</button>
+        <button type="button" class="alarm-preset-btn" data-val="6" data-unit="hour" onclick="setAlarmPreset(this)">6 horas</button>
+        <button type="button" class="alarm-preset-btn" data-val="1" data-unit="day" onclick="setAlarmPreset(this)">1 día</button>
+        <button type="button" class="alarm-preset-btn" data-val="7" data-unit="day" onclick="setAlarmPreset(this)">1 semana</button>
+        <button type="button" class="alarm-preset-btn alarm-preset-custom" data-val="custom" onclick="toggleAlarmCustom(this)">✏️ Personal.</button>
       </div>
-      <div class="field-row">
-        <label class="field"><span>Hora 1.ª alarma</span><input id="p-notif-hour" type="time" value="09:00"/></label>
-        <label class="field" style="flex:1.4"><span>Mensaje notificación (opcional)</span><input id="p-notif-msg" placeholder="Ej: Recuerda llamar al proveedor"/></label>
+
+      <!-- Panel personalizado (oculto por defecto) -->
+      <div id="alarmCustomPanel" style="display:none;background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.2);border-radius:12px;padding:10px 12px;margin-bottom:10px">
+        <div class="field-row" style="margin-bottom:8px">
+          <label class="field"><span>Cantidad</span><input id="p-notif-days" type="number" min="1" max="9999" value="1" placeholder="1"/></label>
+          <label class="field"><span>Unidad</span>
+            <select id="p-notif-unit">
+              <option value="min">Minutos</option>
+              <option value="hour">Horas</option>
+              <option value="day" selected>Días</option>
+              <option value="week">Semanas</option>
+            </select>
+          </label>
+          <label class="field"><span>Repetir</span><input id="p-notif-times" type="number" min="1" max="99" value="3"/></label>
+        </div>
+        <label class="field"><span>Hora del día</span><input id="p-notif-hour" type="time" value="09:00"/></label>
       </div>
-      <p style="margin:6px 0 8px;color:#fde68a;font-size:13px;font-weight:700">🎵 Sonido de la alarma</p>
-      <button type="button" class="btn-secondary" onclick="openSoundPalette()">Elegir sonido</button>
+
+      <!-- Resumen activo -->
+      <div id="alarmSummary" style="display:none;align-items:center;gap:8px;padding:8px 12px;background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.3);border-radius:10px;margin-bottom:10px;font-size:13px;font-weight:700;color:#fde68a">
+        <svg viewBox="0 0 24 24" fill="currentColor" style="width:15px;height:15px;flex-shrink:0"><path d="M12 2a6 6 0 0 0-6 6v3.586l-1.707 1.707A1 1 0 0 0 5 15h14a1 1 0 0 0 .707-1.707L18 11.586V8a6 6 0 0 0-6-6Zm0 20a3 3 0 0 0 3-3H9a3 3 0 0 0 3 3Z"/></svg>
+        <span id="alarmSummaryText"></span>
+        <button type="button" onclick="clearAlarmPreset()" style="margin-left:auto;background:none;border:none;color:#f87171;font-size:18px;cursor:pointer;padding:0;line-height:1" title="Quitar alarma">×</button>
+      </div>
+
+      <!-- Inputs ocultos compatibles con el sistema existente -->
+      <input type="hidden" id="p-notif-days-hidden"/>
+      <input type="hidden" id="p-notif-unit-hidden"/>
+
+      <button type="button" class="btn-secondary" onclick="openSoundPalette()" style="margin-top:2px">🎵 Sonido</button>
     </div>
 
     <button type="submit" class="save">Guardar tarea</button>
@@ -1489,17 +1514,18 @@
     $('p-id').value=t?.id||''; $('p-task').value=t?.task||''; $('p-note').value=t?.note||'';
     $('p-priority').value=t?.priority||'media'; $('p-date').value=t?.date||'';
     $('p-notif-days').value = t?.notifDays ?? 0; $('p-notif-times').value= t?.notifTimes ?? 3;
-    $('p-notif-hour').value = t?.notifHour || '09:00'; $('p-notif-msg').value=t?.notifMsg||'';
+    $('p-notif-hour').value = t?.notifHour || '09:00'; if($('p-notif-msg')) $('p-notif-msg').value=t?.notifMsg||'';
     $('modalPending').classList.add('open'); setTimeout(()=>$('p-task').focus(),50);
   }
   $('formPending').addEventListener('submit',e=>{
     e.preventDefault();
-    const days = Math.max(0, Math.min(30, parseInt($('p-notif-days').value||'0',10)));
-    const times= Math.max(1, Math.min(3,  parseInt($('p-notif-times').value||'3',10)));
+    const days = Math.max(0, Math.min(9999, parseInt($('p-notif-days').value||'0',10)));
+    const times= Math.max(1, Math.min(99, parseInt($('p-notif-times').value||'3',10)));
+    const notifUnit = ($('p-notif-unit')?$('p-notif-unit').value:'day');
     const data={id:$('p-id').value||uid(),task:$('p-task').value.trim(),note:$('p-note').value.trim(),
       priority:$('p-priority').value,date:$('p-date').value,done:false,
-      notifDays:days,notifTimes:times,notifHour:$('p-notif-hour').value||'09:00',
-      notifMsg:$('p-notif-msg').value.trim(),notifFired:0,nextNotif:0};
+      notifDays:days,notifTimes:times,notifHour:$('p-notif-hour').value||'09:00',notifUnit:notifUnit,
+      notifMsg:($('p-notif-msg')?$('p-notif-msg').value.trim():''),notifFired:0,nextNotif:0};
     if(!data.task) return;
     const idx=pendings.findIndex(p=>p.id===data.id);
     if(idx>=0){
@@ -2620,6 +2646,90 @@
     window.playSoundKind(kind);
   };
 
+  // ── Alarm preset system ───────────────────────────────────────────
+  (function(){
+    const UNIT_LABEL = {min:'minuto(s)',hour:'hora(s)',day:'día(s)',week:'semana(s)'};
+    const UNIT_TO_OLD = {min:'min',hour:'hour',day:'day',week:'day'}; // map week→day*7 for storage
+    let _activePreset = null; // {val, unit}
+
+    function syncAlarmFields(){
+      const p = _activePreset;
+      if(!p){ $('p-notif-days').value='0'; return; }
+      let days = p.val, unit = p.unit;
+      if(unit==='week'){ days = p.val*7; unit='day'; }
+      $('p-notif-days').value = days;
+      $('p-notif-unit').value = unit==='week'?'day':unit;
+    }
+
+    function showSummary(){
+      const p = _activePreset;
+      const summary = $('alarmSummary');
+      const txt = $('alarmSummaryText');
+      if(!p){ summary.style.display='none'; return; }
+      const now = new Date();
+      let ms;
+      if(p.unit==='min') ms=p.val*60000;
+      else if(p.unit==='hour') ms=p.val*3600000;
+      else if(p.unit==='day') ms=p.val*86400000;
+      else ms=p.val*7*86400000;
+      const target = new Date(now.getTime()+ms);
+      const hour = $('p-notif-hour')?$('p-notif-hour').value:'09:00';
+      txt.textContent = `Alarma en ${p.val} ${UNIT_LABEL[p.unit]} · ${target.toLocaleDateString('es',{day:'numeric',month:'short'})} · ${hour}`;
+      summary.style.display='flex';
+    }
+
+    window.setAlarmPreset = function(btn){
+      const val = parseInt(btn.dataset.val,10);
+      const unit = btn.dataset.unit;
+      _activePreset = {val, unit};
+      // Update preset buttons highlight
+      document.querySelectorAll('.alarm-preset-btn:not(.alarm-preset-custom)').forEach(b=>b.classList.remove('selected'));
+      document.querySelector('.alarm-preset-custom').classList.remove('selected');
+      document.getElementById('alarmCustomPanel').style.display='none';
+      btn.classList.add('selected');
+      syncAlarmFields();
+      showSummary();
+    };
+
+    window.toggleAlarmCustom = function(btn){
+      const panel = document.getElementById('alarmCustomPanel');
+      const open = panel.style.display==='block';
+      panel.style.display = open?'none':'block';
+      document.querySelectorAll('.alarm-preset-btn:not(.alarm-preset-custom)').forEach(b=>b.classList.remove('selected'));
+      btn.classList.toggle('selected',!open);
+      if(!open){
+        // read current custom values
+        const v=parseInt($('p-notif-days').value||'1',10);
+        const u=$('p-notif-unit').value||'day';
+        _activePreset={val:v,unit:u};
+        showSummary();
+      }
+    };
+
+    window.clearAlarmPreset = function(){
+      _activePreset=null;
+      document.querySelectorAll('.alarm-preset-btn').forEach(b=>b.classList.remove('selected'));
+      document.getElementById('alarmCustomPanel').style.display='none';
+      document.getElementById('alarmSummary').style.display='none';
+      $('p-notif-days').value='0';
+      $('p-notif-unit').value='day';
+    };
+
+    // Wire up custom panel inputs live update
+    document.addEventListener('change',function(e){
+      if(e.target.id==='p-notif-unit'||e.target.id==='p-notif-days'||e.target.id==='p-notif-hour'){
+        const panel=document.getElementById('alarmCustomPanel');
+        if(panel&&panel.style.display==='block'){
+          const v=parseInt($('p-notif-days').value||'1',10);
+          const u=$('p-notif-unit').value||'day';
+          _activePreset={val:v,unit:u};
+          showSummary();
+        }
+      }
+    });
+  })();
+  // ── End alarm preset system ────────────────────────────────────────
+
   window.openSoundPalette = function(){
     const cur=localStorage.getItem('agenda.alarm.sound')||'bell';
     const grid=document.getElementById('soundGrid');
@@ -2908,12 +3018,29 @@
     }catch(_){}
   }, 15000);
 
-  // Cuando se abre el modal de editar tarea, cargar notifUnit
+  // Cuando se abre el modal de editar tarea, cargar notifUnit y presets de alarma
   const _origOpenPendingModal = window.openPendingModal;
   if(_origOpenPendingModal){
     window.openPendingModal = function(t){
       _origOpenPendingModal.apply(this, arguments);
       const u=document.getElementById('p-notif-unit'); if(u) u.value = (t && t.notifUnit) || 'day';
+      // Reset alarm preset UI
+      document.querySelectorAll('.alarm-preset-btn').forEach(b=>b.classList.remove('selected'));
+      const customPanel=document.getElementById('alarmCustomPanel');
+      if(customPanel) customPanel.style.display='none';
+      const summary=document.getElementById('alarmSummary');
+      if(summary) summary.style.display='none';
+      // If task has an alarm, show summary
+      if(t && t.notifDays>0 && window.clearAlarmPreset){
+        // Reflect existing alarm as summary without preset highlight
+        const summaryTxt=document.getElementById('alarmSummaryText');
+        if(summaryTxt && summary){
+          const uLabel={min:'minuto(s)',hour:'hora(s)',day:'día(s)',week:'semana(s)'};
+          const ul = t.notifUnit||'day';
+          summaryTxt.textContent=`Alarma: cada ${t.notifDays} ${uLabel[ul]||uLabel['day']} · ${t.notifHour||'09:00'}`;
+          summary.style.display='flex';
+        }
+      }
     };
   }
 
