@@ -39,7 +39,7 @@
   .wrap{max-width:760px;margin:0 auto}
   h1{margin:0;font-size:32px;font-weight:900;letter-spacing:-.5px;display:flex;align-items:center;gap:6px}
   h1 .brand-icon{width:56px;height:56px;display:inline-flex;align-items:center;justify-content:center;
-    filter:drop-shadow(0 0 22px rgba(168,85,247,.7))}
+    filter:drop-shadow(0 0 18px rgba(251,191,36,.8)) drop-shadow(0 0 8px rgba(251,191,36,.5))}
   h1 .brand-icon svg{width:56px;height:56px}
   h1 .brand-icon img{width:60px;height:60px;border-radius:14px;object-fit:cover}
   h1 .brand-text{font-size:34px;line-height:1.05;font-weight:900}
@@ -363,8 +363,8 @@
   .login-box{width:100%;max-width:420px;background:rgba(20,20,28,.85);backdrop-filter:blur(20px);
     border:1px solid var(--border);border-radius:24px;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
   .login-box .logo-big{width:74px;height:74px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;
-    background:linear-gradient(135deg,#fbbf24,#f59e0b);border-radius:22px;
-    box-shadow:0 12px 32px -8px rgba(251,191,36,.6);filter:drop-shadow(0 0 18px rgba(251,191,36,.4))}
+    background:none;border-radius:0;
+    filter:drop-shadow(0 0 18px rgba(251,191,36,.8)) drop-shadow(0 0 8px rgba(251,191,36,.5))}
   .login-box .logo-big svg{width:42px;height:42px;color:#fff}
   .login-box h2{margin:0;text-align:center;font-size:22px;font-weight:800}
   .login-box .login-sub{text-align:center;color:var(--muted);font-size:13px;margin:4px 0 18px}
@@ -495,27 +495,17 @@
       <span class="brand-icon" id="brandIcon" style="cursor:pointer" onclick="goHome()" title="Ir al inicio" aria-label="Inicio">
         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <linearGradient id="boltBg" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#7c3aed"/>
-              <stop offset="100%" stop-color="#a855f7"/>
-            </linearGradient>
             <linearGradient id="boltColor" x1="0" y1="0" x2="0.5" y2="1">
               <stop offset="0%" stop-color="#fde68a"/>
               <stop offset="55%" stop-color="#fbbf24"/>
               <stop offset="100%" stop-color="#f59e0b"/>
             </linearGradient>
             <filter id="boltGlow">
-              <feGaussianBlur stdDeviation="2" result="blur"/>
+              <feGaussianBlur stdDeviation="2.5" result="blur"/>
               <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
             </filter>
-            <linearGradient id="boltShine" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#fff" stop-opacity="0.28"/>
-              <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
-            </linearGradient>
           </defs>
-          <rect x="2" y="2" width="44" height="44" rx="13" fill="url(#boltBg)"/>
-          <rect x="2" y="2" width="44" height="22" rx="13" fill="url(#boltShine)"/>
-          <path d="M27 5 L14 26 H22 L19 43 L36 20 H27 Z" fill="url(#boltColor)" filter="url(#boltGlow)" stroke="#92400e" stroke-width="0.6" stroke-linejoin="round"/>
+          <path d="M27 5 L14 26 H22 L19 43 L36 20 H27 Z" fill="url(#boltColor)" filter="url(#boltGlow)" stroke="rgba(146,64,14,0.4)" stroke-width="0.6" stroke-linejoin="round"/>
           <circle cx="36" cy="9" r="1.4" fill="#fde68a" opacity="0.9"/>
           <circle cx="12" cy="11" r="0.9" fill="#fde68a" opacity="0.7"/>
           <path d="M37.5 7 L37.5 11 M35.5 9 L39.5 9" stroke="#fde68a" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
@@ -999,7 +989,7 @@
 <div class="login-screen hidden" id="loginScreen">
   <div class="login-box">
     <button type="button" class="login-close" onclick="hideLoginPublic()" aria-label="Cerrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
-    <div class="logo-big"><svg viewBox="0 0 24 24" fill="none"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z" fill="#fff" stroke="#fff" stroke-width="1" stroke-linejoin="round"/></svg></div>
+    <div class="logo-big"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="loginBolt" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#fde68a"/><stop offset="55%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#f59e0b"/></linearGradient><filter id="loginGlow"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z" fill="url(#loginBolt)" filter="url(#loginGlow)" stroke="rgba(146,64,14,0.3)" stroke-width="0.5" stroke-linejoin="round"/></svg></div>
     <h2 id="loginTitle">Acceso Administración</h2>
     <p class="login-sub" id="loginSub">Ingresa tu contraseña</p>
     <div id="loginPwBlock">
@@ -2158,20 +2148,12 @@
         const pl=adjustColor(p,40);
         bi.innerHTML=`<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <linearGradient id="biOuter" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="${pd}"/><stop offset="100%" stop-color="${pl}"/>
-            </linearGradient>
             <linearGradient id="biGold" x1="0" y1="0" x2="0.5" y2="1">
               <stop offset="0%" stop-color="#fde68a"/><stop offset="55%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#f59e0b"/>
             </linearGradient>
-            <filter id="biGlow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-            <linearGradient id="biShine" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.28"/><stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
-            </linearGradient>
+            <filter id="biGlow"><feGaussianBlur stdDeviation="2.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
           </defs>
-          <rect x="2" y="2" width="44" height="44" rx="13" fill="url(#biOuter)"/>
-          <rect x="2" y="2" width="44" height="22" rx="13" fill="url(#biShine)"/>
-          <path d="M27 5 L14 26 H22 L19 43 L36 20 H27 Z" fill="url(#biGold)" filter="url(#biGlow)" stroke="#92400e" stroke-width="0.6" stroke-linejoin="round"/>
+          <path d="M27 5 L14 26 H22 L19 43 L36 20 H27 Z" fill="url(#biGold)" filter="url(#biGlow)" stroke="rgba(146,64,14,0.4)" stroke-width="0.6" stroke-linejoin="round"/>
           <circle cx="36" cy="9" r="1.4" fill="#fde68a" opacity="0.9"/>
           <path d="M37.5 7 L37.5 11 M35.5 9 L39.5 9" stroke="#fde68a" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
         </svg>`;
@@ -2245,7 +2227,7 @@
     const bi=$('brandIcon');
     if(bi && !bi.querySelector('img') && !bi.querySelector('span.emoji-icon')){
       const pd2=adjustColor(val,-30); const pl2=adjustColor(val,40);
-      bi.innerHTML=`<svg viewBox="0 0 48 48" fill="none"><defs><linearGradient id="biLive" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${pd2}"/><stop offset="100%" stop-color="${pl2}"/></linearGradient><linearGradient id="biGold2" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#fde68a"/><stop offset="55%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#f59e0b"/></linearGradient><filter id="biGlowL"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><rect x="2" y="2" width="44" height="44" rx="13" fill="url(#biLive)"/><rect x="2" y="2" width="44" height="22" rx="13" fill="rgba(255,255,255,.2)"/><path d="M27 5 L14 26 H22 L19 43 L36 20 H27 Z" fill="url(#biGold2)" filter="url(#biGlowL)" stroke="#92400e" stroke-width="0.6" stroke-linejoin="round"/><circle cx="36" cy="9" r="1.4" fill="#fde68a" opacity="0.9"/><path d="M37.5 7 L37.5 11 M35.5 9 L39.5 9" stroke="#fde68a" stroke-width="1" stroke-linecap="round" opacity="0.8"/></svg>`;
+      bi.innerHTML=`<svg viewBox="0 0 48 48" fill="none"><defs><linearGradient id="biGold2" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#fde68a"/><stop offset="55%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#f59e0b"/></linearGradient><filter id="biGlowL"><feGaussianBlur stdDeviation="2.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path d="M27 5 L14 26 H22 L19 43 L36 20 H27 Z" fill="url(#biGold2)" filter="url(#biGlowL)" stroke="rgba(146,64,14,0.4)" stroke-width="0.6" stroke-linejoin="round"/><circle cx="36" cy="9" r="1.4" fill="#fde68a" opacity="0.9"/><path d="M37.5 7 L37.5 11 M35.5 9 L39.5 9" stroke="#fde68a" stroke-width="1" stroke-linecap="round" opacity="0.8"/></svg>`;
       bi.style.filter=`drop-shadow(0 0 22px ${val}aa)`;
     }
     applyHeaderGradient(val);
@@ -3123,14 +3105,10 @@
     const pd = adjustColorFn(p,-30), pl = adjustColorFn(p,30);
     return `<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="boltBgD" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${pd}"/><stop offset="100%" stop-color="${pl}"/></linearGradient>
         <linearGradient id="boltColorD" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#fde68a"/><stop offset="55%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#f59e0b"/></linearGradient>
-        <filter id="boltGlowD"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-        <linearGradient id="boltShineD" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fff" stop-opacity="0.28"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/></linearGradient>
+        <filter id="boltGlowD"><feGaussianBlur stdDeviation="2.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
       </defs>
-      <rect x="2" y="2" width="44" height="44" rx="13" fill="url(#boltBgD)"/>
-      <rect x="2" y="2" width="44" height="22" rx="13" fill="url(#boltShineD)"/>
-      <path d="M27 5 L14 26 H22 L19 43 L36 20 H27 Z" fill="url(#boltColorD)" filter="url(#boltGlowD)" stroke="#92400e" stroke-width="0.6" stroke-linejoin="round"/>
+      <path d="M27 5 L14 26 H22 L19 43 L36 20 H27 Z" fill="url(#boltColorD)" filter="url(#boltGlowD)" stroke="rgba(146,64,14,0.4)" stroke-width="0.6" stroke-linejoin="round"/>
       <circle cx="36" cy="9" r="1.4" fill="#fde68a" opacity="0.9"/>
       <path d="M37.5 7 L37.5 11 M35.5 9 L39.5 9" stroke="#fde68a" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
     </svg>`;
