@@ -39,7 +39,7 @@
   .wrap{max-width:760px;margin:0 auto}
   h1{margin:0;font-size:32px;font-weight:900;letter-spacing:-.5px;display:flex;align-items:center;gap:6px}
   h1 .brand-icon{width:56px;height:56px;display:inline-flex;align-items:center;justify-content:center;
-    filter:drop-shadow(0 0 18px rgba(251,191,36,.8)) drop-shadow(0 0 8px rgba(251,191,36,.5))}
+    filter:drop-shadow(0 0 16px rgba(168,85,247,.7)) drop-shadow(0 0 6px rgba(251,191,36,.4))}
   h1 .brand-icon svg{width:56px;height:56px}
   h1 .brand-icon img{width:60px;height:60px;border-radius:14px;object-fit:cover}
   h1 .brand-text{font-size:34px;line-height:1.05;font-weight:900}
@@ -505,10 +505,7 @@
               <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
             </filter>
           </defs>
-          <path d="M27 5 L14 26 H22 L19 43 L36 20 H27 Z" fill="url(#boltColor)" filter="url(#boltGlow)" stroke="rgba(146,64,14,0.4)" stroke-width="0.6" stroke-linejoin="round"/>
-          <circle cx="36" cy="9" r="1.4" fill="#fde68a" opacity="0.9"/>
-          <circle cx="12" cy="11" r="0.9" fill="#fde68a" opacity="0.7"/>
-          <path d="M37.5 7 L37.5 11 M35.5 9 L39.5 9" stroke="#fde68a" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
+          <path d="M27 5 L14 26 H22 L19 43 L36 20 H27 Z" fill="url(#boltColor)" filter="url(#boltGlow)" stroke="none"/>
         </svg>
       </span>
       <div>
@@ -554,8 +551,8 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
       <input id="provSearch" type="search" placeholder="Buscar proveedor..." autocomplete="off" oninput="renderProvidersByInline()"/>
     </div>
-    <button class="sort-btn" style="padding:0 8px" title="Ocultar búsqueda" onclick="toggleProvSearch(this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+    <button class="sort-btn" id="provSearchToggleBtn" style="padding:0 10px;color:var(--muted)" title="Ocultar/mostrar búsqueda" onclick="toggleProvSearch(this)">
+      <svg id="provSearchToggleIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
     </button>
     <button class="sort-btn" id="sortProvBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M6 12h12M10 18h4"/></svg><span id="sortProvLabel">Recientes</span></button>
     <button class="sort-btn" onclick="clearAll('providers')" title="Eliminar todo" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
@@ -989,7 +986,7 @@
 <div class="login-screen hidden" id="loginScreen">
   <div class="login-box">
     <button type="button" class="login-close" onclick="hideLoginPublic()" aria-label="Cerrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
-    <div class="logo-big"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="loginBolt" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#fde68a"/><stop offset="55%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#f59e0b"/></linearGradient><filter id="loginGlow"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z" fill="url(#loginBolt)" filter="url(#loginGlow)" stroke="rgba(146,64,14,0.3)" stroke-width="0.5" stroke-linejoin="round"/></svg></div>
+    <div class="logo-big"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="loginBolt" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#fde68a"/><stop offset="55%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#f59e0b"/></linearGradient><filter id="loginGlow"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z" fill="url(#loginBolt)" filter="url(#loginGlow)" stroke="none"/></svg></div>
     <h2 id="loginTitle">Acceso Administración</h2>
     <p class="login-sub" id="loginSub">Ingresa tu contraseña</p>
     <div id="loginPwBlock">
@@ -2149,15 +2146,15 @@
         bi.innerHTML=`<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <linearGradient id="biGold" x1="0" y1="0" x2="0.5" y2="1">
-              <stop offset="0%" stop-color="#fde68a"/><stop offset="55%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#f59e0b"/>
+              <stop offset="0%" stop-color="${pl}"/>
+              <stop offset="45%" stop-color="${p}"/>
+              <stop offset="100%" stop-color="#f59e0b"/>
             </linearGradient>
             <filter id="biGlow"><feGaussianBlur stdDeviation="2.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
           </defs>
-          <path d="M27 5 L14 26 H22 L19 43 L36 20 H27 Z" fill="url(#biGold)" filter="url(#biGlow)" stroke="rgba(146,64,14,0.4)" stroke-width="0.6" stroke-linejoin="round"/>
-          <circle cx="36" cy="9" r="1.4" fill="#fde68a" opacity="0.9"/>
-          <path d="M37.5 7 L37.5 11 M35.5 9 L39.5 9" stroke="#fde68a" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
+          <path d="M27 5 L14 26 H22 L19 43 L36 20 H27 Z" fill="url(#biGold)" filter="url(#biGlow)" stroke="none"/>
         </svg>`;
-        bi.style.filter=`drop-shadow(0 0 22px ${p}aa)`;
+        bi.style.filter=`drop-shadow(0 0 20px ${p}cc) drop-shadow(0 0 8px ${p}88)`;
       }
     }
     // footer visibility — admin siempre visible
@@ -2227,7 +2224,7 @@
     const bi=$('brandIcon');
     if(bi && !bi.querySelector('img') && !bi.querySelector('span.emoji-icon')){
       const pd2=adjustColor(val,-30); const pl2=adjustColor(val,40);
-      bi.innerHTML=`<svg viewBox="0 0 48 48" fill="none"><defs><linearGradient id="biGold2" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#fde68a"/><stop offset="55%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#f59e0b"/></linearGradient><filter id="biGlowL"><feGaussianBlur stdDeviation="2.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path d="M27 5 L14 26 H22 L19 43 L36 20 H27 Z" fill="url(#biGold2)" filter="url(#biGlowL)" stroke="rgba(146,64,14,0.4)" stroke-width="0.6" stroke-linejoin="round"/><circle cx="36" cy="9" r="1.4" fill="#fde68a" opacity="0.9"/><path d="M37.5 7 L37.5 11 M35.5 9 L39.5 9" stroke="#fde68a" stroke-width="1" stroke-linecap="round" opacity="0.8"/></svg>`;
+      bi.innerHTML=`<svg viewBox="0 0 48 48" fill="none"><defs><linearGradient id="biGold2" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="${pl2}"/><stop offset="45%" stop-color="${val}"/><stop offset="100%" stop-color="#f59e0b"/></linearGradient><filter id="biGlowL"><feGaussianBlur stdDeviation="2.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path d="M27 5 L14 26 H22 L19 43 L36 20 H27 Z" fill="url(#biGold2)" filter="url(#biGlowL)" stroke="none"/></svg>`;
       bi.style.filter=`drop-shadow(0 0 22px ${val}aa)`;
     }
     applyHeaderGradient(val);
@@ -2982,15 +2979,30 @@
   };
 
   // ─── toggleHeaderSearch: ocultar/mostrar cuadro búsqueda header ───
+  let _headerSearchHidden = false;
   window.toggleHeaderSearch = function(){
     const hs = document.getElementById('headerSearch');
     const btn = document.getElementById('headerSearchToggle');
     if(!hs) return;
-    const hidden = hs.classList.toggle('search-hidden');
-    if(btn){
-      btn.title = hidden ? 'Mostrar búsqueda' : 'Ocultar búsqueda';
-      btn.style.color = hidden ? 'var(--primary)' : 'var(--muted)';
+    _headerSearchHidden = !_headerSearchHidden;
+    // Solo actúa si estamos en providers (donde el search es visible)
+    if(document.getElementById('pageProviders') && !document.getElementById('pageProviders').classList.contains('hidden')){
+      hs.style.display = _headerSearchHidden ? 'none' : '';
     }
+    if(btn){
+      btn.title = _headerSearchHidden ? 'Mostrar búsqueda' : 'Ocultar búsqueda';
+      btn.querySelector('svg').style.opacity = _headerSearchHidden ? '0.4' : '1';
+      btn.style.color = _headerSearchHidden ? 'var(--primary)' : 'var(--muted)';
+    }
+  };
+  // Al cambiar de página, restaurar el estado correcto del headerSearch
+  const _origShowPageSearch = window.showPage;
+  window.showPage = function(page){
+    const result = _origShowPageSearch ? _origShowPageSearch.apply(this, arguments) : undefined;
+    const hs = document.getElementById('headerSearch');
+    if(hs && page === 'providers' && !_headerSearchHidden) hs.style.display = '';
+    if(hs && page === 'providers' && _headerSearchHidden) hs.style.display = 'none';
+    return result;
   };
 
   // ─── toggleProvSearch: ocultar/mostrar búsqueda en proveedores ───
@@ -3000,6 +3012,22 @@
     const hidden = wrap.style.display === 'none';
     wrap.style.display = hidden ? '' : 'none';
     btn.style.color = hidden ? 'var(--muted)' : 'var(--primary)';
+    // Cambiar el icono: lupa+ cuando visible, lupa-x cuando oculto
+    const ico = document.getElementById('provSearchToggleIcon');
+    if(ico){
+      if(!hidden){
+        // ahora está oculto — mostrar X en la lupa
+        ico.innerHTML = '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/><line x1="8" y1="8" x2="14" y2="14"/><line x1="14" y1="8" x2="8" y2="14"/>';
+      } else {
+        // ahora visible — mostrar lupa normal
+        ico.innerHTML = '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>';
+      }
+    }
+    // Limpiar búsqueda al ocultar
+    if(!hidden){
+      const inp = document.getElementById('provSearch');
+      if(inp){ inp.value=''; renderProvidersByInline(); }
+    }
   };
 
   // ─── renderProvidersByInline: búsqueda en proveedores desde barra inline ───
@@ -3105,12 +3133,10 @@
     const pd = adjustColorFn(p,-30), pl = adjustColorFn(p,30);
     return `<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="boltColorD" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#fde68a"/><stop offset="55%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#f59e0b"/></linearGradient>
+        <linearGradient id="boltColorD" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="${pl}"/><stop offset="45%" stop-color="${p}"/><stop offset="100%" stop-color="#f59e0b"/></linearGradient>
         <filter id="boltGlowD"><feGaussianBlur stdDeviation="2.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
       </defs>
-      <path d="M27 5 L14 26 H22 L19 43 L36 20 H27 Z" fill="url(#boltColorD)" filter="url(#boltGlowD)" stroke="rgba(146,64,14,0.4)" stroke-width="0.6" stroke-linejoin="round"/>
-      <circle cx="36" cy="9" r="1.4" fill="#fde68a" opacity="0.9"/>
-      <path d="M37.5 7 L37.5 11 M35.5 9 L39.5 9" stroke="#fde68a" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
+      <path d="M27 5 L14 26 H22 L19 43 L36 20 H27 Z" fill="url(#boltColorD)" filter="url(#boltGlowD)" stroke="none"/>
     </svg>`;
   }
   function adjustColorFn(hex,amt){
