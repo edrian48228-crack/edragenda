@@ -31,10 +31,10 @@
 
   /* HEADER */
   header{position:sticky;top:0;z-index:10;
-    background:linear-gradient(135deg, color-mix(in srgb, var(--primary,#a855f7) 18%, rgba(10,10,15,.97)) 0%, rgba(8,8,14,.96) 60%);
+    background:rgba(10,10,15,0.97);
     backdrop-filter:blur(14px);
-    border-bottom:1px solid color-mix(in srgb, var(--primary,#a855f7) 40%, rgba(38,38,53,.6));
-    box-shadow:0 4px 24px -4px color-mix(in srgb, var(--primary,#a855f7) 30%, transparent), 0 1px 0 color-mix(in srgb, var(--primary,#a855f7) 20%, transparent);
+    border-bottom:1px solid rgba(168,85,247,0.4);
+    box-shadow:0 4px 24px -4px rgba(168,85,247,0.3), 0 1px 0 rgba(168,85,247,0.2);
     padding:8px 16px 8px;padding-top:calc(8px + env(safe-area-inset-top))}
   .wrap{max-width:760px;margin:0 auto}
   h1{margin:0;font-size:32px;font-weight:900;letter-spacing:-.5px;display:flex;align-items:center;gap:6px}
@@ -404,8 +404,8 @@
   .quick-bar{ max-width:760px; margin:6px auto 4px; padding:0 12px;
     display:flex; align-items:center; gap:10px; flex-wrap:wrap }
   .quick-bar .qb-btn{ flex:1; min-width:90px; height:46px; border-radius:14px;
-    background:linear-gradient(135deg, color-mix(in srgb, var(--user-primary,#a855f7) 22%, var(--card)), var(--card));
-    border:1px solid color-mix(in srgb, var(--user-primary,#a855f7) 35%, var(--border));
+    background:linear-gradient(135deg, rgba(168,85,247,0.18), var(--card));
+    border:1px solid rgba(168,85,247,0.35);
     color:var(--text); display:flex; align-items:center; justify-content:center; gap:8px;
     font-size:14px; font-weight:700; transition:transform .15s, box-shadow .2s }
   .quick-bar .qb-btn:active{ transform:scale(.96) }
@@ -439,8 +439,8 @@
 
   /* Footer nav más elegante */
   .footer-nav{ background:linear-gradient(180deg, rgba(12,12,20,.7) 0%, rgba(8,8,14,.98) 60%) !important;
-    border-top:1px solid color-mix(in srgb, var(--user-primary,#a855f7) 30%, var(--border)) !important;
-    box-shadow:0 -10px 30px -10px color-mix(in srgb, var(--user-primary,#a855f7) 40%, transparent) }
+    border-top:1px solid rgba(168,85,247,0.3) !important;
+    box-shadow:0 -10px 30px -10px rgba(168,85,247,0.4) }
   .nav-btn{ position:relative }
   .nav-btn.active::before{ content:""; position:absolute; top:-1px; left:50%; transform:translateX(-50%);
     width:38px; height:3px; border-radius:0 0 6px 6px; background:currentColor; box-shadow:0 0 10px currentColor }
@@ -450,7 +450,7 @@
   .admin-quicknav button{ display:flex; flex-direction:column; align-items:center; gap:4px; padding:10px 6px;
     border-radius:14px; background:var(--card-2); border:1px solid var(--border); color:var(--text);
     font-size:11px; font-weight:700; line-height:1.1; text-align:center; transition:transform .12s, border-color .2s }
-  .admin-quicknav button:hover{ border-color: color-mix(in srgb, var(--user-primary,#a855f7) 60%, var(--border)) }
+  .admin-quicknav button:hover{ border-color: rgba(168,85,247,0.6) }
   .admin-quicknav button:active{ transform:scale(.95) }
   .admin-quicknav button svg{ width:22px; height:22px; color: var(--user-primary,#a855f7) }
 
@@ -458,16 +458,16 @@
   .sound-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px }
   .sound-card{ display:flex; align-items:center; gap:10px; padding:12px; border-radius:14px;
     background:var(--card-2); border:1px solid var(--border); cursor:pointer; transition:border-color .2s, transform .1s }
-  .sound-card:hover{ border-color: color-mix(in srgb, var(--user-primary,#a855f7) 60%, var(--border)) }
+  .sound-card:hover{ border-color: rgba(168,85,247,0.6) }
   .sound-card:active{ transform:scale(.97) }
-  .sound-card.selected{ border-color: color-mix(in srgb, var(--user-primary,#a855f7) 80%, var(--border));
-    background: color-mix(in srgb, var(--user-primary,#a855f7) 15%, var(--card-2)) }
+  .sound-card.selected{ border-color: rgba(168,85,247,0.8);
+    background: rgba(168,85,247,0.12) }
   .sound-card .sc-ico{ width:38px; height:38px; border-radius:12px; display:flex; align-items:center; justify-content:center;
     background:rgba(251,191,36,.15); color:#fbbf24; flex-shrink:0 }
   .sound-card .sc-ico svg{ width:22px; height:22px }
   .sound-card .sc-name{ font-weight:800; font-size:14px }
   .sound-card .sc-desc{ font-size:11px; color:var(--muted); margin-top:2px }
-  .sound-card.selected .sc-ico{ background: color-mix(in srgb, var(--user-primary,#a855f7) 25%, transparent);
+  .sound-card.selected .sc-ico{ background: rgba(168,85,247,0.25);
     color: var(--user-primary,#a855f7) }
 
   /* Pending alarm section — más visible */
@@ -488,11 +488,11 @@
   .card .row-actions button{ cursor:pointer }
 
 
-  /* Ocultar barras de búsqueda internas - usar solo la del header */
-  #pagePending .search-row,
-  #pageClients .search-row,
-  #pageNotes .search-row,
-  #pageContacts .search-row { display:none !important }
+  /* Ocultar solo el campo de texto inline en cada sección - usar el del header */
+  #pagePending .search-row .inline-search,
+  #pageClients .search-row .inline-search,
+  #pageNotes .search-row .inline-search,
+  #pageContacts .search-row .inline-search { display:none !important }
 
   /* Login close */
   .login-close{ position:absolute; top:14px; right:14px; width:40px; height:40px; border-radius:50%;
@@ -590,6 +590,7 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
       <input id="pendingSearch" type="search" placeholder="Buscar en esta sección..." autocomplete="off"/>
     </div>
+    <button class="sort-btn" id="sortPendingBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M6 12h12M10 18h4"/></svg><span id="sortPendingLabel">Prioridad</span></button>
     <button class="sort-btn" onclick="clearAll('pending')" title="Eliminar todo" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
   </div>
   <div id="pendingList"></div>
@@ -628,6 +629,7 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
       <input id="notesSearch" type="search" placeholder="Buscar en esta sección..." autocomplete="off"/>
     </div>
+    <button class="sort-btn" id="sortNotesBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M6 12h12M10 18h4"/></svg><span id="sortNotesLabel">Recientes</span></button>
     <button class="sort-btn" onclick="clearAll('notes')" title="Eliminar todo" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
   </div>
   <div id="notesList"></div>
@@ -731,6 +733,8 @@
       <div id="emojiPalette" style="display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 10px;padding:12px;background:var(--card-2);border:1px solid var(--border);border-radius:14px"></div>
       <div style="display:flex;gap:8px;align-items:center">
         <div id="emojiPreviewLive" style="width:44px;height:44px;border-radius:12px;background:rgba(168,85,247,.15);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;border:1px solid var(--border)">⚡</div>
+        <span style="color:var(--muted);font-size:13px">Emoji seleccionado</span>
+        <input type="text" id="cfgIconEmoji" placeholder="⚡" style="width:60px;text-align:center;font-size:22px;padding:6px;background:var(--card-2);border:1px solid var(--border);border-radius:10px;color:var(--text)" oninput="updateEmojiPreview(this.value)" maxlength="4"/>
       </div>
     </div>
     <label class="field"><span>URL de imagen del logo (opcional)</span><input id="cfgIconUrl" placeholder="https://... .png"/></label>
@@ -1326,7 +1330,15 @@
     updateReminder();
   }
   window.showPage = showPage;
-  document.querySelectorAll('.nav-btn').forEach(btn=> btn.addEventListener('click',()=>showPage(btn.dataset.page)));
+  document.querySelectorAll('.nav-btn').forEach(btn=> btn.addEventListener('click',()=>{
+    const page = btn.dataset.page;
+    const wasAlready = currentPage === page;
+    showPage(page);
+    // Scroll to top of the section content
+    setTimeout(()=>{
+      window.scrollTo({top:0, behavior: wasAlready ? 'smooth' : 'instant'});
+    }, 30);
+  }));
 
   function setCounter(n, label, q){
     const pt=$('pageTag'); const tagHtml = pt ? '<span class="page-tag" id="pageTag" style="margin-left:auto">'+escH(pt.textContent)+'</span>' : '';
@@ -1492,16 +1504,44 @@
 
   // ══════════ PENDIENTES ══════════
   const PRIO_ORDER={alta:0,media:1,baja:2};
+  let sortPendingMode = localStorage.getItem('agenda.sort.pending')||'priority';
+  const SORT_PENDING={priority:'Prioridad',date:'Por fecha',recent:'Recientes',az:'A→Z'};
   function sortPendings(arr){
-    return arr.slice().sort((a,b)=>{
-      if(a.done!==b.done) return a.done?1:-1;
-      const pd=(PRIO_ORDER[a.priority]??1)-(PRIO_ORDER[b.priority]??1);
+    const a=arr.slice();
+    if(sortPendingMode==='az') return a.sort((x,y)=>(x.task||'').localeCompare(y.task||''));
+    if(sortPendingMode==='recent') return a; // keep insertion order
+    if(sortPendingMode==='date'){
+      return a.sort((x,y)=>{
+        if(x.done!==y.done) return x.done?1:-1;
+        if(x.date && y.date) return x.date.localeCompare(y.date);
+        if(x.date) return -1; if(y.date) return 1;
+        return 0;
+      });
+    }
+    // default: priority
+    return a.sort((x,y)=>{
+      if(x.done!==y.done) return x.done?1:-1;
+      const pd=(PRIO_ORDER[x.priority]??1)-(PRIO_ORDER[y.priority]??1);
       if(pd!==0) return pd;
-      if(a.date && b.date) return a.date.localeCompare(b.date);
-      if(a.date) return -1; if(b.date) return 1;
+      if(x.date && y.date) return x.date.localeCompare(y.date);
+      if(x.date) return -1; if(y.date) return 1;
       return 0;
     });
   }
+  // Wire sort button for pending
+  setTimeout(()=>{
+    const btn=$('sortPendingBtn'); const lbl=$('sortPendingLabel');
+    if(btn && lbl){
+      lbl.textContent = SORT_PENDING[sortPendingMode];
+      btn.onclick=()=>{
+        const ks=Object.keys(SORT_PENDING);
+        sortPendingMode=ks[(ks.indexOf(sortPendingMode)+1)%ks.length];
+        localStorage.setItem('agenda.sort.pending',sortPendingMode);
+        lbl.textContent=SORT_PENDING[sortPendingMode];
+        renderPending();
+      };
+    }
+  }, 200);
   function renderPending(){
     const listEl = $('pendingList');
     const q = ($('pendingSearch').value||'').trim().toLowerCase();
@@ -1692,12 +1732,35 @@
   }
 
   // ══════════ NOTAS ══════════
+  let sortNotesMode = localStorage.getItem('agenda.sort.notes')||'recent';
+  const SORT_NOTES={recent:'Recientes',az:'A→Z',tag:'Por etiqueta'};
+  function sortNoteItems(arr){
+    const a=arr.slice();
+    if(sortNotesMode==='az') return a.sort((x,y)=>(x.title||'').localeCompare(y.title||''));
+    if(sortNotesMode==='tag') return a.sort((x,y)=>(x.tag||'').localeCompare(y.tag||''));
+    return a; // recent = insertion order
+  }
+  // Wire sort button for notes
+  setTimeout(()=>{
+    const btn=$('sortNotesBtn'); const lbl=$('sortNotesLabel');
+    if(btn && lbl){
+      lbl.textContent = SORT_NOTES[sortNotesMode];
+      btn.onclick=()=>{
+        const ks=Object.keys(SORT_NOTES);
+        sortNotesMode=ks[(ks.indexOf(sortNotesMode)+1)%ks.length];
+        localStorage.setItem('agenda.sort.notes',sortNotesMode);
+        lbl.textContent=SORT_NOTES[sortNotesMode];
+        renderNotes();
+      };
+    }
+  }, 200);
   function renderNotes(){
     const q=($('notesSearch').value||'').trim().toLowerCase();
-    const items = notes.filter(n=>{
+    let items = notes.filter(n=>{
       if(!q) return true;
       return [n.title,n.body,n.tag].filter(Boolean).some(f=>String(f).toLowerCase().includes(q));
     });
+    items = sortNoteItems(items);
     if(q) setCounter(items.length,'',q); else setCounter(notes.length,'notas');
     const el=$('notesList');
     if(items.length===0){ el.innerHTML='<div class="empty">'+SVG.note+'<p style="font-size:16px;margin:6px 0 0">'+(notes.length===0?'No tienes notas':'Sin resultados')+'</p></div>'; return; }
@@ -2284,6 +2347,22 @@
       h.style.background=`linear-gradient(135deg, rgba(${r},${g},${b},0.18) 0%, rgba(8,8,14,0.97) 65%)`;
       h.style.borderBottomColor=`rgba(${r},${g},${b},0.45)`;
       h.style.boxShadow=`0 4px 28px -4px rgba(${r},${g},${b},0.35), 0 1px 0 rgba(${r},${g},${b},0.2)`;
+      // Update footer nav border (Android-safe)
+      const fn=document.querySelector('.footer-nav');
+      if(fn){
+        fn.style.borderTopColor=`rgba(${r},${g},${b},0.3)`;
+        fn.style.boxShadow=`0 -10px 30px -10px rgba(${r},${g},${b},0.4)`;
+      }
+      // Update qb-btn borders
+      document.querySelectorAll('.qb-btn').forEach(el=>{
+        el.style.borderColor=`rgba(${r},${g},${b},0.35)`;
+        el.style.background=`linear-gradient(135deg, rgba(${r},${g},${b},0.18), var(--card,#14141c))`;
+      });
+      // Update sound card selected
+      document.querySelectorAll('.sound-card.selected').forEach(el=>{
+        el.style.borderColor=`rgba(${r},${g},${b},0.8)`;
+        el.style.background=`rgba(${r},${g},${b},0.12)`;
+      });
     }catch(e){}
   }
 
@@ -2816,10 +2895,19 @@
     document.documentElement.style.setProperty('--user-primary', c);
     document.documentElement.style.setProperty('--primary', c);
     // Update reminder bell color
-    const rb=document.querySelector('.reminder'); if(rb) rb.style.color=c;
-    const rb2=document.querySelector('.reminder'); if(rb2) rb2.style.filter=`drop-shadow(0 0 10px ${c}99)`;
+    const rb=document.querySelector('.reminder'); if(rb){ rb.style.color=c; rb.style.filter=`drop-shadow(0 0 10px ${c}99)`; }
     // Update FAB color
     const fab=document.querySelector('.fab'); if(fab) fab.style.background=c;
+    // Update nav active indicator (Android-safe inline)
+    try{
+      const {r,g,b}=hexToRgb(c);
+      // Update admin quicknav hover highlight
+      document.querySelectorAll('.admin-quicknav button').forEach(el=>{
+        el.addEventListener('mouseenter',function(){ this.style.borderColor=`rgba(${r},${g},${b},0.6)`; }, {once:false});
+        el.addEventListener('mouseleave',function(){ this.style.borderColor=''; }, {once:false});
+      });
+    }catch(e){}
+    applyHeaderGradient(c);
   }
   window.resetPrimaryColor = function(){
     const cu=getCustom(); cu.primary='#a855f7'; localStorage.setItem(KEYS.custom, JSON.stringify(cu));
@@ -2952,7 +3040,7 @@
     cards.forEach((c,i)=>{
       const b=document.createElement('button');
       b.innerHTML = (icons[i]||icons[0]) + '<span>'+(labels[i]||'Opción')+'</span>';
-      b.onclick = ()=>{ c.scrollIntoView({behavior:'smooth',block:'start'}); c.style.transition='box-shadow .4s'; c.style.boxShadow='0 0 0 3px color-mix(in srgb, var(--user-primary,#a855f7) 60%, transparent)'; setTimeout(()=>c.style.boxShadow='',1400); };
+      b.onclick = ()=>{ c.scrollIntoView({behavior:'smooth',block:'start'}); c.style.transition='box-shadow .4s'; c.style.boxShadow='0 0 0 3px rgba(168,85,247,0.6)'; setTimeout(()=>c.style.boxShadow='',1400); };
       wrap.appendChild(b);
     });
   }
