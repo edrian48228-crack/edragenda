@@ -46,10 +46,14 @@
   h1 .brand-text span{color:var(--gold)}
   .by{font-size:11px;letter-spacing:.7px;color:rgba(176,176,200,.9);font-weight:700;margin-top:2px}
   .by b{color:var(--gold)}
-  .sub{color:#b0b0c8;font-size:14px;margin-top:3px;font-weight:700;display:flex;align-items:center;gap:8px}
+  .sub{color:#b0b0c8;font-size:14px;margin-top:3px;font-weight:700;display:flex;align-items:center;gap:8px;justify-content:space-between}
   .sub .hit{color:var(--accent);font-weight:800}
-  .sub .page-tag{font-size:11px;font-weight:800;padding:2px 8px;border-radius:20px;
-    background:rgba(168,85,247,.18);color:var(--primary-2);letter-spacing:.4px;white-space:nowrap}
+  .sub .page-tag{font-size:13px;font-weight:900;padding:3px 12px;border-radius:20px;
+    background:rgba(239,68,68,.12);color:transparent;letter-spacing:.4px;white-space:nowrap;
+    background-clip:text;-webkit-background-clip:text;
+    background-image:linear-gradient(135deg,#ff4444 0%,#ff8080 40%,#cc0000 100%);
+    -webkit-text-fill-color:transparent;
+    filter:drop-shadow(0 1px 4px rgba(239,68,68,.4))}
   /* Top-right contacts shortcut */
   .top-right-btns{display:none!important}
   .top-right-btns .tr-btn{width:42px;height:42px;border-radius:12px;background:rgba(56,189,248,.15);
@@ -227,6 +231,10 @@
   .card.done-card .product{color:rgba(120,120,140,.5)!important}
   .card.done-card .badge{opacity:.35}
   .card.done-card .done-toggle.done{background:rgba(100,100,120,.5);border-color:rgba(100,100,120,.5);box-shadow:none}
+  /* NOTE card — distinct from pending */
+  .note-card{border-left:4px solid rgba(251,191,36,.6) !important;background:linear-gradient(135deg,rgba(251,191,36,.04) 0%,var(--card) 60%) !important}
+  .note-card:hover{border-color:rgba(251,191,36,.8) !important}
+
   .done-toggle{width:30px;height:30px;border-radius:9px;border:2px solid var(--border);
     display:flex;align-items:center;justify-content:center;flex-shrink:0;
     transition:background .2s,border-color .2s,transform .15s}
@@ -412,7 +420,7 @@
   .vip-strip .vip-crown{ width:16px; height:16px; flex-shrink:0; display:flex; align-items:center; justify-content:center; display:none }
   .vip-strip .vip-crown svg{ width:14px; height:14px }
   @keyframes textGoldShine{ 0%,100%{text-shadow:0 0 8px rgba(251,191,36,.7),0 0 20px rgba(251,191,36,.4)} 50%{text-shadow:0 0 14px rgba(251,191,36,1),0 0 30px rgba(251,191,36,.7),0 0 2px #fff} }
-  .vip-strip .vip-text{ font-size:11px; font-weight:800; letter-spacing:1.3px; line-height:1;
+  .vip-strip .vip-text{ font-size:9px; font-weight:700; letter-spacing:.8px; line-height:1;
     background:linear-gradient(90deg,#fbbf24,#fde68a,#fbbf24); background-size:200% auto;
     -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
     animation:textGoldShine 2.5s ease-in-out infinite, goldTextMove 4s linear infinite;
@@ -420,12 +428,12 @@
   @keyframes goldTextMove{ 0%{background-position:0%} 100%{background-position:200%} }
 
   .vip-strip .vip-contact{ display:flex; gap:5px; flex-shrink:0 }
-  .vip-strip .vip-contact a{ width:28px; height:28px; border-radius:8px; display:flex; align-items:center; justify-content:center;
-    background:none; border:none; transition:transform .12s,filter .15s }
+  .vip-strip .vip-contact a{ width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center;
+    background:none; border:1px solid rgba(150,150,170,.3); color:rgba(170,170,190,.7) !important; transition:transform .12s,filter .15s }
   .vip-strip .vip-contact a:hover{filter:brightness(1.3)}
   .vip-strip .vip-contact a:active{ transform:scale(.92) }
-  .vip-strip .vip-contact a.vc-wa{ color:#4ade80 } .vip-strip .vip-contact a.vc-tel{ color:#7dd3fc }
-  .vip-strip .vip-contact svg{ width:14px; height:14px }
+  .vip-strip .vip-contact a.vc-wa{ color:rgba(170,170,190,.75) !important } .vip-strip .vip-contact a.vc-tel{ color:rgba(170,170,190,.75) !important }
+  .vip-strip .vip-contact svg{ width:18px; height:18px }
 
   @keyframes heartbeat{ 0%,100%{transform:scale(1)} 14%{transform:scale(1.22)} 28%{transform:scale(1)} 42%{transform:scale(1.18)} 60%{transform:scale(1)} }
 
@@ -479,6 +487,13 @@
   .card .row{ cursor:pointer }
   .card .row-actions button{ cursor:pointer }
 
+
+  /* Ocultar barras de búsqueda internas - usar solo la del header */
+  #pagePending .search-row,
+  #pageClients .search-row,
+  #pageNotes .search-row,
+  #pageContacts .search-row { display:none !important }
+
   /* Login close */
   .login-close{ position:absolute; top:14px; right:14px; width:40px; height:40px; border-radius:50%;
     display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,.06);
@@ -520,7 +535,7 @@
         <div class="brand-text" id="brandText" style="cursor:pointer" onclick="goHome()" title="Ir al inicio"><span>Mi</span> Agenda</div>
       </div>
     </h1>
-    <p class="sub" id="counter">0 elementos<span class="page-tag" id="pageTag" style="margin-left:4px"></span></p>
+    <p class="sub" id="counter">0 elementos<span class="page-tag" id="pageTag" style="margin-left:auto"></span></p>
 
 
     <!-- VIP banner (sticky en todas las páginas) -->
@@ -537,7 +552,7 @@
 
     <div class="search" id="headerSearch">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <input id="search" type="search" placeholder="¿Qué estás buscando hoy?" autocomplete="off"/>
+      <input id="search" type="search" placeholder="Buscar en esta sección..." autocomplete="off"/>
     </div>
   </div>
 </header>
@@ -573,7 +588,7 @@
   <div class="search-row">
     <div class="inline-search danger">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <input id="pendingSearch" type="search" placeholder="¿Qué estás buscando hoy?" autocomplete="off"/>
+      <input id="pendingSearch" type="search" placeholder="Buscar en esta sección..." autocomplete="off"/>
     </div>
     <button class="sort-btn" onclick="clearAll('pending')" title="Eliminar todo" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
   </div>
@@ -591,7 +606,7 @@
   <div class="search-row">
     <div class="inline-search accent">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <input id="clientSearch" type="search" placeholder="¿Qué estás buscando hoy?" autocomplete="off"/>
+      <input id="clientSearch" type="search" placeholder="Buscar en esta sección..." autocomplete="off"/>
     </div>
     <button class="sort-btn" id="sortClientBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M6 12h12M10 18h4"/></svg><span id="sortClientLabel">Recientes</span></button>
     <button class="sort-btn" onclick="clearAll('clients')" title="Eliminar todo" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
@@ -611,7 +626,7 @@
   <div class="search-row">
     <div class="inline-search gold">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <input id="notesSearch" type="search" placeholder="¿Qué estás buscando hoy?" autocomplete="off"/>
+      <input id="notesSearch" type="search" placeholder="Buscar en esta sección..." autocomplete="off"/>
     </div>
     <button class="sort-btn" onclick="clearAll('notes')" title="Eliminar todo" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
   </div>
@@ -629,7 +644,7 @@
   <div class="search-row">
     <div class="inline-search">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <input id="contactsSearch" type="search" placeholder="¿Qué estás buscando hoy?" autocomplete="off"/>
+      <input id="contactsSearch" type="search" placeholder="Buscar en esta sección..." autocomplete="off"/>
     </div>
     <button class="sort-btn" id="sortContactBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M6 12h12M10 18h4"/></svg><span id="sortContactLabel">Todos</span></button>
     <button class="sort-btn" onclick="clearAll('contacts')" title="Eliminar todo" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
@@ -730,6 +745,10 @@
       <input type="file" id="cfgAvatarFile" accept="image/*" style="width:100%;padding:10px 14px;background:var(--card-2);border:1px solid var(--border);border-radius:12px;font-size:14px;color:var(--text);cursor:pointer;outline:none" onchange="handleAvatarUpload(this)"/>
       <div id="avatarPreview" style="margin-top:8px;display:none"><img id="avatarPreviewImg" style="width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid var(--border)"/><button type="button" class="btn-secondary" style="width:auto;padding:0 12px;height:36px;margin-left:8px;font-size:13px" onclick="clearAvatarUpload()">Quitar avatar</button></div>
     </div>
+    <div class="field">
+      <span>🎨 Paleta de temas — elige un color base y genera el estilo completo</span>
+      <div id="themePalette" style="display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 12px;padding:12px;background:var(--card-2);border:1px solid var(--border);border-radius:14px"></div>
+    </div>
     <label class="field"><span>🎨 Color principal de la agenda (resalte)</span>
       <div style="display:flex;gap:8px;align-items:center">
         <input id="cfgPrimary" type="color" value="#a855f7" style="width:64px;height:46px;padding:2px;border-radius:12px;background:var(--card-2);border:1px solid var(--border);cursor:pointer" oninput="syncColorPicker(this.value)" onchange="syncColorPicker(this.value)"/>
@@ -746,7 +765,7 @@
     <div class="toggle-line"><label>Clientes</label><div class="switch" id="vis_clients" data-vis="clients" onclick="toggleVis(this)"></div></div>
     <div class="toggle-line"><label>Notas</label><div class="switch" id="vis_notes" data-vis="notes" onclick="toggleVis(this)"></div></div>
     <div class="toggle-line"><label>Contactos</label><div class="switch" id="vis_contacts" data-vis="contacts" onclick="toggleVis(this)"></div></div>
-    <div class="toggle-line"><label>Botón de contactos arriba a la derecha</label><div class="switch" id="vis_topcontacts" data-vis="topContacts" onclick="toggleVis(this)"></div></div>
+    <!-- Opción de botón de contactos arriba eliminada -->
     <div style="height:6px"></div>
     <button class="btn-primary" onclick="saveCustom()">💾 Guardar personalización</button>
     <div class="status-msg" id="customStatus"></div>
@@ -863,6 +882,7 @@
     <input type="hidden" id="p-id"/>
     <label class="field"><span>Tarea *</span><input id="p-task" required placeholder="Ej: Llamar a proveedor X"/></label>
     <label class="field"><span>Notas / información extra</span><textarea id="p-note" rows="4" placeholder="Notas, contactos, lo que sea..."></textarea></label>
+    <label class="field"><span>📞 Teléfono (opcional)</span><input id="p-phone" type="tel" placeholder="+5491112345678"/></label>
     <div class="field-row">
       <label class="field"><span>Prioridad</span>
         <select id="p-priority"><option value="alta">🔴 Alta</option><option value="media" selected>🟡 Media</option><option value="baja">🟢 Baja</option></select>
@@ -1272,8 +1292,11 @@
       if(id==='pageProviders') el.classList.toggle('hidden', page!==map[id]);
       else el.classList.toggle('active', page===map[id]);
     });
-    $('headerSearch').style.display = page==='providers' ? '' : 'none';
+    /* headerSearch always visible */
     $('addBtn').classList.toggle('hidden', page==='admin');
+    // Show/hide search bar (always visible except admin)
+    const hs2 = $('headerSearch');
+    if(hs2) hs2.style.display = page === 'admin' ? 'none' : '';
     document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active', b.dataset.page===page));
     const cu=window.getCustom ? window.getCustom() : null;
     const storeName = (cu&&cu.name) ? cu.name : (()=>{ try{ const o=JSON.parse(localStorage.getItem('agenda.custom.v1')||'{}'); return o.name||'Mi Agenda'; }catch(e){ return 'Mi Agenda'; } })();
@@ -1281,20 +1304,32 @@
     if(storeNameParts.length>=2) $('brandText').innerHTML='<span>'+escH(storeNameParts[0])+'</span> '+escH(storeNameParts.slice(1).join(' '));
     else $('brandText').innerHTML='<span>'+escH(storeName)+'</span>';
     const pageTags={providers:'Proveedores',pending:'Pendientes',clients:'Clientes',notes:'Notas',contacts:'Contactos',admin:'Administración'};
-    const pt=$('pageTag'); if(pt){ pt.textContent=pageTags[page]||''; pt.style.background=page==='pending'?'rgba(239,68,68,.18)':page==='clients'?'rgba(34,211,238,.18)':page==='notes'?'rgba(251,191,36,.18)':page==='contacts'?'rgba(56,189,248,.18)':page==='admin'?'rgba(251,191,36,.18)':'rgba(168,85,247,.18)'; pt.style.color=page==='pending'?'var(--danger)':page==='clients'?'var(--accent)':page==='notes'?'var(--gold)':page==='contacts'?'var(--info)':page==='admin'?'var(--gold)':'var(--primary-2)'; }
+    const pt=$('pageTag'); if(pt){ pt.textContent=pageTags[page]||''; pt.style.background=''; pt.style.color=''; }
     if(page==='providers') renderProviders();
     if(page==='pending')   renderPending();
     if(page==='clients')   renderClients();
     if(page==='notes')     renderNotes();
     if(page==='contacts')  renderContacts();
     if(page==='admin')     { renderAdmin(); window.scrollTo({top:0,behavior:'smooth'}); }
+    // Sync header search with page search
+    const headerSrch = $('search');
+    const pageSearchMap = {providers:'provSearch',pending:'pendingSearch',clients:'clientSearch',notes:'notesSearch',contacts:'contactsSearch'};
+    const pagePlaceholders = {providers:'Buscar proveedores...',pending:'Buscar tareas pendientes...',clients:'Buscar clientes...',notes:'Buscar notas...',contacts:'Buscar contactos...',admin:''};
+    if(headerSrch){
+      if(pageSearchMap[page]){
+        const ps=$(pageSearchMap[page]); if(ps) headerSrch.value = ps.value||'';
+      } else {
+        headerSrch.value='';
+      }
+      headerSrch.placeholder = pagePlaceholders[page] || 'Buscar...';
+    }
     updateReminder();
   }
   window.showPage = showPage;
   document.querySelectorAll('.nav-btn').forEach(btn=> btn.addEventListener('click',()=>showPage(btn.dataset.page)));
 
   function setCounter(n, label, q){
-    const pt=$('pageTag'); const tagHtml = pt ? '<span class="page-tag" id="pageTag" style="margin-left:4px">'+escH(pt.textContent)+'</span>' : '';
+    const pt=$('pageTag'); const tagHtml = pt ? '<span class="page-tag" id="pageTag" style="margin-left:auto">'+escH(pt.textContent)+'</span>' : '';
     let t = n + ' ' + label;
     if(q) t = `<span class="hit">${n}</span> resultado${n===1?'':'s'} para "${escH(q)}"`;
     $('counter').innerHTML = t + tagHtml;
@@ -1371,7 +1406,18 @@
       </article>`;
     }).join('');
   }
-  $('search').addEventListener('input', renderProviders);
+  $('search').addEventListener('input', ()=>{
+    const q = $('search').value;
+    // Sync to all inline searches
+    ['provSearch','pendingSearch','clientSearch','notesSearch','contactsSearch'].forEach(id=>{
+      const el = $(id); if(el) el.value = q;
+    });
+    if(currentPage==='providers') renderProviders();
+    if(currentPage==='pending') renderPending();
+    if(currentPage==='clients') renderClients();
+    if(currentPage==='notes') renderNotes();
+    if(currentPage==='contacts') renderContacts();
+  });
   $('provList').addEventListener('click', e=>{
     const t = e.target.closest('button'); if(!t) return;
     const d = t.dataset;
@@ -1484,7 +1530,8 @@
           </div>
           <div class="info">
             <p class="name">${escH(t.task)}</p>
-            ${t.note?`<p class="product">${escH((t.note||'').split('\n')[0])}</p>`:''}
+            ${t.note?`<p class="product" style="color:#b0b0c8;font-size:14px;font-weight:600;margin:3px 0 0">${escH((t.note||'').split('\n')[0])}</p>`:''}
+            ${t.phone?`<p class="product" style="color:var(--accent);font-size:14px;font-weight:700;margin:2px 0 0;display:flex;align-items:center;gap:5px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg><a href="tel:${escH(t.phone)}" style="color:var(--accent)">${escH(t.phone)}</a></p>`:''}
             <div style="display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-top:4px">
               <span class="badge ${t.priority==='alta'?'high':t.priority==='baja'?'low':'med'}">${prioLabel[t.priority]||'Media'}</span>
               ${t.date?`<span style="color:var(--muted);font-size:12px;font-weight:600">📅 ${escH(t.date)}</span>`:''}
@@ -1511,7 +1558,7 @@
   });
   function openPendingModal(t){
     $('modalPendingTitle').textContent=t?'Editar tarea':'Nueva tarea';
-    $('p-id').value=t?.id||''; $('p-task').value=t?.task||''; $('p-note').value=t?.note||'';
+    $('p-id').value=t?.id||''; $('p-task').value=t?.task||''; $('p-note').value=t?.note||''; $('p-phone')&&($('p-phone').value=t?.phone||'');
     $('p-priority').value=t?.priority||'media'; $('p-date').value=t?.date||'';
     $('p-notif-days').value = t?.notifDays ?? 0; $('p-notif-times').value= t?.notifTimes ?? 3;
     $('p-notif-hour').value = t?.notifHour || '09:00'; if($('p-notif-msg')) $('p-notif-msg').value=t?.notifMsg||'';
@@ -1522,7 +1569,7 @@
     const days = Math.max(0, Math.min(9999, parseInt($('p-notif-days').value||'0',10)));
     const times= Math.max(1, Math.min(99, parseInt($('p-notif-times').value||'3',10)));
     const notifUnit = ($('p-notif-unit')?$('p-notif-unit').value:'day');
-    const data={id:$('p-id').value||uid(),task:$('p-task').value.trim(),note:$('p-note').value.trim(),
+    const data={id:$('p-id').value||uid(),task:$('p-task').value.trim(),note:$('p-note').value.trim(),phone:($('p-phone')?$('p-phone').value.trim():''),
       priority:$('p-priority').value,date:$('p-date').value,done:false,
       notifDays:days,notifTimes:times,notifHour:$('p-notif-hour').value||'09:00',notifUnit:notifUnit,
       notifMsg:($('p-notif-msg')?$('p-notif-msg').value.trim():''),notifFired:0,nextNotif:0};
@@ -1654,13 +1701,13 @@
     if(q) setCounter(items.length,'',q); else setCounter(notes.length,'notas');
     const el=$('notesList');
     if(items.length===0){ el.innerHTML='<div class="empty">'+SVG.note+'<p style="font-size:16px;margin:6px 0 0">'+(notes.length===0?'No tienes notas':'Sin resultados')+'</p></div>'; return; }
-    el.innerHTML=items.map(n=>`<article class="card">
+    el.innerHTML=items.map(n=>`<article class="card note-card">
       <div class="row">
         <div class="avatar note-avatar">${SVG.note}</div>
         <div class="info">
-          <p class="name">${escH(n.title)}</p>
-          ${n.body?`<p class="product" style="white-space:pre-wrap;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">${escH(n.body)}</p>`:''}
-          ${n.tag?`<span class="badge med">${escH(n.tag)}</span>`:''}
+          <p class="name" style="color:#fde68a">${escH(n.title)}</p>
+          ${n.body?`<p class="product note-body" style="white-space:pre-wrap;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;color:#c8b86a;font-size:14px">${escH(n.body)}</p>`:''}
+          ${n.tag?`<span class="badge med" style="background:rgba(251,191,36,.15);color:#fbbf24;border:1px solid rgba(251,191,36,.3)">${escH(n.tag)}</span>`:''}
         </div>
       </div>
       <div class="row-actions">
@@ -2567,7 +2614,17 @@
     beep:{name:'Beep', desc:'Corto y directo', emoji:'📢'},
     silent:{name:'Silencioso', desc:'Solo notificación visual', emoji:'🔇'}
   };
-  function _ctx(){ return new (window.AudioContext||window.webkitAudioContext)(); }
+  // Audio context management - reuse and resume to fix silent playback
+  let _sharedAudioCtx = null;
+  function _ctx(){
+    if(!_sharedAudioCtx || _sharedAudioCtx.state === 'closed'){
+      _sharedAudioCtx = new (window.AudioContext||window.webkitAudioContext)();
+    }
+    if(_sharedAudioCtx.state === 'suspended'){
+      _sharedAudioCtx.resume().catch(()=>{});
+    }
+    return _sharedAudioCtx;
+  }
   function _osc(ctx,type,freq,start,end,gain){
     const o=ctx.createOscillator(),g=ctx.createGain();
     o.type=type; o.frequency.setValueAtTime(freq,ctx.currentTime+start);
@@ -2580,6 +2637,7 @@
     if(kind==='silent') return;
     try{
       const ctx=_ctx();
+      if(ctx.state === 'suspended'){ ctx.resume().catch(()=>{}); }
       switch(kind){
         case 'bell': _osc(ctx,'sine',880,0,1.2,.3); break;
         case 'beep': _osc(ctx,'square',600,0,.45,.2); break;
@@ -3106,7 +3164,7 @@
   };
 
   // ─── toggleHeaderSearch: ocultar/mostrar cuadro búsqueda header ───
-  let _headerSearchHidden = false;
+  let _headerSearchHidden = false; // search always visible
   window.toggleHeaderSearch = function(){
     const hs = document.getElementById('headerSearch');
     const btn = document.getElementById('headerSearchToggle');
@@ -3126,9 +3184,6 @@
   const _origShowPageSearch = window.showPage;
   window.showPage = function(page){
     const result = _origShowPageSearch ? _origShowPageSearch.apply(this, arguments) : undefined;
-    const hs = document.getElementById('headerSearch');
-    if(hs && page === 'providers' && !_headerSearchHidden) hs.style.display = '';
-    if(hs && page === 'providers' && _headerSearchHidden) hs.style.display = 'none';
     return result;
   };
 
@@ -3273,6 +3328,121 @@
       return '#'+[clamp(r),clamp(g),clamp(b)].map(v=>v.toString(16).padStart(2,'0')).join('');
     }catch(e){return hex;}
   }
+
+
+
+  // ─── AUDIO UNLOCK on first user gesture ───────────────────
+  let _audioUnlocked = false;
+  function _unlockAudio(){
+    if(_audioUnlocked) return;
+    try{
+      const ctx = new (window.AudioContext||window.webkitAudioContext)();
+      const buf = ctx.createBuffer(1,1,22050);
+      const src = ctx.createBufferSource();
+      src.buffer = buf;
+      src.connect(ctx.destination);
+      src.start(0);
+      src.stop(0.001);
+      ctx.resume().then(()=>{ _audioUnlocked=true; if(_sharedAudioCtx) _sharedAudioCtx.resume().catch(()=>{}); });
+    }catch(e){}
+    _audioUnlocked = true;
+  }
+  document.addEventListener('touchstart', _unlockAudio, {once:true, passive:true});
+  document.addEventListener('click', _unlockAudio, {once:true});
+  document.addEventListener('keydown', _unlockAudio, {once:true});
+
+  // ─── PALETA DE TEMAS ───────────────────────────────────────
+  const THEME_COLORS = [
+    {name:'Marrón profundo', hex:'#5c3317', emoji:'🟫'},
+    {name:'Marrón cálido', hex:'#7b4a1e', emoji:'🟫'},
+    {name:'Marrón medio', hex:'#8b5a2b', emoji:'🟫'},
+    {name:'Marrón dorado', hex:'#a0692a', emoji:'🟫'},
+    {name:'Marrón claro', hex:'#c4874f', emoji:'🟫'},
+    {name:'Arena', hex:'#d4a76a', emoji:'🟤'},
+    {name:'Beige', hex:'#e8c99a', emoji:'🟤'},
+    {name:'Rojo vino', hex:'#7c1e2e', emoji:'🔴'},
+    {name:'Rojo coral', hex:'#e05252', emoji:'🔴'},
+    {name:'Naranja', hex:'#e07b39', emoji:'🟠'},
+    {name:'Dorado', hex:'#d4a017', emoji:'🟡'},
+    {name:'Amarillo limón', hex:'#c4c418', emoji:'🟡'},
+    {name:'Verde bosque', hex:'#2d6a2d', emoji:'🟢'},
+    {name:'Verde esmeralda', hex:'#25a085', emoji:'🟢'},
+    {name:'Verde menta', hex:'#4ec994', emoji:'🟢'},
+    {name:'Azul marino', hex:'#1a3a6b', emoji:'🔵'},
+    {name:'Azul cielo', hex:'#3b82f6', emoji:'🔵'},
+    {name:'Cian', hex:'#22d3ee', emoji:'🔵'},
+    {name:'Violeta', hex:'#a855f7', emoji:'🟣'},
+    {name:'Rosa', hex:'#ec4899', emoji:'🩷'},
+    {name:'Gris plata', hex:'#64748b', emoji:'⚪'},
+    {name:'Carbón', hex:'#374151', emoji:'⚫'},
+  ];
+
+  function buildThemePalette(){
+    const wrap = document.getElementById('themePalette'); if(!wrap) return;
+    const cur = (getCustom ? getCustom().primary : null) || '#a855f7';
+    wrap.innerHTML = THEME_COLORS.map(t=>{
+      const isSel = t.hex.toLowerCase() === cur.toLowerCase();
+      return `<button type="button" title="${t.name}" onclick="selectThemeColor('${t.hex}')"
+        style="width:44px;height:44px;border-radius:12px;border:3px solid ${isSel?'#fff':'rgba(255,255,255,.15)'};
+        background:${t.hex};cursor:pointer;transition:transform .15s,border-color .15s;flex-shrink:0;
+        box-shadow:${isSel?'0 0 12px '+t.hex+'aa':'0 2px 6px rgba(0,0,0,.3)'};
+        transform:${isSel?'scale(1.12)':'scale(1)'}"
+        data-theme-hex="${t.hex}"
+        onmouseover="this.style.transform='scale(1.08)'"
+        onmouseout="this.style.transform='${isSel?'scale(1.12)':'scale(1)'}'"
+      ></button>`;
+    }).join('');
+  }
+
+  window.selectThemeColor = function(hex){
+    // Generate full theme from base color
+    const cu = getCustom ? getCustom() : {};
+    cu.primary = hex;
+    localStorage.setItem('agenda.custom.v1', JSON.stringify(cu));
+    // Apply live
+    syncColorPicker(hex);
+    const cp = document.getElementById('cfgPrimary');
+    const ch = document.getElementById('cfgPrimaryHex');
+    if(cp) cp.value = hex;
+    if(ch) ch.value = hex;
+    buildThemePalette();
+    // Show confirmation
+    const statusEl = document.getElementById('customStatus');
+    if(statusEl){ statusEl.textContent = '🎨 Tema aplicado: '+hex; statusEl.className='status-msg ok'; setTimeout(()=>statusEl.className='status-msg',3000); }
+  };
+
+  // Apply full theme from primary color: generate CSS variables
+  function applyPrimaryColorFull(hex){
+    if(!hex || !/^#[0-9a-f]{6}$/i.test(hex)) return;
+    try{
+      const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+      const root = document.documentElement;
+      root.style.setProperty('--primary', hex);
+      root.style.setProperty('--user-primary', hex);
+      // Generate lighter variant
+      const lf = v => Math.min(255, Math.floor(v + (255-v)*0.35));
+      const p2 = '#'+[lf(r),lf(g),lf(b)].map(v=>v.toString(16).padStart(2,'0')).join('');
+      root.style.setProperty('--primary-2', p2);
+      applyHeaderGradient(hex);
+    }catch(e){}
+  }
+
+  // Override applyPrimaryColor to also update --primary-2
+  const _applyPrimaryOrig = window.applyPrimaryColor;
+  window.applyPrimaryColor = function(){
+    if(_applyPrimaryOrig) _applyPrimaryOrig.apply(this, arguments);
+    const cu = getCustom ? getCustom() : {};
+    applyPrimaryColorFull(cu.primary || '#a855f7');
+  };
+
+  // Build palette when admin renders
+  const _buildAdminOrig3 = window.buildAdminQuickNav;
+  window.buildAdminQuickNav = function(){
+    if(_buildAdminOrig3) _buildAdminOrig3.apply(this, arguments);
+    buildThemePalette();
+  };
+  // Init
+  setTimeout(()=>buildThemePalette(), 300);
 
 })();
 </script>
