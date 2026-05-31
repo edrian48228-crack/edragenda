@@ -150,7 +150,7 @@
   .empty svg{width:56px;height:56px;opacity:.4;margin-bottom:8px}
 
   /* FAB */
-  .fab{position:fixed;bottom:calc(var(--footer-h) + 16px);right:18px;
+  .fab{position:fixed;bottom:calc(var(--footer-h) + 22px);right:18px;
     width:60px;height:60px;border-radius:50%;background:var(--primary);
     color:#fff;display:flex;align-items:center;justify-content:center;
     box-shadow:0 12px 32px -8px rgba(168,85,247,.7),0 4px 14px rgba(0,0,0,.5);
@@ -159,8 +159,8 @@
   .fab svg{width:30px;height:30px;stroke-width:3}
   .fab.hidden{display:none}
 
-  /* Floating reminder — campanita al lado izquierdo del FAB */
-  .reminder{position:fixed;right:86px;bottom:calc(var(--footer-h) + 16px);z-index:20;
+  /* Floating reminder — campanita a la derecha */
+  .reminder{position:fixed;right:14px;bottom:calc(var(--footer-h) + 22px);z-index:20;
     width:52px;height:52px;border-radius:50%;
     background:none;color:var(--accent);
     display:flex;align-items:center;justify-content:center;
@@ -171,7 +171,6 @@
   .reminder .dot{position:absolute;top:-4px;right:-6px;min-width:20px;height:20px;padding:0 5px;
     border-radius:10px;background:var(--danger);color:#fff;font-size:11px;font-weight:800;
     display:flex;align-items:center;justify-content:center;border:2px solid var(--bg)}
-
   /* FOOTER NAV */
   .footer-nav{position:fixed;bottom:0;left:0;right:0;z-index:15;height:var(--footer-h);
     background:rgba(12,12,20,.96);backdrop-filter:blur(20px);
@@ -405,9 +404,11 @@
     background:var(--primary); color:#fff;
     border:2px solid rgba(255,255,255,.2); box-shadow:0 6px 16px rgba(168,85,247,.55); }
 
-  /* FAB y campanita: posición fija correcta */
-  .fab{ left:auto !important; transform:none; }
-  .fab:active{ transform:scale(.94) }
+  /* FAB centrado abajo */
+  .fab{ left:50% !important; right:auto !important; transform:translateX(-50%); }
+  .fab:active{ transform:translateX(-50%) scale(.94) }
+  /* Recordatorio a la derecha (campanita) */
+  .reminder{ right:14px !important; left:auto !important; }
 
   /* Quick bar bajo banner */
   .quick-bar{ max-width:760px; margin:6px auto 4px; padding:0 12px;
@@ -1316,10 +1317,10 @@
     const cu=window.getCustom ? window.getCustom() : null;
     const storeName = (cu&&cu.name) ? cu.name : (()=>{ try{ const o=JSON.parse(localStorage.getItem('agenda.custom.v1')||'{}'); return o.name||'Mi Agenda'; }catch(e){ return 'Mi Agenda'; } })();
     const storeNameParts = storeName.trim().split(/\s+/);
-    const _fc = escH(storeName.charAt(0));
-    const _rest = escH(storeName.slice(1));
     const _pcolor = (cu&&cu.primary)||'var(--primary)';
-    $('brandText').innerHTML='<span style="color:'+_pcolor+';font-weight:900">'+_fc+'</span>'+_rest;
+    const _colorStyle = 'color:'+_pcolor+';font-weight:900';
+    if(storeNameParts.length>=2) $('brandText').innerHTML='<span style="'+_colorStyle+'">'+escH(storeNameParts[0])+'</span> '+escH(storeNameParts.slice(1).join(' '));
+    else $('brandText').innerHTML='<span style="'+_colorStyle+'">'+escH(storeName)+'</span>';
     // pageTag removed from counter display
     if(page==='providers') renderProviders();
     if(page==='pending')   renderPending();
@@ -2320,9 +2321,9 @@
     if(bt){
       const name=c.name||'Mi Agenda';
       const colorStyle=c.primary?'color:'+c.primary+';font-weight:900':'';
-      const firstChar = escH(name.charAt(0));
-      const rest = escH(name.slice(1));
-      bt.innerHTML='<span style="'+colorStyle+'">'+firstChar+'</span>'+rest;
+      const parts=name.trim().split(/\s+/);
+      if(parts.length>=2) bt.innerHTML='<span style="'+colorStyle+'">'+escH(parts[0])+'</span> '+escH(parts.slice(1).join(' '));
+      else bt.innerHTML='<span style="'+colorStyle+'">'+escH(name)+'</span>';
     }
     // brand icon — tint with primary color if using default SVG
     const bi=$('brandIcon');
@@ -2439,7 +2440,12 @@
       if(sub2){ sub2.style.color=val; sub2.style.textShadow=`0 0 14px rgba(${r2},${g2},${b2},.4)`; }
     }catch(_){}
     const bt=$('brandText');
-    if(bt){ const span=bt.querySelector('span'); if(span){ span.style.color=val; span.style.fontWeight='900'; } }
+    if(bt){
+      const cu3=getCustom(); const nm3=cu3.name||'Mi Agenda';
+      const pts3=nm3.trim().split(/\s+/); const cs3='color:'+val+';font-weight:900';
+      if(pts3.length>=2) bt.innerHTML='<span style="'+cs3+'">'+pts3[0]+'</span> '+pts3.slice(1).join(' ');
+      else bt.innerHTML='<span style="'+cs3+'">'+nm3+'</span>';
+    }
     const bi=$('brandIcon');
     if(bi && !bi.querySelector('img') && !bi.querySelector('span.emoji-icon')){
       const pd2=adjustColor(val,-30); const pl2=adjustColor(val,40);
@@ -2984,9 +2990,15 @@
     const rb=document.querySelector('.reminder'); if(rb){ rb.style.color=c; rb.style.filter=`drop-shadow(0 0 10px ${c}99)`; }
     // Update FAB color
     const fab=document.querySelector('.fab'); if(fab) fab.style.background=c;
-    // Update first letter of brand name
+    // Update first WORD of brand name with primary color
     const bt=document.getElementById('brandText');
-    if(bt){ const span=bt.querySelector('span'); if(span){ span.style.color=c; span.style.fontWeight='900'; } }
+    if(bt){
+      const cu2=getCustom(); const nm=cu2.name||'Mi Agenda';
+      const pts=nm.trim().split(/\s+/);
+      const cs='color:'+c+';font-weight:900';
+      if(pts.length>=2) bt.innerHTML='<span style="'+cs+'">'+pts[0]+'</span> '+pts.slice(1).join(' ');
+      else bt.innerHTML='<span style="'+cs+'">'+nm+'</span>';
+    }
     // Update brand icon bolt with primary color
     const bi=document.getElementById('brandIcon');
     if(bi && !bi.querySelector('img') && !bi.querySelector('span.emoji-icon')){
