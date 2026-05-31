@@ -46,7 +46,7 @@
   h1 .brand-text span{color:var(--gold)}
   .by{font-size:11px;letter-spacing:.7px;color:rgba(176,176,200,.9);font-weight:700;margin-top:2px}
   .by b{color:var(--gold)}
-  .sub{color:#b0b0c8;font-size:14px;margin-top:3px;font-weight:700;display:flex;align-items:center;gap:8px;justify-content:space-between}
+  .sub{color:#b0b0c8;font-size:17px;margin-top:3px;font-weight:700;display:flex;align-items:center;gap:8px;justify-content:space-between}
   .sub .hit{color:var(--accent);font-weight:800}
   .sub .page-tag{font-size:13px;font-weight:900;padding:3px 12px;border-radius:20px;
     background:rgba(239,68,68,.12);color:transparent;letter-spacing:.4px;white-space:nowrap;
@@ -65,9 +65,9 @@
   .search.search-hidden{display:none}
   .search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);
     width:16px;height:16px;color:var(--primary)}
-  .search input{width:100%;height:38px;padding:0 12px 0 36px;
+  .search input{width:100%;height:42px;padding:0 12px 0 36px;
     background:var(--card);color:var(--text);border:1px solid var(--border);
-    border-radius:12px;font-size:13px;outline:none;transition:border-color .2s}
+    border-radius:12px;font-size:16px;outline:none;transition:border-color .2s}
   .search input:focus{border-color:var(--primary)}
   .search input::placeholder{color:var(--muted)}
   .search-toggle-btn{display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;border:none;background:none;color:var(--muted);cursor:pointer;transition:color .2s;flex-shrink:0}
@@ -180,14 +180,14 @@
   .nav-btn svg{width:27px;height:27px;stroke-width:2;transition:transform .2s,filter .2s}
   .nav-btn span{font-size:13px;font-weight:800;letter-spacing:.2px;line-height:1;
     color:#e5e7f0;text-shadow:0 1px 2px rgba(0,0,0,.6);white-space:nowrap}
-  /* Móvil: ocultar texto, iconos más pequeños */
+  /* Móvil: ocultar texto, iconos más grandes */
   @media (max-width:639px){
     .nav-btn span{display:none}
-    .nav-btn{gap:0;padding:8px 2px}
-    .nav-btn svg{width:26px;height:26px}
-    :root{--footer-h:72px}
+    .nav-btn{gap:0;padding:10px 2px}
+    .nav-btn svg{width:32px;height:32px}
+    :root{--footer-h:84px}
   }
-  @media (max-width:360px){ .nav-btn span{display:none}; .nav-btn svg{width:24px;height:24px} }
+  @media (max-width:360px){ .nav-btn span{display:none}; .nav-btn svg{width:30px;height:30px} }
   .nav-btn.active{color:var(--primary)}
   .nav-btn.active span{color:var(--primary-2)}
   .nav-btn.active svg{filter:drop-shadow(0 0 8px rgba(168,85,247,.7));transform:scale(1.12)}
@@ -202,16 +202,17 @@
   .nav-btn.nav-admin.active svg{filter:drop-shadow(0 0 10px rgba(251,191,36,.85));transform:scale(1.12)}
 
   /* Install */
-  #installBtn{position:fixed;top:calc(env(safe-area-inset-top) + 10px);left:50%;transform:translateX(-50%);z-index:20;
-    background:linear-gradient(135deg,#3b82f6 0%,#2563eb 50%,#1d4ed8 100%);color:#fff;
-    border:0;border-radius:999px;padding:10px 20px;font-size:13px;font-weight:700;
-    box-shadow:0 4px 20px rgba(37,99,235,.55),0 1px 0 rgba(255,255,255,.15) inset;
+  #installBtn{position:fixed;bottom:calc(var(--footer-h) + 14px);left:14px;z-index:20;
+    background:none;color:var(--primary);
+    border:0;border-radius:999px;padding:8px 14px;font-size:13px;font-weight:700;
+    box-shadow:none;
     display:none;align-items:center;gap:7px;letter-spacing:.02em;
-    transition:transform .15s,box-shadow .15s}
-  #installBtn:active{transform:translateX(-50%) scale(.97)}
-  #installBtn:hover{box-shadow:0 6px 28px rgba(37,99,235,.7),0 1px 0 rgba(255,255,255,.15) inset}
+    transition:transform .15s,color .15s;
+    filter:drop-shadow(0 0 8px rgba(168,85,247,.5))}
+  #installBtn:active{transform:scale(.97)}
+  #installBtn:hover{color:var(--primary-2)}
   #installBtn.show{display:inline-flex}
-  #installBtn svg{width:16px;height:16px}
+  #installBtn svg{width:20px;height:20px}
 
   .log-box{background:#08080c;border:1px solid var(--border);border-radius:12px;
     padding:10px 12px;margin-top:10px;font-family:ui-monospace,Menlo,Consolas,monospace;
@@ -567,10 +568,7 @@
     <div class="pb-txt"><h2>Proveedores</h2><p>Tus proveedores y contactos comerciales</p></div>
   </div>
   <div class="search-row" id="provSearchRow">
-    <div class="inline-search" id="provInlineSearchWrap" style="flex:1">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <input id="provSearch" type="search" placeholder="Buscar proveedor..." autocomplete="off" oninput="renderProvidersByInline()"/>
-    </div>
+    <input id="provSearch" type="search" style="display:none" autocomplete="off" oninput="renderProvidersByInline()"/>
     <button class="sort-btn" id="sortProvBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M6 12h12M10 18h4"/></svg><span id="sortProvLabel">Recientes</span></button>
     <button class="sort-btn" onclick="clearAll('providers')" title="Eliminar todo" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
   </div>
@@ -1151,6 +1149,7 @@
     if(!c.id) c.id=uid();
     if(typeof c.address!=='string') c.address='';
     if(typeof c.notes!=='string') c.notes='';
+    if(typeof c.called!=='boolean') c.called=false;
     return c;
   }
   function normalizeContact(c){
@@ -1169,6 +1168,7 @@
     if(typeof n.title!=='string') n.title='';
     if(typeof n.body!=='string') n.body='';
     if(typeof n.tag!=='string') n.tag='';
+    if(typeof n.called!=='boolean') n.called=false;
     return n;
   }
 
@@ -1328,6 +1328,9 @@
       headerSrch.placeholder = pagePlaceholders[page] || 'Buscar...';
     }
     updateReminder();
+    // Limpiar búsqueda del header al cambiar de página
+    const headerSrch2 = $('search');
+    if(headerSrch2){ headerSrch2.value = ''; }
   }
   window.showPage = showPage;
   document.querySelectorAll('.nav-btn').forEach(btn=> btn.addEventListener('click',()=>{
@@ -1355,7 +1358,9 @@
     c.appendChild(row);
   };
   function readMulti(containerId){
-    return Array.from($(containerId).querySelectorAll('input')).map(i=>i.value.trim()).filter(Boolean);
+    const vals = Array.from($(containerId).querySelectorAll('input')).map(i=>i.value.trim()).filter(Boolean);
+    // Deduplicar: eliminar números de teléfono repetidos
+    return [...new Set(vals)];
   }
   function fillMulti(containerId, arr){
     const c=$(containerId); c.innerHTML='';
@@ -1405,15 +1410,18 @@
             <p class="name">${escH(p.name)}</p>
             ${p.product?`<p class="product">${escH(p.product)}</p>`:''}
             ${p.price?`<p class="price">${escH(p.price)}</p>`:''}
+            ${(p.phones||[])[0]?`<p class="product" style="color:var(--accent);font-size:14px;font-weight:700;display:flex;align-items:center;gap:4px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg><a href="tel:${escH((p.phones||[])[0])}" style="color:var(--accent)">${escH((p.phones||[])[0])}</a></p>`:''}
             ${p.address?`<p class="addr">${SVG.pin}${escH(p.address)}</p>`:''}
           </div>
         </div>
         <div class="row-actions">
-          <div style="position:relative;display:inline-flex">${phoneIcon}</div><div style="position:relative;display:inline-flex">${waIcon}</div>${smsIcon}${calledBtn}
+          <div style="position:relative;display:inline-flex">${phoneIcon}</div><div style="position:relative;display:inline-flex">${waIcon}</div>${smsIcon}
           <span class="iact-sep"></span>
           <button class="iact info" data-info-prov="${p.id}">${SVG.info}</button>
           <button class="iact edit" data-edit-prov="${p.id}">${SVG.edit}</button>
           <button class="iact del" data-del-prov="${p.id}">${SVG.del}</button>
+          <span class="iact-sep"></span>
+          ${calledBtn}
         </div>
       </article>`;
     }).join('');
@@ -1663,15 +1671,18 @@
     if(items.length===0){ listEl.innerHTML='<div class="empty"><p style="font-size:16px">Sin solicitudes</p></div>'; return; }
     listEl.innerHTML = items.map(c=>{
       const has=(c.contacts||[]).length>0;
+      const firstPhone = has ? (c.contacts||[])[0] : '';
       const phoneIcon=has?`<button class="iact call" data-call-cli="${c.id}">${SVG.phone}</button>`:'';
       const smsIcon=has?`<button class="iact sms" data-sms-cli="${c.id}">${SVG.sms}</button>`:'';
       const waIcon=has?`<button class="iact wa" data-wa-cli="${c.id}">${SVG.wa}</button>`:'';
-      return `<article class="card">
+      const calledBtn=`<button class="iact ${c.called?'done':''}" data-toggle-called-cli="${c.id}" title="${c.called?'Marcar pendiente':'Marcar visto'}">${c.called?SVG.next:SVG.check}</button>`;
+      return `<article class="card ${c.called?'called':''}">
         <div class="row">
           <div class="avatar client-avatar">${SVG.lupa}</div>
           <div class="info">
             <p class="name">${escH(c.product)}</p>
             ${c.name?`<p class="product">👤 ${escH(c.name)}</p>`:''}
+            ${firstPhone?`<p class="product" style="color:var(--accent);font-size:14px;font-weight:700;display:flex;align-items:center;gap:4px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg><a href="tel:${escH(firstPhone)}" style="color:var(--accent)">${escH(firstPhone)}</a></p>`:''}
             ${c.qty?`<p class="product">${escH((c.qty||'').split('\n')[0])}</p>`:''}
             ${c.address?`<p class="addr">${SVG.pin}${escH(c.address)}</p>`:''}
             ${c.tag?`<span class="badge low">${escH(c.tag)}</span>`:''}
@@ -1683,6 +1694,8 @@
           <button class="iact info" data-info-cli="${c.id}">${SVG.info}</button>
           <button class="iact edit" data-edit-cli="${c.id}">${SVG.edit}</button>
           <button class="iact del" data-del-cli="${c.id}">${SVG.del}</button>
+          <span class="iact-sep"></span>
+          ${calledBtn}
         </div>
       </article>`;
     }).join('');
@@ -1694,6 +1707,7 @@
     if(d.callCli) pickAndAct(clients.find(c=>c.id===d.callCli),'contacts','call');
     else if(d.smsCli) pickAndAct(clients.find(c=>c.id===d.smsCli),'contacts','sms');
     else if(d.waCli) pickAndAct(clients.find(c=>c.id===d.waCli),'contacts','wa');
+    else if(d.toggleCalledCli){ const x=clients.find(c=>c.id===d.toggleCalledCli); if(x){x.called=!x.called; lsSave(KEYS.clients,clients); renderClients();} }
     else if(d.infoCli) showClientDetail(clients.find(c=>c.id===d.infoCli));
     else if(d.editCli) openClientModal(clients.find(c=>c.id===d.editCli));
     else if(d.delCli) confirmDelete('Eliminar esta solicitud', ()=>{ clients=clients.filter(c=>c.id!==d.delCli); lsSave(KEYS.clients,clients); renderClients(); updateReminder(); });
@@ -1712,7 +1726,7 @@
       qty:$('c-qty').value.trim(),tag:$('c-tag').value.trim(),address:$('c-address').value.trim(),notes:$('c-notes').value.trim()};
     if(!data.product) return;
     const idx=clients.findIndex(c=>c.id===data.id);
-    if(idx>=0) clients[idx]=data; else clients.unshift(data);
+    if(idx>=0){ data.called=clients[idx].called||false; clients[idx]=data; } else clients.unshift(data);
     $('clientSearch').value='';
     lsSave(KEYS.clients,clients); renderClients(); closeModal('modalClient'); updateReminder();
   });
@@ -1764,7 +1778,7 @@
     if(q) setCounter(items.length,'',q); else setCounter(notes.length,'notas');
     const el=$('notesList');
     if(items.length===0){ el.innerHTML='<div class="empty">'+SVG.note+'<p style="font-size:16px;margin:6px 0 0">'+(notes.length===0?'No tienes notas':'Sin resultados')+'</p></div>'; return; }
-    el.innerHTML=items.map(n=>`<article class="card note-card">
+    el.innerHTML=items.map(n=>`<article class="card note-card ${n.called?'called':''}">
       <div class="row">
         <div class="avatar note-avatar">${SVG.note}</div>
         <div class="info">
@@ -1777,6 +1791,8 @@
         <button class="iact info" data-info-note="${n.id}">${SVG.info}</button>
         <button class="iact edit" data-edit-note="${n.id}">${SVG.edit}</button>
         <button class="iact del" data-del-note="${n.id}">${SVG.del}</button>
+        <span class="iact-sep"></span>
+        <button class="iact ${n.called?'done':''}" data-toggle-called-note="${n.id}" title="${n.called?'Marcar pendiente':'Marcar visto'}">${n.called?SVG.next:SVG.check}</button>
       </div>
     </article>`).join('');
   }
@@ -1785,6 +1801,7 @@
     const t=e.target.closest('button'); if(!t) return; const d=t.dataset;
     if(d.infoNote){ const n=notes.find(x=>x.id===d.infoNote); if(!n) return; $('detailTitle').textContent=n.title; $('detailBody').innerHTML=`${n.body?`<div class="detail-block"><div class="lbl">Contenido</div><div class="val">${escH(n.body)}</div></div>`:''}${n.tag?`<div class="detail-block"><div class="lbl">Etiqueta</div><div class="val">${escH(n.tag)}</div></div>`:''}`; $('modalDetail').classList.add('open'); }
     else if(d.editNote) openNoteModal(notes.find(n=>n.id===d.editNote));
+    else if(d.toggleCalledNote){ const x=notes.find(n=>n.id===d.toggleCalledNote); if(x){x.called=!x.called; lsSave(KEYS.notes,notes); renderNotes();} }
     else if(d.delNote) confirmDelete('Eliminar esta nota', ()=>{ notes=notes.filter(n=>n.id!==d.delNote); lsSave(KEYS.notes,notes); renderNotes(); });
   });
   function openNoteModal(n){
@@ -1797,7 +1814,7 @@
     const data={id:$('n-id').value||uid(),title:$('n-title').value.trim(),body:$('n-body').value.trim(),tag:$('n-tag').value.trim()};
     if(!data.title) return;
     const idx=notes.findIndex(n=>n.id===data.id);
-    if(idx>=0) notes[idx]=data; else notes.unshift(data);
+    if(idx>=0){ data.called=notes[idx].called||false; notes[idx]=data; } else notes.unshift(data);
     $('notesSearch').value='';
     lsSave(KEYS.notes,notes); renderNotes(); closeModal('modalNote');
   });
@@ -2631,7 +2648,7 @@
     let refreshing=false;
     navigator.serviceWorker.addEventListener('controllerchange',()=>{ if(refreshing) return; refreshing=true; location.reload(); });
     window.addEventListener('load',()=>{
-      navigator.serviceWorker.register('sw.js?v=20260524-9').then(reg=>{
+      navigator.serviceWorker.register('sw.js?v=20260531-10').then(reg=>{
         if(reg.waiting) reg.waiting.postMessage({type:'SKIP_WAITING'});
         reg.addEventListener('updatefound',()=>{ const w=reg.installing; if(w) w.addEventListener('statechange',()=>{ if(w.state==='installed' && navigator.serviceWorker.controller) w.postMessage({type:'SKIP_WAITING'}); }); });
         reg.update().catch(()=>{});
@@ -2644,7 +2661,23 @@
   const installBtn=$('installBtn');
   function isStandalone(){ return matchMedia('(display-mode: standalone)').matches || matchMedia('(display-mode: fullscreen)').matches || window.navigator.standalone===true; }
   window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); deferred=e; if(!isStandalone()) installBtn.classList.add('show'); });
-  installBtn.addEventListener('click',async()=>{ if(!deferred){ alert('Para instalar:\n• Android (Chrome): menú ⋮ → "Instalar"\n• iPhone (Safari): Compartir → "Añadir a pantalla de inicio"'); return; } deferred.prompt(); const c=await deferred.userChoice; if(c?.outcome==='accepted') installBtn.classList.remove('show'); deferred=null; });
+  installBtn.addEventListener('click',async()=>{ 
+    if(!deferred){ 
+      alert('Para instalar en Android:\n1. Abre el menú ⋮ de Chrome\n2. Toca "Añadir a pantalla de inicio" o "Instalar app"\n\nEn iPhone (Safari):\n1. Toca el botón Compartir\n2. Toca "Añadir a pantalla de inicio"'); 
+      return; 
+    } 
+    try {
+      deferred.prompt(); 
+      const c=await deferred.userChoice; 
+      if(c?.outcome==='accepted'){ 
+        installBtn.classList.remove('show'); 
+      }
+      deferred=null;
+    } catch(err) {
+      // If prompt fails, show manual instructions
+      alert('Para instalar:\n• Android (Chrome): menú ⋮ → "Instalar app"\n• iPhone (Safari): Compartir → "Añadir a pantalla de inicio"');
+    }
+  });
   window.addEventListener('appinstalled',()=>installBtn.classList.remove('show'));
   setTimeout(()=>{ if(!isStandalone() && !installBtn.classList.contains('show')) installBtn.classList.add('show'); },3000);
 
@@ -3512,6 +3545,9 @@
       const p2 = '#'+[lf(r),lf(g),lf(b)].map(v=>v.toString(16).padStart(2,'0')).join('');
       root.style.setProperty('--primary-2', p2);
       applyHeaderGradient(hex);
+      // Update install button color to match primary
+      const ib = document.getElementById('installBtn');
+      if(ib){ ib.style.color = hex; ib.style.filter = `drop-shadow(0 0 8px rgba(${r},${g},${b},.5))`; }
     }catch(e){}
   }
 
