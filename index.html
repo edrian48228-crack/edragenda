@@ -99,7 +99,7 @@
   .card.called .avatar{background:rgba(100,100,120,.3)!important;color:rgba(160,160,180,.4)!important}
   .card.called .product,.card.called .price{color:rgba(120,120,140,.5)!important}
   .card.called .iact{opacity:.45}
-  .card.called::after{content:'✓ VISTO';position:absolute;top:-10px;right:12px;font-size:11px;font-weight:900;letter-spacing:1.2px;padding:3px 10px;border-radius:999px;background:linear-gradient(135deg,rgba(120,120,140,.7),rgba(80,80,100,.6));color:rgba(200,200,220,.8);border:1.5px solid rgba(120,120,120,.3);box-shadow:0 2px 8px rgba(0,0,0,.4)}
+  .card.called::after{content:'✓ VISTO';position:absolute;top:-10px;right:12px;font-size:11px;font-weight:900;letter-spacing:1.2px;padding:3px 10px;border-radius:999px;background:var(--primary);color:#fff;border:1.5px solid rgba(255,255,255,.25);box-shadow:0 2px 12px rgba(168,85,247,.5)}
   .card.called{position:relative}
   .row{display:flex;gap:10px;align-items:flex-start}
   .avatar{width:42px;height:42px;border-radius:50%;flex-shrink:0;
@@ -159,6 +159,10 @@
   .fab svg{width:30px;height:30px;stroke-width:3}
   .fab.hidden{display:none}
 
+  /* When reminder is visible, lift FAB above it to avoid collision */
+  .reminder:not(.hidden) ~ .fab,
+  body:has(.reminder:not(.hidden)) .fab { bottom:calc(var(--footer-h) + 88px) }
+
   /* Floating reminder — campanita sin fondo */
   .reminder{position:fixed;right:14px;bottom:calc(var(--footer-h) + 22px);z-index:20;
     width:42px;height:42px;border-radius:50%;
@@ -167,7 +171,7 @@
     transition:transform .15s;filter:drop-shadow(0 0 10px rgba(34,211,238,.8))}
   .reminder.hidden{display:none}
   .reminder:active{transform:scale(.9)}
-  .reminder svg{width:30px;height:30px}
+  .reminder svg{width:38px;height:38px}
   .reminder .dot{position:absolute;top:-4px;right:-6px;min-width:20px;height:20px;padding:0 5px;
     border-radius:10px;background:var(--danger);color:#fff;font-size:11px;font-weight:800;
     display:flex;align-items:center;justify-content:center;border:2px solid var(--bg)}
@@ -206,14 +210,13 @@
 
   /* Install */
   #installBtn{position:fixed;bottom:calc(var(--footer-h) + 14px);left:14px;z-index:20;
-    background:linear-gradient(120deg,#ffffff 0%,#f0f0ff 30%,var(--primary) 100%);
-    color:#111;
-    border:2px solid rgba(255,255,255,0.9);
+    background:#000;
+    color:#fff;
+    border:2px solid var(--primary);
     border-radius:999px;padding:11px 22px;font-size:14px;font-weight:900;
     box-shadow:0 0 0 3px rgba(168,85,247,.35),
                0 4px 28px rgba(168,85,247,.7),
-               0 2px 8px rgba(0,0,0,.5),
-               inset 0 1px 0 rgba(255,255,255,.95);
+               0 2px 8px rgba(0,0,0,.5);
     display:none;align-items:center;gap:8px;letter-spacing:.01em;
     transition:transform .15s,box-shadow .15s;
     text-shadow:none}
@@ -221,10 +224,9 @@
   #installBtn:hover{
     box-shadow:0 0 0 4px rgba(168,85,247,.5),
                0 6px 36px rgba(168,85,247,.85),
-               0 2px 10px rgba(0,0,0,.55),
-               inset 0 1px 0 rgba(255,255,255,.95)}
+               0 2px 10px rgba(0,0,0,.55)}
   #installBtn.show{display:inline-flex}
-  #installBtn svg{width:20px;height:20px;color:#111}
+  #installBtn svg{width:20px;height:20px;color:#fff}
 
   .log-box{background:#08080c;border:1px solid var(--border);border-radius:12px;
     padding:10px 12px;margin-top:10px;font-family:ui-monospace,Menlo,Consolas,monospace;
@@ -404,8 +406,8 @@
   .interacted .name{ color:#bbf7d0 !important; }
   .interacted::after{ content:"✓ VISTO"; position:absolute; top:-10px; right:12px; font-size:12px;
     font-weight:900; letter-spacing:1.2px; padding:4px 12px; border-radius:999px;
-    background:linear-gradient(135deg,#22c55e,#16a34a); color:#fff;
-    border:2px solid #052e16; box-shadow:0 6px 16px rgba(34,197,94,.55); }
+    background:var(--primary); color:#fff;
+    border:2px solid rgba(255,255,255,.2); box-shadow:0 6px 16px rgba(168,85,247,.55); }
 
   /* FAB centrado abajo */
   .fab{ left:50% !important; right:auto !important; transform:translateX(-50%); }
@@ -583,6 +585,7 @@
     <input id="provSearch" type="search" style="display:none" autocomplete="off" oninput="renderProvidersByInline()"/>
     <button class="sort-btn" id="sortProvBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M6 12h12M10 18h4"/></svg><span id="sortProvLabel">Recientes</span></button>
     <button class="sort-btn" onclick="clearAll('providers')" title="Eliminar todo" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
+    <button class="sort-btn" onclick="unmarkAllCalled('providers')" title="Desmarcar todos los vistos" style="color:var(--primary)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
   </div>
   <div id="provList"></div>
 </main>
@@ -602,6 +605,7 @@
     </div>
     <button class="sort-btn" id="sortPendingBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M6 12h12M10 18h4"/></svg><span id="sortPendingLabel">Prioridad</span></button>
     <button class="sort-btn" onclick="clearAll('pending')" title="Eliminar todo" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
+    <button class="sort-btn" onclick="unmarkAllDone('pending')" title="Desmarcar todos los completados" style="color:var(--primary)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
   </div>
   <div id="pendingList"></div>
 </div>
@@ -621,6 +625,7 @@
     </div>
     <button class="sort-btn" id="sortClientBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M6 12h12M10 18h4"/></svg><span id="sortClientLabel">Recientes</span></button>
     <button class="sort-btn" onclick="clearAll('clients')" title="Eliminar todo" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
+    <button class="sort-btn" onclick="unmarkAllCalled('clients')" title="Desmarcar todos los vistos" style="color:var(--primary)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
   </div>
   <div class="tag-list" id="clientTags"></div>
   <div id="clientList"></div>
@@ -641,6 +646,7 @@
     </div>
     <button class="sort-btn" id="sortNotesBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M6 12h12M10 18h4"/></svg><span id="sortNotesLabel">Recientes</span></button>
     <button class="sort-btn" onclick="clearAll('notes')" title="Eliminar todo" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
+    <button class="sort-btn" onclick="unmarkAllCalled('notes')" title="Desmarcar todos los vistos" style="color:var(--primary)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
   </div>
   <div id="notesList"></div>
 </div>
@@ -1317,8 +1323,10 @@
     const cu=window.getCustom ? window.getCustom() : null;
     const storeName = (cu&&cu.name) ? cu.name : (()=>{ try{ const o=JSON.parse(localStorage.getItem('agenda.custom.v1')||'{}'); return o.name||'Mi Agenda'; }catch(e){ return 'Mi Agenda'; } })();
     const storeNameParts = storeName.trim().split(/\s+/);
-    if(storeNameParts.length>=2) $('brandText').innerHTML='<span>'+escH(storeNameParts[0])+'</span> '+escH(storeNameParts.slice(1).join(' '));
-    else $('brandText').innerHTML='<span>'+escH(storeName)+'</span>';
+    const _fc = escH(storeName.charAt(0));
+    const _rest = escH(storeName.slice(1));
+    const _pcolor = (cu&&cu.primary)||'var(--primary)';
+    $('brandText').innerHTML='<span style="color:'+_pcolor+';font-weight:900">'+_fc+'</span>'+_rest;
     // pageTag removed from counter display
     if(page==='providers') renderProviders();
     if(page==='pending')   renderPending();
@@ -1995,6 +2003,33 @@
     };
     $('modalConfirm').classList.add('open');
   };
+
+  // ── Deseleccionar todos los vistos (called) por sección ──
+  window.unmarkAllCalled = function(type){
+    $('confirmTitle').textContent='Desmarcar vistos';
+    const labels={providers:'proveedores',clients:'solicitudes',notes:'notas'};
+    $('confirmMsg').textContent='¿Quitar la marca de VISTO a todos los '+( labels[type]||type)+'?';
+    const btn=$('confirmOk'); btn.textContent='Desmarcar todos';
+    btn.onclick=()=>{
+      closeModal('modalConfirm');
+      if(type==='providers'){ providers.forEach(p=>p.called=false); lsSave(KEYS.providers,providers); renderProviders(); }
+      if(type==='clients'){ clients.forEach(c=>c.called=false); lsSave(KEYS.clients,clients); renderClients(); }
+      if(type==='notes'){ notes.forEach(n=>n.called=false); lsSave(KEYS.notes,notes); renderNotes(); }
+    };
+    $('modalConfirm').classList.add('open');
+  };
+
+  // ── Desmarcar todos los completados (done) en pendientes ──
+  window.unmarkAllDone = function(type){
+    $('confirmTitle').textContent='Desmarcar completados';
+    $('confirmMsg').textContent='¿Marcar como pendientes (sin completar) todos los elementos?';
+    const btn=$('confirmOk'); btn.textContent='Desmarcar todos';
+    btn.onclick=()=>{
+      closeModal('modalConfirm');
+      if(type==='pending'){ pendings.forEach(p=>p.done=false); lsSave(KEYS.pending,pendings); renderPending(); updateReminder(); }
+    };
+    $('modalConfirm').classList.add('open');
+  };
   // ══════════════════════════════════
   //  BACKUP COMPLETO — export / import / GitHub
   // ══════════════════════════════════
@@ -2291,10 +2326,10 @@
     const bt=$('brandText');
     if(bt){
       const name=c.name||'Mi Agenda';
-      const parts=name.trim().split(/\s+/);
-      const colorStyle=c.primary?'color:'+c.primary:'';
-      if(parts.length>=2) bt.innerHTML='<span style="'+colorStyle+'">'+escH(parts[0])+'</span> '+escH(parts.slice(1).join(' '));
-      else bt.innerHTML='<span style="'+colorStyle+'">'+escH(name)+'</span>';
+      const colorStyle=c.primary?'color:'+c.primary+';font-weight:900':'';
+      const firstChar = escH(name.charAt(0));
+      const rest = escH(name.slice(1));
+      bt.innerHTML='<span style="'+colorStyle+'">'+firstChar+'</span>'+rest;
     }
     // brand icon — tint with primary color if using default SVG
     const bi=$('brandIcon');
@@ -2402,7 +2437,7 @@
     try{
       const r2=parseInt(val.slice(1,3),16),g2=parseInt(val.slice(3,5),16),b2=parseInt(val.slice(5,7),16);
       const ib2=document.getElementById('installBtn');
-      if(ib2){ ib2.style.background=`linear-gradient(120deg,#ffffff 0%,#f0f0ff 30%,${val} 100%)`; ib2.style.boxShadow=`0 0 0 3px rgba(${r2},${g2},${b2},.35),0 4px 28px rgba(${r2},${g2},${b2},.7),0 2px 8px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.95)`; ib2.style.borderColor='rgba(255,255,255,0.9)'; }
+      if(ib2){ ib2.style.background=`#000`; ib2.style.color='#fff'; ib2.style.boxShadow=`0 0 0 3px rgba(${r2},${g2},${b2},.35),0 4px 28px rgba(${r2},${g2},${b2},.7),0 2px 8px rgba(0,0,0,.5)`; ib2.style.borderColor=val; const ib2svg=ib2.querySelector('svg'); if(ib2svg) ib2svg.style.color='#fff'; }
       const si2=document.querySelector('.search input');
       if(si2){ si2.style.borderColor=val; si2.style.boxShadow=`0 0 12px rgba(${r2},${g2},${b2},.35),inset 0 1px 0 rgba(255,255,255,.05)`; }
       const sv2=document.querySelector('.search svg');
@@ -2411,7 +2446,7 @@
       if(sub2){ sub2.style.color=val; sub2.style.textShadow=`0 0 14px rgba(${r2},${g2},${b2},.4)`; }
     }catch(_){}
     const bt=$('brandText');
-    if(bt){ const span=bt.querySelector('span'); if(span) span.style.color=val; }
+    if(bt){ const span=bt.querySelector('span'); if(span){ span.style.color=val; span.style.fontWeight='900'; } }
     const bi=$('brandIcon');
     if(bi && !bi.querySelector('img') && !bi.querySelector('span.emoji-icon')){
       const pd2=adjustColor(val,-30); const pl2=adjustColor(val,40);
@@ -3567,12 +3602,14 @@
       const p2 = '#'+[lf(r),lf(g),lf(b)].map(v=>v.toString(16).padStart(2,'0')).join('');
       root.style.setProperty('--primary-2', p2);
       applyHeaderGradient(hex);
-      // Update install button gradient+glow to match primary
+      // Update install button — black bg, white text, primary border+glow
       const ib = document.getElementById('installBtn');
       if(ib){
-        ib.style.background = `linear-gradient(120deg,#ffffff 0%,#f0f0ff 30%,${hex} 100%)`;
-        ib.style.boxShadow = `0 0 0 3px rgba(${r},${g},${b},.35),0 4px 28px rgba(${r},${g},${b},.7),0 2px 8px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.95)`;
-        ib.style.borderColor = 'rgba(255,255,255,0.9)';
+        ib.style.background = '#000';
+        ib.style.color = '#fff';
+        ib.style.boxShadow = `0 0 0 3px rgba(${r},${g},${b},.35),0 4px 28px rgba(${r},${g},${b},.7),0 2px 8px rgba(0,0,0,.5)`;
+        ib.style.borderColor = hex;
+        const ibSvg = ib.querySelector('svg'); if(ibSvg) ibSvg.style.color='#fff';
       }
       // Update search input glow
       const si = document.querySelector('.search input');
