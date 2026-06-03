@@ -72,43 +72,40 @@
     transition:border-color .2s,box-shadow .2s}
   .search input:focus{border-color:var(--primary-2);box-shadow:0 0 22px rgba(168,85,247,.65),inset 0 1px 0 rgba(255,255,255,.07)}
   .search input::placeholder{color:rgba(154,154,176,.8);font-size:15px}
-  /* Search puller — tirador debajo del buscador */
+  /* Search puller — chevrons debajo del buscador */
   .search-puller{
-    display:flex;align-items:center;justify-content:center;gap:7px;
-    width:100%;height:22px;
+    display:flex;align-items:center;justify-content:center;
+    width:100%;height:20px;
     background:none;border:none;outline:none;cursor:pointer;
-    padding:0;margin-top:3px;margin-bottom:0;
+    padding:0;margin-top:2px;margin-bottom:0;
     -webkit-tap-highlight-color:transparent;
-    color:rgba(154,154,176,.55);
+    color:rgba(154,154,176,.5);
     transition:color .18s;
   }
   .search-puller:hover,.search-puller:active{color:var(--primary)}
-  .sp-bar{
-    flex:1;height:2px;border-radius:2px;
-    background:currentColor;
-    transition:transform .22s cubic-bezier(.4,0,.2,1), opacity .18s;
-    max-width:38px;
+  .sp-chevrons{
+    width:36px;height:14px;
+    transition:transform .28s cubic-bezier(.4,0,.2,1), color .18s;
   }
-  .sp-label{
-    font-size:10px;font-weight:800;letter-spacing:.9px;
-    text-transform:uppercase;line-height:1;white-space:nowrap;
-    transition:opacity .18s;
-  }
-  /* Cuando la búsqueda está oculta el puller se muestra solo, pegado arriba */
-  #headerSearch.sh-hidden + .search-puller{
-    margin-top:2px;
-    color:rgba(154,154,176,.7);
-  }
-  #headerSearch.sh-hidden + .search-puller .sp-bar{
-    transform:rotate(0deg);
+  /* Cuando oculto: rotar chevrons 180° → apuntan hacia arriba = "mostrar" */
+  #headerSearch.sh-hidden ~ .search-puller .sp-chevrons,
+  .search-puller.is-up .sp-chevrons{
+    transform:rotate(180deg);
   }
   /* headerSearch collapse */
   #headerSearch{overflow:hidden;transition:max-height .28s cubic-bezier(.4,0,.2,1),opacity .22s;max-height:60px;opacity:1;margin-top:6px}
   #headerSearch.sh-hidden{max-height:0!important;opacity:0;pointer-events:none;margin-top:0}
 
-  /* Cards — bordes laterales del color base */
-  .card{border-left:3px solid var(--primary)!important;border-right:3px solid var(--primary)!important}
-  .card:hover{border-left-color:var(--primary-2)!important;border-right-color:var(--primary-2)!important}
+  /* Cards — borde completo moderno del color base */
+  .card{
+    border:2.5px solid rgba(168,85,247,.38)!important;
+    border-radius:18px!important;
+    box-shadow:0 2px 12px -4px rgba(168,85,247,.18), 0 1px 0 rgba(168,85,247,.08)!important;
+  }
+  .card:hover{
+    border-color:rgba(168,85,247,.72)!important;
+    box-shadow:0 4px 20px -6px rgba(168,85,247,.35), 0 1px 0 rgba(168,85,247,.14)!important;
+  }
 
   main{padding:14px 12px 220px;max-width:760px;margin:0 auto}
   main.hidden{display:none}
@@ -262,17 +259,17 @@
   .log-box .lg-dim{color:#6b7280}
 
   /* PENDING */
-  .p-alta{border-left:4px solid var(--danger);background:linear-gradient(135deg,rgba(239,68,68,.06) 0%,var(--card) 60%)!important}
-  .p-media{border-left:4px solid #eab308;background:linear-gradient(135deg,rgba(234,179,8,.06) 0%,var(--card) 60%)!important}
-  .p-baja{border-left:4px solid var(--success);background:linear-gradient(135deg,rgba(34,197,94,.06) 0%,var(--card) 60%)!important}
+  .p-alta{border-color:rgba(239,68,68,.55)!important;box-shadow:0 2px 14px -4px rgba(239,68,68,.2),0 0 0 0 transparent!important;background:linear-gradient(135deg,rgba(239,68,68,.07) 0%,var(--card) 60%)!important}
+  .p-media{border-color:rgba(234,179,8,.55)!important;box-shadow:0 2px 14px -4px rgba(234,179,8,.2),0 0 0 0 transparent!important;background:linear-gradient(135deg,rgba(234,179,8,.07) 0%,var(--card) 60%)!important}
+  .p-baja{border-color:rgba(34,197,94,.55)!important;box-shadow:0 2px 14px -4px rgba(34,197,94,.2),0 0 0 0 transparent!important;background:linear-gradient(135deg,rgba(34,197,94,.07) 0%,var(--card) 60%)!important}
   .card.done-card{background:rgba(30,30,42,.7);border-color:rgba(80,80,100,.35);box-shadow:none;filter:saturate(0.3)}
   .card.done-card .name{text-decoration:line-through;color:rgba(160,160,180,.55);text-shadow:none}
   .card.done-card .product{color:rgba(120,120,140,.5)!important}
   .card.done-card .badge{opacity:.35}
   .card.done-card .done-toggle.done{background:rgba(100,100,120,.5);border-color:rgba(100,100,120,.5);box-shadow:none}
-  /* NOTE card — distinct from pending */
-  .note-card{border-left:4px solid rgba(251,191,36,.6) !important;background:linear-gradient(135deg,rgba(251,191,36,.04) 0%,var(--card) 60%) !important}
-  .note-card:hover{border-color:rgba(251,191,36,.8) !important}
+  /* NOTE card — borde completo dorado */
+  .note-card{border-color:rgba(251,191,36,.45) !important;box-shadow:0 2px 14px -4px rgba(251,191,36,.18)!important;background:linear-gradient(135deg,rgba(251,191,36,.05) 0%,var(--card) 60%) !important}
+  .note-card:hover{border-color:rgba(251,191,36,.78) !important}
 
   .done-toggle{width:30px;height:30px;border-radius:9px;border:2px solid var(--border);
     display:flex;align-items:center;justify-content:center;flex-shrink:0;
@@ -596,9 +593,12 @@
     </div>
     <!-- Tirador para colapsar/expandir búsqueda -->
     <button class="search-puller" id="searchToggleBtn" onclick="toggleHeaderSearch()" aria-label="Ocultar / mostrar búsqueda">
-      <span class="sp-bar"></span>
-      <span class="sp-label" id="searchToggleLabel">ocultar</span>
-      <span class="sp-bar"></span>
+      <svg class="sp-chevrons" id="searchChevrons" viewBox="0 0 24 10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Chevron superior -->
+        <polyline points="3,2 12,7 21,2"/>
+        <!-- Chevron inferior -->
+        <polyline points="3,5.5 12,10.5 21,5.5"/>
+      </svg>
     </button>
   </div>
 </header>
@@ -1359,8 +1359,8 @@
         if(searchToggleBtn2) searchToggleBtn2.style.display = '';
         const searchVisible = localStorage.getItem('agenda.searchVisible') !== '0';
         hs2.classList.toggle('sh-hidden', !searchVisible);
-        const lbl2 = document.getElementById('searchToggleLabel');
-        if(lbl2) lbl2.textContent = searchVisible ? 'ocultar' : 'buscar';
+        const btn2 = document.getElementById('searchToggleBtn');
+        if(btn2) btn2.classList.toggle('is-up', !searchVisible);
       }
     }
     document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active', b.dataset.page===page));
@@ -3558,21 +3558,21 @@
     }catch(e){return hex;}
   }
 
-  // ─── TOGGLE BÚSQUEDA DEL HEADER — tirador debajo del input ───
+  // ─── TOGGLE BÚSQUEDA DEL HEADER — chevrons ───
   window.toggleHeaderSearch = function(){
     const hs = document.getElementById('headerSearch');
-    const lbl = document.getElementById('searchToggleLabel');
+    const btn = document.getElementById('searchToggleBtn');
     if(!hs) return;
     const isHidden = hs.classList.contains('sh-hidden');
     if(isHidden){
       hs.classList.remove('sh-hidden');
+      if(btn) btn.classList.remove('is-up');
       localStorage.setItem('agenda.searchVisible','1');
-      if(lbl) lbl.textContent = 'ocultar';
       setTimeout(()=>{ const inp=document.getElementById('search'); if(inp) inp.focus(); },220);
     } else {
       hs.classList.add('sh-hidden');
+      if(btn) btn.classList.add('is-up');
       localStorage.setItem('agenda.searchVisible','0');
-      if(lbl) lbl.textContent = 'buscar';
       const inp=document.getElementById('search');
       if(inp && inp.value){ inp.value=''; inp.dispatchEvent(new Event('input')); }
     }
@@ -3580,12 +3580,12 @@
   // Aplicar estado inicial al cargar
   (function initSearchToggle(){
     const hs = document.getElementById('headerSearch');
-    const lbl = document.getElementById('searchToggleLabel');
+    const btn = document.getElementById('searchToggleBtn');
     if(!hs) return;
     const visible = localStorage.getItem('agenda.searchVisible') !== '0';
     if(!visible){
       hs.classList.add('sh-hidden');
-      if(lbl) lbl.textContent = 'buscar';
+      if(btn) btn.classList.add('is-up');
     }
   })();
 
@@ -3697,7 +3697,7 @@
       const styleId = 'dynamic-card-borders';
       let dynStyle = document.getElementById(styleId);
       if(!dynStyle){ dynStyle = document.createElement('style'); dynStyle.id = styleId; document.head.appendChild(dynStyle); }
-      dynStyle.textContent = `.card{border-left-color:${hex}!important;border-right-color:${hex}!important}.card:hover{border-left-color:${p2}!important;border-right-color:${p2}!important}`;
+      dynStyle.textContent = `.card{border-color:rgba(${r},${g},${b},.38)!important;box-shadow:0 2px 12px -4px rgba(${r},${g},${b},.18),0 1px 0 rgba(${r},${g},${b},.08)!important}.card:hover{border-color:rgba(${r},${g},${b},.72)!important;box-shadow:0 4px 20px -6px rgba(${r},${g},${b},.35),0 1px 0 rgba(${r},${g},${b},.14)!important}`;
       // Update search input glow
       const si = document.querySelector('.search input');
       if(si){ si.style.borderColor=hex; si.style.boxShadow=`0 0 12px rgba(${r},${g},${b},.35),inset 0 1px 0 rgba(255,255,255,.05)`; }
