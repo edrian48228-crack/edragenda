@@ -72,18 +72,42 @@
     transition:border-color .2s,box-shadow .2s}
   .search input:focus{border-color:var(--primary-2);box-shadow:0 0 22px rgba(168,85,247,.65),inset 0 1px 0 rgba(255,255,255,.07)}
   .search input::placeholder{color:rgba(154,154,176,.8);font-size:15px}
-  /* Search toggle pill — moderno */
-  .search-toggle-pill{display:inline-flex;align-items:center;gap:6px;
-    height:34px;padding:0 14px;border-radius:999px;
-    border:1.5px solid var(--primary);
-    background:rgba(168,85,247,.10);
-    color:var(--primary);font-size:13px;font-weight:800;letter-spacing:.2px;
-    cursor:pointer;transition:background .18s,transform .12s,box-shadow .18s;
-    outline:none;margin-top:6px;margin-bottom:2px;-webkit-tap-highlight-color:transparent}
-  .search-toggle-pill:active{transform:scale(.95)}
-  .search-toggle-pill:hover{background:rgba(168,85,247,.2);box-shadow:0 0 12px rgba(168,85,247,.35)}
-  .search-toggle-pill svg{width:15px;height:15px;flex-shrink:0}
-  .search-toggle-pill .pill-label{line-height:1}
+  /* Search FAB toggle — nuevo diseño radical */
+  .search-fab-toggle{
+    position:relative;
+    width:38px;height:38px;border-radius:50%;
+    border:none;outline:none;
+    background:rgba(168,85,247,.15);
+    color:var(--primary);
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:background .2s,transform .15s;
+    -webkit-tap-highlight-color:transparent;
+    overflow:visible;
+    margin-top:4px;margin-bottom:2px;
+    backdrop-filter:blur(6px);
+  }
+  .search-fab-toggle:active{transform:scale(.88)}
+  .search-fab-toggle:hover{background:rgba(168,85,247,.28)}
+  .sft-ring{
+    position:absolute;inset:-3px;border-radius:50%;
+    border:2px solid var(--primary);opacity:.6;
+    transition:opacity .2s,transform .2s;
+    pointer-events:none;
+  }
+  .search-fab-toggle:hover .sft-ring,
+  .search-fab-toggle:focus .sft-ring{opacity:1;transform:scale(1.08)}
+  .sft-icon{
+    position:absolute;width:18px;height:18px;
+    transition:opacity .18s,transform .18s;
+  }
+  .sft-search{opacity:1;transform:scale(1) rotate(0deg)}
+  .sft-close{opacity:0;transform:scale(.5) rotate(-45deg)}
+  /* Estado oculto: mostrar X */
+  .search-fab-toggle.is-hidden .sft-search{opacity:0;transform:scale(.5) rotate(45deg)}
+  .search-fab-toggle.is-hidden .sft-close{opacity:1;transform:scale(1) rotate(0deg)}
+  .search-fab-toggle.is-hidden{background:rgba(239,68,68,.15);color:var(--danger)}
+  .search-fab-toggle.is-hidden .sft-ring{border-color:var(--danger)}
   /* headerSearch collapse */
   #headerSearch{overflow:hidden;transition:max-height .28s cubic-bezier(.4,0,.2,1),opacity .22s;max-height:60px;opacity:1;margin-top:6px}
   #headerSearch.sh-hidden{max-height:0!important;opacity:0;pointer-events:none;margin-top:0}
@@ -572,10 +596,11 @@
       <div class="vip-contact" id="vipContact"></div>
     </div>
 
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
-      <button class="search-toggle-pill" id="searchToggleBtn" onclick="toggleHeaderSearch()" aria-label="Buscar">
-        <svg id="searchToggleIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-        <span class="pill-label" id="searchToggleLabel">Ocultar búsqueda</span>
+    <div style="display:flex;align-items:center;justify-content:flex-end;gap:8px">
+      <button class="search-fab-toggle" id="searchToggleBtn" onclick="toggleHeaderSearch()" aria-label="Buscar / Ocultar búsqueda" title="Buscar">
+        <span class="sft-ring"></span>
+        <svg class="sft-icon sft-search" id="searchIconSearch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <svg class="sft-icon sft-close" id="searchIconClose" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
       </button>
     </div>
     <div class="search" id="headerSearch">
@@ -1341,7 +1366,7 @@
         if(searchToggleBtn2) searchToggleBtn2.style.display = '';
         const searchVisible = localStorage.getItem('agenda.searchVisible') !== '0';
         hs2.classList.toggle('sh-hidden', !searchVisible);
-        if(searchToggleLabel2) searchToggleLabel2.textContent = searchVisible ? 'Ocultar búsqueda' : 'Mostrar búsqueda';
+        if(searchToggleBtn2) searchToggleBtn2.classList.toggle('is-hidden', !searchVisible);
       }
     }
     document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active', b.dataset.page===page));
@@ -1940,7 +1965,6 @@
   }
   $('formContact').addEventListener('submit',e=>{
     e.preventDefault();
-    e.stopPropagation();
     const nameVal = ($('ct-name').value||'').trim();
     if(!nameVal){ alert('El nombre es obligatorio'); return; }
     const data={
@@ -1952,26 +1976,14 @@
       address: ($('ct-address').value||'').trim(),
       notes: ($('ct-notes').value||'').trim()
     };
-    // Mark dirty BEFORE save to prevent pull from overwriting
-    markDirty('contacts');
     const idx = contacts.findIndex(c=>c.id===data.id);
-    if(idx>=0){
-      contacts[idx] = data;
-    } else {
-      contacts.unshift(data);
-    }
-    // Save to localStorage directly
-    try{
-      localStorage.setItem(KEYS.contacts, JSON.stringify(contacts));
-    }catch(err){
-      console.error('Error guardando contacto:', err);
-    }
+    if(idx>=0){ contacts[idx] = data; } else { contacts.unshift(data); }
+    lsSave(KEYS.contacts, contacts);
     $('contactsSearch').value='';
     closeModal('modalContact');
     renderContacts();
     updateReminder();
     scheduleSync(1000);
-    return false;
   });
 
   // ══════════ Contact Access Tracking ══════════
@@ -2606,7 +2618,20 @@
 
   // alarmSound se gestiona desde la paleta de sonidos
 
-  window.addEventListener('online', ()=>{ updateSyncBadge(); trySyncAll(); pullAllSilent(); });
+  window.addEventListener('online', ()=>{ updateSyncBadge(); trySyncAll(); pullAllSilent(); showOfflineBanner(false); });
+  window.addEventListener('offline', ()=>{ updateSyncBadge(); showOfflineBanner(true); });
+  function showOfflineBanner(show){
+    let b=document.getElementById('offlineBanner');
+    if(!b){
+      b=document.createElement('div'); b.id='offlineBanner';
+      b.style.cssText='position:fixed;top:0;left:0;right:0;z-index:9998;text-align:center;font-size:13px;font-weight:800;letter-spacing:.3px;padding:6px 12px;background:rgba(239,68,68,.92);color:#fff;backdrop-filter:blur(8px);transition:transform .3s cubic-bezier(.4,0,.2,1);transform:translateY(-100%);safe-area-inset-top:env(safe-area-inset-top)';
+      b.textContent='📵 Sin conexión — funcionando offline';
+      document.body.appendChild(b);
+    }
+    b.style.transform = show ? 'translateY(0)' : 'translateY(-100%)';
+  }
+  // Check initial state
+  if(!navigator.onLine) showOfflineBanner(true);
   window.addEventListener('offline',()=>updateSyncBadge());
   document.addEventListener('visibilitychange',()=>{ if(!document.hidden){ trySyncAll(); pullAllSilent(); checkAlarms(); } });
 
@@ -2738,7 +2763,7 @@
     let refreshing=false;
     navigator.serviceWorker.addEventListener('controllerchange',()=>{ if(refreshing) return; refreshing=true; location.reload(); });
     window.addEventListener('load',()=>{
-      navigator.serviceWorker.register('sw.js?v=20260531-10').then(reg=>{
+      navigator.serviceWorker.register('sw.js?v=20260603-1').then(reg=>{
         if(reg.waiting) reg.waiting.postMessage({type:'SKIP_WAITING'});
         reg.addEventListener('updatefound',()=>{ const w=reg.installing; if(w) w.addEventListener('statechange',()=>{ if(w.state==='installed' && navigator.serviceWorker.controller) w.postMessage({type:'SKIP_WAITING'}); }); });
         reg.update().catch(()=>{});
@@ -3377,10 +3402,12 @@
     const ap=document.getElementById('avatarPreview'); const ai=document.getElementById('avatarPreviewImg');
     if(ap&&ai&&cu.avatar&&cu.avatar.startsWith('data:')){ ap.style.display='flex'; ap.style.alignItems='center'; ai.src=cu.avatar; }
   };
-  if(_origShowPage){
+  // Guardar última página visitada
+  const _showPageBase = window.showPage;
+  if(_showPageBase){
     window.showPage = function(p){
       if(p && p!=='admin') localStorage.setItem('agenda.lastPage', p);
-      return _origShowPage.apply(this, arguments);
+      return _showPageBase.apply(this, arguments);
     };
   }
 
@@ -3537,36 +3564,36 @@
     }catch(e){return hex;}
   }
 
-  // ─── TOGGLE BÚSQUEDA DEL HEADER — implementación definitiva ───
+  // ─── TOGGLE BÚSQUEDA DEL HEADER — FAB moderno con morphing ───
   window.toggleHeaderSearch = function(){
     const hs = document.getElementById('headerSearch');
-    const label = document.getElementById('searchToggleLabel');
-    const icon = document.getElementById('searchToggleIcon');
+    const btn = document.getElementById('searchToggleBtn');
     if(!hs) return;
     const isHidden = hs.classList.contains('sh-hidden');
     if(isHidden){
-      // Mostrar
       hs.classList.remove('sh-hidden');
       localStorage.setItem('agenda.searchVisible','1');
-      if(label) label.textContent = 'Ocultar búsqueda';
-      if(icon) icon.innerHTML = '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>';
+      if(btn) btn.classList.remove('is-hidden');
+      // Focus al input
+      setTimeout(()=>{ const inp=document.getElementById('search'); if(inp) inp.focus(); },220);
     } else {
-      // Ocultar
       hs.classList.add('sh-hidden');
       localStorage.setItem('agenda.searchVisible','0');
-      if(label) label.textContent = 'Mostrar búsqueda';
-      if(icon) icon.innerHTML = '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>';
+      if(btn) btn.classList.add('is-hidden');
+      // Limpiar búsqueda al cerrar
+      const inp=document.getElementById('search');
+      if(inp && inp.value){ inp.value=''; inp.dispatchEvent(new Event('input')); }
     }
   };
   // Aplicar estado inicial al cargar
   (function initSearchToggle(){
     const hs = document.getElementById('headerSearch');
-    const label = document.getElementById('searchToggleLabel');
+    const btn = document.getElementById('searchToggleBtn');
     if(!hs) return;
     const visible = localStorage.getItem('agenda.searchVisible') !== '0';
     if(!visible){
       hs.classList.add('sh-hidden');
-      if(label) label.textContent = 'Mostrar búsqueda';
+      if(btn) btn.classList.add('is-hidden');
     }
   })();
 
