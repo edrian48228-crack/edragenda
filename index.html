@@ -905,7 +905,7 @@
 
 <!-- MODAL PROVEEDOR -->
 <div class="modal" id="modalProvider">
-  <form class="sheet" id="formProvider">
+  <form class="sheet" id="formProvider" onsubmit="return false">
     <div class="sheet-head">
       <h2 id="modalProviderTitle">Nuevo proveedor</h2>
       <button type="button" class="close" onclick="closeModal('modalProvider')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
@@ -925,7 +925,7 @@
 
 <!-- MODAL PENDIENTE -->
 <div class="modal" id="modalPending">
-  <form class="sheet" id="formPending">
+  <form class="sheet" id="formPending" onsubmit="return false">
     <div class="sheet-head">
       <h2 id="modalPendingTitle">Nueva tarea</h2>
       <button type="button" class="close" onclick="closeModal('modalPending')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
@@ -992,7 +992,7 @@
 
 <!-- MODAL CLIENTE -->
 <div class="modal" id="modalClient">
-  <form class="sheet" id="formClient">
+  <form class="sheet" id="formClient" onsubmit="return false">
     <div class="sheet-head">
       <h2 id="modalClientTitle">Cliente busca...</h2>
       <button type="button" class="close" onclick="closeModal('modalClient')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
@@ -1011,7 +1011,7 @@
 
 <!-- MODAL NOTA -->
 <div class="modal" id="modalNote">
-  <form class="sheet" id="formNote">
+  <form class="sheet" id="formNote" onsubmit="return false">
     <div class="sheet-head">
       <h2 id="modalNoteTitle">Nueva nota</h2>
       <button type="button" class="close" onclick="closeModal('modalNote')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
@@ -1026,7 +1026,7 @@
 
 <!-- MODAL CONTACTO -->
 <div class="modal" id="modalContact">
-  <form class="sheet" id="formContact">
+  <form class="sheet" id="formContact" onsubmit="return false">
     <div class="sheet-head">
       <h2 id="modalContactTitle">Nuevo contacto</h2>
       <button type="button" class="close" onclick="closeModal('modalContact')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
@@ -1674,27 +1674,59 @@
     $('p-notif-hour').value = t?.notifHour || '09:00'; if($('p-notif-msg')) $('p-notif-msg').value=t?.notifMsg||'';
     $('modalPending').classList.add('open'); setTimeout(()=>$('p-task').focus(),50);
   }
-  $('formPending').addEventListener('submit',e=>{
+  $('formPending').addEventListener('submit',function(e){
     e.preventDefault();
-    const days = Math.max(0, Math.min(9999, parseInt($('p-notif-days').value||'0',10)));
-    const times= Math.max(1, Math.min(99, parseInt($('p-notif-times').value||'3',10)));
-    const notifUnit = ($('p-notif-unit')?$('p-notif-unit').value:'day');
-    const data={id:$('p-id').value||uid(),task:$('p-task').value.trim(),note:$('p-note').value.trim(),phone:($('p-phone')?$('p-phone').value.trim():''),
-      priority:$('p-priority').value,date:$('p-date').value,done:false,
-      notifDays:days,notifTimes:times,notifHour:$('p-notif-hour').value||'09:00',notifUnit:notifUnit,
-      notifMsg:($('p-notif-msg')?$('p-notif-msg').value.trim():''),notifFired:0,nextNotif:0};
-    if(!data.task) return;
-    const idx=pendings.findIndex(p=>p.id===data.id);
+    e.stopPropagation();
+    const unitSel = $('p-notif-unit');
+    const notifUnit = unitSel ? unitSel.value : 'day';
+    const days = Math.max(0, Math.min(9999, parseInt(($('p-notif-days').value||'0'),10)));
+    const times = Math.max(1, Math.min(99, parseInt(($('p-notif-times').value||'3'),10)));
+    const taskVal = ($('p-task').value||'').trim();
+    if(!taskVal) return false;
+    const data={
+      id: $('p-id').value||uid(),
+      task: taskVal,
+      note: ($('p-note').value||'').trim(),
+      phone: ($('p-phone')?($('p-phone').value||'').trim():''),
+      priority: ($('p-priority').value||'media'),
+      date: ($('p-date').value||''),
+      done: false,
+      notifDays: days,
+      notifTimes: times,
+      notifHour: ($('p-notif-hour').value||'09:00'),
+      notifUnit: notifUnit,
+      notifMsg: ($('p-notif-msg')?($('p-notif-msg').value||'').trim():''),
+      notifFired: 0,
+      nextNotif: 0
+    };
+    const idx = pendings.findIndex(p=>p.id===data.id);
     if(idx>=0){
-      data.done=pendings[idx].done;
-      const old=pendings[idx];
-      if(old.notifDays===data.notifDays && old.notifHour===data.notifHour){ data.notifFired=old.notifFired||0; data.nextNotif=old.nextNotif||0; }
-      pendings[idx]=data;
-    } else pendings.unshift(data);
-    scheduleNextFor(data);
+      data.done = pendings[idx].done;
+      const oldT = pendings[idx];
+      if(oldT.notifDays===data.notifDays && oldT.notifHour===data.notifHour){
+        data.notifFired = oldT.notifFired||0;
+        data.nextNotif  = oldT.nextNotif||0;
+      }
+      pendings[idx] = data;
+    } else {
+      pendings.unshift(data);
+    }
+    // Recalcular nextNotif respetando la unidad correcta
+    if(data.notifDays>0){
+      const ms=(notifUnit==='min'?60000:notifUnit==='hour'?3600000:86400000)*data.notifDays;
+      const [hh,mm]=(data.notifHour||'09:00').split(':').map(n=>parseInt(n,10));
+      const now=new Date(); let next=new Date(now);
+      if(notifUnit==='day'){ next.setHours(hh||9,mm||0,0,0); if(next<=now) next.setDate(next.getDate()+1); }
+      else next=new Date(now.getTime()+ms);
+      data.nextNotif=next.getTime(); data.notifFired=0;
+    }
     $('pendingSearch').value='';
-    lsSave(KEYS.pending,pendings); renderPending(); closeModal('modalPending'); updateReminder();
+    lsSave(KEYS.pending,pendings);
+    renderPending();
+    closeModal('modalPending');
+    updateReminder();
     if(data.notifDays>0) requestNotifPerm(true);
+    return false;
   });
   function showPendingDetail(t){
     if(!t) return;
@@ -1957,10 +1989,11 @@
     fillMulti('ct-phones', c?.phones||[]); fillMulti('ct-was', c?.whatsapps||[]);
     $('modalContact').classList.add('open'); setTimeout(()=>$('ct-name').focus(),50);
   }
-  $('formContact').addEventListener('submit',e=>{
+  $('formContact').addEventListener('submit',function(e){
     e.preventDefault();
+    e.stopPropagation();
     const nameVal = ($('ct-name').value||'').trim();
-    if(!nameVal){ alert('El nombre es obligatorio'); return; }
+    if(!nameVal){ alert('El nombre es obligatorio'); return false; }
     const data={
       id: $('ct-id').value || uid(),
       name: nameVal,
@@ -1978,6 +2011,7 @@
     renderContacts();
     updateReminder();
     scheduleSync(1000);
+    return false;
   });
 
   // ══════════ Contact Access Tracking ══════════
@@ -2618,11 +2652,45 @@
     let b=document.getElementById('offlineBanner');
     if(!b){
       b=document.createElement('div'); b.id='offlineBanner';
-      b.style.cssText='position:fixed;top:0;left:0;right:0;z-index:9998;text-align:center;font-size:13px;font-weight:800;letter-spacing:.3px;padding:6px 12px;background:rgba(239,68,68,.92);color:#fff;backdrop-filter:blur(8px);transition:transform .3s cubic-bezier(.4,0,.2,1);transform:translateY(-100%);safe-area-inset-top:env(safe-area-inset-top)';
-      b.textContent='📵 Sin conexión — funcionando offline';
+      b.style.cssText=[
+        'position:fixed',
+        'top:calc(env(safe-area-inset-top) + 10px)',
+        'right:0',
+        'z-index:9998',
+        'display:flex',
+        'align-items:center',
+        'gap:8px',
+        'padding:9px 16px 9px 14px',
+        'background:rgba(220,38,38,.93)',
+        'color:#fff',
+        'backdrop-filter:blur(12px)',
+        '-webkit-backdrop-filter:blur(12px)',
+        'border-radius:999px 0 0 999px',
+        'box-shadow:-4px 4px 20px rgba(220,38,38,.45)',
+        'font-size:12px',
+        'font-weight:800',
+        'letter-spacing:.3px',
+        'white-space:nowrap',
+        'transition:transform .35s cubic-bezier(.4,0,.2,1), opacity .3s',
+        'transform:translateX(110%)',
+        'pointer-events:none',
+      ].join(';');
+      b.innerHTML = [
+        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">',
+          '<line x1="1" y1="1" x2="23" y2="23"/>',
+          '<path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/>',
+          '<path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/>',
+          '<path d="M10.71 5.05A16 16 0 0 1 22.56 9"/>',
+          '<path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"/>',
+          '<path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>',
+          '<line x1="12" y1="20" x2="12.01" y2="20"/>',
+        '</svg>',
+        '<span>Sin conexión</span>',
+      ].join('');
       document.body.appendChild(b);
     }
-    b.style.transform = show ? 'translateY(0)' : 'translateY(-100%)';
+    b.style.transform = show ? 'translateX(0)' : 'translateX(110%)';
+    b.style.opacity  = show ? '1' : '0';
   }
   // Check initial state
   if(!navigator.onLine) showOfflineBanner(true);
@@ -3178,9 +3246,11 @@
       const el=document.getElementById(id); if(el && el.value){ el.value=''; el.dispatchEvent(new Event('input')); }
     });
   }
+  // clearSearches hook — solo limpia campos, NO interfiere con el submit principal
+  // Se ejecuta después del handler principal gracias al setTimeout
   ['formProvider','formPending','formClient','formNote','formContact'].forEach(fid=>{
     const f=document.getElementById(fid);
-    if(f) f.addEventListener('submit', ()=> setTimeout(clearSearches, 30));
+    if(f) f.addEventListener('submit', function(ev){ ev.preventDefault(); setTimeout(clearSearches, 30); });
   });
 
   // ─── v9: Admin quicknav ───
@@ -3264,43 +3334,7 @@
   const _origRenderPending = window.renderPending;
   // No reasignamos renderPending porque está closure-bounded; en vez de eso parcheamos scheduleNextFor abajo.
   // Hook al submit del form pending para guardar notifUnit y recomputar nextNotif
-  const _formPending = document.getElementById('formPending');
-  if(_formPending){
-    _formPending.addEventListener('submit', function(e){
-      // Después de que el handler original guarde, vamos al último item con el id en p-id (si está vacío fue inserción)
-      setTimeout(()=>{
-        const id = document.getElementById('p-id').value;
-        const unitSel = document.getElementById('p-notif-unit');
-        const unit = unitSel ? unitSel.value : 'day';
-        // El handler original lee p-id antes de generar uid; pero si es nuevo el id resultante está en el primero
-        // Encontremos la tarea coincidente leyendo localStorage actualizado.
-        try{
-          const arr = JSON.parse(localStorage.getItem(KEYS.pending)||'[]');
-          let t = null;
-          if(id){ t = arr.find(x=>x.id===id); }
-          if(!t) t = arr[0];
-          if(t){
-            t.notifUnit = unit;
-            // recomputar nextNotif si tiene alarma
-            if((t.notifDays||0)>0){
-              const ms = (unit==='min'?60000:unit==='hour'?3600000:86400000)*t.notifDays;
-              const [hh,mm]=(t.notifHour||'09:00').split(':').map(n=>parseInt(n,10));
-              const now=new Date(); let next=new Date(now);
-              if(unit==='day'){
-                next.setHours(hh||9,mm||0,0,0);
-                if(next.getTime()<=now.getTime()) next.setDate(next.getDate()+1);
-              } else {
-                next = new Date(now.getTime()+ms);
-              }
-              t.nextNotif = next.getTime();
-              t.notifFired = 0;
-            }
-            localStorage.setItem(KEYS.pending, JSON.stringify(arr));
-          }
-        }catch(_){}
-      }, 50);
-    });
-  }
+  // notifUnit logic now integrated in main formPending handler above
   // Override checkAlarms behavior via wrapper: monkey-patch setInterval invocation isn't possible easily.
   // En cambio, sustituimos la función global si fue expuesta. Si no, parcheamos a través de window:
   // Mejor: añadimos un interval propio que recalcula nextNotif respetando notifUnit antes de que el original dispare.
