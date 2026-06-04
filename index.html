@@ -905,7 +905,7 @@
 
 <!-- MODAL PROVEEDOR -->
 <div class="modal" id="modalProvider">
-  <form class="sheet" id="formProvider" onsubmit="return false">
+  <form class="sheet" id="formProvider" novalidate>
     <div class="sheet-head">
       <h2 id="modalProviderTitle">Nuevo proveedor</h2>
       <button type="button" class="close" onclick="closeModal('modalProvider')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
@@ -925,7 +925,7 @@
 
 <!-- MODAL PENDIENTE -->
 <div class="modal" id="modalPending">
-  <form class="sheet" id="formPending" onsubmit="return false">
+  <form class="sheet" id="formPending" novalidate>
     <div class="sheet-head">
       <h2 id="modalPendingTitle">Nueva tarea</h2>
       <button type="button" class="close" onclick="closeModal('modalPending')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
@@ -992,7 +992,7 @@
 
 <!-- MODAL CLIENTE -->
 <div class="modal" id="modalClient">
-  <form class="sheet" id="formClient" onsubmit="return false">
+  <form class="sheet" id="formClient" novalidate>
     <div class="sheet-head">
       <h2 id="modalClientTitle">Cliente busca...</h2>
       <button type="button" class="close" onclick="closeModal('modalClient')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
@@ -1011,7 +1011,7 @@
 
 <!-- MODAL NOTA -->
 <div class="modal" id="modalNote">
-  <form class="sheet" id="formNote" onsubmit="return false">
+  <form class="sheet" id="formNote" novalidate>
     <div class="sheet-head">
       <h2 id="modalNoteTitle">Nueva nota</h2>
       <button type="button" class="close" onclick="closeModal('modalNote')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
@@ -1026,7 +1026,7 @@
 
 <!-- MODAL CONTACTO -->
 <div class="modal" id="modalContact">
-  <form class="sheet" id="formContact" onsubmit="return false">
+  <form class="sheet" id="formContact" novalidate>
     <div class="sheet-head">
       <h2 id="modalContactTitle">Nuevo contacto</h2>
       <button type="button" class="close" onclick="closeModal('modalContact')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
@@ -2654,7 +2654,7 @@
       b=document.createElement('div'); b.id='offlineBanner';
       b.style.cssText=[
         'position:fixed',
-        'top:calc(env(safe-area-inset-top) + 10px)',
+        'top:calc(env(safe-area-inset-top) + 70px)',
         'right:0',
         'z-index:9998',
         'display:flex',
