@@ -1992,6 +1992,7 @@
   $('formContact').addEventListener('submit',function(e){
     e.preventDefault();
     e.stopPropagation();
+    e.stopImmediatePropagation();
     const nameVal = ($('ct-name').value||'').trim();
     if(!nameVal){ alert('El nombre es obligatorio'); return false; }
     const data={
@@ -3248,7 +3249,7 @@
   }
   // clearSearches hook — solo limpia campos, NO interfiere con el submit principal
   // Se ejecuta después del handler principal gracias al setTimeout
-  ['formProvider','formPending','formClient','formNote','formContact'].forEach(fid=>{
+  ['formProvider','formPending','formClient','formNote'].forEach(fid=>{
     const f=document.getElementById(fid);
     if(f) f.addEventListener('submit', function(ev){ ev.preventDefault(); setTimeout(clearSearches, 30); });
   });
