@@ -1,32 +1,34 @@
 [
   {
-    "id": "mplc49f17xigul",
-    "task": "Poner pantalla Samsung A32 4G/5G",
-    "note": "55942612 Ricardo",
-    "priority": "alta",
-    "date": "2026-05-26",
+    "id": "mpzrwendd92mtu",
+    "task": "rwerwrre",
+    "note": "45345543",
+    "phone": "",
+    "priority": "media",
+    "date": "",
     "done": false,
     "notifDays": 0,
     "notifTimes": 3,
     "notifHour": "09:00",
+    "notifUnit": "day",
     "notifMsg": "",
     "notifFired": 0,
-    "nextNotif": 0,
-    "notifUnit": "day"
+    "nextNotif": 0
   },
   {
-    "id": "mpivtycsl2uso3",
-    "task": "Vender para pieza Redmi 13C",
-    "note": "Llamar al numero 50806651",
+    "id": "mpzrvreslxvjhg",
+    "task": "tertrtt",
+    "note": "sfsdfsdfs",
+    "phone": "4545454543",
     "priority": "media",
-    "date": "2026-05-31",
-    "done": true,
-    "notifDays": 1,
+    "date": "",
+    "done": false,
+    "notifDays": 0,
     "notifTimes": 3,
     "notifHour": "09:00",
-    "notifMsg": "Recuerda vender Redmi 13C",
-    "notifFired": 3,
-    "nextNotif": 0,
-    "notifUnit": "min"
+    "notifUnit": "day",
+    "notifMsg": "",
+    "notifFired": 0,
+    "nextNotif": 0
   }
 ]
