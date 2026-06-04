@@ -1032,14 +1032,14 @@
       <button type="button" class="close" onclick="closeModal('modalContact')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
     </div>
     <input type="hidden" id="ct-id"/>
-    <label class="field"><span>Nombre *</span><input id="ct-name" autocomplete="off"/></label>
+    <label class="field"><span>Nombre *</span><input id="ct-name" required autocomplete="off"/></label>
     <label class="field"><span>Categoría</span>
-      <select id="ct-cat"><option value="familia">👨‍👩‍👧 Familia</option><option value="amigo">🤝 Amigo</option><option value="otro">📇 Otro</option></select>
+      <select id="ct-cat" autocomplete="off"><option value="familia">👨‍👩‍👧 Familia</option><option value="amigo">🤝 Amigo</option><option value="otro">📇 Otro</option></select>
     </label>
     <div class="field"><span>Teléfonos</span><div class="multi-list" id="ct-phones"></div><button type="button" class="multi-add" onclick="addMulti('ct-phones')">+ Teléfono</button></div>
     <div class="field"><span>WhatsApp</span><div class="multi-list" id="ct-was"></div><button type="button" class="multi-add" onclick="addMulti('ct-was')">+ WhatsApp</button></div>
     <label class="field"><span>Dirección</span><input id="ct-address" autocomplete="off"/></label>
-    <label class="field"><span>Notas</span><textarea id="ct-notes" rows="2"></textarea></label>
+    <label class="field"><span>Notas</span><textarea id="ct-notes" rows="2" autocomplete="off"></textarea></label>
     <button type="button" class="save" id="btnSaveContact">Guardar</button>
   </form>
 </div>
@@ -1990,8 +1990,12 @@
     $('modalContact').classList.add('open'); setTimeout(()=>$('ct-name').focus(),50);
   }
   function saveContactFromForm(e){
-    if(e){ try{ e.preventDefault(); e.stopPropagation(); if(e.stopImmediatePropagation) e.stopImmediatePropagation(); }catch(_){} }
     try{
+      if(e){
+        if(e.preventDefault) e.preventDefault();
+        if(e.stopPropagation) e.stopPropagation();
+        if(e.stopImmediatePropagation) e.stopImmediatePropagation();
+      }
       const nameVal = ($('ct-name').value||'').trim();
       if(!nameVal){ alert('El nombre es obligatorio'); return false; }
       const data={
@@ -2006,22 +2010,27 @@
       const idx = contacts.findIndex(c=>c.id===data.id);
       if(idx>=0){ contacts[idx] = data; } else { contacts.unshift(data); }
       lsSave(KEYS.contacts, contacts);
-      const cs=$('contactsSearch'); if(cs) cs.value='';
+      $('search').value='';
+      $('contactsSearch').value='';
       closeModal('modalContact');
-      // Asegurar que la página de contactos quede visible tras guardar
-      if(currentPage!=='contacts'){ try{ showPage('contacts'); }catch(_){} }
+      showPage('contacts');
       renderContacts();
-      try{ updateReminder(); }catch(_){}
-      try{ scheduleSync(1000); }catch(_){}
-    }catch(err){ console.error('saveContact err',err); alert('No se pudo guardar el contacto: '+(err&&err.message||err)); }
-    return false;
+      updateReminder();
+      scheduleSync(1000);
+      return false;
+    }catch(err){
+      console.error('saveContactFromForm error', err);
+      try{ closeModal('modalContact'); }catch(_e){}
+      try{ showPage('contacts'); }catch(_e){}
+      alert('Hubo un problema al guardar el contacto. Inténtalo otra vez.');
+      return false;
+    }
   }
   $('formContact').addEventListener('submit', saveContactFromForm);
-  // Botón Guardar: usar click directo (más fiable en Android que el evento submit)
-  (function(){ const b=$('btnSaveContact'); if(b) b.addEventListener('click', saveContactFromForm); })();
-  // Enter en el campo nombre también guarda
-  $('ct-name').addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); saveContactFromForm(e); } });
-
+  $('btnSaveContact').addEventListener('click', saveContactFromForm);
+  $('ct-name').addEventListener('keydown', function(e){
+    if(e.key==='Enter') return saveContactFromForm(e);
+  });
 
   // ══════════ Contact Access Tracking ══════════
   window.markContactAccess = function(contactId, key){
@@ -2834,7 +2843,7 @@
     let refreshing=false;
     navigator.serviceWorker.addEventListener('controllerchange',()=>{ if(refreshing) return; refreshing=true; location.reload(); });
     window.addEventListener('load',()=>{
-      navigator.serviceWorker.register('sw.js?v=20260604-contacts').then(reg=>{
+      navigator.serviceWorker.register('sw.js?v=20260603-1').then(reg=>{
         if(reg.waiting) reg.waiting.postMessage({type:'SKIP_WAITING'});
         reg.addEventListener('updatefound',()=>{ const w=reg.installing; if(w) w.addEventListener('statechange',()=>{ if(w.state==='installed' && navigator.serviceWorker.controller) w.postMessage({type:'SKIP_WAITING'}); }); });
         reg.update().catch(()=>{});
@@ -3257,7 +3266,7 @@
   }
   // clearSearches hook — solo limpia campos, NO interfiere con el submit principal
   // Se ejecuta después del handler principal gracias al setTimeout
-  ['formProvider','formPending','formClient','formNote'].forEach(fid=>{
+  ['formProvider','formPending','formClient','formNote','formContact'].forEach(fid=>{
     const f=document.getElementById(fid);
     if(f) f.addEventListener('submit', function(ev){ ev.preventDefault(); setTimeout(clearSearches, 30); });
   });
