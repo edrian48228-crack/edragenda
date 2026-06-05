@@ -2262,14 +2262,20 @@
     fillCustomForm();
     $('swRememberSession').classList.toggle('on', isRememberOn());
   }
-  window.saveGHCreds = function(){
+  window.saveGHCreds = async function(){
     localStorage.setItem(KEYS.ghToken,$('ghToken').value.trim());
     localStorage.setItem(KEYS.ghOwner,$('ghOwner').value.trim());
     localStorage.setItem(KEYS.ghRepo,$('ghRepo').value.trim());
     localStorage.setItem(KEYS.ghBranch,$('ghBranch').value.trim()||'main');
-    showStatus('ghTestStatus','Configuración guardada','ok');
+    showStatus('ghTestStatus','Configuración guardada — buscando ajustes en la nube…','info');
+    // Always try to pull shared config on (re)connect so this device inherits
+    // settings + toggles already configured from another device.
+    const got = await pullCredsFromGitHub();
+    if(got){ showStatus('ghTestStatus','✅ Configuración sincronizada desde la nube','ok'); renderAdmin(); }
+    else { showStatus('ghTestStatus','✅ Configuración guardada','ok'); }
     if(localStorage.getItem(KEYS.syncCreds)==='1') pushCredsToGitHub();
     scheduleSync(500); initialPullIfClean();
+    if(isAutoPullOn()) startPullLoop();
   };
   function getGHCreds(){
     return {token:localStorage.getItem(KEYS.ghToken)||'',owner:localStorage.getItem(KEYS.ghOwner)||'',repo:localStorage.getItem(KEYS.ghRepo)||'',branch:localStorage.getItem(KEYS.ghBranch)||'main'};
@@ -2366,7 +2372,20 @@
   async function pushCredsToGitHub(){
     const {token,owner,repo,branch}=getGHCreds();
     if(!token||!owner||!repo) return;
-    const cfg={ghToken:token,ghOwner:owner,ghRepo:repo,ghBranch:branch,authPw:localStorage.getItem(KEYS.authPw)||'',authQ:localStorage.getItem(KEYS.authQ)||'',authA:localStorage.getItem(KEYS.authA)||'',alarmSound:localStorage.getItem(KEYS.alarmSound)||'bell',custom:getCustom(),ts:Date.now()};
+    const cfg={
+      ghToken:token,ghOwner:owner,ghRepo:repo,ghBranch:branch,
+      authPw:localStorage.getItem(KEYS.authPw)||'',
+      authQ:localStorage.getItem(KEYS.authQ)||'',
+      authA:localStorage.getItem(KEYS.authA)||'',
+      alarmSound:localStorage.getItem(KEYS.alarmSound)||'bell',
+      // Sync toggles — propagate across devices
+      autoSync:  localStorage.getItem(KEYS.autoSync),
+      autoPull:  localStorage.getItem(KEYS.autoPull),
+      syncCreds: localStorage.getItem(KEYS.syncCreds),
+      reminderOn:localStorage.getItem(KEYS.reminderOn),
+      custom:getCustom(),
+      ts:Date.now()
+    };
     const jsonStr=JSON.stringify(cfg,null,2);
     const content=btoa(unescape(encodeURIComponent(jsonStr)));
     try{
@@ -2377,10 +2396,10 @@
   }
   async function pullCredsFromGitHub(){
     const {token,owner,repo,branch}=getGHCreds();
-    if(!token||!owner||!repo) return;
+    if(!token||!owner||!repo) return false;
     try{
       const r=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${GH_FILES.creds}?ref=${branch}`,{headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json'}});
-      if(!r.ok) return;
+      if(!r.ok) return false;
       const d=await r.json();
       const cfg=JSON.parse(decodeURIComponent(escape(atob((d.content||'').replace(/\n/g,'')))));
       if(cfg.authPw) localStorage.setItem(KEYS.authPw,cfg.authPw);
@@ -2391,10 +2410,20 @@
       if(cfg.ghOwner) localStorage.setItem(KEYS.ghOwner,cfg.ghOwner);
       if(cfg.ghRepo) localStorage.setItem(KEYS.ghRepo,cfg.ghRepo);
       if(cfg.ghBranch) localStorage.setItem(KEYS.ghBranch,cfg.ghBranch||'main');
+      // Apply shared sync toggles
+      let pullChanged=false;
+      if(cfg.autoSync===  '0' || cfg.autoSync===  '1') localStorage.setItem(KEYS.autoSync,  cfg.autoSync);
+      if(cfg.autoPull===  '0' || cfg.autoPull===  '1'){ const prev=localStorage.getItem(KEYS.autoPull); if(prev!==cfg.autoPull) pullChanged=true; localStorage.setItem(KEYS.autoPull, cfg.autoPull); }
+      if(cfg.syncCreds=== '0' || cfg.syncCreds=== '1') localStorage.setItem(KEYS.syncCreds, cfg.syncCreds);
+      if(cfg.reminderOn===''||cfg.reminderOn==='0'||cfg.reminderOn==='1') localStorage.setItem(KEYS.reminderOn,cfg.reminderOn);
       if(cfg.custom && typeof cfg.custom==='object'){ localStorage.setItem(KEYS.custom, JSON.stringify(cfg.custom)); applyCustom(); }
+      // Refresh switches + restart pull loop with new value
+      try{ refreshAutoSwitches(); }catch(e){}
+      if(pullChanged){ try{ if(isAutoPullOn()) startPullLoop(); else stopPullLoop(); }catch(e){} }
       // Refresh admin UI if it's open so fields update
       if(currentPage==='admin') renderAdmin();
-    }catch(e){}
+      return true;
+    }catch(e){ return false; }
   }
 
   // ── PERSONALIZACIÓN ──
@@ -2657,10 +2686,10 @@
   }
 
   function refreshAutoSwitches(){ $('swAutoSync').classList.toggle('on',isAutoSyncOn()); $('swAutoPull').classList.toggle('on',isAutoPullOn()); $('swSyncCreds').classList.toggle('on',isSyncCredsOn()); $('swReminder').classList.toggle('on', localStorage.getItem(KEYS.reminderOn)!=='0'); }
-  window.toggleAutoSync=function(){ localStorage.setItem(KEYS.autoSync,isAutoSyncOn()?'0':'1'); refreshAutoSwitches(); updateSyncBadge(); if(isAutoSyncOn()) scheduleSync(500); };
-  window.toggleAutoPull=function(){ localStorage.setItem(KEYS.autoPull,isAutoPullOn()?'0':'1'); refreshAutoSwitches(); if(isAutoPullOn()) startPullLoop(); else stopPullLoop(); };
+  window.toggleAutoSync=function(){ localStorage.setItem(KEYS.autoSync,isAutoSyncOn()?'0':'1'); refreshAutoSwitches(); updateSyncBadge(); if(isAutoSyncOn()) scheduleSync(500); if(isSyncCredsOn()) pushCredsToGitHub(); };
+  window.toggleAutoPull=function(){ localStorage.setItem(KEYS.autoPull,isAutoPullOn()?'0':'1'); refreshAutoSwitches(); if(isAutoPullOn()) startPullLoop(); else stopPullLoop(); if(isSyncCredsOn()) pushCredsToGitHub(); };
   window.toggleSyncCreds=function(){ localStorage.setItem(KEYS.syncCreds,isSyncCredsOn()?'0':'1'); refreshAutoSwitches(); if(isSyncCredsOn()) pushCredsToGitHub(); };
-  window.toggleReminder=function(){ const v=localStorage.getItem(KEYS.reminderOn)!=='0'; localStorage.setItem(KEYS.reminderOn, v?'0':'1'); refreshAutoSwitches(); updateReminder(); };
+  window.toggleReminder=function(){ const v=localStorage.getItem(KEYS.reminderOn)!=='0'; localStorage.setItem(KEYS.reminderOn, v?'0':'1'); refreshAutoSwitches(); updateReminder(); if(isSyncCredsOn()) pushCredsToGitHub(); };
 
   // alarmSound se gestiona desde la paleta de sonidos
 
@@ -2843,7 +2872,7 @@
     let refreshing=false;
     navigator.serviceWorker.addEventListener('controllerchange',()=>{ if(refreshing) return; refreshing=true; location.reload(); });
     window.addEventListener('load',()=>{
-      navigator.serviceWorker.register('sw.js?v=20260603-1').then(reg=>{
+      navigator.serviceWorker.register('sw.js?v=20260605-sync').then(reg=>{
         if(reg.waiting) reg.waiting.postMessage({type:'SKIP_WAITING'});
         reg.addEventListener('updatefound',()=>{ const w=reg.installing; if(w) w.addEventListener('statechange',()=>{ if(w.state==='installed' && navigator.serviceWorker.controller) w.postMessage({type:'SKIP_WAITING'}); }); });
         reg.update().catch(()=>{});
