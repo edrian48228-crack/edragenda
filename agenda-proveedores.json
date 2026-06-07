@@ -1,8 +1,808 @@
 [
   {
-    "id": "mpzu8m35djqews",
-    "name": "fdsfsdff",
-    "product": "",
+    "id": "mq2cjxpq7snrpg",
+    "name": "Vendedor x cantidad edel",
+    "product": "Cargadores, micas, cables y otros",
+    "price": "Variable",
+    "phones": [],
+    "whatsapps": [],
+    "phone": "",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "1 norte entre 8 y 9 norte.",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq294lr1flxf6v",
+    "name": "Geovanis solano",
+    "product": "Mantequilla",
+    "price": "Variable",
+    "phones": [
+      "53779513"
+    ],
+    "whatsapps": [
+      "53779513"
+    ],
+    "phone": "53779513",
+    "whatsapp": "53779513",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq292x98ldnm4f",
+    "name": "Odelkis Ortiz",
+    "product": "Saldo movil",
+    "price": "Variable",
+    "phones": [
+      "56166703"
+    ],
+    "whatsapps": [],
+    "phone": "56166703",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "Acepta transferencia",
+    "called": false
+  },
+  {
+    "id": "mq28xxkn53e5ug",
+    "name": "Yoel David",
+    "product": "Saldo por cantidad",
+    "price": "Variable",
+    "phones": [
+      "56943977"
+    ],
+    "whatsapps": [],
+    "phone": "56943977",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "Pedro a perez entre 5 y 6 norte. #365",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq28v6x81i4q6j",
+    "name": "Vendedor",
+    "product": "Insumos electronicos y accesorios para telefonos",
+    "price": "Variable",
+    "phones": [
+      "50424143"
+    ],
+    "whatsapps": [],
+    "phone": "50424143",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "Vende x cantidad x unidad",
+    "called": false
+  },
+  {
+    "id": "mq28rqp3wjjy1b",
+    "name": "Antojo de reyes",
+    "product": "Bolas de yuca, hamburguesa, pollo con chicharrita, patacon con jamon, chorizo, cebolla",
+    "price": "Variable",
+    "phones": [
+      "51906313"
+    ],
+    "whatsapps": [],
+    "phone": "51906313",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "Comida rapida de apuro",
+    "called": false
+  },
+  {
+    "id": "mq28o0oo75kgpq",
+    "name": "Lissy  Martinez",
+    "product": "Espaguetis, yogurt, mermelada, jugo de mango",
+    "price": "Variable",
+    "phones": [
+      "59616809"
+    ],
+    "whatsapps": [],
+    "phone": "59616809",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "Comida rapida apuro. Cafeteria la abeja. Abre 6 y 30 pm hasta las 12 pm",
+    "called": false
+  },
+  {
+    "id": "mq28iysc2mcx0d",
+    "name": "Ana laura",
+    "product": "Perfumeria y ase por cantidad",
+    "price": "Variable",
+    "phones": [],
+    "whatsapps": [],
+    "phone": "",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "Buscarla en motorinas al 100 en guantanamo como ana laura rodriguez",
+    "called": false
+  },
+  {
+    "id": "mq28h0m9jwefo8",
+    "name": "Eddy delgado",
+    "product": "Pescado, pezcado",
+    "price": "Variable",
+    "phones": [
+      "58545223"
+    ],
+    "whatsapps": [],
+    "phone": "58545223",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq28ea1b0hibt0",
+    "name": "Reinier Bravo",
+    "product": "Arro, espagyetis y frijoles",
+    "price": "Variable",
+    "phones": [
+      "53082705"
+    ],
+    "whatsapps": [],
+    "phone": "53082705",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "Vende x paca x cantidad",
+    "called": false
+  },
+  {
+    "id": "mq28c9gp1jfbiv",
+    "name": "Tik tok",
+    "product": "Bombones x cantidad",
+    "price": "Variable",
+    "phones": [
+      "52465540"
+    ],
+    "whatsapps": [],
+    "phone": "52465540",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "Bombones Artesanales",
+    "called": false
+  },
+  {
+    "id": "mq28a7603m78e9",
+    "name": "Juan Antonio Espinosa Garcia",
+    "product": "Arroz x paca x cantidad x unidad",
+    "price": "Variable",
+    "phones": [
+      "53184390"
+    ],
+    "whatsapps": [],
+    "phone": "53184390",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq286zjmghoksq",
+    "name": "Robert Luiz Benitez Torres",
+    "product": "Arroz y aceite .",
+    "price": "Variable",
+    "phones": [],
+    "whatsapps": [],
+    "phone": "",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "Tienen domicilio hasta la puerta de la casa. Al por mayor x cantidad x saco",
+    "called": false
+  },
+  {
+    "id": "mq283v1fzw4mxv",
+    "name": "Liz Harrison",
+    "product": "Salchicha x cantidad x  unidad",
+    "price": "Variable",
+    "phones": [
+      "51566802"
+    ],
+    "whatsapps": [],
+    "phone": "51566802",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq281acvx3l02o",
+    "name": "Diango Cuba",
+    "product": "Pantalla x cantidad Habana. Todo tipo",
+    "price": "Variable desde 8000 cup",
+    "phones": [
+      "56831101",
+      "54964397"
+    ],
+    "whatsapps": [],
+    "phone": "56831101",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "Garantia de 1 mes",
+    "called": false
+  },
+  {
+    "id": "mq27x4mni7wkra",
+    "name": "Lucy simpson",
+    "product": "Cargadores usb, cables y mucho mas ferreteria",
+    "price": "Variable",
+    "phones": [
+      "53575769"
+    ],
+    "whatsapps": [],
+    "phone": "53575769",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "Vense x unidad x cantidad",
+    "called": false
+  },
+  {
+    "id": "mq27vji72npd3s",
+    "name": "Julio Torriente",
+    "product": "Ferreteria x cantidad",
+    "price": "Variables",
+    "phones": [],
+    "whatsapps": [],
+    "phone": "",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "Buscarlo en facebook en variedades gtmo como julio torriente ramos. Vende de todo un poco",
+    "called": false
+  },
+  {
+    "id": "mq27qwuwjy67gw",
+    "name": "Bernard Cell",
+    "product": "Micas x cantidad",
+    "price": "",
+    "phones": [
+      "51909073"
+    ],
+    "whatsapps": [],
+    "phone": "51909073",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq27o651lmip72",
+    "name": "Vendedor",
+    "product": "Insumos electronicos",
+    "price": "Variable",
+    "phones": [
+      "56167943"
+    ],
+    "whatsapps": [
+      "56167943"
+    ],
+    "phone": "56167943",
+    "whatsapp": "56167943",
+    "facebook": "",
+    "address": "Marti entre 3 y 4 sur. #1370-A.  Rene",
+    "notes": "Vende:\nTester, flux, bms, led, indicador de carga, bateria, interruptores, cautin",
+    "called": false
+  },
+  {
+    "id": "mq27ibwohwk05t",
+    "name": "Yunior Milan",
+    "product": "Espaguetis x cantidad",
+    "price": "250 x cantidad   280 x unidad",
+    "phones": [],
+    "whatsapps": [],
+    "phone": "",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "Cajas de 20 unidades x cantidad 500g",
+    "called": false
+  },
+  {
+    "id": "mq27fihnu37tws",
+    "name": "Vendedor",
+    "product": "Leche condensada",
+    "price": "",
+    "phones": [
+      "56770549"
+    ],
+    "whatsapps": [],
+    "phone": "56770549",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq277ll8cv3znj",
+    "name": "Rsnay Furones",
+    "product": "Jamon",
+    "price": "",
+    "phones": [
+      "51913949"
+    ],
+    "whatsapps": [],
+    "phone": "51913949",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq274evmq8rz2j",
+    "name": "Anabren Hurquisa",
+    "product": "Pantallas x cantidad Habana",
+    "price": "Economico 7000 a 8500",
+    "phones": [
+      "54754744"
+    ],
+    "whatsapps": [],
+    "phone": "54754744",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "Minimo de compra son 8 pantallas de celulares",
+    "called": false
+  },
+  {
+    "id": "mq1dhh817xgnk9",
+    "name": "Danelly Coy",
+    "product": "Carnico, pezcado, pescado",
+    "price": "X cantidad",
+    "phones": [
+      "50582261"
+    ],
+    "whatsapps": [],
+    "phone": "50582261",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false,
+    "accessedPhones": {
+      "50582261": true
+    }
+  },
+  {
+    "id": "mq1df8nrp7w6xx",
+    "name": "Mango mango",
+    "product": "Espaguetis x cantidad",
+    "price": "",
+    "phones": [
+      "56523708"
+    ],
+    "whatsapps": [],
+    "phone": "56523708",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq1ddl08vyau2h",
+    "name": "Pezcado",
+    "product": "Pezcado, pescado",
+    "price": "",
+    "phones": [
+      "50551357"
+    ],
+    "whatsapps": [],
+    "phone": "50551357",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq1daa9qhd4d1i",
+    "name": "Vendedor",
+    "product": "Pezcado, pescado",
+    "price": "",
+    "phones": [
+      "55138134"
+    ],
+    "whatsapps": [],
+    "phone": "55138134",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq1d7xk1f3c1d0",
+    "name": "Alicent alonso",
+    "product": "Conserva",
+    "price": "",
+    "phones": [
+      "53703341"
+    ],
+    "whatsapps": [],
+    "phone": "53703341",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq1d5ttccq8lgm",
+    "name": "Dignoralis",
+    "product": "Espaguetis x cantidad",
+    "price": "",
+    "phones": [
+      "53478988"
+    ],
+    "whatsapps": [],
+    "phone": "53478988",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq1d3qwv7cbsdy",
+    "name": "Vendedor",
+    "product": "Galletas de sal hechas",
+    "price": "500",
+    "phones": [
+      "58545858"
+    ],
+    "whatsapps": [],
+    "phone": "58545858",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq1d2egzssjnrm",
+    "name": "Zaid Ziyad",
+    "product": "Espaguetis x transferencia",
+    "price": "250cup",
+    "phones": [],
+    "whatsapps": [],
+    "phone": "",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq1d0pdxj0trt6",
+    "name": "Humberto Berlot",
+    "product": "Pan flauta y pan manzana",
+    "price": "",
+    "phones": [
+      "53206034"
+    ],
+    "whatsapps": [],
+    "phone": "53206034",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq1cygnxp6zajr",
+    "name": "Ezz Ricurita",
+    "product": "Huevitos, ojitos, chicles y bombones",
+    "price": "X unidad y x cantidad",
+    "phones": [
+      "51554329"
+    ],
+    "whatsapps": [],
+    "phone": "51554329",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq1cvujg1lnzlc",
+    "name": "Idalis Blanco",
+    "product": "Espaguetis",
+    "price": "4600 la caja de 20 unidades",
+    "phones": [
+      "55806317"
+    ],
+    "whatsapps": [],
+    "phone": "55806317",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq1cte8p2kah7w",
+    "name": "Alexis Mejias",
+    "product": "Arroz",
+    "price": "50lb igual a 15000",
+    "phones": [
+      "56858849"
+    ],
+    "whatsapps": [],
+    "phone": "56858849",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq1cqo5xivfimf",
+    "name": "Nancy planes",
+    "product": "Espaguetis",
+    "price": "X cantidad a 270",
+    "phones": [
+      "53478988"
+    ],
+    "whatsapps": [],
+    "phone": "53478988",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq1cnawtw7rj89",
+    "name": "Sheila sheila",
+    "product": "Espaguetis",
+    "price": "500mg a 260 por cajas de 20",
+    "phones": [],
+    "whatsapps": [],
+    "phone": "",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "500mg a 260 por cajas de 20. Por unidad 270",
+    "called": false
+  },
+  {
+    "id": "mq1ch9d7rrvnho",
+    "name": "Vendedor",
+    "product": "Comida para pollo, gallina, y puerco",
+    "price": "",
+    "phones": [
+      "58937283"
+    ],
+    "whatsapps": [],
+    "phone": "58937283",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq1ceurj3ga6xg",
+    "name": "Arianni Guilarte",
+    "product": "Arroz, espaguetis, pasta de tomate",
+    "price": "",
+    "phones": [
+      "55103702"
+    ],
+    "whatsapps": [],
+    "phone": "55103702",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "Crombet esquina 3 oeste 877",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq1cb1efi93h6s",
+    "name": "Vendedor",
+    "product": "Refresquito, arroz, espaguetis, pastillita, detergente",
+    "price": "X cantidad",
+    "phones": [
+      "59092653"
+    ],
+    "whatsapps": [],
+    "phone": "59092653",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq1c79wk3vbhme",
+    "name": "Arlet Perez",
+    "product": "Ojitos de Comer",
+    "price": "900 x cantidad. 30 unidades",
+    "phones": [],
+    "whatsapps": [],
+    "phone": "",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq14e84ux6uduv",
+    "name": "Alturo alex",
+    "product": "Aseo , sazon , pastillitas",
+    "price": "X xantidad y por unidad",
+    "phones": [
+      "53071970"
+    ],
+    "whatsapps": [],
+    "phone": "53071970",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq14ctsvk1ap0q",
+    "name": "Felicia Aguilera",
+    "product": "Naylon retractil",
+    "price": "",
+    "phones": [],
+    "whatsapps": [],
+    "phone": "",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "Felicia Aguilera buscar en Revolico Gtmo",
+    "called": false
+  },
+  {
+    "id": "mq149i13chbsoq",
+    "name": "Zulema Mustelier",
+    "product": "Arroz, frijol, detergente, azucar",
+    "price": "",
+    "phones": [],
+    "whatsapps": [],
+    "phone": "",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "Arroz a 665 por pacas de 30 y menos a 670 a partir de 10 y por unidad a 680\nFrijol de 1kg a 770 por pacas de 10 unidades y por unidad a 880\nDetergente de 500g a 530 a partir de 5 unidades y por unidad a 580\nAzucar por pacas de 10 unidadrs a 880 y por unidad a 900",
+    "called": false
+  },
+  {
+    "id": "mq143cn8n4f2f3",
+    "name": "Reinier Bravo",
+    "product": "Frijol arroz y espaguetis",
+    "price": "",
+    "phones": [],
+    "whatsapps": [],
+    "phone": "",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "Arroz 630 . Espaguetis a 260. Frijoles a 770 por paca de 10",
+    "called": false
+  },
+  {
+    "id": "mq13yzxfql14eo",
+    "name": "Yadilka Miranda",
+    "product": "Refresco frutis x cantidad",
+    "price": "28 cup",
+    "phones": [],
+    "whatsapps": [],
+    "phone": "",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "Buscar por wl nombre en el grupo Revolico Guantanamo con foto de mujer inferior derecha",
+    "called": false
+  },
+  {
+    "id": "mq13vgd7chxnl7",
+    "name": "Ailen cabrera",
+    "product": "Sombrilla, paragua",
+    "price": "",
+    "phones": [],
+    "whatsapps": [
+      "50431204"
+    ],
+    "phone": "",
+    "whatsapp": "50431204",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq130v1kvlma1w",
+    "name": "Luivis  Lopez",
+    "product": "Frijol",
+    "price": "320 la libra y quintal a 290",
+    "phones": [
+      "56943983"
+    ],
+    "whatsapps": [],
+    "phone": "56943983",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "7 oeste y el dos sur",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq12wwpx4bm41r",
+    "name": "Malvis Alvares",
+    "product": "Pezcado, pescado",
+    "price": "",
+    "phones": [
+      "55304736"
+    ],
+    "whatsapps": [],
+    "phone": "55304736",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq12uhrho0r1dh",
+    "name": "Anderson",
+    "product": "Chicharron de viento",
+    "price": "",
+    "phones": [
+      "59534923"
+    ],
+    "whatsapps": [],
+    "phone": "59534923",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq12pnq8gp0dpz",
+    "name": "Maylen Tyssert",
+    "product": "Todo tipo de pescado, pezcado",
+    "price": "",
+    "phones": [
+      "56820844"
+    ],
+    "whatsapps": [],
+    "phone": "56820844",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq12l0fe0jk7vs",
+    "name": "Dalia Gaskins Capo",
+    "product": "Naylon retractil",
     "price": "",
     "phones": [],
     "whatsapps": [],
@@ -11,6 +811,796 @@
     "facebook": "",
     "address": "",
     "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq12i7krkqty28",
+    "name": "Rafael Cutiño",
+    "product": "Espaguetis",
+    "price": "520cup  paquete",
+    "phones": [
+      "55304307"
+    ],
+    "whatsapps": [],
+    "phone": "55304307",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq12g886v6hcqw",
+    "name": "Vendedor",
+    "product": "Frijol x transferencia",
+    "price": "",
+    "phones": [
+      "52253570"
+    ],
+    "whatsapps": [
+      "54683481"
+    ],
+    "phone": "52253570",
+    "whatsapp": "54683481",
+    "facebook": "",
+    "address": "",
+    "notes": "Frijol x transferencia 1x1\nFrijoles paq 1kg 1000$",
+    "called": false
+  },
+  {
+    "id": "mq12cqaq1yeuf1",
+    "name": "Pototi Cantillo",
+    "product": "Pollos, gallinas, gallos, pollitos",
+    "price": "",
+    "phones": [
+      "59796527"
+    ],
+    "whatsapps": [],
+    "phone": "59796527",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq12bgdr01pn1e",
+    "name": "Emi Romero",
+    "product": "Camarones",
+    "price": "",
+    "phones": [
+      "50966057"
+    ],
+    "whatsapps": [],
+    "phone": "50966057",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq0vhar5nzspfy",
+    "name": "Rio Gtmo Shop",
+    "product": "Productos ferreteria",
+    "price": "Variedades",
+    "phones": [
+      "56944301"
+    ],
+    "whatsapps": [
+      "55306604"
+    ],
+    "phone": "56944301",
+    "whatsapp": "55306604",
+    "facebook": "",
+    "address": "",
+    "notes": "Pilas 2000 packete de 60\nCola loka 10cup x cantidad\nPrecinta 400 x unidad o 10 x 3500\nBms 12v  10u x 7500\nPinzas 10 + 10 x 2000\nUps sin bateris 8000\nMultimetro digital 6000",
+    "called": false
+  },
+  {
+    "id": "mq0vbvmlojj500",
+    "name": "Vendedor",
+    "product": "Transferencia",
+    "price": "",
+    "phones": [],
+    "whatsapps": [],
+    "phone": "",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "6 sur entre cuartel y ahogado. Encima del consultorio",
+    "notes": "Salchicha 950\nHigado 1800\nPicadillo 1300 y 750",
+    "called": false
+  },
+  {
+    "id": "mq0v9vx43un5cj",
+    "name": "Vendedor",
+    "product": "Cambute y platano",
+    "price": "50 cambute y 150 platano",
+    "phones": [
+      "50430869"
+    ],
+    "whatsapps": [],
+    "phone": "50430869",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq0v8ehvz9cn99",
+    "name": "Vendedor",
+    "product": "Pasta dental carbon",
+    "price": "",
+    "phones": [
+      "56629200",
+      "59795075"
+    ],
+    "whatsapps": [],
+    "phone": "56629200",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "Por cantidad a 450",
+    "called": false
+  },
+  {
+    "id": "mq0v4v6btltyzo",
+    "name": "Juan cristobal",
+    "product": "Cables usb y cuchillas dorco x cantidad",
+    "price": "320 cup",
+    "phones": [
+      "56503032"
+    ],
+    "whatsapps": [],
+    "phone": "56503032",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq0v34a2xe72pj",
+    "name": "Dayami savigne",
+    "product": "Cololoca x cantidad",
+    "price": "12  a 200",
+    "phones": [
+      "53345027"
+    ],
+    "whatsapps": [],
+    "phone": "53345027",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mq0v0d85a3m9jc",
+    "name": "Ventas gtmo",
+    "product": "Sazon x cantidad",
+    "price": "40 cup",
+    "phones": [
+      "52612306",
+      "59500281"
+    ],
+    "whatsapps": [],
+    "phone": "52612306",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mplkdg18hxvgd6",
+    "name": "Vendedor",
+    "product": "mica y cober x cantidad",
+    "price": "",
+    "phones": [
+      "59797774",
+      "55141347"
+    ],
+    "whatsapps": [],
+    "phone": "59797774",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "aguilera % 10 y 11 sur",
+    "notes": "",
+    "called": false,
+    "accessedPhones": {}
+  },
+  {
+    "id": "mplj80gm95b2b0",
+    "name": "vendedor edel",
+    "product": "mica y pantalla x cantidad",
+    "price": "",
+    "phones": [
+      "54069357"
+    ],
+    "whatsapps": [],
+    "phone": "54069357",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false,
+    "accessedPhones": {
+      "54069357": true
+    }
+  },
+  {
+    "id": "mpl3z9a2qpcbia",
+    "name": "vendedor",
+    "product": "acetona",
+    "price": "",
+    "phones": [],
+    "whatsapps": [],
+    "phone": "",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "pasillo interior en los maceo y pinto, al lado de la cafeteria de la esquina",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mpl3xvknvlmug5",
+    "name": "vendedor",
+    "product": "acetona",
+    "price": "",
+    "phones": [],
+    "whatsapps": [],
+    "phone": "",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "Al frente de donde vivia lisandra",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mpkjc7hk18k7js",
+    "name": "vendedor",
+    "product": "aseo x cantidad",
+    "price": "",
+    "phones": [
+      "55630576"
+    ],
+    "whatsapps": [],
+    "phone": "55630576",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mpkj8w8gvekj8b",
+    "name": "katia lao",
+    "product": "aseo y mas",
+    "price": "",
+    "phones": [],
+    "whatsapps": [],
+    "phone": "",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "acepta el aseo hasta1000 cup para un 10%",
+    "called": false
+  },
+  {
+    "id": "mpkj15fx12dz4c",
+    "name": "vendedor",
+    "product": "piezas de motorina",
+    "price": "",
+    "phones": [
+      "56065752"
+    ],
+    "whatsapps": [],
+    "phone": "56065752",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mpkj0k01vla6wv",
+    "name": "vendedor",
+    "product": "piezas de motorina",
+    "price": "",
+    "phones": [
+      "56062267"
+    ],
+    "whatsapps": [],
+    "phone": "56062267",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mpkiztgetcrlba",
+    "name": "vendedor",
+    "product": "piezas de motorina",
+    "price": "",
+    "phones": [
+      "58760620"
+    ],
+    "whatsapps": [],
+    "phone": "58760620",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mpkiyge3hr8glb",
+    "name": "vendedor",
+    "product": "pantalla",
+    "price": "",
+    "phones": [
+      "58894099"
+    ],
+    "whatsapps": [],
+    "phone": "58894099",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false,
+    "accessedPhones": {
+      "58894099": true
+    }
+  },
+  {
+    "id": "mpkixly7nlof0s",
+    "name": "vendedor",
+    "product": "pantalla",
+    "price": "",
+    "phones": [
+      "51464088"
+    ],
+    "whatsapps": [],
+    "phone": "51464088",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false,
+    "accessedPhones": {
+      "51464088": true
+    }
+  },
+  {
+    "id": "mpkiwmiptx7vwk",
+    "name": "vendedor",
+    "product": "pantallas",
+    "price": "",
+    "phones": [
+      "53686120"
+    ],
+    "whatsapps": [],
+    "phone": "53686120",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false,
+    "accessedPhones": {
+      "53686120": true
+    }
+  },
+  {
+    "id": "mpkivxddiqgmub",
+    "name": "vendedor",
+    "product": "pantalla",
+    "price": "",
+    "phones": [
+      "50582432"
+    ],
+    "whatsapps": [],
+    "phone": "50582432",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false,
+    "accessedPhones": {
+      "50582432": true
+    }
+  },
+  {
+    "id": "mpkiugj57hjagb",
+    "name": "vendedor",
+    "product": "pantalla y mica x cantidad",
+    "price": "",
+    "phones": [
+      "50582599"
+    ],
+    "whatsapps": [],
+    "phone": "50582599",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "Norte 1 oeste entre 6 y 7 norte",
+    "notes": "",
+    "called": false,
+    "accessedPhones": {
+      "50582599": true
+    }
+  },
+  {
+    "id": "mpkirwsyij392g",
+    "name": "vendedor",
+    "product": "pantalla",
+    "price": "",
+    "phones": [
+      "54683348"
+    ],
+    "whatsapps": [],
+    "phone": "54683348",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "Agramonte",
+    "notes": "",
+    "called": false,
+    "accessedPhones": {
+      "54683348": true
+    }
+  },
+  {
+    "id": "mpkiqr03z54nic",
+    "name": "vendedor",
+    "product": "pantalla",
+    "price": "",
+    "phones": [
+      "53472462"
+    ],
+    "whatsapps": [],
+    "phone": "53472462",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "10  sur",
+    "notes": "",
+    "called": false,
+    "accessedPhones": {
+      "53472462": true
+    }
+  },
+  {
+    "id": "mpkipm7snl7qxl",
+    "name": "vendedor",
+    "product": "pantalla",
+    "price": "",
+    "phones": [
+      "58148578"
+    ],
+    "whatsapps": [],
+    "phone": "58148578",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "11 norte entre ahogado y cuartel",
+    "notes": "",
+    "called": false,
+    "accessedPhones": {
+      "58148578": true
+    }
+  },
+  {
+    "id": "mpkik6ci3mbdvu",
+    "name": "vendedor",
+    "product": "pantalla",
+    "price": "",
+    "phones": [
+      "58701050"
+    ],
+    "whatsapps": [],
+    "phone": "58701050",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "Avenida y Camixto Garcia",
+    "notes": "",
+    "called": false,
+    "accessedPhones": {
+      "58701050": true
+    }
+  },
+  {
+    "id": "mpkijbace4ty32",
+    "name": "vendedor",
+    "product": "pantalla",
+    "price": "",
+    "phones": [
+      "55334024",
+      "51908229"
+    ],
+    "whatsapps": [],
+    "phone": "55334024",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "Calixto garcia y el 4 sur",
+    "notes": "",
+    "called": false,
+    "accessedPhones": {}
+  },
+  {
+    "id": "mpkiha2s9ud8bt",
+    "name": "vendedor",
+    "product": "bms de celdas de litio",
+    "price": "",
+    "phones": [
+      "56944301"
+    ],
+    "whatsapps": [],
+    "phone": "56944301",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mpkictu0ktyjfe",
+    "name": "vendedor",
+    "product": "javitas x cantidad",
+    "price": "",
+    "phones": [
+      "54683082"
+    ],
+    "whatsapps": [],
+    "phone": "54683082",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mpkiaoog8kw4wr",
+    "name": "vendedor",
+    "product": "acetona",
+    "price": "",
+    "phones": [
+      "59542807"
+    ],
+    "whatsapps": [],
+    "phone": "59542807",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mpkga2hzaxfoat",
+    "name": "muchos contactos pilas de litio",
+    "product": "pilas de litio",
+    "price": "",
+    "phones": [
+      "51906814",
+      "51450762",
+      "56062336",
+      "56821043",
+      "54683823",
+      "59500341",
+      "59541030",
+      "55631261",
+      "56944301",
+      "56821628"
+    ],
+    "whatsapps": [],
+    "phone": "51906814",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mpkg14omih0ou7",
+    "name": "Tatica",
+    "product": "Miel de abeja Pura",
+    "price": "",
+    "phones": [
+      "56722688"
+    ],
+    "whatsapps": [],
+    "phone": "56722688",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mpjrrqwrhghfvh",
+    "name": "osmel fuentes",
+    "product": "aseo x cantidad",
+    "price": "",
+    "phones": [
+      "55305622"
+    ],
+    "whatsapps": [],
+    "phone": "55305622",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "detergente, jabon, pasta",
+    "called": false
+  },
+  {
+    "id": "mpjrceiqvueosk",
+    "name": "betsy rondom (buscar facebook super ofertas guantanamo)",
+    "product": "Todo tipo de aseo personal",
+    "price": "transferencia al 20%",
+    "phones": [],
+    "whatsapps": [],
+    "phone": "",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "Pasta 600\njabon 300\ndetergent  1kg 1300\nperlas de olor 1600\nchampu 1200 x 400ml\nTransferencia al 20%",
+    "called": false
+  },
+  {
+    "id": "mpjq32supn8dnk",
+    "name": "vendedor",
+    "product": "pan flauta y pan bola",
+    "price": "35 - 45 - 120 - 130 - 150",
+    "phones": [],
+    "whatsapps": [],
+    "phone": "",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "pan flauta\n 130 x unidad\n120 x si son 5 minimo\nx transferencia a 150\n\npan bola\nprecio 35\nx transferencia 45\na partir de 10",
+    "called": true
+  },
+  {
+    "id": "mpjpy0auu38bq6",
+    "name": "Luisi Marin (buscar en el grupo revolico compra venta)",
+    "product": "Conserva de guayaba",
+    "price": "450. 350",
+    "phones": [
+      "51580799",
+      "59093048"
+    ],
+    "whatsapps": [],
+    "phone": "51580799",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "Cayejuela 7 sur entre 7 y 8 oeste. Preguntar por Marin.  #1264",
+    "notes": "Tiene domicilio",
+    "called": false
+  },
+  {
+    "id": "mpjpwjnyci6412",
+    "name": "daimelis ad",
+    "product": "arroz importado 300 cup",
+    "price": "transferencia al 20%",
+    "phones": [],
+    "whatsapps": [],
+    "phone": "",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "Solo acepta transferencia al 20%",
+    "called": false
+  },
+  {
+    "id": "mpjprtvgqdebxz",
+    "name": "Ana Lidia illas Perex",
+    "product": "Vende por Transferencia",
+    "price": "20%",
+    "phones": [
+      "97997979"
+    ],
+    "whatsapps": [],
+    "phone": "97997979",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "Buscar en facebook por el nombre. Al 20 %",
+    "called": false
+  },
+  {
+    "id": "mpjpnyd3m9yd7e",
+    "name": "Andreina",
+    "product": "Transferencia",
+    "price": "",
+    "phones": [],
+    "whatsapps": [],
+    "phone": "",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "picadillo 750\nhigado 1700\nmolleja polli 1700\naceite 1700\narroz 450\nazucar 500\nmacarrones 500",
+    "called": false
+  },
+  {
+    "id": "mpjpkpa4qasaxs",
+    "name": "benjamin",
+    "product": "miel pura",
+    "price": "80 cup x 50 ml",
+    "phones": [
+      "56945662"
+    ],
+    "whatsapps": [],
+    "phone": "56945662",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "Vende miel pura por ml",
+    "called": false,
+    "accessedPhones": {
+      "56945662": true
+    }
+  },
+  {
+    "id": "mpjpiyywb9qy3d",
+    "name": "leyanet",
+    "product": "bicarbonato y maicena",
+    "price": "bicarb. 1050 maic. 700",
+    "phones": [
+      "56511999"
+    ],
+    "whatsapps": [],
+    "phone": "56511999",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "bicarbonato a 1050 y maicena a 700",
+    "called": false
+  },
+  {
+    "id": "mpjpgpqdlvx6l9",
+    "name": "wilmanis",
+    "product": "carnero  chivo",
+    "price": "270",
+    "phones": [
+      "59796542"
+    ],
+    "whatsapps": [],
+    "phone": "59796542",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "se vende en pie a 270 la libra",
+    "called": false
+  },
+  {
+    "id": "mpjpf9e2aoxugv",
+    "name": "eulices imbert",
+    "product": "pilas, bms, baterias de litio,  y otros",
+    "price": "",
+    "phones": [
+      "51450759",
+      "56821628"
+    ],
+    "whatsapps": [],
+    "phone": "51450759",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "Vende toto tipo de piezas Electronicas",
+    "called": false
+  },
+  {
+    "id": "mpjpcermel2sx6",
+    "name": "yoja(este usuario es revendedor)",
+    "product": "Mica por cantidad",
+    "price": "450",
+    "phones": [
+      "58800027"
+    ],
+    "whatsapps": [],
+    "phone": "58800027",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "1 oeste entre 8 y 9 norte. preguntar por yojan",
+    "notes": "Mas de 10 micas a 450 cup",
     "called": false
   }
 ]
