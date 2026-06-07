@@ -1,24 +1,48 @@
 [
   {
-    "id": "mpzsrosq042ovu",
-    "name": "dsdsdsddd",
-    "category": "familia",
-    "phones": [],
-    "whatsapps": [
-      "34343"
-    ],
-    "address": "",
-    "notes": ""
-  },
-  {
-    "id": "mpzrvyjqw1ed2r",
-    "name": "rtrtrtretet",
+    "id": "mq2bl3nv22qksx",
+    "name": "Mi Esposa VIP",
     "category": "familia",
     "phones": [
-      "4535454454"
+      "56691810"
     ],
     "whatsapps": [],
     "address": "",
     "notes": ""
+  },
+  {
+    "id": "mpu0yp1lrd2pg2",
+    "name": "Leansi / Ismael",
+    "category": "familia",
+    "phones": [
+      "59797998"
+    ],
+    "whatsapps": [],
+    "address": "",
+    "notes": ""
+  },
+  {
+    "id": "mpsgu6bl5j5tum",
+    "name": "Enrique piezas stgo",
+    "category": "amigo",
+    "phones": [
+      "50581489"
+    ],
+    "whatsapps": [],
+    "address": "",
+    "notes": "Tiene posibilidad de ir a stgo"
+  },
+  {
+    "id": "mpkjgjxerdpsxp",
+    "name": "Mi Herm. Made",
+    "category": "familia",
+    "phones": [
+      "50238618"
+    ],
+    "whatsapps": [
+      "50238618"
+    ],
+    "address": "",
+    "notes": "Mi hermana"
   }
 ]
