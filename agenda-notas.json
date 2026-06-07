@@ -1,9 +1,44 @@
 [
   {
-    "id": "mpzrw5rswezsnj",
-    "title": "fdgtfdgdd",
-    "body": "42342432",
+    "id": "mptwusd3se3kcj",
+    "title": "Cordeles de pezca",
+    "body": "Pedro a perez entre 10 y 11 norte. Katre afuera pegado a la esquina del 10.  50 metros",
     "tag": "",
+    "called": false
+  },
+  {
+    "id": "mpsfgjtsibd7eg",
+    "title": "Modificaciones Agenda",
+    "body": "1. Cuando marque una tarea de la session de tareas como completada que se ponga al final del contenido\n2. Revisa que cuando el cuadro de busqueda no tenga texto se muestre toda la informacion de todo el contenido de las sessiones\n3. Reduce bastante el margin que hay entre creado por edrian cruz y el logo y nombre de la agenda\n4. Que si no hay datos en el contenido de la session correspondiente a la hora de eliminar mostrar un mensaje de que no existe dato para eliminar igual para cuando no haya tareas en visto ni completadas\n5. Mostrar en la informacion de la sesion de tareas pendientes en numero de telefono",
+    "tag": "Importante",
+    "called": false
+  },
+  {
+    "id": "mpl82l99f6etjk",
+    "title": "quita frp g530t",
+    "body": "metodo 1\n-------------\nvnrom/ android 5 gam y frp bypass /  install primero gam y luego bypass\n\nfrp bypass dar open, te permite desde los 3 puntos poner la cuenta/ luegovreiniciar\n\nmetodo 2\n-----------------\nquickshortcutmaker 2.4 solo/ liego buscar contraseña y correo/ pruebe/  3 puntos y listo\n\nmetodo 3\n------------\ndescargar los archivos de Quietar,_eliminar_cuenta_google,_ADB,__galaxY_G530T1_Y_G530T_GRAN_PRIME_100__EFECTIVO\n\nFRP_Gran_Prime_o_como_quitar_cuenta_google_Metodo_manual_y_metodo_pc_versiones_SM_G530T_G530T1",
+    "tag": "",
+    "called": false
+  },
+  {
+    "id": "mpkjev6jd4zfqf",
+    "title": "Pagina de desbloqueo",
+    "body": "Siouxs.net",
+    "tag": "importante",
+    "called": false
+  },
+  {
+    "id": "mpjq4pn0dlsm8v",
+    "title": "Dinero edrian tarjeta de Madeline",
+    "body": "10360 -  1360 =  9000 cup",
+    "tag": "importante",
+    "called": false
+  },
+  {
+    "id": "mpjptoekz2oxwl",
+    "title": "Tarjeta de Madeline",
+    "body": "9205 0699 9023 7421\n50238618",
+    "tag": "recordatorio",
     "called": false
   }
 ]
