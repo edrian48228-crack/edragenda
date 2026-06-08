@@ -1,21 +1,5 @@
 [
   {
-    "id": "mq2bxr5jm11y13",
-    "task": "Alain",
-    "note": "Movil cambio. 54173184 . Se dara un movil 2500",
-    "phone": "",
-    "priority": "media",
-    "date": "",
-    "done": false,
-    "notifDays": 1,
-    "notifTimes": 3,
-    "notifHour": "09:00",
-    "notifUnit": "hour",
-    "notifMsg": "",
-    "notifFired": 3,
-    "nextNotif": 0
-  },
-  {
     "id": "mq1klauwk3l03x",
     "task": "Busca bateria de redmi 10A",
     "note": "Yoleibis . Edificio del papalote. Preguntar por flora. Sin linea sin cober y sin accesorios",
