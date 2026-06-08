@@ -6,7 +6,7 @@
     "phone": "21386138",
     "priority": "alta",
     "date": "",
-    "done": false,
+    "done": true,
     "notifDays": 0,
     "notifTimes": 3,
     "notifHour": "09:00",
