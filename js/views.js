@@ -279,8 +279,28 @@ const Views = (() => {
     </div>`;
   }
 
+  const DRAFT_KEY = 'taller_new_repair_draft_v1';
+  function clearDraft(){ try{ sessionStorage.removeItem(DRAFT_KEY); }catch(e){} }
+  function readDraft(){
+    try{ const raw = sessionStorage.getItem(DRAFT_KEY); return raw ? JSON.parse(raw) : null; }
+    catch(e){ return null; }
+  }
+  function writeDraft(d){
+    try{ sessionStorage.setItem(DRAFT_KEY, JSON.stringify(d)); }catch(e){}
+  }
+
   function newRepair(existing){
-    const r = existing || {};
+    // Para nuevas reparaciones, intentamos restaurar un borrador previo
+    let draftRestored = false;
+    let prefill = null;
+    if(!existing){
+      const d = readDraft();
+      if(d && (d.clientName || d.device || d.issue || (d.parts||[]).length || (d.devicePhotos||[]).length || d.clientPhoto || d.acceptAudio)){
+        prefill = d; draftRestored = true;
+      }
+    }
+    const r = existing || prefill || {};
+    const isNewForm = !existing;  // true tanto para borrador como para form vacío
     const photos = { device: (r.devicePhotos||[]).slice(), client: r.clientPhoto || null };
     let acceptAudio = r.acceptAudio || null;
     const naFields = (r.naFields||[]).slice();
@@ -295,7 +315,8 @@ const Views = (() => {
     view().innerHTML = `
       <button type="button" class="form-close" id="formCloseTop" title="Cerrar">${ICONS.close}</button>
 
-      <h2 style="margin:0 0 16px;font-size:20px;padding-right:50px">${existing?'Editar reparación':'Nueva reparación'}</h2>
+      <h2 style="margin:0 0 16px;font-size:20px;padding-right:50px">${isNewForm?'Nueva reparación':'Editar reparación'}</h2>
+      ${(isNewForm && draftRestored) ? `<div class="draft-restored" id="draftHint"><span>📝 Recuperamos un borrador que dejaste sin guardar.</span><button type="button" id="discardDraft">Descartar borrador</button></div>` : ''}
       <form id="repairForm" novalidate>
 
         ${sectionDivider('Cliente')}
@@ -407,7 +428,7 @@ const Views = (() => {
       </form>
     `;
 
-    // Cerrar (arriba) — confirmar si hay datos sin guardar
+    // Cerrar (arriba) — al salir guardamos automáticamente un borrador (solo nuevas)
     document.getElementById('formCloseTop').onclick = async ()=>{
       const f = document.getElementById('repairForm');
       let hasData = false;
@@ -419,13 +440,15 @@ const Views = (() => {
         }
         if(photos.device.length || photos.client || acceptAudio || parts.length) hasData = true;
       }
-      if(!existing && hasData){
+      if(isNewForm && hasData){
         const ok = await UI.confirmDialog({
-          title:'¿Salir sin guardar?',
-          message:'Tienes información sin guardar de esta reparación. Si sales ahora se perderá. ¿Continuar?',
-          okText:'Salir sin guardar', cancelText:'Seguir editando', danger:true
+          title:'¿Salir sin terminar?',
+          message:'Guardaremos esta reparación como BORRADOR. Cuando vuelvas a "Nueva reparación" la verás de nuevo. ¿Salir?',
+          okText:'Sí, guardar borrador y salir', cancelText:'Seguir editando'
         });
         if(!ok) return;
+        // El listener input ya guardó el snapshot; aseguramos un guardado final aquí.
+        if(window._taller_saveDraft) window._taller_saveDraft();
       }
       try{ if(rec) rec.cancel(); }catch(e){}
       App.go(existing ? 'repairs' : 'dashboard');
@@ -434,10 +457,10 @@ const Views = (() => {
     const _cancelBtn = document.getElementById('cancelRepairBtn');
     if(_cancelBtn) _cancelBtn.onclick = async ()=>{
       const ok = await UI.confirmDialog({
-        title: existing ? 'Cancelar reparación' : 'Cancelar y salir',
+        title: existing ? 'Cancelar reparación' : 'Descartar reparación',
         message: existing
           ? '¿Cancelar esta reparación? Se marcará como cancelada.'
-          : '¿Cancelar y salir? Se perderán los datos no guardados.',
+          : '¿Descartar esta reparación? Se borrará también el borrador.',
         okText:'Sí, cancelar', cancelText:'Volver', danger:true
       });
       if(!ok) return;
@@ -447,6 +470,8 @@ const Views = (() => {
         UI.toast('Reparación cancelada');
         App.go('repairs');
       } else {
+        clearDraft();
+        UI.toast('Borrador descartado');
         App.go('dashboard');
       }
     };
@@ -842,6 +867,7 @@ const Views = (() => {
           const nr = DB.addRepair(data);
           UI.toast('Reparación registrada: '+nr.id);
         }
+        clearDraft();
         App.go('repairs');
       };
       if(rec && rec.isRecording()){
@@ -850,7 +876,57 @@ const Views = (() => {
         doSave();
       }
     });
+
+    // ===== Autoguardado de borrador (solo para nuevas reparaciones) =====
+    if(isNewForm){
+      const form = document.getElementById('repairForm');
+      const snapshot = ()=>{
+        const fd = new FormData(form);
+        const o = {};
+        ['clientName','clientAddress','clientIdNumber','device','brand','model','serial','issue','notes','status'].forEach(k=>{
+          const v = fd.get(k); if(v!=null) o[k] = String(v);
+        });
+        const due = fd.get('dueDate'); if(due) o.dueDate = new Date(due+'T12:00:00').getTime();
+        const cAt = fd.get('createdAt'); if(cAt) o.createdAt = new Date(cAt+'T12:00:00').getTime();
+        const price = fd.get('price'); o.price = price?parseFloat(price):null;
+        const dep = fd.get('deposit'); o.deposit = dep?parseFloat(dep):null;
+        const wd = fd.get('warrantyDays');
+        o.warrantyDays = (wd!=null && String(wd).trim()!=='') ? parseInt(wd,10)||0 : null;
+        o.clientPhones = phones.slice();
+        o.naFields = naFields.slice();
+        o.parts = parts.slice();
+        o.devicePhotos = photos.device.slice();
+        o.clientPhoto = photos.client;
+        o.acceptAudio = acceptAudio;
+        return o;
+      };
+      let saveTimer = null;
+      const scheduleDraft = ()=>{
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(()=> writeDraft(snapshot()), 350);
+      };
+      form.addEventListener('input', scheduleDraft);
+      form.addEventListener('change', scheduleDraft);
+      // Guarda también al ocultar la pestaña / navegar atrás
+      window.addEventListener('pagehide', ()=>{ try{ writeDraft(snapshot()); }catch(e){} }, { once:false });
+      document.addEventListener('visibilitychange', ()=>{
+        if(document.visibilityState === 'hidden'){ try{ writeDraft(snapshot()); }catch(e){} }
+      });
+      // Exponer la función para que botones de fotos/piezas guarden cambios
+      window._taller_saveDraft = scheduleDraft;
+
+      const discard = document.getElementById('discardDraft');
+      if(discard) discard.onclick = ()=>{
+        clearDraft();
+        const hint = document.getElementById('draftHint');
+        if(hint) hint.remove();
+        App.go('dashboard');
+      };
+    } else {
+      window._taller_saveDraft = null;
+    }
   }
+
 
   // ============= DETALLE =============
   function showRepair(id){
@@ -1182,7 +1258,10 @@ const Views = (() => {
 
     view().innerHTML = `
       <h2 style="margin:0 0 10px;font-size:20px">Administración</h2>
-      <p class="muted small" style="margin:0 0 14px">Toca un módulo para ir directo a esa configuración.</p>
+      <p class="muted small" style="margin:0 0 10px">Toca un módulo para ir directo a esa configuración. Los cambios se guardan al instante; usa "Guardar todo" para forzar y sincronizar.</p>
+      <div class="adm-saveall-row">
+        <button class="btn-primary" id="admSaveAllBtn" type="button">${ICONS.save||''} Guardar toda la configuración</button>
+      </div>
       ${menuHtml}
 
       <div class="admin-card" id="adm-name">
@@ -1630,6 +1709,38 @@ const Views = (() => {
       DB.updateSettings({ defaultWarrantyDays: v });
       UI.toast('Garantía por defecto actualizada');
     });
+
+    // Guardar TODO de un golpe (fuerza commit + push si GitHub está activo)
+    const saveAllBtn = document.getElementById('admSaveAllBtn');
+    if(saveAllBtn) saveAllBtn.onclick = async ()=>{
+      try{
+        // 1) Nombre del sistema
+        const nameEl = document.getElementById('appNameInput');
+        if(nameEl) DB.updateSettings({ appName: (nameEl.value||'').trim() || 'Taller' });
+        // 2) Creador
+        saveCreator();
+        // 3) Pedir contraseña
+        const rp = document.getElementById('reqPass');
+        if(rp) DB.updateSettings({ requirePassword: rp.checked });
+        // 4) GitHub config (sin disparar push aún)
+        DB.updateGithub(readGh());
+        // 5) Garantía por defecto
+        const dw = document.getElementById('defWarranty');
+        if(dw){ DB.updateSettings({ defaultWarrantyDays: Math.max(0, parseInt(dw.value,10)||0) }); }
+        // 6) Forzar guardado del estado
+        DB.save();
+        App.applyBrand();
+        UI.toast('Configuración guardada');
+        // 7) Si GitHub activo, sincroniza
+        if(DB.settings.github.enabled && window.GitSync){
+          UI.toast('Sincronizando con GitHub…');
+          try{ await GitSync.push({}); UI.toast('Sincronizado'); }
+          catch(e){ UI.toast('Aviso: no se pudo sincronizar ('+(e.message||e)+')'); }
+        }
+      }catch(e){
+        UI.toast('Error al guardar: '+(e.message||e));
+      }
+    };
   }
 
   // ============= VENTAS Y COMPRAS =============
@@ -1955,17 +2066,29 @@ const Views = (() => {
     const totalStockUnits = items.reduce((a,i)=> a + Math.max(0,i.stock), 0);
 
     const _all = computeAllStats().total;
-    const _gainSales = _all.salesIncome - _all.salesCost;
-    const _gainPurch = -_all.purchases; // las compras son inversión (no son ganancia)
+    const _gainSales = _all.salesIncome - _all.salesCost;       // venta − costo de mercancía
+    const _grossSales = _all.salesIncome;                        // bruto (sin restar inversión)
+    const _purchInvested = _all.purchases;                       // inversión total en compras de stock
     const _netCls = _all.totalProfit>=0 ? '' : 'neg';
     const _heroHtml = `
       <div class="cv-hero ${_netCls}">
-        <div class="cvh-row"><span class="lbl">Ventas (entró)</span><span class="val">${fmtMoney(_all.salesIncome)}</span></div>
-        <div class="cvh-row"><span class="lbl">Costo de mercancía vendida</span><span class="val neg">${fmtMoney(_all.salesCost)}</span></div>
-        <div class="cvh-row"><span class="lbl">Ganancia de ventas (con inversión)</span><span class="val ${_gainSales>=0?'pos':'neg'}">${fmtMoney(_gainSales)}</span></div>
-        <div class="cvh-row"><span class="lbl">Ingreso bruto de ventas (sin restar inversión)</span><span class="val pos">${fmtMoney(_all.salesIncome)}</span></div>
-        <div class="cvh-row"><span class="lbl">Compras stock (inversión)</span><span class="val neg">${fmtMoney(_all.purchases)}</span></div>
-        <div class="cvh-row"><span class="lbl">Servicios cobrados − piezas</span><span class="val ${_all.repairProfit>=0?'pos':'neg'}">${fmtMoney(_all.repairProfit)}</span></div>
+        <div class="cvh-section">
+          <div class="cvh-title">📈 Ventas</div>
+          <div class="cvh-row"><span class="lbl">Ingreso bruto (sin restar inversión)</span><span class="val pos">${fmtMoney(_grossSales)}</span></div>
+          <div class="cvh-row"><span class="lbl">Costo de mercancía vendida</span><span class="val neg">${fmtMoney(_all.salesCost)}</span></div>
+          <div class="cvh-row"><span class="lbl">Ganancia real (con inversión descontada)</span><span class="val ${_gainSales>=0?'pos':'neg'}">${fmtMoney(_gainSales)}</span></div>
+        </div>
+        <div class="cvh-section">
+          <div class="cvh-title">🛒 Compras de stock</div>
+          <div class="cvh-row"><span class="lbl">Inversión total realizada</span><span class="val neg">${fmtMoney(_purchInvested)}</span></div>
+          <div class="cvh-row"><span class="lbl">Inversión aún en stock (no vendida)</span><span class="val">${fmtMoney(Math.max(0, _purchInvested - _all.salesCost - _all.repairPartsCost))}</span></div>
+        </div>
+        <div class="cvh-section">
+          <div class="cvh-title">🔧 Reparaciones</div>
+          <div class="cvh-row"><span class="lbl">Servicios cobrados (bruto)</span><span class="val pos">${fmtMoney(_all.repairIncome)}</span></div>
+          <div class="cvh-row"><span class="lbl">Piezas usadas (inversión)</span><span class="val neg">${fmtMoney(_all.repairPartsCost)}</span></div>
+          <div class="cvh-row"><span class="lbl">Ganancia neta de servicios</span><span class="val ${_all.repairProfit>=0?'pos':'neg'}">${fmtMoney(_all.repairProfit)}</span></div>
+        </div>
         <div class="cvh-big">
           <span class="lbl">Ganancia neta total</span>
           <span class="val ${_all.totalProfit>=0?'pos':'neg'}">${fmtMoney(_all.totalProfit)}</span>
@@ -2269,10 +2392,9 @@ const Views = (() => {
     for(const r of repairs){
       if(r.status==='delivered' && (r.price==null || r.price==='')) issues.push(`Reparación ${r.id} entregada sin precio asignado.`);
       if(r.deposit!=null && r.price!=null && Number(r.deposit) > Number(r.price)) issues.push(`Reparación ${r.id}: anticipo ($${Number(r.deposit).toFixed(2)}) supera al precio ($${Number(r.price).toFixed(2)}).`);
-      if(r.dueDate && r.createdAt){
-        const c0 = new Date(r.createdAt); c0.setHours(0,0,0,0);
-        if(r.dueDate < c0.getTime()) issues.push(`Reparación ${r.id}: fecha de entrega anterior a la fecha de entrada.`);
-      }
+      // Nota: ya no se considera error que la fecha de entrega esté antes de la entrada
+      // (se permite registrar reparaciones con cualquier fecha histórica).
+
     }
     for(const t of txs){
       const q = Number(t.quantity||0), u = Number(t.unitPrice||0), tot = Number(t.total||0);

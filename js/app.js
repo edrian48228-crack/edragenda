@@ -108,10 +108,12 @@ const App = (() => {
     try{
       const total = DB.repairs.length;
       const pend = DB.byStatus('pending').length + DB.byStatus('in_progress').length;
+      const done = DB.byStatus('delivered').length;
       const todayP = (DB.todayPending && DB.todayPending().length) || 0;
       box.innerHTML =
-        `<span class="bs-chip" title="Total de reparaciones registradas">📋 Total <b>${total}</b></span>` +
+        `<span class="bs-chip total" title="Total de reparaciones registradas en el sistema">📋 Reparaciones totales <b>${total}</b></span>` +
         `<span class="bs-chip" title="Pendientes y en proceso">⏳ Pendientes <b>${pend}</b></span>` +
+        `<span class="bs-chip" title="Entregadas">✅ Entregadas <b>${done}</b></span>` +
         (todayP>0 ? `<span class="bs-chip warn" title="Entrega para hoy o vencidas">⚠️ Hoy <b>${todayP}</b></span>` : '');
     }catch(e){ box.innerHTML=''; }
   }
