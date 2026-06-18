@@ -1,26 +1,5 @@
 [
   {
-    "id": "mqcc9c4xbyzal2",
-    "title": "51580769",
-    "body": "Facebook y whatssap. \nAlexander aranda romero\nPin 1231",
-    "tag": "",
-    "called": false
-  },
-  {
-    "id": "mq9mdw32hu7oa2",
-    "title": "Deuda a ivan 390000",
-    "body": "192300 base + 6700\n1800 cargador\n5000 en el taller\n4000 Beneficencia y el 14 norte\n8000 santarita y el 18 norte\n6000 en transferencia Madeline\n4000 en transferencia Madeline\n5000 en transferencia Madeline\n\nTotal 232800 cup\n\n58545770",
-    "tag": "",
-    "called": false
-  },
-  {
-    "id": "mq9mb3t84vxmdz",
-    "title": "Modifica Taller",
-    "body": "1. Quiero que cambies el texto de la session que dice Compra/Venta  por Resumen y mudes de ahi  hacia otra session que crearas llamada Compra/Venta todo lo que tiene que ver con compra y venta (stock , alertas, etc ño que consideres, analiza bien)donde se pueda visualizar toda la informacion referente, registrar la compra, la venta y a medida que se hagan compras o se ventas o se ponga la pieza en una determinada reparacion ir modificando todos los datos acorde a los nuevos datos.  \n2. En la session Resumen  quiero que des un poco mas de informacion para entender de donde salen los calculos, actualmente estoy medio perdido porque cuando veo las estadisticas de hoy, semana, mes no se de sonsw salen esos datos. Otro detalles es que hay palabras que me confunden como costo merc, movs y otras nada intuitivas.\n3. Revisa a la hora de agregar la reparacion en la parte de pieza a cambiar que sea una lista que cargue las piezas que han sido compradas, actualmente solo se puede insertar numero y el costo que sale debe pertenecer y estar fijado en la session de compra/ ventas\n4. Arregla la parte seleccionar entre tirar foto al cliente o subir la foro, todo esta desorganizado, muy diferente a la parte de subir foto del equipo que esta bien organizado\n5. En la administracion agrega un botones elegantes, moderno que permita calcular todo el sistema en base a toda la informacion matematica de compra, venta , reparaciones que hay en el sistema. Seria algo para corroborar que todo este bien. Me gustaria que esto se hiciera en automatico una vez entre al sistema. \n6. Revisa porque el sistema no me deja poner fecha de entrada en caso que quiera modificarla, por defecto por la fecha actual,  a la hora de registrar una reparacion no me permite poner la misma fecha de entrada que de salida, tambien si pongo una fecha atrasada de entrada y otra de salida menos atrsada menor al dia actual sigue poniendome garantia habilitada y deberia inabilitarse automaticamente la parte de tiempo de garantia sin garantia.\n5. Me gusta el diseño actual de la session de compras y ventas\n6. Aumenta un poco mas la fuente del sistema sin romper, desalinear, desbordar nada.\n7. Poder ordenar las reparaciones por equipos disponibles, recientes, fecha, identificacion, identidad, etc. Esto en el desboard en las reparaciones y en la session de busquedas \n8. Cambia el texto de piezas usadas por piezas a sustituir del modal de registrar reparacion\n9. Revisa completamente la session de github que no se conecta bien aun poniendole el token, el repositorio, la rama y el usuario. Quiero poder ver que esta sucediendo cuando me conecto, descargo, subo, actualizo y hago cualquier cosa de sincronizacion o conexion con el servidor y mi sistema.Ademas quiero que las imagenes, audio, texto y cualquier dato de cada usuario sea solo de el en el servisoe y no se mezcle nada con otros datos. Usa algo moderno, profesional y elegante\nQuiero poder ver en el desboard y en el resumen el total de reparaciones y otros datos importantes.\n10.  Quiero que los iconos de la administracion sañga en columnas de 3 bien organizaditos.\n11. En el desboard poder acceder ademas de reparaciones pendientes, completadas, entregadas, en proceso y canceladas\nIMPORTANTE, TODO EL SISTEMA DEBE ESTAR BIEN SINCRONIZADO CON LOS CALCULOS Y DATOS EXISTEN EN EL, YA RENGO INFORMACION ALMACENADA.",
-    "tag": "",
-    "called": false
-  },
-  {
     "id": "mptwusd3se3kcj",
     "title": "Cordeles de pezca",
     "body": "Pedro a perez entre 10 y 11 norte. Katre afuera pegado a la esquina del 10.  50 metros",
@@ -29,8 +8,8 @@
   },
   {
     "id": "mpsfgjtsibd7eg",
-    "title": "Modifica Agenda",
-    "body": "",
+    "title": "Modificaciones Agenda",
+    "body": "1. Cuando marque una tarea de la session de tareas como completada que se ponga al final del contenido\n2. Revisa que cuando el cuadro de busqueda no tenga texto se muestre toda la informacion de todo el contenido de las sessiones\n3. Reduce bastante el margin que hay entre creado por edrian cruz y el logo y nombre de la agenda\n4. Que si no hay datos en el contenido de la session correspondiente a la hora de eliminar mostrar un mensaje de que no existe dato para eliminar igual para cuando no haya tareas en visto ni completadas\n5. Mostrar en la informacion de la sesion de tareas pendientes en numero de telefono",
     "tag": "Importante",
     "called": false
   },
@@ -51,7 +30,7 @@
   {
     "id": "mpjq4pn0dlsm8v",
     "title": "Dinero edrian tarjeta de Madeline",
-    "body": "10360 -  1360 =  9000 cup\n6440 + 3300 =  9740 cup",
+    "body": "10360 -  1360 =  9000 cup",
     "tag": "importante",
     "called": false
   },
