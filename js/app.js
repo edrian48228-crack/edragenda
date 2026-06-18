@@ -1,244 +1,804 @@
-const App = (() => {
-  let current = 'dashboard';
-  let currentArg = null;
+/* =====================================================
+   UNLOCK BOX — App Logic (vanilla JS)
+   Data persisted in localStorage.
+===================================================== */
 
-  // Logos: trazos refinados, geometría centrada, estética premium
-  const LOGO_PRESETS = [
-    { key:'phoenix', name:'Fénix', svg: `
-<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-  <defs><linearGradient id="lg-ph" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0" stop-color="currentColor" stop-opacity=".95"/>
-    <stop offset="1" stop-color="currentColor" stop-opacity=".5"/>
-  </linearGradient></defs>
-  <g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M32 8 C 20 18 18 30 26 38 L 22 44 C 30 42 34 38 36 32 C 38 38 42 42 50 44 L 46 38 C 54 30 52 18 40 10 C 38 16 36 20 32 22 C 30 18 30 12 32 8 Z" fill="url(#lg-ph)" fill-opacity=".25"/>
-    <path d="M24 48 L40 48 M22 54 L42 54" stroke-width="2.4"/>
-  </g>
-</svg>`.trim() },
-    { key:'tools', name:'Herramientas', svg: `
-<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-  <g fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="32" cy="32" r="26" stroke-opacity=".25"/>
-    <path d="M16 48 L36 28" />
-    <path d="M14 50 a4 4 0 1 1 5 -5" />
-    <path d="M44 22 a8 8 0 1 0 -12 -8 l6 6 -4 4 -6 -6 a8 8 0 0 0 12 8 z" fill="currentColor" fill-opacity=".2"/>
-    <path d="M50 14 L30 34" />
-    <path d="M52 12 l4 4 -4 4 -4 -4 z" fill="currentColor" fill-opacity=".3"/>
-  </g>
-</svg>`.trim() },
-    { key:'gear', name:'Engranaje', svg: `
-<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-  <g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M32 6 L35 12 L41.5 11 L43 17.5 L49 19.5 L48 26 L53 30 L50 35.5 L52 41.5 L46 44 L44 50 L37.5 50 L34 55.5 L28 53.5 L22 55 L19 49.5 L13 47.5 L13 41 L8 36.5 L11.5 31 L10 25 L15 22 L16.5 15.5 L23 14.5 L27 9 Z" fill="currentColor" fill-opacity=".14"/>
-    <circle cx="32" cy="32" r="9" fill="currentColor" fill-opacity=".22"/>
-    <circle cx="32" cy="32" r="3.4" fill="currentColor"/>
-  </g>
-</svg>`.trim() },
-    { key:'shield', name:'Garantía', svg: `
-<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-  <g fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M32 6 L52 14 L52 32 C52 44 42 54 32 58 C22 54 12 44 12 32 L12 14 Z" fill="currentColor" fill-opacity=".15"/>
-    <path d="M22 32 L29 39 L43 24" stroke-width="3.2"/>
-  </g>
-</svg>`.trim() },
-    { key:'circuit', name:'Circuito', svg: `
-<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-  <g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-    <rect x="12" y="12" width="40" height="40" rx="6" fill="currentColor" fill-opacity=".08"/>
-    <path d="M22 22 h8 v8 h-8z M34 22 h10 M34 30 h10 M22 38 h22 M22 46 h8 M34 46 h10"/>
-    <circle cx="44" cy="22" r="2.6" fill="currentColor"/>
-    <circle cx="44" cy="30" r="2.6" fill="currentColor"/>
-    <circle cx="30" cy="46" r="2.6" fill="currentColor"/>
-  </g>
-</svg>`.trim() },
-    { key:'bolt', name:'Energía', svg: `
-<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-  <defs><linearGradient id="lg-bl" x1="0" y1="0" x2="1" y2="1">
-    <stop offset="0" stop-color="currentColor" stop-opacity=".95"/>
-    <stop offset="1" stop-color="currentColor" stop-opacity=".5"/>
-  </linearGradient></defs>
-  <path d="M36 4 L14 36 h12 L22 60 L50 26 H38 z" fill="url(#lg-bl)" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
-</svg>`.trim() },
-    { key:'diamond', name:'Diamante', svg: `
-<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-  <g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
-    <path d="M14 24 L24 10 L40 10 L50 24 L32 56 Z" fill="currentColor" fill-opacity=".18"/>
-    <path d="M14 24 H50 M24 10 L32 24 L40 10 M14 24 L32 24 L50 24"/>
-  </g>
-</svg>`.trim() },
-    { key:'wrench', name:'Llave', svg: `
-<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-  <path d="M44 8a12 12 0 0 0-11 16L10 47a4 4 0 0 0 0 6l1 1a4 4 0 0 0 6 0l23-23a12 12 0 0 0 14-15l-7 7-6-1-1-6z" fill="currentColor" fill-opacity=".22" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/>
-</svg>`.trim() }
-  ];
+const DEFAULT_PASSWORD = '1234';
+const DEFAULT_RECOVERY_ANSWER = 'unlock';
 
-  // Compatibilidad con presets antiguos guardados en DB
-  const LOGO_ALIASES = { screwdriver:'tools' };
+const STORAGE = {
+  boxes: 'ub_boxes_v1',
+  clients: 'ub_clients_v1',
+  session: 'ub_admin_session',
+  settings: 'ub_settings_v2',
+  auth: 'ub_auth_v1',
+  subs: 'ub_subs_v1'
+};
 
-  function logoHtml(){
-    const custom = DB.settings.logo;
-    if(custom) return `<img src="${custom}" alt="logo">`;
-    let key = DB.settings.logoPreset || 'phoenix';
-    if(LOGO_ALIASES[key]) key = LOGO_ALIASES[key];
-    const p = LOGO_PRESETS.find(x=>x.key===key) || LOGO_PRESETS[0];
-    return p.svg;
+/* ============ Utils ============ */
+function cryptoId() { return 'b_' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36); }
+function togglePass(btn) {
+  const inp = btn.previousElementSibling;
+  if (!inp) return;
+  const show = inp.type === 'password';
+  inp.type = show ? 'text' : 'password';
+  const ico = btn.querySelector('i');
+  if (ico) ico.className = show ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
+}
+function $(sel, root = document) { return root.querySelector(sel); }
+function $$(sel, root = document) { return [...root.querySelectorAll(sel)]; }
+function load(key, fallback) { try { const v = JSON.parse(localStorage.getItem(key)); return v == null ? fallback : v; } catch { return fallback; } }
+function save(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
+function escapeHtml(s = '') { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function toast(msg) {
+  const el = $('#toast'); el.textContent = msg; el.classList.add('show');
+  clearTimeout(toast._t); toast._t = setTimeout(() => el.classList.remove('show'), 2800);
+}
+async function sha256(text) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+/* ============ Defaults ============ */
+const DEFAULT_SETTINGS = {
+  siteName: 'UNLOCK BOX',
+  lockCode: false,  // ofuscación de código fuente
+  contacts: {
+    phone: '+53 0000 0000',
+    email: 'contacto@unlockbox.com',
+    schedule: 'Lun - Sáb · 8AM - 5PM',
+    address: ''
+  },
+  payments: [
+    { id: cryptoId(), name: 'CUP', details: 'Transferencia móvil' },
+    { id: cryptoId(), name: 'MLC', details: 'Tarjeta MLC' },
+    { id: cryptoId(), name: 'Zelle', details: '' },
+    { id: cryptoId(), name: 'USDT', details: 'TRC20 / BEP20' }
+  ],
+  social: {
+    whatsapp: '5354975132',
+    telegram: 'https://t.me/siouxs_unlock',
+    facebook: '',
+    instagram: '',
+    youtube: '',
+    twitter: '',
+    tiktok: '',
+    emailLink: 'mailto:contacto@unlockbox.com'
   }
-  function getPresets(){ return LOGO_PRESETS; }
+};
 
-  function applyBrand(){
-    const name = DB.settings.appName || 'Taller';
-    const html = UI.renderBrand(name);
-    const app = document.getElementById('appTitle');
-    const login = document.getElementById('loginTitle');
-    if(app) app.innerHTML = html;
-    if(login) login.innerHTML = html;
-    document.title = name;
-    const lh = logoHtml();
-    const al = document.getElementById('appLogo');
-    const ll = document.getElementById('loginLogo');
-    if(al) al.innerHTML = lh;
-    if(ll) ll.innerHTML = lh;
-    renderCreatorChips();
+const DEFAULT_BOXES = [
+  {
+    id: cryptoId(),
+    name: 'iRemoval PRO', price: 25, image: 'images/box-sample.jpg',
+    short: 'iCloud Bypass con señal para iPhone XR a 15 Pro Max.',
+    description: 'Solución definitiva de bypass de iCloud con señal. Compatible con iPhone XR hasta iPhone 15 Pro Max. Incluye soporte y actualizaciones.',
+    features: ['Bypass iCloud con señal', 'iPhone XR - 15 Pro Max', 'Soporte 24/7', 'Actualizaciones gratis'],
+    downloads: [{ label: 'Descargar v2.3', url: '#' }, { label: 'Manual PDF', url: '#' }],
+    whatsapp: '5354975132', telegram: 'https://t.me/siouxs_unlock',
+    facebook: '', phone: '+5354975132', moreInfo: 'https://iremoval.pro'
+  },
+  {
+    id: cryptoId(),
+    name: 'Unlock Tool', price: 18, image: 'images/box-sample.jpg',
+    short: 'Herramienta multimarca para FRP, MDM y desbloqueo.',
+    description: 'Caja universal de desbloqueo para múltiples marcas Android. Soporte para FRP, MDM, patrón, PIN y más.',
+    features: ['Multi-marca Android', 'FRP / MDM bypass', 'Actualizaciones diarias'],
+    downloads: [{ label: 'Última versión', url: '#' }],
+    whatsapp: '5354975132', telegram: '@unlockbox',
+    facebook: '', phone: '+5354975132', moreInfo: ''
+  }
+];
+
+/* ============ State ============ */
+let boxes = load(STORAGE.boxes, null);
+if (!boxes) { boxes = DEFAULT_BOXES; save(STORAGE.boxes, boxes); }
+let clients = load(STORAGE.clients, []);
+let settings = load(STORAGE.settings, null);
+if (!settings) { settings = DEFAULT_SETTINGS; save(STORAGE.settings, settings); }
+else {
+  // merge missing keys
+  if (!settings.siteName) settings.siteName = DEFAULT_SETTINGS.siteName;
+  if (settings.lockCode === undefined) settings.lockCode = false;
+  settings.contacts = { ...DEFAULT_SETTINGS.contacts, ...(settings.contacts || {}) };
+  settings.social = { ...DEFAULT_SETTINGS.social, ...(settings.social || {}) };
+  settings.payments = settings.payments || DEFAULT_SETTINGS.payments;
+}
+let subs = load(STORAGE.subs, []);
+
+/* ============ Auth bootstrap ============ */
+async function ensureAuth() {
+  let auth = load(STORAGE.auth, null);
+  if (!auth) {
+    auth = {
+      passHash: await sha256(DEFAULT_PASSWORD),
+      question: '¿Palabra clave de seguridad?',
+      answerHash: await sha256(DEFAULT_RECOVERY_ANSWER.toLowerCase())
+    };
+    save(STORAGE.auth, auth);
+  }
+  return auth;
+}
+
+/* ============ Render: Topbar / Contact / Social / Footer ============ */
+function renderTopbar() {
+  const c = settings.contacts;
+  $('#topbarInner').innerHTML = `
+    ${c.phone ? `<a href="tel:${encodeURIComponent(c.phone.replace(/\s/g,''))}" class="topbar-link"><i class="fa-solid fa-phone"></i> ${escapeHtml(c.phone)}</a>` : ''}
+    ${c.email ? `<a href="mailto:${encodeURIComponent(c.email)}" class="topbar-link"><i class="fa-solid fa-envelope"></i> ${escapeHtml(c.email)}</a>` : ''}
+    ${c.schedule ? `<span><i class="fa-solid fa-clock"></i> ${escapeHtml(c.schedule)}</span>` : ''}
+  `;
+}
+
+function tgLink(t) {
+  if (!t) return '#';
+  if (/^https?:/.test(t)) return t;
+  return 'https://t.me/' + t.replace(/^@/, '');
+}
+function waLink(n) {
+  if (!n) return '#';
+  if (/^https?:/.test(n)) return n;
+  return 'https://wa.me/' + encodeURIComponent(String(n).replace(/\D/g,''));
+}
+
+function renderSocialRail() {
+  const s = settings.social;
+  const items = [
+    s.whatsapp && { cls:'wa', href: waLink(s.whatsapp), icon:'fa-brands fa-whatsapp', label:'WhatsApp' },
+    s.telegram && { cls:'tg', href: tgLink(s.telegram), icon:'fa-brands fa-telegram', label:'Telegram' },
+    s.facebook && { cls:'fb', href: s.facebook, icon:'fa-brands fa-facebook', label:'Facebook' },
+    s.instagram && { cls:'ig', href: s.instagram, icon:'fa-brands fa-instagram', label:'Instagram' },
+    s.youtube && { cls:'yt', href: s.youtube, icon:'fa-brands fa-youtube', label:'YouTube' },
+    s.twitter && { cls:'tw', href: s.twitter, icon:'fa-brands fa-x-twitter', label:'X' },
+    s.tiktok && { cls:'tk', href: s.tiktok, icon:'fa-brands fa-tiktok', label:'TikTok' },
+    s.emailLink && { cls:'em', href: s.emailLink, icon:'fa-solid fa-envelope', label:'Email' }
+  ].filter(Boolean);
+  $('#socialRail').innerHTML = items.map(i =>
+    `<a class="${i.cls}" href="${escapeHtml(i.href)}" target="_blank" rel="noopener" title="${i.label}" aria-label="${i.label}"><i class="${i.icon}"></i></a>`
+  ).join('');
+}
+
+function renderContactGrid() {
+  const s = settings.social, c = settings.contacts;
+  const items = [
+    s.whatsapp && { cls:'wa', href: waLink(s.whatsapp), icon:'fa-brands fa-whatsapp', label:'WhatsApp' },
+    s.telegram && { cls:'tg', href: tgLink(s.telegram), icon:'fa-brands fa-telegram', label:'Telegram' },
+    s.facebook && { cls:'fb', href: s.facebook, icon:'fa-brands fa-facebook', label:'Facebook' },
+    c.phone && { cls:'ph', href: 'tel:' + c.phone.replace(/\s/g,''), icon:'fa-solid fa-phone', label:'Llamar' }
+  ].filter(Boolean);
+  $('#contactGrid').innerHTML = items.map(i =>
+    `<a href="${escapeHtml(i.href)}" target="_blank" rel="noopener" class="ctc ${i.cls}"><i class="${i.icon}"></i><span>${i.label}</span></a>`
+  ).join('');
+}
+
+function renderBottomContacts() {
+  const c = settings.contacts;
+  $('#bottomContacts').innerHTML = `
+    <h3><i class="fa-solid fa-headset"></i> Contáctanos</h3>
+    ${c.phone ? `<div class="bc-item"><i class="fa-solid fa-phone"></i> <span>${escapeHtml(c.phone)}</span></div>` : ''}
+    ${c.email ? `<div class="bc-item"><i class="fa-solid fa-envelope"></i> <span>${escapeHtml(c.email)}</span></div>` : ''}
+    ${c.schedule ? `<div class="bc-item"><i class="fa-solid fa-clock"></i> <span>${escapeHtml(c.schedule)}</span></div>` : ''}
+    ${c.address ? `<div class="bc-item"><i class="fa-solid fa-location-dot"></i> <span>${escapeHtml(c.address)}</span></div>` : ''}
+  `;
+}
+
+function renderFooter() {
+  $('#footerPayments').textContent = (settings.payments || []).map(p => p.name).join(' · ') || '—';
+  $('#footerSchedule').textContent = settings.contacts.schedule || '—';
+}
+
+/* Brand: respect case, color SECOND word red/brown via <strong> */
+function brandMarkup(name) {
+  const raw = (name || 'UNLOCK BOX').trim();
+  const parts = raw.split(/\s+/);
+  if (parts.length === 1) return escapeHtml(parts[0]);
+  const first = escapeHtml(parts[0]);
+  const second = escapeHtml(parts[1]);
+  const rest = parts.slice(2).map(escapeHtml).join(' ');
+  return `${first} <strong>${second}</strong>${rest ? ' ' + rest : ''}`;
+}
+function renderBrand() {
+  const html = brandMarkup(settings.siteName);
+  $$('.brand span, #brandText').forEach(el => { el.innerHTML = html; });
+  const plain = (settings.siteName || 'UNLOCK BOX').trim();
+  document.title = `${plain} - Alquiler de Cajas de Desbloqueo`;
+  const prev = $('#siteNamePreview');
+  if (prev) prev.innerHTML = html;
+  document.dispatchEvent(new CustomEvent('ub:brandUpdated'));
+}
+
+function renderAll() {
+  renderBrand();
+  applyCodeLock();
+  renderTopbar();
+  renderSocialRail();
+  renderContactGrid();
+  renderBottomContacts();
+  renderFooter();
+  renderBoxes();
+}
+
+/* ============ Render: Public Boxes ============ */
+function renderBoxes(filter = '') {
+  const grid = $('#boxesGrid');
+  const q = filter.trim().toLowerCase();
+  const list = boxes.filter(b => !q || b.name.toLowerCase().includes(q) || (b.short || '').toLowerCase().includes(q));
+  if (!list.length) {
+    grid.innerHTML = `<p style="grid-column:1/-1;text-align:center;color:var(--text-dim)">No se encontraron cajas.</p>`;
+    return;
+  }
+  grid.innerHTML = list.map(b => `
+    <article class="box-card" data-id="${b.id}">
+      <div class="box-img" style="background-image:url('${escapeHtml(b.image || 'images/box-sample.jpg')}')">
+        ${b.price ? `<div class="box-price">$${escapeHtml(b.price)}/mes</div>` : ''}
+      </div>
+      <div class="box-body">
+        <h3>${escapeHtml(b.name)}</h3>
+        <p>${escapeHtml(b.short || '')}</p>
+        <div class="box-actions">
+          ${b.whatsapp ? `<a class="icon-btn wa" title="WhatsApp" target="_blank" rel="noopener" href="${waLink(b.whatsapp)}"><i class="fa-brands fa-whatsapp"></i></a>` : ''}
+          ${b.telegram ? `<a class="icon-btn tg" title="Telegram" target="_blank" rel="noopener" href="${tgLink(b.telegram)}"><i class="fa-brands fa-telegram"></i></a>` : ''}
+          ${b.facebook ? `<a class="icon-btn fb" title="Facebook" target="_blank" rel="noopener" href="${escapeHtml(b.facebook)}"><i class="fa-brands fa-facebook"></i></a>` : ''}
+          ${b.phone ? `<a class="icon-btn ph" title="Llamar" href="tel:${escapeHtml(b.phone)}"><i class="fa-solid fa-phone"></i></a>` : ''}
+          ${(b.downloads && b.downloads.length) ? `<a class="icon-btn dl" title="Descargar" href="${escapeHtml(b.downloads[0].url)}" target="_blank" rel="noopener"><i class="fa-solid fa-download"></i></a>` : ''}
+          <span class="spacer"></span>
+          <button class="icon-btn info" title="Más información" data-info="${b.id}"><i class="fa-solid fa-circle-info"></i></button>
+        </div>
+      </div>
+    </article>
+  `).join('');
+  $('#statBoxes').textContent = boxes.length;
+  refreshBoxSelect();
+}
+
+function refreshBoxSelect() {
+  const sel = $('#boxSelect');
+  if (!sel) return;
+  sel.innerHTML = '<option value="">-- Seleccionar --</option>' +
+    boxes.map(b => `<option value="${escapeHtml(b.name)}">${escapeHtml(b.name)}</option>`).join('');
+}
+
+/* ============ Box Detail Modal ============ */
+function openBoxDetail(id) {
+  const b = boxes.find(x => x.id === id); if (!b) return;
+  $('#boxModalContent').innerHTML = `
+    <div class="detail-hero" style="background-image:url('${escapeHtml(b.image || 'images/box-sample.jpg')}')"></div>
+    <h3>${escapeHtml(b.name)}</h3>
+    ${b.price ? `<div class="detail-row"><span class="chip">💰 $${escapeHtml(b.price)}/mes</span></div>` : ''}
+    <p style="color:var(--text-dim)">${escapeHtml(b.description || b.short || '')}</p>
+    ${b.features && b.features.length ? `
+      <h4 style="margin-top:18px;font-size:13px;color:var(--primary-2);text-transform:uppercase;letter-spacing:1px">Características</h4>
+      <ul class="features-list">${b.features.map(f => `<li>${escapeHtml(f)}</li>`).join('')}</ul>` : ''}
+    ${b.downloads && b.downloads.length ? `
+      <h4 style="margin-top:14px;font-size:13px;color:var(--primary-2);text-transform:uppercase;letter-spacing:1px">Descargas</h4>
+      <div class="dl-list">${b.downloads.map(d => `<a href="${escapeHtml(d.url)}" target="_blank" rel="noopener"><i class="fa-solid fa-download"></i> ${escapeHtml(d.label || 'Descargar')}</a>`).join('')}</div>` : ''}
+    <h4 style="margin-top:14px;font-size:13px;color:var(--primary-2);text-transform:uppercase;letter-spacing:1px">Contacto</h4>
+    <div class="box-actions" style="border:none;padding-top:0">
+      ${b.whatsapp ? `<a class="icon-btn wa" target="_blank" rel="noopener" href="${waLink(b.whatsapp)}"><i class="fa-brands fa-whatsapp"></i></a>` : ''}
+      ${b.telegram ? `<a class="icon-btn tg" target="_blank" rel="noopener" href="${tgLink(b.telegram)}"><i class="fa-brands fa-telegram"></i></a>` : ''}
+      ${b.facebook ? `<a class="icon-btn fb" target="_blank" rel="noopener" href="${escapeHtml(b.facebook)}"><i class="fa-brands fa-facebook"></i></a>` : ''}
+      ${b.phone ? `<a class="icon-btn ph" href="tel:${escapeHtml(b.phone)}"><i class="fa-solid fa-phone"></i></a>` : ''}
+      ${b.moreInfo ? `<a class="icon-btn info" target="_blank" rel="noopener" href="${escapeHtml(b.moreInfo)}"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>` : ''}
+    </div>
+    <div class="btn-row" style="margin-top:20px">
+      <a href="#registro" class="btn btn-primary" onclick="closeModals()"><i class="fa-solid fa-paper-plane"></i> Solicitar Alquiler</a>
+    </div>
+  `;
+  openModal('#boxModal');
+}
+
+/* ============ Modals ============ */
+function openModal(sel) { $(sel).hidden = false; document.body.style.overflow = 'hidden'; }
+function closeModals() { $$('.modal').forEach(m => m.hidden = true); document.body.style.overflow = ''; }
+window.closeModals = closeModals;
+
+document.addEventListener('click', e => {
+  if (e.target.matches('[data-close]')) closeModals();
+  const info = e.target.closest('[data-info]'); if (info) openBoxDetail(info.dataset.info);
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModals(); });
+
+
+
+/* ============ Floating Menu ============ */
+(function initFloatingMenu() {
+  var btn     = document.getElementById('menuBtn');
+  var panel   = document.getElementById('fmPanel');
+  var overlay = document.getElementById('fmOverlay');
+  var closeBtn = document.getElementById('fmClose');
+  var brand   = document.getElementById('fmBrand');
+  var links   = document.querySelectorAll('[data-fm-link]');
+
+  if (!btn || !panel || !overlay) return;
+
+  // Sync brand text
+  function syncBrand() {
+    if (brand) brand.textContent = (settings.siteName || 'UNLOCKBOX').trim();
+  }
+  syncBrand();
+  // re-sync after settings load
+  document.addEventListener('ub:brandUpdated', syncBrand);
+
+  function open() {
+    panel.classList.add('open');
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
   }
 
-  function renderCreatorChips(){
-    const box = document.getElementById('creatorContacts');
-    if(!box) return;
-    const c = (DB.settings.creator || {});
-    const tel = UI.phoneClean(c.phone);
-    const sms = UI.phoneSms(c.phone);
-    const ICON_PHONE = '<svg viewBox="0 0 24 24"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.58 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .58 3.6 1 1 0 0 1-.25 1l-2.23 2.2z" fill="currentColor"/></svg>';
-    const ICON_SMS = '<svg viewBox="0 0 24 24"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zM7 11h2v2H7v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2z" fill="currentColor"/></svg>';
-    const parts = [];
-    if(tel) parts.push(`<a class="creator-chip tel icon-only" href="tel:${UI.escape(tel)}" title="Llamar al creador" aria-label="Llamar">${ICON_PHONE}</a>`);
-    if(sms) parts.push(`<a class="creator-chip sms icon-only" href="sms:${UI.escape(sms)}" title="Enviar SMS al creador" aria-label="SMS">${ICON_SMS}</a>`);
-    box.innerHTML = parts.join('');
+  function close() {
+    panel.classList.remove('open');
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
   }
 
-  function showLogin(){
-    document.getElementById('loginScreen').classList.remove('hidden');
-    document.getElementById('app').classList.add('hidden');
-  }
-  function showApp(){
-    document.getElementById('loginScreen').classList.add('hidden');
-    document.getElementById('app').classList.remove('hidden');
-    go('dashboard');
-    // Auditoría automática al entrar: avisa si algo no cuadra
-    setTimeout(()=>{ if(window.Views && Views.autoAuditOnLoad) Views.autoAuditOnLoad(); }, 600);
-    // Iniciar sincronización automática (descarga) desde GitHub
-    try{ if(window.GitSync && GitSync.startAutoPull) GitSync.startAutoPull(); }catch(_){}
-  }
-  function go(v, arg, extra){
-    // Si salimos del formulario "nuevo/editar", limpiar la guardia de back-navigation
-    if(current === 'new' && v !== 'new'){
-      try{ if(window.__formGuardCleanup) window.__formGuardCleanup(); }catch(_){}
-    }
-    current = v; currentArg = arg;
-    document.querySelectorAll('.tab').forEach(t=>{
-      t.classList.toggle('active', t.dataset.view === v);
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    panel.classList.contains('open') ? close() : open();
+  });
+
+  closeBtn.addEventListener('click', close);
+  overlay.addEventListener('click', close);
+
+  // Cada link: navegar inmediatamente, cerrar panel
+  links.forEach(function(a) {
+    a.addEventListener('click', function() {
+      close();
     });
-    if(v==='dashboard') Views.dashboard();
-    else if(v==='repairs') Views.repairsList(arg);
-    else if(v==='new') Views.newRepair(extra);
-    else if(v==='sales') Views.sales(arg);
-    else if(v==='summary') Views.summary();
-    else if(v==='chooser') Views.newChooser();
-    else if(v==='search') Views.search();
-    else if(v==='admin') Views.admin();
-    window.scrollTo(0,0);
-  }
-  function refresh(){ go(current, currentArg); }
+  });
 
-  function init(){
-    applyBrand();
-    document.getElementById('loginBtn').addEventListener('click', tryLogin);
-    document.getElementById('loginPass').addEventListener('keydown', e=>{
-      if(e.key==='Enter') tryLogin();
-    });
-    const fb = document.getElementById('forgotBtn');
-    if(fb) fb.addEventListener('click', openForgotFlow);
-    document.getElementById('logoutBtn').addEventListener('click', ()=>{
-      Auth.logout();
-      showLogin();
-    });
-    document.getElementById('modalClose').addEventListener('click', UI.closeModal);
-    document.getElementById('modal').addEventListener('click', e=>{
-      if(e.target.id==='modal') UI.closeModal();
-    });
-    document.querySelectorAll('.tab').forEach(t=>{
-      t.addEventListener('click', ()=>{
-        const v = t.dataset.view;
-        if(v==='chooser'){ Views.newChooser(); return; }
-        go(v);
-      });
-    });
-    const sb = document.getElementById('headerSearchBtn');
-    if(sb) sb.addEventListener('click', ()=> go('search'));
-    if(Auth.isLoggedIn()) showApp();
-    else {
-      if(!DB.settings.passwordHash){
-        document.querySelector('#loginScreen .muted').textContent = 'Primer acceso: define tu contraseña';
-      }
-      showLogin();
-    }
-  }
-  async function tryLogin(){
-    const pass = document.getElementById('loginPass').value;
-    const err = document.getElementById('loginError');
-    if(await Auth.login(pass)){
-      err.classList.add('hidden');
-      document.getElementById('loginPass').value = '';
-      applyBrand();
-      showApp();
-    } else {
-      err.classList.remove('hidden');
-    }
-  }
-  function openForgotFlow(){
-    const qs = Auth.getQuestions();
-    if(!qs.length){
-      UI.toast('No hay preguntas configuradas. Pide ayuda al administrador.');
-      return;
-    }
-    const rows = qs.map((q,i)=>`
-      <div class="form-group">
-        <label>${UI.escape(q)}</label>
-        <input type="text" data-ans="${i}" autocomplete="off">
-      </div>`).join('');
-    UI.openModal(`
-      <h2 style="margin:0 0 6px;font-size:20px">Recuperar contraseña</h2>
-      <p class="muted small" style="margin:0 0 12px">Responde las preguntas que configuraste. No distinguen mayúsculas ni acentos.</p>
-      <form id="forgotForm">
-        ${rows}
-        <button type="submit" class="btn-primary">Verificar respuestas</button>
-      </form>
-    `);
-    document.getElementById('forgotForm').addEventListener('submit', async e=>{
-      e.preventDefault();
-      const answers = Array.from(document.querySelectorAll('[data-ans]')).map(i=>i.value);
-      const ok = await Auth.verifyAnswers(answers);
-      if(!ok){ UI.toast('Respuestas incorrectas'); return; }
-      UI.openModal(`
-        <h2 style="margin:0 0 6px;font-size:20px">Nueva contraseña</h2>
-        <p class="muted small" style="margin:0 0 12px">Define una nueva contraseña de acceso.</p>
-        <form id="newPassForm">
-          <div class="form-group"><input type="password" id="np1" placeholder="Nueva contraseña" required></div>
-          <div class="form-group"><input type="password" id="np2" placeholder="Repetir contraseña" required></div>
-          <button type="submit" class="btn-primary">Guardar contraseña</button>
-        </form>
-      `);
-      document.getElementById('newPassForm').addEventListener('submit', async ev=>{
-        ev.preventDefault();
-        const a = document.getElementById('np1').value;
-        const b = document.getElementById('np2').value;
-        if(a.length<3){ UI.toast('Mínimo 3 caracteres'); return; }
-        if(a!==b){ UI.toast('No coinciden'); return; }
-        await Auth.setPassword(a);
-        UI.closeModal();
-        UI.toast('Contraseña actualizada. Ya puedes entrar.');
-      });
-    });
-  }
-  return { init, go, refresh, applyBrand, getPresets };
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') close();
+  });
 })();
-document.addEventListener('DOMContentLoaded', App.init);
+
+/* ============ Search ============ */
+$('#searchBox').addEventListener('input', e => renderBoxes(e.target.value));
+
+/* ============ Registration ============ */
+$('#registerForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const name = (fd.get('name') || '').toString().trim();
+  const phone = (fd.get('phone') || '').toString().trim();
+  if (!name || name.length < 2) return toast('Nombre inválido');
+  if (!phone || phone.length < 6) return toast('Teléfono inválido');
+  const client = {
+    id: cryptoId(), name, phone,
+    email: (fd.get('email') || '').toString().trim(),
+    location: (fd.get('location') || '').toString().trim(),
+    box: (fd.get('box') || '').toString(),
+    message: (fd.get('message') || '').toString().trim(),
+    date: new Date().toISOString(),
+    status: 'nuevo'
+  };
+  clients.unshift(client); save(STORAGE.clients, clients);
+  e.target.reset();
+  toast('¡Solicitud enviada! Te contactaremos pronto.');
+  $('#statClients').textContent = clients.length;
+});
+
+/* ============ Newsletter ============ */
+$('#newsletterForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const email = e.target.email.value.trim().toLowerCase();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return toast('Email inválido');
+  if (subs.find(s => s.email === email)) { toast('Ya estás suscrito'); return; }
+  subs.unshift({ id: cryptoId(), email, date: new Date().toISOString() });
+  save(STORAGE.subs, subs);
+  e.target.reset();
+  toast('¡Suscripción confirmada!');
+});
+
+/* ============ Admin auth ============ */
+$('#fmAdminBtn').addEventListener('click', e => {
+  e.preventDefault();
+  if (sessionStorage.getItem(STORAGE.session) === '1') openAdminPanel();
+  else openModal('#adminLogin');
+});
+$('#adminLoginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const auth = await ensureAuth();
+  const h = await sha256($('#adminPass').value);
+  if (h === auth.passHash) {
+    sessionStorage.setItem(STORAGE.session, '1');
+    $('#adminPass').value = '';
+    openAdminPanel();
+  } else toast('Contraseña incorrecta');
+});
+$('#forgotPassBtn').addEventListener('click', async e => {
+  e.preventDefault();
+  const auth = await ensureAuth();
+  $('#recoverQuestionLabel').textContent = auth.question || '¿Respuesta de seguridad?';
+  closeModals(); openModal('#recoverModal');
+});
+$('#recoverForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const auth = await ensureAuth();
+  const ans = $('#recoverAnswer').value.trim().toLowerCase();
+  const newp = $('#recoverNewPass').value;
+  const h = await sha256(ans);
+  if (h !== auth.answerHash) return toast('Respuesta incorrecta');
+  if (newp.length < 3) return toast('Contraseña muy corta');
+  auth.passHash = await sha256(newp);
+  save(STORAGE.auth, auth);
+  e.target.reset();
+  toast('Contraseña actualizada. Inicia sesión.');
+  closeModals(); openModal('#adminLogin');
+});
+$('#adminLogout').addEventListener('click', () => {
+  sessionStorage.removeItem(STORAGE.session);
+  closeModals(); toast('Sesión cerrada');
+});
+
+function openAdminPanel() {
+  closeModals(); openModal('#adminPanel');
+  renderAdminBoxes(); renderAdminClients();
+  loadContactsForm(); renderPayments(); loadSocialForm(); renderSubs();
+  loadSystemForm();
+}
+
+/* ============ Admin Tabs ============ */
+$$('.admin-tabs .tab[data-tab]').forEach(t => {
+  t.addEventListener('click', () => {
+    $$('.admin-tabs .tab').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    $$('.tab-pane').forEach(p => p.classList.remove('active'));
+    $('#tab-' + t.dataset.tab).classList.add('active');
+  });
+});
+
+/* ============ Admin: Boxes CRUD ============ */
+function renderAdminBoxes() {
+  $('#adminBoxList').innerHTML = boxes.map(b => `
+    <div class="admin-item">
+      <img src="${escapeHtml(b.image || 'images/box-sample.jpg')}" alt="" />
+      <div class="info">
+        <strong>${escapeHtml(b.name)}</strong>
+        <small>${escapeHtml(b.short || '')}</small>
+      </div>
+      <div class="actions">
+        <button class="btn btn-ghost btn-sm" data-edit="${b.id}"><i class="fa-solid fa-pen"></i></button>
+        <button class="btn btn-ghost btn-sm" data-del="${b.id}" style="color:var(--accent)"><i class="fa-solid fa-trash"></i></button>
+      </div>
+    </div>
+  `).join('') || `<p class="muted">Sin cajas todavía.</p>`;
+}
+
+$('#newBoxBtn').addEventListener('click', () => openBoxEditor());
+document.addEventListener('click', e => {
+  const ed = e.target.closest('[data-edit]'); if (ed) openBoxEditor(ed.dataset.edit);
+  const dl = e.target.closest('[data-del]'); if (dl) {
+    if (confirm('¿Eliminar esta caja?')) {
+      boxes = boxes.filter(b => b.id !== dl.dataset.del);
+      save(STORAGE.boxes, boxes); renderBoxes(); renderAdminBoxes(); toast('Caja eliminada');
+    }
+  }
+  const delc = e.target.closest('[data-delclient]'); if (delc) {
+    if (confirm('¿Eliminar este cliente?')) {
+      clients = clients.filter(c => c.id !== delc.dataset.delclient);
+      save(STORAGE.clients, clients); renderAdminClients(); $('#statClients').textContent = clients.length;
+    }
+  }
+  const delp = e.target.closest('[data-delpay]'); if (delp) {
+    settings.payments = settings.payments.filter(p => p.id !== delp.dataset.delpay);
+    save(STORAGE.settings, settings); renderPayments(); renderFooter(); toast('Eliminado');
+  }
+  const dels = e.target.closest('[data-delsub]'); if (dels) {
+    subs = subs.filter(s => s.id !== dels.dataset.delsub);
+    save(STORAGE.subs, subs); renderSubs();
+  }
+});
+
+function openBoxEditor(id) {
+  const editing = id ? boxes.find(b => b.id === id) : null;
+  $('#editorTitle').textContent = editing ? 'Editar Caja' : 'Nueva Caja';
+  const f = $('#boxForm');
+  f.reset();
+  f.id.value = editing?.id || '';
+  if (editing) {
+    f.name.value = editing.name || '';
+    f.price.value = editing.price || '';
+    f.image.value = editing.image || '';
+    f.short.value = editing.short || '';
+    f.description.value = editing.description || '';
+    f.features.value = (editing.features || []).join('\n');
+    f.whatsapp.value = editing.whatsapp || '';
+    f.telegram.value = editing.telegram || '';
+    f.facebook.value = editing.facebook || '';
+    f.phone.value = editing.phone || '';
+    f.moreInfo.value = editing.moreInfo || '';
+  }
+  renderDownloads(editing?.downloads || []);
+  openModal('#boxEditor');
+}
+
+function renderDownloads(items) {
+  const wrap = $('#downloadsWrap');
+  wrap.innerHTML = items.map((d, i) => downloadRow(d, i)).join('') || downloadRow({}, 0);
+}
+function downloadRow(d = {}, i) {
+  return `<div class="row" data-dl style="margin-bottom:8px">
+    <input placeholder="Etiqueta" data-dl-label value="${escapeHtml(d.label || '')}" />
+    <div style="display:flex;gap:6px">
+      <input placeholder="URL" data-dl-url value="${escapeHtml(d.url || '')}" style="flex:1" />
+      <button type="button" class="btn btn-ghost btn-sm" data-removedl>&times;</button>
+    </div>
+  </div>`;
+}
+$('#addDownload').addEventListener('click', () => {
+  $('#downloadsWrap').insertAdjacentHTML('beforeend', downloadRow({}, 0));
+});
+$('#downloadsWrap').addEventListener('click', e => {
+  if (e.target.closest('[data-removedl]')) e.target.closest('[data-dl]').remove();
+});
+
+$('#imageFile').addEventListener('change', e => {
+  const file = e.target.files[0]; if (!file) return;
+  if (file.size > 800 * 1024) return toast('Imagen muy grande (máx ~800KB)');
+  const r = new FileReader();
+  r.onload = () => { $('#boxForm').image.value = r.result; toast('Imagen cargada'); };
+  r.readAsDataURL(file);
+});
+
+$('#boxForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const f = e.target;
+  const downloads = $$('[data-dl]', $('#downloadsWrap')).map(row => ({
+    label: row.querySelector('[data-dl-label]').value.trim(),
+    url: row.querySelector('[data-dl-url]').value.trim()
+  })).filter(d => d.url);
+  const data = {
+    id: f.id.value || cryptoId(),
+    name: f.name.value.trim(),
+    price: parseFloat(f.price.value) || 0,
+    image: f.image.value.trim(),
+    short: f.short.value.trim(),
+    description: f.description.value.trim(),
+    features: f.features.value.split('\n').map(s => s.trim()).filter(Boolean),
+    downloads,
+    whatsapp: f.whatsapp.value.trim(),
+    telegram: f.telegram.value.trim(),
+    facebook: f.facebook.value.trim(),
+    phone: f.phone.value.trim(),
+    moreInfo: f.moreInfo.value.trim()
+  };
+  if (!data.name) return toast('Nombre requerido');
+  const ix = boxes.findIndex(b => b.id === data.id);
+  if (ix >= 0) boxes[ix] = data; else boxes.push(data);
+  save(STORAGE.boxes, boxes);
+  renderBoxes(); renderAdminBoxes(); closeModals(); toast('Caja guardada');
+});
+
+/* ============ Admin: Clients ============ */
+function renderAdminClients() {
+  $('#adminClientList').innerHTML = clients.map(c => `
+    <div class="admin-item">
+      <div style="width:60px;height:60px;border-radius:50%;background:var(--grad-primary);display:grid;place-items:center;font-weight:700;font-size:20px;flex-shrink:0">
+        ${escapeHtml((c.name || '?')[0].toUpperCase())}
+      </div>
+      <div class="info">
+        <strong>${escapeHtml(c.name)}</strong>
+        <small>
+          <i class="fa-solid fa-phone"></i> ${escapeHtml(c.phone)}
+          ${c.email ? ` · <i class="fa-solid fa-envelope"></i> ${escapeHtml(c.email)}` : ''}
+          ${c.box ? ` · 📦 ${escapeHtml(c.box)}` : ''}
+        </small>
+        <small style="display:block;margin-top:4px">${escapeHtml(c.message || '')}</small>
+        <small style="display:block;color:var(--muted);margin-top:4px">${new Date(c.date).toLocaleString()}</small>
+      </div>
+      <div class="actions">
+        ${c.phone ? `<a class="btn btn-ghost btn-sm" target="_blank" rel="noopener" href="${waLink(c.phone)}" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>` : ''}
+        <button class="btn btn-ghost btn-sm" data-delclient="${c.id}" style="color:var(--accent)"><i class="fa-solid fa-trash"></i></button>
+      </div>
+    </div>
+  `).join('') || `<p class="muted">No hay solicitudes todavía.</p>`;
+  $('#statClients').textContent = clients.length;
+}
+
+/* ============ Admin: Contacts ============ */
+function loadContactsForm() {
+  const f = $('#contactsForm');
+  f.phone.value = settings.contacts.phone || '';
+  f.email.value = settings.contacts.email || '';
+  f.schedule.value = settings.contacts.schedule || '';
+  f.address.value = settings.contacts.address || '';
+}
+$('#contactsForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const f = e.target;
+  settings.contacts = {
+    phone: f.phone.value.trim(),
+    email: f.email.value.trim(),
+    schedule: f.schedule.value.trim(),
+    address: f.address.value.trim()
+  };
+  save(STORAGE.settings, settings);
+  renderTopbar(); renderBottomContacts(); renderContactGrid(); renderFooter();
+  toast('Contactos actualizados');
+});
+
+/* ============ Admin: Payments ============ */
+function renderPayments() {
+  $('#paymentsList').innerHTML = (settings.payments || []).map(p => `
+    <div class="admin-item">
+      <div style="width:50px;height:50px;border-radius:10px;background:var(--grad-primary);display:grid;place-items:center;flex-shrink:0"><i class="fa-solid fa-credit-card"></i></div>
+      <div class="info">
+        <input data-payname="${p.id}" value="${escapeHtml(p.name)}" placeholder="Nombre (ej: Zelle)" />
+        <input data-paydet="${p.id}" value="${escapeHtml(p.details || '')}" placeholder="Detalles (cuenta, etc)" style="margin-top:6px" />
+      </div>
+      <div class="actions">
+        <button class="btn btn-ghost btn-sm" data-delpay="${p.id}" style="color:var(--accent)"><i class="fa-solid fa-trash"></i></button>
+      </div>
+    </div>
+  `).join('') || `<p class="muted">Sin métodos de pago.</p>`;
+  $$('[data-payname]').forEach(i => i.addEventListener('input', e => {
+    const p = settings.payments.find(x => x.id === e.target.dataset.payname);
+    if (p) { p.name = e.target.value; save(STORAGE.settings, settings); renderFooter(); }
+  }));
+  $$('[data-paydet]').forEach(i => i.addEventListener('input', e => {
+    const p = settings.payments.find(x => x.id === e.target.dataset.paydet);
+    if (p) { p.details = e.target.value; save(STORAGE.settings, settings); }
+  }));
+}
+$('#addPaymentBtn').addEventListener('click', () => {
+  settings.payments.push({ id: cryptoId(), name: 'Nuevo', details: '' });
+  save(STORAGE.settings, settings); renderPayments();
+});
+
+/* ============ Admin: Social ============ */
+function loadSocialForm() {
+  const f = $('#socialForm');
+  Object.entries(settings.social).forEach(([k,v]) => { if (f[k]) f[k].value = v || ''; });
+}
+$('#socialForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const f = e.target;
+  ['whatsapp','telegram','facebook','instagram','youtube','twitter','tiktok','emailLink'].forEach(k => {
+    settings.social[k] = (f[k]?.value || '').trim();
+  });
+  save(STORAGE.settings, settings);
+  renderSocialRail(); renderContactGrid();
+  toast('Redes sociales actualizadas');
+});
+
+/* ============ Admin: Newsletter subs ============ */
+function renderSubs() {
+  $('#subsList').innerHTML = subs.map(s => `
+    <div class="admin-item">
+      <div style="width:40px;height:40px;border-radius:50%;background:var(--grad-primary);display:grid;place-items:center;flex-shrink:0"><i class="fa-solid fa-envelope"></i></div>
+      <div class="info"><strong>${escapeHtml(s.email)}</strong><small>${new Date(s.date).toLocaleString()}</small></div>
+      <div class="actions"><button class="btn btn-ghost btn-sm" data-delsub="${s.id}" style="color:var(--accent)"><i class="fa-solid fa-trash"></i></button></div>
+    </div>
+  `).join('') || `<p class="muted">Aún no hay suscriptores.</p>`;
+}
+$('#exportSubsBtn').addEventListener('click', () => {
+  if (!subs.length) return toast('Sin suscriptores');
+  const csv = 'email,fecha\n' + subs.map(s => `${s.email},${s.date}`).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `suscriptores-${Date.now()}.csv`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+
+/* ============ Code Lock (ofuscación fuente) ============ */
+function applyCodeLock() {
+  // Cuando está activo: desactiva DevTools inspect en el DOM visual,
+  // bloquea click derecho, bloquea atajos de teclado de DevTools.
+  // Esto NO protege contra extracción técnica avanzada,
+  // pero disuade acceso casual / visual al código.
+  const on = !!settings.lockCode;
+  if (on) {
+    document.addEventListener('contextmenu', _blockCtx, true);
+    document.addEventListener('keydown', _blockDevKeys, true);
+    document.addEventListener('selectstart', _blockSelect, true);
+  } else {
+    document.removeEventListener('contextmenu', _blockCtx, true);
+    document.removeEventListener('keydown', _blockDevKeys, true);
+    document.removeEventListener('selectstart', _blockSelect, true);
+  }
+}
+function _blockCtx(e) { e.preventDefault(); e.stopImmediatePropagation(); return false; }
+function _blockSelect(e) {
+  // solo bloquear selección fuera de inputs/textarea
+  if (['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)) return;
+  e.preventDefault();
+}
+function _blockDevKeys(e) {
+  // F12, Ctrl+Shift+I/J/C/U, Ctrl+U (ver código fuente)
+  if (e.key === 'F12') { e.preventDefault(); return; }
+  if (e.ctrlKey && e.shiftKey && ['i','I','j','J','c','C'].includes(e.key)) { e.preventDefault(); return; }
+  if (e.ctrlKey && ['u','U'].includes(e.key)) { e.preventDefault(); return; }
+  if (e.metaKey && e.altKey && ['i','I','j','J','c','C'].includes(e.key)) { e.preventDefault(); return; }
+}
+
+/* ============ Admin: Security ============ */
+/* ============ Admin: System (site name) ============ */
+function loadSystemForm() {
+  const inp = $('#siteNameInput');
+  if (!inp) return;
+  inp.value = settings.siteName || 'UNLOCK BOX';
+  updateSystemPreview();
+  // Sync lockCode toggle
+  const tog = $('#lockCodeToggle');
+  if (tog) tog.checked = !!settings.lockCode;
+}
+function updateSystemPreview() {
+  const v = ($('#siteNameInput')?.value || '').trim() || 'UNLOCK BOX';
+  const prev = $('#siteNamePreview');
+  if (prev) prev.innerHTML = brandMarkup(v);
+}
+document.addEventListener('input', e => {
+  if (e.target && e.target.id === 'siteNameInput') updateSystemPreview();
+});
+(function bindSystemForm(){
+  const f = $('#systemForm');
+  if (!f) return;
+  f.addEventListener('submit', e => {
+    e.preventDefault();
+    const v = (f.siteName.value || '').trim();
+    if (!v) return toast('Escribe un nombre');
+    if (v.length > 40) return toast('Nombre demasiado largo');
+    settings.siteName = v;
+    const lct = $('#lockCodeToggle');
+    settings.lockCode = lct ? lct.checked : false;
+    save(STORAGE.settings, settings);
+    renderBrand();
+    applyCodeLock();
+    toast('Sistema actualizado');
+  });
+})();
+
+$('#securityForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const f = e.target;
+  const auth = await ensureAuth();
+  const curHash = await sha256(f.current.value);
+  if (curHash !== auth.passHash) return toast('Contraseña actual incorrecta');
+  const newp = f.newPass.value, newp2 = f.newPass2.value;
+  if (newp || newp2) {
+    if (newp !== newp2) return toast('Las contraseñas no coinciden');
+    if (newp.length < 3) return toast('Contraseña muy corta');
+    auth.passHash = await sha256(newp);
+  }
+  if (f.question.value.trim()) auth.question = f.question.value.trim();
+  if (f.answer.value.trim()) auth.answerHash = await sha256(f.answer.value.trim().toLowerCase());
+  save(STORAGE.auth, auth);
+  f.reset();
+  toast('Seguridad actualizada');
+});
+
+/* ============ Export / Import ============ */
+$('#exportBtn').addEventListener('click', () => {
+  const data = JSON.stringify({ boxes, clients, settings, subs, exportedAt: new Date().toISOString() }, null, 2);
+  const blob = new Blob([data], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `unlockbox-backup-${Date.now()}.json`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+  toast('Backup descargado');
+});
+$('#importFile').addEventListener('change', e => {
+  const file = e.target.files[0]; if (!file) return;
+  const r = new FileReader();
+  r.onload = () => {
+    try {
+      const data = JSON.parse(r.result);
+      if (data.boxes) { boxes = data.boxes; save(STORAGE.boxes, boxes); }
+      if (data.clients) { clients = data.clients; save(STORAGE.clients, clients); }
+      if (data.settings) { settings = data.settings; save(STORAGE.settings, settings); }
+      if (data.subs) { subs = data.subs; save(STORAGE.subs, subs); }
+      renderAll(); renderAdminBoxes(); renderAdminClients(); renderPayments(); renderSubs(); loadContactsForm(); loadSocialForm();
+      toast('Datos importados');
+    } catch { toast('Archivo inválido'); }
+  };
+  r.readAsText(file);
+});
+
+/* ============ Init ============ */
+ensureAuth();
+renderAll();
+$('#statClients').textContent = clients.length;
+$('#year').textContent = new Date().getFullYear();
