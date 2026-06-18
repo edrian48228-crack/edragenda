@@ -232,6 +232,7 @@ const DB = (() => {
     },
     deleteTransaction(id){
       data.transactions = data.transactions.filter(t=>t.id!==id);
+      try{ window.GitSync && window.GitSync.markDeletedTx && window.GitSync.markDeletedTx(id); }catch(e){}
       save();
     },
     findTransaction(id){ return data.transactions.find(t=>t.id===id); },
@@ -346,6 +347,64 @@ const DB = (() => {
         this.replaceAll(p);
         return true;
       }catch(e){ console.warn(e); return false; }
+    },
+    mergeJson(json){
+      try{
+        const p = typeof json==='string' ? JSON.parse(json) : json;
+        if(!p || (!Array.isArray(p.repairs) && !Array.isArray(p.transactions))){
+          throw new Error('Formato inválido');
+        }
+        const added = { repairs: 0, transactions: 0 };
+        const repIds = new Set(data.repairs.map(r=>r.id));
+        for(const r of (p.repairs||[])){
+          if(r && r.id && !repIds.has(r.id)){
+            data.repairs.push(r);
+            repIds.add(r.id);
+            added.repairs++;
+          }
+        }
+        const txIds = new Set((data.transactions||[]).map(t=>t.id));
+        for(const t of (p.transactions||[])){
+          if(t && t.id && !txIds.has(t.id)){
+            data.transactions.push(t);
+            txIds.add(t.id);
+            added.transactions++;
+          }
+        }
+        // Ajustar contadores para no chocar con ids existentes
+        const maxRep = data.repairs.reduce((m,r)=>{
+          const n = parseInt(String(r.id||'').replace(/\D/g,''),10);
+          return isFinite(n)&&n>m ? n : m;
+        }, 0);
+        if(maxRep+1 > (data.counter||1)) data.counter = maxRep+1;
+        const maxTx = (data.transactions||[]).reduce((m,t)=>{
+          const n = parseInt(String(t.id||'').replace(/\D/g,''),10);
+          return isFinite(n)&&n>m ? n : m;
+        }, 0);
+        if(maxTx+1 > (data.txCounter||1)) data.txCounter = maxTx+1;
+        // Fusionar listas de equipos/productos sin duplicar
+        if(p.settings){
+          if(Array.isArray(p.settings.deviceTypes)){
+            for(const d of p.settings.deviceTypes){
+              if(d && !data.settings.deviceTypes.some(x=>x.toLowerCase()===d.toLowerCase())){
+                data.settings.deviceTypes.push(d);
+              }
+            }
+            data.settings.deviceTypes.sort((a,b)=>a.localeCompare(b,'es'));
+          }
+          if(Array.isArray(p.settings.productTypes)){
+            for(const d of p.settings.productTypes){
+              if(d && !data.settings.productTypes.some(x=>x.toLowerCase()===d.toLowerCase())){
+                data.settings.productTypes.push(d);
+              }
+            }
+            data.settings.productTypes.sort((a,b)=>a.localeCompare(b,'es'));
+          }
+        }
+        migrate();
+        save();
+        return { ok:true, added };
+      }catch(e){ console.warn(e); return { ok:false, error:e.message }; }
     }
   };
 })();

@@ -26,7 +26,7 @@ const Views = (() => {
     print: '<svg viewBox="0 0 24 24" class="ico"><path d="M19 8H5a3 3 0 0 0-3 3v6h4v4h12v-4h4v-6a3 3 0 0 0-3-3zm-3 11H8v-5h8v5zm3-7a1 1 0 1 1 0-2 1 1 0 0 1 0 2zM18 3H6v4h12V3z"/></svg>'
   };
 
-  const STATUS_KEYS = ['pending','in_progress','completed','delivered'];
+  const STATUS_KEYS = ['pending','in_progress','completed','delivered','cancelled'];
   const FILTERS = [
     {k:'all',label:'Todas'},
     {k:'pending',label:'Pendientes'},
@@ -247,7 +247,16 @@ const Views = (() => {
 
     const opts = FILTERS.map(f=>`<option value="${f.k}" ${f.k===active?'selected':''}>${f.label}</option>`).join('');
 
+    const totalAll = DB.repairs.length;
+    const banner = `<div class="repairs-total-banner">
+      <span>Reparaciones totales <b>${totalAll}</b></span>
+      <span class="rtb-mini">
+        <span>Mostradas<b>${list.length}</b></span>
+        <span>Filtro<b>${escape((FILTERS.find(f=>f.k===active)||{label:'Todas'}).label)}</b></span>
+      </span>
+    </div>`;
     view().innerHTML = `
+      ${banner}
       <div class="filter-bar">
         <div class="select-elegant">
           <select id="repairsFilter" aria-label="Filtrar reparaciones">${opts}</select>
@@ -279,28 +288,50 @@ const Views = (() => {
     </div>`;
   }
 
-  const DRAFT_KEY = 'taller_new_repair_draft_v1';
-  function clearDraft(){ try{ sessionStorage.removeItem(DRAFT_KEY); }catch(e){} }
-  function readDraft(){
-    try{ const raw = sessionStorage.getItem(DRAFT_KEY); return raw ? JSON.parse(raw) : null; }
-    catch(e){ return null; }
-  }
-  function writeDraft(d){
-    try{ sessionStorage.setItem(DRAFT_KEY, JSON.stringify(d)); }catch(e){}
-  }
-
   function newRepair(existing){
-    // Para nuevas reparaciones, intentamos restaurar un borrador previo
-    let draftRestored = false;
-    let prefill = null;
-    if(!existing){
-      const d = readDraft();
-      if(d && (d.clientName || d.device || d.issue || (d.parts||[]).length || (d.devicePhotos||[]).length || d.clientPhoto || d.acceptAudio)){
-        prefill = d; draftRestored = true;
+    const r = existing || {};
+    // === Guardar progreso ante "atrás" del navegador / Android ===
+    // Empuja un estado falso para capturar la primera "atrás" y preguntar.
+    try{
+      if(!window.__formGuardActive){
+        window.__formGuardActive = true;
+        history.pushState({ formGuard:true, at: Date.now() }, '');
+        const handler = async (ev)=>{
+          if(window.__formGuardActive){
+            window.__formGuardActive = false;
+            window.removeEventListener('popstate', handler);
+            window.removeEventListener('beforeunload', beforeUnload);
+            const ok = await UI.confirmDialog({
+              title:'¿Salir sin guardar?',
+              message:'Tienes una reparación a medio capturar. Si sales perderás los datos no guardados. ¿Seguro que quieres salir?',
+              okText:'Sí, salir', cancelText:'Seguir editando', danger:true
+            });
+            if(ok){
+              App.go(existing ? 'repairs' : 'dashboard');
+            } else {
+              // Re-empujar estado para mantener el guardia
+              window.__formGuardActive = true;
+              history.pushState({ formGuard:true, at: Date.now() }, '');
+              window.addEventListener('popstate', handler);
+              window.addEventListener('beforeunload', beforeUnload);
+            }
+          }
+        };
+        const beforeUnload = (e)=>{ e.preventDefault(); e.returnValue = ''; };
+        window.addEventListener('popstate', handler);
+        window.addEventListener('beforeunload', beforeUnload);
+        // Limpieza cuando el form se submitee o cierre limpiamente.
+        // NO llamamos history.back() aquí: si el formulario era la primera
+        // entrada del historial (PWA / pestaña recién abierta), un back()
+        // saca al usuario de la app. La entrada extra del guard es inocua.
+        window.__formGuardCleanup = ()=>{
+          window.__formGuardActive = false;
+          window.removeEventListener('popstate', handler);
+          window.removeEventListener('beforeunload', beforeUnload);
+        };
       }
-    }
-    const r = existing || prefill || {};
-    const isNewForm = !existing;  // true tanto para borrador como para form vacío
+    }catch(e){ console.warn('form guard fail', e); }
+
     const photos = { device: (r.devicePhotos||[]).slice(), client: r.clientPhoto || null };
     let acceptAudio = r.acceptAudio || null;
     const naFields = (r.naFields||[]).slice();
@@ -315,8 +346,7 @@ const Views = (() => {
     view().innerHTML = `
       <button type="button" class="form-close" id="formCloseTop" title="Cerrar">${ICONS.close}</button>
 
-      <h2 style="margin:0 0 16px;font-size:20px;padding-right:50px">${isNewForm?'Nueva reparación':'Editar reparación'}</h2>
-      ${(isNewForm && draftRestored) ? `<div class="draft-restored" id="draftHint"><span>📝 Recuperamos un borrador que dejaste sin guardar.</span><button type="button" id="discardDraft">Descartar borrador</button></div>` : ''}
+      <h2 style="margin:0 0 16px;font-size:20px;padding-right:50px">${existing?'Editar reparación':'Nueva reparación'}</h2>
       <form id="repairForm" novalidate>
 
         ${sectionDivider('Cliente')}
@@ -422,56 +452,42 @@ const Views = (() => {
 
 
         <button type="submit" class="btn-primary" style="margin-top:8px">${existing?'Guardar cambios':'Registrar reparación'}</button>
-        ${(existing && existing.status==='delivered') ? '' : `<button type="button" class="btn-primary btn-cancel" id="cancelRepairBtn" style="margin-top:10px">
+        <button type="button" class="btn-primary btn-cancel" id="cancelRepairBtn" style="margin-top:10px">
           ${ICONS.cancel} Cancelar reparación
-        </button>`}
+        </button>
       </form>
     `;
 
-    // Cerrar (arriba) — al salir guardamos automáticamente un borrador (solo nuevas)
+    // Cerrar (arriba)
     document.getElementById('formCloseTop').onclick = async ()=>{
-      const f = document.getElementById('repairForm');
-      let hasData = false;
-      if(f){
-        const fd = new FormData(f);
-        for(const [k,v] of fd.entries()){
-          if(k==='status' || k==='createdAt' || k==='dueDate' || k==='warrantyDays') continue;
-          if(String(v||'').trim()){ hasData = true; break; }
-        }
-        if(photos.device.length || photos.client || acceptAudio || parts.length) hasData = true;
-      }
-      if(isNewForm && hasData){
-        const ok = await UI.confirmDialog({
-          title:'¿Salir sin terminar?',
-          message:'Guardaremos esta reparación como BORRADOR. Cuando vuelvas a "Nueva reparación" la verás de nuevo. ¿Salir?',
-          okText:'Sí, guardar borrador y salir', cancelText:'Seguir editando'
-        });
-        if(!ok) return;
-        // El listener input ya guardó el snapshot; aseguramos un guardado final aquí.
-        if(window._taller_saveDraft) window._taller_saveDraft();
-      }
+      const ok = await UI.confirmDialog({
+        title:'¿Salir sin guardar?',
+        message:'Si sales ahora se perderán los datos no guardados.',
+        okText:'Sí, salir', cancelText:'Seguir editando', danger:true
+      });
+      if(!ok) return;
       try{ if(rec) rec.cancel(); }catch(e){}
+      try{ if(window.__formGuardCleanup) window.__formGuardCleanup(); }catch(_){}
       App.go(existing ? 'repairs' : 'dashboard');
     };
     // Cancelar reparación (abajo)
-    const _cancelBtn = document.getElementById('cancelRepairBtn');
-    if(_cancelBtn) _cancelBtn.onclick = async ()=>{
+    document.getElementById('cancelRepairBtn').onclick = async ()=>{
       const ok = await UI.confirmDialog({
-        title: existing ? 'Cancelar reparación' : 'Descartar reparación',
+        title: existing ? 'Cancelar reparación' : 'Cancelar y salir',
         message: existing
           ? '¿Cancelar esta reparación? Se marcará como cancelada.'
-          : '¿Descartar esta reparación? Se borrará también el borrador.',
+          : '¿Cancelar y salir? Se perderán los datos no guardados.',
         okText:'Sí, cancelar', cancelText:'Volver', danger:true
       });
       if(!ok) return;
       try{ if(rec) rec.cancel(); }catch(e){}
+      try{ if(window.__formGuardCleanup) window.__formGuardCleanup(); }catch(_){}
       if(existing){
         DB.updateRepair(existing.id, { status: 'cancelled' });
+        try{ if(window.__formGuardCleanup) window.__formGuardCleanup(); }catch(_){}
         UI.toast('Reparación cancelada');
         App.go('repairs');
       } else {
-        clearDraft();
-        UI.toast('Borrador descartado');
         App.go('dashboard');
       }
     };
@@ -767,18 +783,20 @@ const Views = (() => {
     };
     renderParts();
 
-    // Garantía: siempre disponible (ya no se bloquea por fecha de entrega pasada)
+    // ===== Lógica de garantía dependiente de la fecha de entrega =====
     function syncWarrantyAvailability(){
+      const dueEl = document.getElementById('dueDateInput');
       const wEl = document.getElementById('warrantyDaysInput');
       const hint = document.getElementById('warrantyHint');
-      if(!wEl || !hint) return;
+      if(!dueEl || !wEl || !hint) return;
       wEl.disabled = false;
       wEl.placeholder = 'Ej: 30';
-      hint.innerHTML = 'La garantía comienza el día que marques el equipo como <b>Entregado</b> — los días restantes se irán actualizando solos.';
+      hint.innerHTML = 'La garantía comienza el día que marques el equipo como <b>Entregado</b>, sin importar la fecha de entrega prevista.';
       hint.style.color = '';
     }
+    const dueEl = document.getElementById('dueDateInput');
+    if(dueEl) dueEl.addEventListener('change', syncWarrantyAvailability);
     syncWarrantyAvailability();
-
 
 
 
@@ -839,7 +857,6 @@ const Views = (() => {
         data.price = naFields.includes('price') ? null : (price ? parseFloat(price) : null);
         data.deposit = naFields.includes('deposit') ? null : (dep ? parseFloat(dep) : null);
         const wd = fd.get('warrantyDays');
-        // Garantía: independiente de la fecha de entrega. Cuenta desde el día de entrega.
         data.warrantyDays = (wd!=null && String(wd).trim()!=='') ? Math.max(0, parseInt(wd,10)||0) : null;
         data.devicePhotos = photos.device;
         data.devicePhoto = photos.device[0] || null;
@@ -867,7 +884,7 @@ const Views = (() => {
           const nr = DB.addRepair(data);
           UI.toast('Reparación registrada: '+nr.id);
         }
-        clearDraft();
+        try{ if(window.__formGuardCleanup) window.__formGuardCleanup(); }catch(_){}
         App.go('repairs');
       };
       if(rec && rec.isRecording()){
@@ -876,57 +893,7 @@ const Views = (() => {
         doSave();
       }
     });
-
-    // ===== Autoguardado de borrador (solo para nuevas reparaciones) =====
-    if(isNewForm){
-      const form = document.getElementById('repairForm');
-      const snapshot = ()=>{
-        const fd = new FormData(form);
-        const o = {};
-        ['clientName','clientAddress','clientIdNumber','device','brand','model','serial','issue','notes','status'].forEach(k=>{
-          const v = fd.get(k); if(v!=null) o[k] = String(v);
-        });
-        const due = fd.get('dueDate'); if(due) o.dueDate = new Date(due+'T12:00:00').getTime();
-        const cAt = fd.get('createdAt'); if(cAt) o.createdAt = new Date(cAt+'T12:00:00').getTime();
-        const price = fd.get('price'); o.price = price?parseFloat(price):null;
-        const dep = fd.get('deposit'); o.deposit = dep?parseFloat(dep):null;
-        const wd = fd.get('warrantyDays');
-        o.warrantyDays = (wd!=null && String(wd).trim()!=='') ? parseInt(wd,10)||0 : null;
-        o.clientPhones = phones.slice();
-        o.naFields = naFields.slice();
-        o.parts = parts.slice();
-        o.devicePhotos = photos.device.slice();
-        o.clientPhoto = photos.client;
-        o.acceptAudio = acceptAudio;
-        return o;
-      };
-      let saveTimer = null;
-      const scheduleDraft = ()=>{
-        clearTimeout(saveTimer);
-        saveTimer = setTimeout(()=> writeDraft(snapshot()), 350);
-      };
-      form.addEventListener('input', scheduleDraft);
-      form.addEventListener('change', scheduleDraft);
-      // Guarda también al ocultar la pestaña / navegar atrás
-      window.addEventListener('pagehide', ()=>{ try{ writeDraft(snapshot()); }catch(e){} }, { once:false });
-      document.addEventListener('visibilitychange', ()=>{
-        if(document.visibilityState === 'hidden'){ try{ writeDraft(snapshot()); }catch(e){} }
-      });
-      // Exponer la función para que botones de fotos/piezas guarden cambios
-      window._taller_saveDraft = scheduleDraft;
-
-      const discard = document.getElementById('discardDraft');
-      if(discard) discard.onclick = ()=>{
-        clearDraft();
-        const hint = document.getElementById('draftHint');
-        if(hint) hint.remove();
-        App.go('dashboard');
-      };
-    } else {
-      window._taller_saveDraft = null;
-    }
   }
-
 
   // ============= DETALLE =============
   function showRepair(id){
@@ -980,14 +947,16 @@ const Views = (() => {
       ${(()=>{ 
         if(!r.warrantyDays) return '<div class="detail-row"><span class="lbl">Garantía</span><span class="val"><span class="muted">—</span></span></div>';
         if(r.status !== 'delivered' || !r.deliveredAt){
-          return `<div class="detail-row"><span class="lbl">Garantía</span><span class="val">${r.warrantyDays} días (empieza al entregar)</span></div>`;
+          return `<div class="detail-row"><span class="lbl">Garantía</span><span class="val">${r.warrantyDays} día(s) (empieza al marcar como entregado)</span></div>`;
         }
         const endTs = r.deliveredAt + r.warrantyDays*86400000;
-        const remaining = Math.ceil((endTs - Date.now())/86400000);
+        const remainingMs = endTs - Date.now();
+        const remaining = Math.ceil(remainingMs/86400000);
+        const elapsed = Math.max(0, Math.floor((Date.now() - r.deliveredAt)/86400000));
         const status = remaining>0
-          ? `<span class="warranty-tag active">Vigente · ${remaining} día(s)</span>`
-          : `<span class="warranty-tag expired">Vencida</span>`;
-        return `<div class="detail-row"><span class="lbl">Garantía</span><span class="val">${r.warrantyDays} días · hasta ${fmtDate(endTs)} ${status}</span></div>`;
+          ? `<span class="warranty-tag active">Vigente · ${remaining} día(s) restantes</span>`
+          : `<span class="warranty-tag expired">Vencida hace ${Math.abs(remaining)} día(s)</span>`;
+        return `<div class="detail-row"><span class="lbl">Garantía</span><span class="val">${r.warrantyDays} día(s) · entregada el ${fmtDate(r.deliveredAt)} · transcurridos ${elapsed} · hasta ${fmtDate(endTs)}<br>${status}</span></div>`;
       })()}
 
       ${(()=>{
@@ -1013,7 +982,7 @@ const Views = (() => {
       <div class="section-title">Cambiar estado</div>
       <div class="select-elegant">
         <select id="quickStatus">
-          ${['pending','in_progress','completed','delivered'].map(s=>`<option value="${s}" ${r.status===s?'selected':''}>${statusLabel(s)||s}</option>`).join('')}
+          ${['pending','in_progress','completed','delivered','cancelled'].map(s=>`<option value="${s}" ${r.status===s?'selected':''}>${statusLabel(s)||s}</option>`).join('')}
         </select>
       </div>
       <div class="btn-row three">
@@ -1031,17 +1000,18 @@ const Views = (() => {
     if(cp) cp.onclick = ()=> UI.openImageViewer(r.clientPhoto);
 
     document.getElementById('quickStatus').addEventListener('change', async e=>{
-      const newSt = e.target.value;
-      if(newSt==='cancelled' && r.status==='delivered'){
+      const newStatus = e.target.value;
+      if(newStatus === 'cancelled' && r.status !== 'cancelled'){
         const ok = await UI.confirmDialog({
-          title:'Atención',
-          message:'Esta reparación ya está ENTREGADA. ¿Seguro que quieres marcarla como CANCELADA?',
-          okText:'Sí, cancelar', cancelText:'No, volver', danger:true
+          title:'Cancelar reparación',
+          message:'¿Marcar esta reparación como cancelada?',
+          okText:'Sí, cancelar', cancelText:'Volver', danger:true
         });
         if(!ok){ e.target.value = r.status; return; }
       }
-      DB.updateRepair(id, { status: newSt });
-      UI.toast('Estado actualizado'); UI.closeModal(); App.refresh();
+      DB.updateRepair(id, { status: newStatus });
+      UI.toast(newStatus==='cancelled' ? 'Reparación cancelada' : 'Estado actualizado');
+      UI.closeModal(); App.refresh();
     });
     document.getElementById('editBtn').onclick = ()=>{ UI.closeModal(); App.go('new', null, r); };
     document.getElementById('ticketBtn').onclick = ()=>{ showLabel(r); };
@@ -1245,6 +1215,7 @@ const Views = (() => {
       {id:'adm-products',t:'Productos',       s:'Piezas y artículos',     i:ICONS.box},
       {id:'adm-warranty',t:'Garantía',        s:'Días por defecto',       i:ICONS.check},
       {id:'adm-stats',   t:'Estadísticas',    s:'Ganancia · inversión',   i:ICONS.edit},
+      {id:'adm-glossary',t:'Glosario',        s:'Términos del Resumen',   i:ICONS.search},
       {id:'adm-audit',   t:'Auditoría',       s:'Comprobar todo',         i:ICONS.cloud}
     ];
     const menuHtml = `
@@ -1258,10 +1229,7 @@ const Views = (() => {
 
     view().innerHTML = `
       <h2 style="margin:0 0 10px;font-size:20px">Administración</h2>
-      <p class="muted small" style="margin:0 0 10px">Toca un módulo para ir directo a esa configuración. Los cambios se guardan al instante; usa "Guardar todo" para forzar y sincronizar.</p>
-      <div class="adm-saveall-row">
-        <button class="btn-primary" id="admSaveAllBtn" type="button">${ICONS.save||''} Guardar toda la configuración</button>
-      </div>
+      <p class="muted small" style="margin:0 0 14px">Toca un módulo para ir directo a esa configuración.</p>
       ${menuHtml}
 
       <div class="admin-card" id="adm-name">
@@ -1317,7 +1285,7 @@ const Views = (() => {
         <hr style="border:0;border-top:1px solid var(--border);margin:14px 0">
         <h3>Cambiar contraseña</h3>
         <p>Define una nueva contraseña de acceso</p>
-        <div class="form-group"><input type="password" id="newPass" placeholder="Nueva contraseña"></div>
+        <div class="form-group"><div class="pwd-wrap"><input type="password" id="newPass" placeholder="Nueva contraseña"><button type="button" class="pwd-eye" data-pwd-toggle aria-label="Mostrar contraseña"><svg viewBox="0 0 24 24" class="ico eye-on"><path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg><svg viewBox="0 0 24 24" class="ico eye-off"><path d="M2 4.3L3.3 3l18 18-1.3 1.3-3-3A12 12 0 0 1 12 20C5 20 1 13 1 13a17 17 0 0 1 4.4-5.1L2 4.3zM12 8a5 5 0 0 1 5 5c0 .7-.1 1.3-.4 1.9l-2-2A3 3 0 0 0 12 10c-.3 0-.6 0-.9.1l-2-2C9.7 8 10.8 8 12 8zm0-3c7 0 11 7 11 7a17 17 0 0 1-3.2 4l-1.4-1.4A14 14 0 0 0 21 13s-3.5-6-9-6c-.8 0-1.5.1-2.2.3L8.3 5.9C9.5 5.3 10.7 5 12 5z"/></svg></button></div></div>
         <button class="btn-secondary" id="savePassBtn">Actualizar contraseña</button>
       </div>
 
@@ -1344,7 +1312,7 @@ const Views = (() => {
           <div class="form-group"><label>Rama</label><input id="ghBranch" value="${escape(g.branch||'main')}" placeholder="main"></div>
           <div class="form-group"><label>Carpeta base</label><input id="ghPath" value="${escape(g.path||'taller-data')}" placeholder="taller-data"></div>
         </div>
-        <div class="form-group"><label>Token (Fine-grained · Contents: read/write)</label><input id="ghToken" type="password" value="${escape(g.token||'')}" placeholder="github_pat_..."></div>
+        <div class="form-group"><label>Token (Fine-grained · Contents: read/write)</label><div class="pwd-wrap"><input id="ghToken" type="password" value="${escape(g.token||'')}" placeholder="github_pat_..."><button type="button" class="pwd-eye" data-pwd-toggle aria-label="Mostrar token"><svg viewBox="0 0 24 24" class="ico eye-on"><path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg><svg viewBox="0 0 24 24" class="ico eye-off"><path d="M2 4.3L3.3 3l18 18-1.3 1.3-3-3A12 12 0 0 1 12 20C5 20 1 13 1 13a17 17 0 0 1 4.4-5.1L2 4.3zM12 8a5 5 0 0 1 5 5c0 .7-.1 1.3-.4 1.9l-2-2A3 3 0 0 0 12 10c-.3 0-.6 0-.9.1l-2-2C9.7 8 10.8 8 12 8zm0-3c7 0 11 7 11 7a17 17 0 0 1-3.2 4l-1.4-1.4A14 14 0 0 0 21 13s-3.5-6-9-6c-.8 0-1.5.1-2.2.3L8.3 5.9C9.5 5.3 10.7 5 12 5z"/></svg></button></div></div>
         <div class="form-group">
           <label class="inline-check"><input type="checkbox" id="ghAuto" ${g.autoSync?'checked':''}> Sincronización automática al guardar</label>
         </div>
@@ -1436,15 +1404,93 @@ const Views = (() => {
         </div>
       </div>
 
-      <div class="admin-card audit-card" id="adm-audit">
-        <h3>Auditoría del sistema</h3>
+      <details class="admin-card audit-card collapsible-card" id="adm-glossary">
+        <summary>
+          <span class="adm-collapse-title"><span class="adm-collapse-ico">${ICONS.search}</span> Glosario del Resumen</span>
+          <span class="adm-collapse-chev" aria-hidden="true">▾</span>
+        </summary>
+        <div class="adm-collapse-body">
+        <p>Significado de cada término que aparece en la sección <b>Resumen</b>. Explicado fácil para que sepas qué mide cada cifra.</p>
+        <div class="audit-legend">
+          <div class="legend-block">
+            <span class="legend-tag tag-sum">📊 Términos</span>
+            <ul>
+              <li><b>Ganancia neta</b>: el dinero que de verdad te quedó después de restar todo lo que te costó. Fórmula: <i>(ventas + servicios) − (costo mercancía + piezas usadas)</i>.</li>
+              <li><b>Ganancia total acumulada</b>: la ganancia neta sumada desde el primer día hasta hoy.</li>
+              <li><b>Ingresos</b>: todo el dinero que entró (ventas + servicios cobrados). Aún no resta los costos.</li>
+              <li><b>Ventas</b>: dinero que recibiste vendiendo productos del inventario.</li>
+              <li><b>Servicios</b>: dinero cobrado por reparaciones <b>entregadas</b>. Las que están pendientes no cuentan aquí.</li>
+              <li><b>Costo de mercancía</b>: lo que tú pagaste por los productos que ya vendiste. Solo se descuenta cuando la venta se hace.</li>
+              <li><b>Piezas usadas</b>: lo que costaron las piezas puestas en reparaciones entregadas.</li>
+              <li><b>Costos</b>: la suma del costo de mercancía + piezas usadas. Es todo lo que “te costó” generar tus ingresos.</li>
+              <li><b>Compras stock</b>: dinero que invertiste comprando piezas o productos. <i>No</i> resta ganancia hasta que los uses o vendas — es inversión.</li>
+              <li><b>Movimientos</b>: cantidad de operaciones registradas (ventas, compras y reparaciones) en el periodo.</li>
+              <li><b>Pendiente de cobrar</b>: reparaciones terminadas pero aún no entregadas; ese dinero todavía no entró.</li>
+            </ul>
+          </div>
+          <div class="legend-block legend-note">
+            <p><b>Regla simple:</b> <i>Ganancia = lo que entró − lo que costó</i>. Las <b>compras de stock</b> son inversión, no gasto.</p>
+          </div>
+        </div>
+        </div>
+      </details>
+
+
+      <details class="admin-card audit-card collapsible-card" id="adm-audit">
+        <summary>
+          <span class="adm-collapse-title"><span class="adm-collapse-ico">${ICONS.cloud}</span> Auditoría del sistema</span>
+          <span class="adm-collapse-chev" aria-hidden="true">▾</span>
+        </summary>
+        <div class="adm-collapse-body">
         <p>Recalcula <b>todo</b> el sistema desde cero: compras, ventas, reparaciones, piezas y stock — y te avisa si algo no cuadra. Se ejecuta también automáticamente cada vez que entras.</p>
         <button class="btn-primary btn-audit" id="runAuditBtn" type="button">
           <span class="audit-ico">${ICONS.check}</span>
           <span>Calcular todo el sistema</span>
         </button>
         <p class="muted small" style="margin-top:10px">Comprueba: cuentas de ventas y compras, ganancia, piezas usadas, stock disponible, reparaciones entregadas sin precio, fechas inválidas y más.</p>
-      </div>
+
+        <div class="audit-legend">
+          <h4>¿Qué significan las secciones <b>Resumen</b> y <b>Compra/Venta</b>?</h4>
+          <p class="muted small">Explicado fácil, como a un niño: el sistema lleva la cuenta del dinero que <b>entra</b> (lo que cobras) y del dinero que <b>sale</b> (lo que pagas), y te dice cuánto ganaste de verdad.</p>
+
+          <div class="legend-block">
+            <span class="legend-tag tag-sum">📊 Resumen</span>
+            <p>Es como el <b>boletín de notas</b> de tu taller. Aquí solo <b>miras</b>, no escribes nada.</p>
+            <ul>
+              <li><b>Ganancia total acumulada</b>: la suma de todo lo que ganaste desde el primer día (ventas + reparaciones − lo que te costó la mercancía y las piezas).</li>
+              <li><b>Contabilidad e ingresos</b>: divide el dinero por periodos (hoy, semana, mes, año y total). En cada uno ves:
+                <ul>
+                  <li><i>Ventas (entró)</i>: dinero que recibiste vendiendo productos.</li>
+                  <li><i>Servicios (entró)</i>: dinero que cobraste por reparaciones <b>entregadas</b>.</li>
+                  <li><i>Costo mercancía</i>: lo que tú pagaste por lo que vendiste.</li>
+                  <li><i>Piezas usadas</i>: lo que costaron las piezas que pusiste en reparaciones.</li>
+                  <li><i>Compras stock</i>: lo que invertiste comprando piezas (no resta ganancia hasta que las vendas o las uses).</li>
+                  <li><i>Movimientos</i>: cuántas ventas, compras y reparaciones hubo.</li>
+                </ul>
+              </li>
+              <li><b>Reparaciones cobradas</b>: solo dinero de reparaciones <b>entregadas</b>. Las que aún no entregaste salen como “pendiente de cobrar”.</li>
+              <li><b>Ganancias por mes y año</b>: una tabla con cada mes mostrando ganancia de reparaciones, ventas con inversión (ingreso − costo) y ventas sin inversión (ingreso completo).</li>
+            </ul>
+          </div>
+
+          <div class="legend-block">
+            <span class="legend-tag tag-cv">🛒 Compra/Venta</span>
+            <p>Es la <b>caja registradora</b> y el <b>almacén</b>. Aquí sí <b>anotas</b> cada movimiento de productos.</p>
+            <ul>
+              <li><b>Nueva venta</b>: registras lo que vendiste (producto, cantidad, precio y, si quieres, cuánto te costó). Esto <b>descuenta</b> piezas del stock y suma el dinero a tus ingresos.</li>
+              <li><b>Nueva compra</b>: registras piezas que compraste para tu inventario. Esto <b>suma</b> piezas al stock y se contabiliza como <i>inversión</i> (no como gasto perdido).</li>
+              <li><b>Total de ventas</b> y <b>Total de compras</b>: dos tarjetas que muestran hoy, semana, mes, año y total. Al tocarlas se abren con la lista detallada de cada movimiento.</li>
+              <li><b>Stock y alertas</b>: cuántas unidades te quedan de cada producto. Si pones un <i>mínimo</i>, te avisa cuando bajas de él.</li>
+              <li><b>Lista de movimientos</b>: el historial completo, ordenado por fecha, con filtro para ver solo ventas, solo compras o todo.</li>
+            </ul>
+          </div>
+
+          <div class="legend-block legend-note">
+            <p><b>Regla simple:</b> lo que escribes en <b>Compra/Venta</b> y en <b>Reparaciones</b> alimenta automáticamente lo que ves en <b>Resumen</b>. Por eso el Resumen siempre cuadra solo si los movimientos están bien registrados — y para eso sirve este botón de auditoría.</p>
+          </div>
+        </div>
+        </div>
+      </details>
     `;
 
     // Menú elegante: scroll suave a cada sección
@@ -1452,6 +1498,7 @@ const Views = (() => {
       b.onclick = ()=>{
         const el = document.getElementById(b.dataset.jump);
         if(!el) return;
+        if(el.tagName === 'DETAILS') el.open = true;
         el.scrollIntoView({behavior:'smooth', block:'start'});
         el.classList.add('flash');
         setTimeout(()=>el.classList.remove('flash'), 1500);
@@ -1646,14 +1693,34 @@ const Views = (() => {
       DB.updateGithub(readGh());
       runOp('Conexión', ()=> GitSync.test());
     };
-    document.getElementById('ghPush').onclick = ()=>{
+    document.getElementById('ghPush').onclick = async ()=>{
       DB.updateGithub(readGh());
-      runOp('Subida', ()=> GitSync.push({ onProgress:setProgress }));
+      try{
+        const p = await GitSync.getPendingPush();
+        if(p.total === 0){
+          UI.toast('No hay cambios nuevos para subir');
+          return;
+        }
+        if(!confirm('¿Quieres subir la información al servidor de GitHub?')) return;
+        runOp('Subida', ()=> GitSync.push({ onProgress:setProgress }));
+      }catch(e){
+        UI.toast('Error: '+e.message);
+      }
     };
     document.getElementById('ghPull').onclick = async ()=>{
       DB.updateGithub(readGh());
-      if(!confirm('Esto reemplazará tus reparaciones locales con las del repositorio. ¿Continuar?')) return;
-      runOp('Descarga', ()=> GitSync.pull({ onProgress:setProgress }));
+      try{
+        UI.toast('Comprobando cambios en GitHub…');
+        const p = await GitSync.getPendingPull();
+        if(p.total === 0){
+          UI.toast('Ya estás al día: no hay cambios en GitHub');
+          return;
+        }
+        if(!confirm('¿Quieres bajar la información del servidor de GitHub?')) return;
+        runOp('Descarga', ()=> GitSync.pull({ onProgress:setProgress }));
+      }catch(e){
+        UI.toast('Error: '+e.message);
+      }
     };
 
     if(typeof LocalFile !== 'undefined' && localSupported){
@@ -1666,24 +1733,60 @@ const Views = (() => {
       if(clr) clr.onclick = async ()=>{ await LocalFile.clearHandle(); UI.toast('Ubicación quitada'); App.refresh(); };
       const lf = document.getElementById('loadFromLoc');
       if(lf) lf.onclick = async ()=>{
-        if(!confirm('Reemplazar datos locales con los del archivo elegido?')) return;
-        try{ const ok = await LocalFile.loadFromFile(); UI.toast(ok?'Cargado':'No se pudo cargar'); App.refresh(); }
+        try{
+          const text = await LocalFile.readText();
+          if(text==null){ UI.toast('No se pudo leer'); return; }
+          askImportMode(text);
+        }
         catch(e){ UI.toast('Error: '+e.message); }
       };
+    }
+
+    function askImportMode(text){
+      const wrap = document.createElement('div');
+      wrap.className = 'confirm-overlay';
+      wrap.innerHTML = `
+        <div class="confirm-card" role="dialog" aria-modal="true">
+          <h3>Importar JSON</h3>
+          <p>¿Cómo deseas cargar este archivo?<br><b>Reemplazar</b> borra los datos actuales y deja solo los del archivo. <b>Añadir</b> conserva tus datos y suma los nuevos (sin duplicar por id).</p>
+          <div class="btn-row" style="flex-wrap:wrap;gap:8px">
+            <button class="btn-secondary" data-act="cancel">Cancelar</button>
+            <button class="btn-secondary" data-act="merge">Añadir al existente</button>
+            <button class="btn-primary btn-cancel" data-act="replace">Reemplazar todo</button>
+          </div>
+        </div>`;
+      document.body.appendChild(wrap);
+      const close = ()=> wrap.remove();
+      wrap.addEventListener('click', ev2=>{
+        if(ev2.target===wrap){ close(); return; }
+        const act = ev2.target.closest('[data-act]')?.dataset.act;
+        if(!act) return;
+        if(act==='cancel'){ close(); return; }
+        if(act==='replace'){
+          if(DB.importJson(text)){ UI.toast('Datos reemplazados'); App.refresh(); }
+          else UI.toast('Archivo inválido');
+        } else if(act==='merge'){
+          const res = DB.mergeJson(text);
+          if(res && res.ok){
+            UI.toast(`Añadido: +${res.added.repairs} rep · +${res.added.transactions} mov`);
+            App.refresh();
+          } else UI.toast('Archivo inválido');
+        }
+        close();
+      });
     }
 
     document.getElementById('exportBtn').onclick = ()=>{ DB.exportJson(); UI.toast('Descargado'); };
     document.getElementById('importBtn').onclick = ()=> document.getElementById('importFile').click();
     document.getElementById('importFile').onchange = e=>{
       const f = e.target.files[0]; if(!f) return;
-      if(!confirm('Esto reemplazará todos los datos. ¿Continuar?')) return;
       const reader = new FileReader();
-      reader.onload = ev=>{
-        if(DB.importJson(ev.target.result)){ UI.toast('Importado'); App.refresh(); }
-        else UI.toast('Archivo inválido');
-      };
+      reader.onload = ev=> askImportMode(ev.target.result);
       reader.readAsText(f);
+      // Permite reimportar el mismo archivo
+      e.target.value = '';
     };
+
 
     document.getElementById('addDeviceBtn').onclick = ()=>{
       const v = document.getElementById('newDeviceType').value;
@@ -1709,38 +1812,6 @@ const Views = (() => {
       DB.updateSettings({ defaultWarrantyDays: v });
       UI.toast('Garantía por defecto actualizada');
     });
-
-    // Guardar TODO de un golpe (fuerza commit + push si GitHub está activo)
-    const saveAllBtn = document.getElementById('admSaveAllBtn');
-    if(saveAllBtn) saveAllBtn.onclick = async ()=>{
-      try{
-        // 1) Nombre del sistema
-        const nameEl = document.getElementById('appNameInput');
-        if(nameEl) DB.updateSettings({ appName: (nameEl.value||'').trim() || 'Taller' });
-        // 2) Creador
-        saveCreator();
-        // 3) Pedir contraseña
-        const rp = document.getElementById('reqPass');
-        if(rp) DB.updateSettings({ requirePassword: rp.checked });
-        // 4) GitHub config (sin disparar push aún)
-        DB.updateGithub(readGh());
-        // 5) Garantía por defecto
-        const dw = document.getElementById('defWarranty');
-        if(dw){ DB.updateSettings({ defaultWarrantyDays: Math.max(0, parseInt(dw.value,10)||0) }); }
-        // 6) Forzar guardado del estado
-        DB.save();
-        App.applyBrand();
-        UI.toast('Configuración guardada');
-        // 7) Si GitHub activo, sincroniza
-        if(DB.settings.github.enabled && window.GitSync){
-          UI.toast('Sincronizando con GitHub…');
-          try{ await GitSync.push({}); UI.toast('Sincronizado'); }
-          catch(e){ UI.toast('Aviso: no se pudo sincronizar ('+(e.message||e)+')'); }
-        }
-      }catch(e){
-        UI.toast('Error al guardar: '+(e.message||e));
-      }
-    };
   }
 
   // ============= VENTAS Y COMPRAS =============
@@ -1831,11 +1902,9 @@ const Views = (() => {
     if(isSale && t.costTotal != null){
       const profit = total - Number(t.costTotal||0);
       const pcls = profit>=0 ? 'pos' : 'neg';
-      profitHtml = `<span class="tx-profit ${pcls}">Ganancia de esta venta: $ ${profit.toFixed(2)}</span>`;
-    } else if(isSale){
-      profitHtml = `<span class="tx-profit muted">Ganancia de esta venta: sin costo registrado</span>`;
-    } else {
-      profitHtml = `<span class="tx-profit neg">Inversión de esta compra: $ ${total.toFixed(2)}</span>`;
+      profitHtml = `<span class="tx-profit ${pcls}">Ganancia $ ${profit.toFixed(2)}</span>`;
+    } else if(!isSale){
+      profitHtml = `<span class="tx-profit neg">Inversión $ ${total.toFixed(2)}</span>`;
     }
     return `
       <div class="tx-card ${cls}" data-tx-id="${escape(t.id)}">
@@ -1846,8 +1915,7 @@ const Views = (() => {
           </div>
           <h3>${escape(t.product||'Producto')}</h3>
           <p class="muted small">${qty} × $ ${unit.toFixed(2)}${cp}</p>
-          <p class="muted small">${fmtDate(t.date||t.createdAt)}</p>
-          <p class="small" style="margin-top:2px">${profitHtml}</p>
+          <p class="muted small">${fmtDate(t.date||t.createdAt)} ${profitHtml}</p>
         </div>
         <div class="tx-amount ${cls}">${sign} $ ${total.toFixed(2)}</div>
       </div>`;
@@ -2001,6 +2069,130 @@ const Views = (() => {
     });
   }
 
+  // ===== Desglose mensual/anual de ganancias =====
+  function monthlyBreakdownHtml(){
+    const MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    // Estructura: years[year][month] = { repIncome, repCost, salesWithInvIncome, salesWithInvCost, salesNoInvIncome, countRep, countSalesWith, countSalesNo }
+    const years = {};
+    function bucket(y,m){
+      if(!years[y]) years[y] = {};
+      if(!years[y][m]) years[y][m] = {
+        repIncome:0, repCost:0,
+        salesWithInvIncome:0, salesWithInvCost:0, salesNoInvIncome:0,
+        countRep:0, countSalesWith:0, countSalesNo:0
+      };
+      return years[y][m];
+    }
+    // Ventas
+    for(const tx of DB.transactions){
+      if(tx.type!=='sale') continue;
+      const ts = tx.date || tx.createdAt || 0;
+      const d = new Date(ts);
+      const b = bucket(d.getFullYear(), d.getMonth());
+      const total = Number(tx.total||0);
+      if(tx.costTotal != null){
+        b.salesWithInvIncome += total;
+        b.salesWithInvCost  += Number(tx.costTotal||0);
+        b.countSalesWith++;
+      } else {
+        b.salesNoInvIncome += total;
+        b.countSalesNo++;
+      }
+    }
+    // Reparaciones entregadas
+    for(const r of DB.repairs){
+      if(r.status!=='delivered') continue;
+      const ts = r.deliveredAt || r.updatedAt || r.createdAt || 0;
+      const d = new Date(ts);
+      const b = bucket(d.getFullYear(), d.getMonth());
+      const price = Number(r.price||0);
+      const partsCost = (r.parts||[]).reduce((a,p)=> a + Number(p.unitCost||0)*Number(p.qty||0), 0);
+      b.repIncome += price;
+      b.repCost   += partsCost;
+      b.countRep++;
+    }
+    const yKeys = Object.keys(years).map(Number).sort((a,b)=>b-a);
+    if(!yKeys.length){
+      return `<p class="muted small" style="margin:0">Aún no hay ventas ni reparaciones entregadas para desglosar.</p>`;
+    }
+    const nowY = new Date().getFullYear();
+    const html = yKeys.map(y=>{
+      const months = years[y];
+      const mKeys = Object.keys(months).map(Number).sort((a,b)=>b-a);
+      // Totales del año
+      let yRepProfit=0, yWithProfit=0, yNoProfit=0, yWithInv=0;
+      const rowsM = mKeys.map(m=>{
+        const b = months[m];
+        const repProfit = b.repIncome - b.repCost;
+        const withProfit = b.salesWithInvIncome - b.salesWithInvCost;
+        const noProfit = b.salesNoInvIncome;
+        const monthTotal = repProfit + withProfit + noProfit;
+        yRepProfit += repProfit; yWithProfit += withProfit; yNoProfit += noProfit; yWithInv += b.salesWithInvCost;
+        const cls = monthTotal>=0?'pos':'neg';
+        return `
+          <div class="mb-month">
+            <div class="mb-month-head">
+              <span class="mb-month-name">${MONTHS[m]}</span>
+              <span class="mb-month-total ${cls}">$ ${monthTotal.toFixed(2)}</span>
+            </div>
+            <div class="mb-rows">
+              <div class="mb-row rep">
+                <span class="mb-row-label">Reparaciones</span>
+                <span class="mb-row-meta">${b.countRep} entregada(s) · Ingreso $ ${b.repIncome.toFixed(2)} · Piezas $ ${b.repCost.toFixed(2)}</span>
+                <span class="mb-row-val ${repProfit>=0?'pos':'neg'}">$ ${repProfit.toFixed(2)}</span>
+              </div>
+              <div class="mb-row swith">
+                <span class="mb-row-label">Ventas con inversión</span>
+                <span class="mb-row-meta">${b.countSalesWith} venta(s) · Ingreso $ ${b.salesWithInvIncome.toFixed(2)} · Costo $ ${b.salesWithInvCost.toFixed(2)}</span>
+                <span class="mb-row-val ${withProfit>=0?'pos':'neg'}">$ ${withProfit.toFixed(2)}</span>
+              </div>
+              <div class="mb-row sno">
+                <span class="mb-row-label">Ventas sin inversión</span>
+                <span class="mb-row-meta">${b.countSalesNo} venta(s) · Ingreso $ ${b.salesNoInvIncome.toFixed(2)} · Sin costo registrado</span>
+                <span class="mb-row-val ${noProfit>=0?'pos':'neg'}">$ ${noProfit.toFixed(2)}</span>
+              </div>
+            </div>
+          </div>`;
+      }).join('');
+      const yearTotal = yRepProfit + yWithProfit + yNoProfit;
+      const ycls = yearTotal>=0?'pos':'neg';
+      const open = (y===nowY) ? 'open' : '';
+      return `
+        <div class="mb-year ${open}">
+          <button class="mb-year-head" data-mbyear type="button" aria-expanded="${open?'true':'false'}">
+            <span class="mb-year-name">${y}</span>
+            <span class="mb-year-meta">
+              <span class="mb-pill rep" title="Ganancia reparaciones">Rep $ ${yRepProfit.toFixed(2)}</span>
+              <span class="mb-pill swith" title="Ganancia ventas con inversión">V/Inv $ ${yWithProfit.toFixed(2)}</span>
+              <span class="mb-pill sno" title="Ingreso ventas sin inversión">V/Sin $ ${yNoProfit.toFixed(2)}</span>
+            </span>
+            <span class="mb-year-total ${ycls}">$ ${yearTotal.toFixed(2)}</span>
+            <span class="mb-year-chev">▾</span>
+          </button>
+          <div class="mb-year-body" ${open?'':'hidden'}>${rowsM}</div>
+        </div>`;
+    }).join('');
+    return `
+      <p class="muted small" style="margin:0 0 10px">
+        Ganancia neta por <b>mes</b> y por <b>año</b>: reparaciones entregadas, ventas <b>con inversión</b> registrada (ingreso − costo) y ventas <b>sin inversión</b> (ingreso completo, sin costo asociado).
+      </p>
+      <div class="mb-list">${html}</div>`;
+  }
+
+  function bindMonthlyBreakdown(){
+    view().querySelectorAll('[data-mbyear]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const card = btn.closest('.mb-year');
+        const body = card && card.querySelector('.mb-year-body');
+        if(!body) return;
+        const open = !body.hasAttribute('hidden');
+        if(open){ body.setAttribute('hidden',''); card.classList.remove('open'); btn.setAttribute('aria-expanded','false'); }
+        else { body.removeAttribute('hidden'); card.classList.add('open'); btn.setAttribute('aria-expanded','true'); }
+      });
+    });
+  }
+
+
   function summary(){
     const _stats = computeAllStats();
     const _gT = _stats.total.totalProfit;
@@ -2016,24 +2208,34 @@ const Views = (() => {
       </div>
 
 
-      <div class="acc-card cv-stats-card open">
+      <div class="acc-card cv-stats-card">
         <button class="acc-head" data-acc type="button">
           <span class="acc-ico">${ICONS.box}</span>
           <span class="acc-title">Contabilidad e ingresos</span>
-          <span class="acc-sub">Lo que entró, lo que costó y la ganancia neta</span>
+          <span class="acc-sub">Lo que entró, lo que costó y la ganancia neta · toca para abrir o cerrar</span>
           <span class="acc-chev"></span>
         </button>
         <div class="acc-body">${cvStatsTilesHtml()}</div>
       </div>
 
-      <div class="acc-card open">
+      <div class="acc-card">
         <button class="acc-head" data-acc type="button">
           <span class="acc-ico">${ICONS.edit}</span>
           <span class="acc-title">Reparaciones cobradas</span>
-          <span class="acc-sub">Solo cuenta cuando entregas el equipo</span>
+          <span class="acc-sub">Solo cuenta cuando entregas el equipo · toca para abrir o cerrar</span>
           <span class="acc-chev"></span>
         </button>
         <div class="acc-body">${sysStatsTilesHtml()}</div>
+      </div>
+
+      <div class="acc-card">
+        <button class="acc-head" data-acc type="button">
+          <span class="acc-ico">${ICONS.box}</span>
+          <span class="acc-title">Ganancias por mes y año</span>
+          <span class="acc-sub">Reparaciones, ventas con inversión y ventas sin inversión · toca para abrir o cerrar</span>
+          <span class="acc-chev"></span>
+        </button>
+        <div class="acc-body">${monthlyBreakdownHtml()}</div>
       </div>
 
       <div class="btn-row" style="margin-top:14px">
@@ -2041,6 +2243,7 @@ const Views = (() => {
       </div>
     `;
     bindAccordions();
+    bindMonthlyBreakdown();
     const gb = document.getElementById('goCvBtn');
     if(gb) gb.onclick = ()=> App.go('sales');
   }
@@ -2065,43 +2268,115 @@ const Views = (() => {
     const items = Object.values(stockStats);
     const totalStockUnits = items.reduce((a,i)=> a + Math.max(0,i.stock), 0);
 
-    const _all = computeAllStats().total;
-    const _gainSales = _all.salesIncome - _all.salesCost;       // venta − costo de mercancía
-    const _grossSales = _all.salesIncome;                        // bruto (sin restar inversión)
-    const _purchInvested = _all.purchases;                       // inversión total en compras de stock
-    const _netCls = _all.totalProfit>=0 ? '' : 'neg';
-    const _heroHtml = `
-      <div class="cv-hero ${_netCls}">
-        <div class="cvh-section">
-          <div class="cvh-title">📈 Ventas</div>
-          <div class="cvh-row"><span class="lbl">Ingreso bruto (sin restar inversión)</span><span class="val pos">${fmtMoney(_grossSales)}</span></div>
-          <div class="cvh-row"><span class="lbl">Costo de mercancía vendida</span><span class="val neg">${fmtMoney(_all.salesCost)}</span></div>
-          <div class="cvh-row"><span class="lbl">Ganancia real (con inversión descontada)</span><span class="val ${_gainSales>=0?'pos':'neg'}">${fmtMoney(_gainSales)}</span></div>
-        </div>
-        <div class="cvh-section">
-          <div class="cvh-title">🛒 Compras de stock</div>
-          <div class="cvh-row"><span class="lbl">Inversión total realizada</span><span class="val neg">${fmtMoney(_purchInvested)}</span></div>
-          <div class="cvh-row"><span class="lbl">Inversión aún en stock (no vendida)</span><span class="val">${fmtMoney(Math.max(0, _purchInvested - _all.salesCost - _all.repairPartsCost))}</span></div>
-        </div>
-        <div class="cvh-section">
-          <div class="cvh-title">🔧 Reparaciones</div>
-          <div class="cvh-row"><span class="lbl">Servicios cobrados (bruto)</span><span class="val pos">${fmtMoney(_all.repairIncome)}</span></div>
-          <div class="cvh-row"><span class="lbl">Piezas usadas (inversión)</span><span class="val neg">${fmtMoney(_all.repairPartsCost)}</span></div>
-          <div class="cvh-row"><span class="lbl">Ganancia neta de servicios</span><span class="val ${_all.repairProfit>=0?'pos':'neg'}">${fmtMoney(_all.repairProfit)}</span></div>
-        </div>
-        <div class="cvh-big">
-          <span class="lbl">Ganancia neta total</span>
-          <span class="val ${_all.totalProfit>=0?'pos':'neg'}">${fmtMoney(_all.totalProfit)}</span>
-        </div>
+    const _allStats = computeAllStats();
+    const _cv = _allStats.total;
+    const _pi = periodInfo();
+
+    // Lista detallada de ventas (con inversión y ganancia) y compras (inversión)
+    const allSales = DB.transactions.filter(t=>t.type==='sale')
+      .sort((a,b)=>(b.date||b.createdAt||0)-(a.date||a.createdAt||0));
+    const allPurchases = DB.transactions.filter(t=>t.type==='purchase')
+      .sort((a,b)=>(b.date||b.createdAt||0)-(a.date||a.createdAt||0));
+
+    let totSalesInv = 0, totSalesProfit = 0;
+    const salesRows = allSales.map(t=>{
+      const total = Number(t.total||0);
+      const qty = Number(t.quantity||0);
+      const hasCost = t.costTotal != null;
+      const inv = hasCost ? Number(t.costTotal||0) : Number(t.unitCost||0)*qty;
+      const profit = hasCost ? (total - inv) : null;
+      totSalesInv += inv;
+      if(profit != null) totSalesProfit += profit;
+      const pcls = profit==null ? 'muted' : (profit>=0?'pos':'neg');
+      const profitTxt = profit==null ? '—' : `$ ${profit.toFixed(2)}`;
+      return `
+        <button class="cv-detail-row" data-tx="${escape(t.id)}" type="button">
+          <span class="cd-main">
+            <b>${escape(t.product||'Producto')}</b>
+            <span class="cd-sub">${qty} u · ${fmtDate(t.date||t.createdAt)}${t.counterparty?` · ${escape(t.counterparty)}`:''}</span>
+          </span>
+          <span class="cd-nums">
+            <span class="cd-total sale">$ ${total.toFixed(2)}</span>
+            <span class="cd-meta">Inv. $ ${inv.toFixed(2)} · <b class="${pcls}">Gan. ${profitTxt}</b></span>
+          </span>
+        </button>`;
+    }).join('');
+
+    let totPurchInv = 0;
+    const purchaseRows = allPurchases.map(t=>{
+      const total = Number(t.total||0);
+      const qty = Number(t.quantity||0);
+      totPurchInv += total;
+      return `
+        <button class="cv-detail-row" data-tx="${escape(t.id)}" type="button">
+          <span class="cd-main">
+            <b>${escape(t.product||'Producto')}</b>
+            <span class="cd-sub">${qty} u · ${fmtDate(t.date||t.createdAt)}${t.counterparty?` · ${escape(t.counterparty)}`:''}</span>
+          </span>
+          <span class="cd-nums">
+            <span class="cd-total buy">$ ${total.toFixed(2)}</span>
+            <span class="cd-meta">Inversión</span>
+          </span>
+        </button>`;
+    }).join('');
+
+    const salesDetailsHtml = allSales.length
+      ? `<div class="cv-detail-summary">
+           <span>Inversión total: <b>$ ${totSalesInv.toFixed(2)}</b></span>
+           <span>Ganancia total: <b class="${totSalesProfit>=0?'pos':'neg'}">$ ${totSalesProfit.toFixed(2)}</b></span>
+         </div>
+         <div class="cv-detail-list">${salesRows}</div>`
+      : `<p class="muted small" style="margin:6px 2px 0">Aún no hay ventas registradas.</p>`;
+
+    const purchDetailsHtml = allPurchases.length
+      ? `<div class="cv-detail-summary">
+           <span>Inversión total: <b>$ ${totPurchInv.toFixed(2)}</b></span>
+           <span class="muted">La ganancia se realiza al vender la pieza o usarla en una reparación.</span>
+         </div>
+         <div class="cv-detail-list">${purchaseRows}</div>`
+      : `<p class="muted small" style="margin:6px 2px 0">Aún no hay compras registradas.</p>`;
+
+    const _row = (cls, label, day, week, month, year, total, count, sub, detailsHtml) => `
+      <div class="cv-period ${cls}">
+        <button class="cv-period-toggle" data-cvtoggle type="button" aria-expanded="false">
+          <span class="cv-period-head">
+            <span class="cv-period-title">${label}</span>
+            <span class="cv-period-total">$ ${total.toFixed(2)}</span>
+          </span>
+          <span class="cv-period-grid">
+            <span title="${escape(_pi.day)}"><b>Hoy</b>$ ${day.toFixed(2)}</span>
+            <span title="${escape(_pi.week)}"><b>Semana</b>$ ${week.toFixed(2)}</span>
+            <span title="${escape(_pi.month)}"><b>Mes</b>$ ${month.toFixed(2)}</span>
+            <span title="${escape(_pi.year)}"><b>Año</b>$ ${year.toFixed(2)}</span>
+          </span>
+          <span class="cv-period-sub">${count} movimiento(s) — ${sub} · <span class="cv-period-more">Ver detalle ▾</span></span>
+        </button>
+        <div class="cv-period-details" hidden>${detailsHtml}</div>
       </div>`;
+    const _qs = `<div class="cv-periods">
+      ${_row('sale','Total de ventas',
+        _allStats.day.salesIncome,_allStats.week.salesIncome,_allStats.month.salesIncome,_allStats.year.salesIncome,_cv.salesIncome,
+        _cv.countSales,'suma de todo lo facturado en ventas', salesDetailsHtml)}
+      ${_row('buy','Total de compras',
+        _allStats.day.purchases,_allStats.week.purchases,_allStats.month.purchases,_allStats.year.purchases,_cv.purchases,
+        _cv.countPurchases,'suma de todo lo invertido en compras de stock', purchDetailsHtml)}
+    </div>`;
     view().innerHTML = `
       <div class="greeting">Compras y <span>Ventas</span></div>
       <p class="muted small" style="margin:-8px 4px 10px">
         Gestiona aquí tus compras de stock y tus ventas. Cada compra suma piezas a tu inventario;
         cada venta o pieza usada en una reparación las descuenta automáticamente.
       </p>
-      ${_heroHtml}
 
+      <div class="btn-row" style="margin:6px 0 10px">
+        <button class="btn-secondary" id="newSaleBtn">${ICONS.plus} Nueva venta</button>
+        <button class="btn-secondary" id="newPurchaseBtn">${ICONS.plus} Nueva compra</button>
+      </div>
+      <div class="select-elegant" style="margin:0 0 14px">
+        <select id="txFilter" aria-label="Filtrar movimientos">${opts}</select>
+      </div>
+
+      ${_qs}
 
       <div class="acc-card ${lowList.length?'open':''}">
         <button class="acc-head" data-acc type="button">
@@ -2113,18 +2388,24 @@ const Views = (() => {
         <div class="acc-body">${stockPanelHtml()}</div>
       </div>
 
-      <div class="btn-row" style="margin:14px 0 6px">
-        <button class="btn-secondary" id="newSaleBtn">${ICONS.plus} Nueva venta</button>
-        <button class="btn-secondary" id="newPurchaseBtn">${ICONS.plus} Nueva compra</button>
-      </div>
-      <div class="select-elegant" style="margin-top:10px">
-        <select id="txFilter" aria-label="Filtrar movimientos">${opts}</select>
-      </div>
       ${list.length ? grouped : emptyState('Sin movimientos','Registra tu primera venta o compra')}
     `;
     document.getElementById('newSaleBtn').onclick = ()=> newTransaction('sale');
     document.getElementById('newPurchaseBtn').onclick = ()=> newTransaction('purchase');
     document.getElementById('txFilter').addEventListener('change', e=> sales(e.target.value));
+    view().querySelectorAll('[data-cvtoggle]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const card = btn.closest('.cv-period');
+        const panel = card && card.querySelector('.cv-period-details');
+        if(!panel) return;
+        const open = !panel.hasAttribute('hidden');
+        if(open){ panel.setAttribute('hidden',''); btn.setAttribute('aria-expanded','false'); card.classList.remove('open'); }
+        else { panel.removeAttribute('hidden'); btn.setAttribute('aria-expanded','true'); card.classList.add('open'); }
+      });
+    });
+    view().querySelectorAll('.cv-detail-row[data-tx]').forEach(b=>{
+      b.addEventListener('click', ()=> showTransaction(b.dataset.tx));
+    });
     bindAccordions();
     bindStockInputs();
     bindTxCards();
@@ -2308,9 +2589,7 @@ const Views = (() => {
         <div class="detail-row"><span class="lbl">Inversión</span><span class="val tx-profit neg">$ ${total.toFixed(2)}</span></div>
         <div class="detail-row"><span class="lbl">Ganancia de esta compra</span><span class="val muted">— (se realiza al vender o usar la pieza)</span></div>`;
     }
-    const _gT = totalProfitNow();
-    const _gCls = _gT>=0 ? 'pos' : 'neg';
-    const generalRow = `<div class="detail-row"><span class="lbl">Ganancia general</span><span class="val tx-profit ${_gCls}">$ ${_gT.toFixed(2)}</span></div>`;
+    const generalRow = '';
     UI.openModal(`
       <h2 style="margin:0 0 4px;font-size:20px">${escape(t.product||'Producto')}</h2>
       <p class="muted" style="margin:0 0 14px">${escape(t.id)} · <span class="tx-badge ${isSale?'sale':'purchase'}">${txLabel(t.type)}</span></p>
@@ -2392,9 +2671,10 @@ const Views = (() => {
     for(const r of repairs){
       if(r.status==='delivered' && (r.price==null || r.price==='')) issues.push(`Reparación ${r.id} entregada sin precio asignado.`);
       if(r.deposit!=null && r.price!=null && Number(r.deposit) > Number(r.price)) issues.push(`Reparación ${r.id}: anticipo ($${Number(r.deposit).toFixed(2)}) supera al precio ($${Number(r.price).toFixed(2)}).`);
-      // Nota: ya no se considera error que la fecha de entrega esté antes de la entrada
-      // (se permite registrar reparaciones con cualquier fecha histórica).
-
+      if(r.dueDate && r.createdAt){
+        const c0 = new Date(r.createdAt); c0.setHours(0,0,0,0);
+        if(r.dueDate < c0.getTime()) issues.push(`Reparación ${r.id}: fecha de entrega anterior a la fecha de entrada.`);
+      }
     }
     for(const t of txs){
       const q = Number(t.quantity||0), u = Number(t.unitPrice||0), tot = Number(t.total||0);

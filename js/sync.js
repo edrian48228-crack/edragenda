@@ -44,6 +44,11 @@ const GitSync = (() => {
   let busy = false;
   let lastHashes = {}; // id -> hash de su JSON (para detectar cambios)
   let knownDeleted = new Set();
+  // Tombstones de transacciones (las transacciones viven dentro de index.json,
+  // así que necesitamos recordar localmente cuáles borramos para que no
+  // reaparezcan si otro dispositivo sube un index.json antiguo antes que
+  // nosotros podamos subir el nuestro.)
+  let knownDeletedTx = new Set();
 
   // ---------- Configuración ----------
   function g(){ return DB.settings.github; }
@@ -187,14 +192,23 @@ const GitSync = (() => {
   function loadDeleted(){
     try{ knownDeleted = new Set(JSON.parse(localStorage.getItem('taller_gh_deleted')||'[]')); }
     catch(_){ knownDeleted = new Set(); }
+    try{ knownDeletedTx = new Set(JSON.parse(localStorage.getItem('taller_gh_deleted_tx')||'[]')); }
+    catch(_){ knownDeletedTx = new Set(); }
   }
   function saveDeleted(){
     try{ localStorage.setItem('taller_gh_deleted', JSON.stringify([...knownDeleted])); }catch(_){}
+    try{ localStorage.setItem('taller_gh_deleted_tx', JSON.stringify([...knownDeletedTx])); }catch(_){}
   }
   function markDeleted(id){
     knownDeleted.add(id);
     saveDeleted();
     GitLog.info('marca', `Reparación ${id} pendiente de eliminar en GitHub`);
+    schedulePush();
+  }
+  function markDeletedTx(id){
+    knownDeletedTx.add(id);
+    saveDeleted();
+    GitLog.info('marca', `Transacción ${id} pendiente de eliminar en GitHub`);
     schedulePush();
   }
 
@@ -223,6 +237,61 @@ const GitSync = (() => {
       transactions: d.transactions || [],
       repairIds: ids
     }, null, 2);
+  }
+
+
+  // ---------- Detección de cambios (deltas) ----------
+  async function getPendingPush(){
+    // No requiere red: solo compara hashes locales con el caché de la última subida.
+    const repairs = DB.repairs.slice();
+    const modified = [];
+    for(const r of repairs){
+      const txt = buildRepairPayload(r);
+      const h = await sha256(txt);
+      if(lastHashes['r:'+r.id] !== h) modified.push(r.id);
+    }
+    const idxTxt = buildIndexPayload();
+    const idxH = await sha256(idxTxt);
+    const indexChanged = lastHashes['idx'] !== idxH;
+    return {
+      modified,
+      deleted: [...knownDeleted],
+      deletedTx: [...knownDeletedTx],
+      indexChanged,
+      total: modified.length + knownDeleted.size + knownDeletedTx.size + (indexChanged?1:0)
+    };
+  }
+
+  async function getPendingPull(){
+    // Consulta GitHub solo para listar y comparar SHAs (no descarga contenidos).
+    if(!cfgOk()) throw new Error('Configuración incompleta');
+    const out = { changed: [], created: [], removed: [], indexChanged: false, total: 0 };
+    // index
+    const idxRemote = await getFile(indexFile());
+    if(idxRemote.sha && idxRemote.sha !== lastHashes['idxRemoteSha']) out.indexChanged = true;
+    if(!idxRemote.sha) out.indexChanged = false;
+    // repairs/
+    const files = await listDir(repairsDir());
+    const jsonFiles = files.filter(f => f.type==='file' && /\.json$/i.test(f.name));
+    const localIds = new Set(DB.repairs.map(r=>r.id));
+    const remoteIds = new Set();
+    for(const f of jsonFiles){
+      const id = f.name.replace(/\.json$/i,'');
+      remoteIds.add(id);
+      const cachedSha = lastHashes['sha:'+id];
+      if(!localIds.has(id)) out.created.push(id);
+      else if(cachedSha !== f.sha) out.changed.push(id);
+    }
+    for(const id of localIds){
+      if(!remoteIds.has(id)) out.removed.push(id);
+    }
+    out.total = out.changed.length + out.created.length + out.removed.length + (out.indexChanged?1:0);
+    // Nota: "removed" son reparaciones locales que no existen en GitHub todavía
+    // (pendientes de subir). NO deben disparar un pull; solo se incluyen en
+    // el total para diagnóstico. El autoPullTick solo actúa si hay cambios remotos.
+    const remotePendingTotal = out.changed.length + out.created.length + (out.indexChanged?1:0);
+    out.remotePendingTotal = remotePendingTotal;
+    return out;
   }
 
   // ---------- Operaciones de alto nivel ----------
@@ -258,17 +327,35 @@ const GitSync = (() => {
       GitLog.info('plan', `${pending.length} reparación(es) modificadas · ${deletes.length} a eliminar`);
 
       // 1) Subir cada reparación cambiada
+      let reallyPushed = 0, skippedSame = 0;
       for(const it of pending){
         const path = repairFile(it.r.id);
         const remote = await getFile(path);
+        // Comprobación remota: si el contenido en GitHub ya es idéntico
+        // a lo que íbamos a subir, NO lo volvemos a subir. Solo
+        // actualizamos el caché local para no volver a comprobarlo.
+        if(remote.content){
+          const remoteH = await sha256(remote.content);
+          if(remoteH === it.h){
+            lastHashes['r:'+it.r.id] = it.h;
+            lastHashes['sha:'+it.r.id] = remote.sha;
+            saveHashCache();
+            GitLog.info('skip', `${it.r.id} ya está actualizado en GitHub`);
+            skippedSame++;
+            tick(it.r.id);
+            continue;
+          }
+        }
         const newSha = await putFile(path, it.txt, remote.sha,
           remote.sha ? `taller: actualizar ${it.r.id}` : `taller: crear ${it.r.id}`);
         lastHashes['r:'+it.r.id] = it.h;
         lastHashes['sha:'+it.r.id] = newSha;
         saveHashCache();
         GitLog.ok(remote.sha?'update':'create', `${it.r.id} → ${path}`);
+        reallyPushed++;
         tick(it.r.id);
       }
+      if(skippedSame) GitLog.info('delta', `${skippedSame} reparación(es) ya estaban iguales en GitHub, omitidas`);
 
       // 2) Borrar los marcados como eliminados
       for(const id of deletes){
@@ -296,10 +383,42 @@ const GitSync = (() => {
       const idxTxt = buildIndexPayload();
       const idxPath = indexFile();
       const idxRemote = await getFile(idxPath);
-      const idxSha = await putFile(idxPath, idxTxt, idxRemote.sha, 'taller: actualizar index.json');
+      let idxSha = idxRemote.sha;
+      const idxH = await sha256(idxTxt);
+      const remoteIdxH = idxRemote.content ? await sha256(idxRemote.content) : null;
+      if(remoteIdxH === idxH){
+        // Remoto ya idéntico: no subimos nada, solo refrescamos caché.
+        lastHashes['idx'] = idxH;
+        lastHashes['idxRemoteSha'] = idxRemote.sha;
+        saveHashCache();
+        GitLog.info('index', 'index.json ya está idéntico en GitHub, omitido');
+      } else if(lastHashes['idx'] !== idxH){
+        idxSha = await putFile(idxPath, idxTxt, idxRemote.sha, 'taller: actualizar index.json');
+        lastHashes['idx'] = idxH;
+        lastHashes['idxRemoteSha'] = idxSha;
+        saveHashCache();
+        GitLog.ok('index', 'index.json subido');
+      } else {
+        GitLog.info('index', 'index.json sin cambios, omitido');
+      }
       DB.updateGithub({ lastSha: idxSha, lastSyncAt: Date.now() });
-      GitLog.ok('index', 'index.json subido');
       tick('index');
+
+      // 4) Tombstones de transacciones: si el index remoto resultante ya no
+      // contiene una transacción borrada, podemos olvidarla con seguridad.
+      // (Las transacciones viven dentro de index.json, así que en el momento
+      // en que subimos un índice sin esos IDs, la eliminación está propagada.)
+      if(knownDeletedTx.size){
+        try{
+          const parsed = JSON.parse(idxTxt);
+          const remainIds = new Set((parsed.transactions||[]).map(t=>t.id));
+          let cleared = 0;
+          for(const id of [...knownDeletedTx]){
+            if(!remainIds.has(id)){ knownDeletedTx.delete(id); cleared++; }
+          }
+          if(cleared){ saveDeleted(); GitLog.info('tx-tomb', `${cleared} tombstone(s) de transacción liberada(s)`); }
+        }catch(_){}
+      }
 
       GitLog.ok('done', `Sincronización completa: ${pending.length} subida(s), ${deletes.length} eliminada(s)`);
       return { pushed: pending.length, deleted: deletes.length };
@@ -359,29 +478,119 @@ const GitSync = (() => {
       const tick = (msg)=>{ done++; onProgress(done,total,msg); };
 
       const remoteRepairs = [];
+      const localById = new Map(DB.repairs.map(r=>[r.id, r]));
+      let skipped = 0, fetched = 0;
       for(const f of jsonFiles){
+        const id = f.name.replace(/\.json$/i,'');
+        const cachedSha = lastHashes['sha:'+id];
+        if(cachedSha === f.sha && localById.has(id)){
+          // Sin cambios remotos: reutilizamos la copia local.
+          remoteRepairs.push({ raw: localById.get(id), sha: f.sha, body: null });
+          skipped++;
+          tick(f.name);
+          continue;
+        }
         const remote = await getFile(basePath()+'/repairs/'+f.name);
         if(!remote.content){ tick(f.name); continue; }
         try{
           const parsed = JSON.parse(remote.content);
           if(parsed && parsed.repair){
             remoteRepairs.push({ raw: parsed.repair, sha: f.sha, body: remote.content });
+            fetched++;
             GitLog.ok('get', `${parsed.repair.id}  (${(remote.content.length/1024).toFixed(1)} KB)`);
           }
         }catch(e){ GitLog.err('parse', f.name+': '+e.message); }
         tick(f.name);
       }
+      GitLog.info('delta', `Descargadas ${fetched} reparación(es) nuevas/cambiadas, ${skipped} omitida(s) sin cambios`);
 
       // 3) Componer dataset final
+      let pulledRepairs = remoteRepairs.map(x=>x.raw);
+      let pulledTx = idxData ? (idxData.transactions || []) : [];
+
+      // --- Preservar transacciones locales no subidas ---
+      // Las transacciones viven en index.json. Si hay transacciones locales nuevas
+      // que aún no se subieron, el index.json remoto no las tiene. Las fusionamos.
+      if(pulledTx.length > 0 || DB.transactions.length > 0){
+        const remoteTxIds = new Set(pulledTx.map(t=>t.id));
+        for(const t of DB.transactions){
+          if(!remoteTxIds.has(t.id) && !knownDeletedTx.has(t.id)){
+            pulledTx.push(t);
+          }
+        }
+      } else {
+        pulledTx = DB.transactions.filter(t => !knownDeletedTx.has(t.id));
+      }
+
+      // --- Protección contra "datos eliminados que reaparecen" ---
+      // Si tenemos tombstones locales (cosas borradas en este dispositivo
+      // pero que el otro dispositivo aún no ha visto), las filtramos del
+      // dataset que vamos a aplicar y dejamos que el siguiente push las
+      // limpie en GitHub. NO borramos los tombstones aquí — eso solo se
+      // hace cuando confirmamos que la eliminación se subió.
+      let filteredOut = 0;
+      if(knownDeleted.size){
+        const before = pulledRepairs.length;
+        pulledRepairs = pulledRepairs.filter(r => !knownDeleted.has(r.id));
+        filteredOut += before - pulledRepairs.length;
+      }
+      if(knownDeletedTx.size){
+        const before = pulledTx.length;
+        pulledTx = pulledTx.filter(t => !knownDeletedTx.has(t.id));
+        filteredOut += before - pulledTx.length;
+      }
+      if(filteredOut > 0){
+        GitLog.warn('tombstone', `Ignorando ${filteredOut} elemento(s) borrado(s) localmente que aún existen en GitHub. Se subirá su borrado.`);
+      }
+
+      // --- Protección contra "ediciones locales pisadas por el pull" ---
+      // Si una reparación local tiene cambios sin subir (updatedAt mayor que
+      // el de la versión remota), conservamos la versión local.
+      // (Nota: ya existe `localById` arriba, pero al haber hecho
+      // potencialmente DB.replaceAll en otra ruta, lo reconstruimos.)
+      const localByIdNow = new Map(DB.repairs.map(r=>[r.id, r]));
+      let keptLocal = 0;
+      pulledRepairs = pulledRepairs.map(r => {
+        const loc = localByIdNow.get(r.id);
+        if(loc && (loc.updatedAt||0) > (r.updatedAt||0)){
+          keptLocal++;
+          return loc;
+        }
+        return r;
+      });
+      if(keptLocal > 0){
+        GitLog.warn('local-edit', `Conservando ${keptLocal} reparación(es) con ediciones locales más nuevas que el remoto.`);
+      }
+
+      // --- Protección contra "reparaciones nuevas locales perdidas en el pull" ---
+      // Las reparaciones que existen localmente pero NO en GitHub (aún no subidas)
+      // deben mantenerse en el dataset final. Sin esto, un pull automático al
+      // detectar conexión borraría la reparación recién registrada en este dispositivo.
+      const remoteIds = new Set(remoteRepairs.map(x=>x.raw.id));
+      let addedLocal = 0;
+      for(const [id, loc] of localByIdNow){
+        if(!remoteIds.has(id) && !knownDeleted.has(id)){
+          pulledRepairs.push(loc);
+          addedLocal++;
+        }
+      }
+      if(addedLocal > 0){
+        GitLog.warn('local-new', `Conservando ${addedLocal} reparación(es) local(es) aún no subida(s) a GitHub.`);
+      }
+
       const base = idxData ? {
         schemaVersion: idxData.schemaVersion,
         settings: idxData.settings || {},
-        transactions: idxData.transactions || [],
-        counter: idxData.counter || 1,
-        txCounter: idxData.txCounter || 1,
-        repairs: remoteRepairs.map(x=>x.raw)
+        transactions: pulledTx,
+        // Usar el mayor entre remoto y local para no perder IDs de reparaciones
+        // nuevas registradas localmente que aún no se han subido al índice.
+        counter: Math.max(idxData.counter || 1, DB.all.counter || 1),
+        txCounter: Math.max(idxData.txCounter || 1, DB.all.txCounter || 1),
+        repairs: pulledRepairs
       } : {
-        repairs: remoteRepairs.map(x=>x.raw)
+        counter: DB.all.counter || 1,
+        txCounter: DB.all.txCounter || 1,
+        repairs: pulledRepairs
       };
       // Preservar token local (nunca viene del repo)
       const localToken = DB.settings.github.token;
@@ -389,14 +598,32 @@ const GitSync = (() => {
       DB.updateGithub({ token: localToken, lastSyncAt: Date.now(), lastSha: idxRemote.sha });
 
       // Recalcular hashes
+      // IMPORTANTE: para reparaciones que conservamos en versión local (keptLocal o addedLocal),
+      // usamos la reparación tal como quedó en DB (la local), NO la remota.
+      // Así el siguiente getPendingPush() las detecta como "modificadas" y las sube.
       lastHashes = {};
+      // Índice remoto
+      lastHashes['idxRemoteSha'] = idxRemote.sha || null;
+      if(idxRemote.content){ try{ lastHashes['idx'] = await sha256(idxRemote.content); }catch(_){} }
+      // Primero volcar los SHAs remotos conocidos (para las que sí bajamos igual)
       for(const it of remoteRepairs){
-        const txt = buildRepairPayload(it.raw);
-        lastHashes['r:'+it.raw.id] = await sha256(txt);
         lastHashes['sha:'+it.raw.id] = it.sha;
       }
+      // Recalcular hash de contenido desde DB (que puede ser local para keptLocal/addedLocal)
+      for(const r of DB.repairs){
+        const txt = buildRepairPayload(r);
+        lastHashes['r:'+r.id] = await sha256(txt);
+        // sha: del remoto ya fue puesto arriba; si no existe (addedLocal) se deja vacío
+        // para que el push lo detecte como nuevo
+      }
       saveHashCache();
-      knownDeleted.clear(); saveDeleted();
+      // IMPORTANTE: NO borramos los tombstones aquí. Solo se eliminan tras
+      // confirmarse el borrado en GitHub dentro de pushAll(). De lo
+      // contrario, una eliminación local podría perderse si el autoPull
+      // se ejecuta antes que el autoPush.
+      if(filteredOut > 0 || keptLocal > 0 || addedLocal > 0){
+        try{ schedulePush(); }catch(_){}
+      }
       tick('index');
 
       GitLog.ok('done', `Descargadas ${remoteRepairs.length} reparación(es)`);
@@ -407,19 +634,95 @@ const GitSync = (() => {
   }
 
   // ---------- Auto-sync ----------
+  function toast(msg){
+    try{ if(window.UI && UI.toast) UI.toast(msg); }catch(_){}
+  }
   function schedulePush(){
-    if(!cfgOk() || !g().autoSync) return;
+    if(!cfgOk()){
+      GitLog.warn('auto','Configuración de GitHub incompleta — los cambios NO se subirán');
+      return;
+    }
+    if(!g().autoSync){
+      GitLog.warn('auto','Sincronización automática desactivada — los cambios NO se subirán');
+      return;
+    }
     clearTimeout(pushTimer);
-    pushTimer = setTimeout(()=>{
-      pushAll().catch(e => GitLog.err('auto', e.message));
+    pushTimer = setTimeout(async ()=>{
+      try{
+        toast('Subiendo cambios a la nube…');
+        const res = await pushAll();
+        if(res && (res.pushed>0 || res.deleted>0)){
+          toast(`✓ Cambios subidos a la nube (${res.pushed} subida(s), ${res.deleted} borrada(s))`);
+        }else{
+          toast('✓ Todo sincronizado con la nube');
+        }
+      }catch(e){
+        GitLog.err('auto', e.message);
+        toast('⚠ Error subiendo a la nube: '+(e.message||e));
+      }
     }, 1800);
+  }
+
+  // ---------- Auto-pull (polling de cambios remotos) ----------
+  let pullTimer = null;
+  let pullInFlight = false;
+  let pullListenersBound = false;
+  const PULL_INTERVAL_MS = 12000; // cada 12s comprueba cambios remotos
+  async function autoPullTick(){
+    if(pullInFlight) return;
+    if(!cfgOk() || !g().autoSync) return;
+    if(busy) return;
+    if(typeof document !== 'undefined' && document.hidden) return;
+    pullInFlight = true;
+    try{
+      const pending = await getPendingPull();
+      if(pending && pending.remotePendingTotal > 0){
+        GitLog.info('auto-pull', `Cambios remotos detectados: ${pending.remotePendingTotal}. Descargando…`);
+        toast('Bajando cambios desde la nube…');
+        await pullAll();
+        try{ if(window.App && typeof App.refresh === 'function') App.refresh(); }catch(_){}
+        toast(`✓ ${pending.remotePendingTotal} cambio(s) recibido(s) desde la nube`);
+      }
+    }catch(e){
+      GitLog.warn('auto-pull', e.message || String(e));
+    }finally{
+      pullInFlight = false;
+    }
+  }
+  function startAutoPull(){
+    stopAutoPull();
+    // Al iniciar: primero bajamos cambios remotos, luego subimos los locales pendientes.
+    setTimeout(async ()=>{
+      await autoPullTick();
+      try{
+        if(cfgOk() && g().autoSync){
+          const pend = await getPendingPush();
+          if(pend && pend.total > 0){
+            GitLog.info('auto-push-init', `Pendientes locales: ${pend.total}. Subiendo…`);
+            schedulePush();
+          }
+        }
+      }catch(_){}
+    }, 1500);
+    pullTimer = setInterval(autoPullTick, PULL_INTERVAL_MS);
+    if(!pullListenersBound){
+      pullListenersBound = true;
+      document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) autoPullTick(); });
+      window.addEventListener('online', ()=> { autoPullTick(); if(cfgOk()&&g().autoSync) schedulePush(); });
+      window.addEventListener('focus', ()=> autoPullTick());
+    }
+  }
+  function stopAutoPull(){
+    if(pullTimer){ clearInterval(pullTimer); pullTimer = null; }
   }
 
   return {
     cfgOk, basePath, isBusy: ()=>busy,
     test: testConnection,
     push: pushAll, pull: pullAll, schedulePush,
-    markDeleted,
+    getPendingPush, getPendingPull,
+    markDeleted, markDeletedTx,
+    startAutoPull, stopAutoPull, autoPullNow: autoPullTick,
     // Compatibilidad con código viejo:
     pushLegacy: pushAll
   };
@@ -507,14 +810,19 @@ const LocalFile = (() => {
     clearTimeout(writeTimer);
     writeTimer = setTimeout(()=>{ write(); }, 800);
   }
-  async function loadFromFile(){
-    if(!cachedHandle) return false;
-    if(!(await ensurePermission(cachedHandle))) return false;
+  async function readText(){
+    if(!cachedHandle) return null;
+    if(!(await ensurePermission(cachedHandle))) return null;
     const f = await cachedHandle.getFile();
-    const text = await f.text();
+    return await f.text();
+  }
+  async function loadFromFile(){
+    const text = await readText();
+    if(text==null) return false;
     return DB.importJson(text);
   }
   loadHandle();
-  return { isSupported, hasHandle, pickLocation, clearHandle, write, scheduleWrite, loadFromFile, loadHandle };
+  return { isSupported, hasHandle, pickLocation, clearHandle, write, scheduleWrite, loadFromFile, readText, loadHandle };
+
 })();
 window.LocalFile = LocalFile;
