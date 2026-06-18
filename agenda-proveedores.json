@@ -1,187 +1,5 @@
 [
   {
-    "id": "mqcng79mf7ep8t",
-    "name": "Vendedor",
-    "product": "Jabon x cantidad",
-    "price": "",
-    "phones": [
-      "55840804"
-    ],
-    "whatsapps": [],
-    "phone": "55840804",
-    "whatsapp": "",
-    "facebook": "",
-    "address": "",
-    "notes": "",
-    "called": false,
-    "accessedPhones": {
-      "55840804": true
-    }
-  },
-  {
-    "id": "mqcnfd7u5uxmrt",
-    "name": "Vendedor",
-    "product": "Bolsos x cantidad",
-    "price": "",
-    "phones": [
-      "55940729"
-    ],
-    "whatsapps": [],
-    "phone": "55940729",
-    "whatsapp": "",
-    "facebook": "",
-    "address": "",
-    "notes": "",
-    "called": false
-  },
-  {
-    "id": "mqcne5x0pssp6n",
-    "name": "Vendedor",
-    "product": "Perlas de olor",
-    "price": "",
-    "phones": [
-      "51082400"
-    ],
-    "whatsapps": [],
-    "phone": "51082400",
-    "whatsapp": "",
-    "facebook": "",
-    "address": "",
-    "notes": "",
-    "called": false
-  },
-  {
-    "id": "mqb9dn28cm666m",
-    "name": "Vendedor",
-    "product": "Jabita de naylon",
-    "price": "Variable",
-    "phones": [
-      "63702564"
-    ],
-    "whatsapps": [],
-    "phone": "63702564",
-    "whatsapp": "",
-    "facebook": "",
-    "address": "",
-    "notes": "Acepta transferencia y vende por cantidad",
-    "called": false
-  },
-  {
-    "id": "mqb9btrqr8iy2t",
-    "name": "Vendedor",
-    "product": "Arroz x transferencia",
-    "price": "Variable",
-    "phones": [],
-    "whatsapps": [],
-    "phone": "",
-    "whatsapp": "",
-    "facebook": "",
-    "address": "9 norte entre marti y maximo gomez escalera rosada, puerta verde arriba 461",
-    "notes": "",
-    "called": false
-  },
-  {
-    "id": "mqb998fdv4c31n",
-    "name": "Vendedor",
-    "product": "Higado, salchicha, picadillo, huevo, aceite, azucar,",
-    "price": "X transferencia con %",
-    "phones": [
-      "59601337"
-    ],
-    "whatsapps": [
-      "59601337"
-    ],
-    "phone": "59601337",
-    "whatsapp": "59601337",
-    "facebook": "",
-    "address": "",
-    "notes": "",
-    "called": false
-  },
-  {
-    "id": "mqb96yez1ytna6",
-    "name": "Vendedor",
-    "product": "Teipe, pilas, silicona, cables, manguera, etc",
-    "price": "Variable",
-    "phones": [
-      "59796567"
-    ],
-    "whatsapps": [],
-    "phone": "59796567",
-    "whatsapp": "",
-    "facebook": "",
-    "address": "",
-    "notes": "",
-    "called": false
-  },
-  {
-    "id": "mqb94h0ecw795h",
-    "name": "Vendedor",
-    "product": "Azucar, arroz",
-    "price": "350 y 380",
-    "phones": [
-      "58798224"
-    ],
-    "whatsapps": [],
-    "phone": "58798224",
-    "whatsapp": "",
-    "facebook": "",
-    "address": "",
-    "notes": "",
-    "called": false,
-    "accessedPhones": {
-      "58798224": true
-    }
-  },
-  {
-    "id": "mqb938ip2sbj8f",
-    "name": "Vendedor",
-    "product": "Cables USB, pegamento, detergente",
-    "price": "Variable",
-    "phones": [
-      "53628234"
-    ],
-    "whatsapps": [],
-    "phone": "53628234",
-    "whatsapp": "",
-    "facebook": "",
-    "address": "",
-    "notes": "",
-    "called": false
-  },
-  {
-    "id": "mqb90vf5smf78y",
-    "name": "Vendedor",
-    "product": "Muslito de pollo",
-    "price": "500",
-    "phones": [
-      "55304736"
-    ],
-    "whatsapps": [],
-    "phone": "55304736",
-    "whatsapp": "",
-    "facebook": "",
-    "address": "",
-    "notes": "",
-    "called": false
-  },
-  {
-    "id": "mqb8xy91ox0aq0",
-    "name": "Vendedor",
-    "product": "Frijoles x transferencia",
-    "price": "320",
-    "phones": [
-      "58055453"
-    ],
-    "whatsapps": [],
-    "phone": "58055453",
-    "whatsapp": "",
-    "facebook": "",
-    "address": "",
-    "notes": "",
-    "called": false
-  },
-  {
     "id": "mq2cjxpq7snrpg",
     "name": "Vendedor x cantidad edel",
     "product": "Cargadores, micas, cables y otros",
@@ -432,10 +250,7 @@
     "facebook": "",
     "address": "",
     "notes": "Vense x unidad x cantidad",
-    "called": true,
-    "accessedPhones": {
-      "53575769": true
-    }
+    "called": false
   },
   {
     "id": "mq27vji72npd3s",
@@ -483,10 +298,7 @@
     "facebook": "",
     "address": "Marti entre 3 y 4 sur. #1370-A.  Rene",
     "notes": "Vende:\nTester, flux, bms, led, indicador de carga, bateria, interruptores, cautin",
-    "called": false,
-    "accessedPhones": {
-      "56167943": true
-    }
+    "called": false
   },
   {
     "id": "mq27ibwohwk05t",
@@ -583,10 +395,7 @@
     "facebook": "",
     "address": "",
     "notes": "",
-    "called": false,
-    "accessedPhones": {
-      "56523708": true
-    }
+    "called": false
   },
   {
     "id": "mq1ddl08vyau2h",
@@ -602,10 +411,7 @@
     "facebook": "",
     "address": "",
     "notes": "",
-    "called": false,
-    "accessedPhones": {
-      "50551357": true
-    }
+    "called": false
   },
   {
     "id": "mq1daa9qhd4d1i",
@@ -621,10 +427,7 @@
     "facebook": "",
     "address": "",
     "notes": "",
-    "called": false,
-    "accessedPhones": {
-      "55138134": true
-    }
+    "called": false
   },
   {
     "id": "mq1d7xk1f3c1d0",
@@ -639,7 +442,7 @@
     "whatsapp": "",
     "facebook": "",
     "address": "",
-    "notes": "Conservas a $350\n7 callejuela entre 7 y 8 sur preguntar por Marin\nTenemos servicio al domicilio",
+    "notes": "",
     "called": false
   },
   {
@@ -962,10 +765,7 @@
     "facebook": "",
     "address": "",
     "notes": "",
-    "called": false,
-    "accessedPhones": {
-      "55304736": true
-    }
+    "called": false
   },
   {
     "id": "mq12uhrho0r1dh",
@@ -1656,7 +1456,7 @@
     "facebook": "",
     "address": "",
     "notes": "pan flauta\n 130 x unidad\n120 x si son 5 minimo\nx transferencia a 150\n\npan bola\nprecio 35\nx transferencia 45\na partir de 10",
-    "called": false
+    "called": true
   },
   {
     "id": "mpjpy0auu38bq6",
@@ -1673,8 +1473,7 @@
     "facebook": "",
     "address": "Cayejuela 7 sur entre 7 y 8 oeste. Preguntar por Marin.  #1264",
     "notes": "Tiene domicilio",
-    "called": false,
-    "accessedPhones": {}
+    "called": false
   },
   {
     "id": "mpjpwjnyci6412",
