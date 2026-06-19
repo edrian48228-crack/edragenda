@@ -38,7 +38,7 @@
     "phone": "",
     "priority": "alta",
     "date": "",
-    "done": false,
+    "done": true,
     "notifDays": 1,
     "notifTimes": 3,
     "notifHour": "09:00",
