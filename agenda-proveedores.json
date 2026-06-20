@@ -895,7 +895,10 @@
     "facebook": "",
     "address": "",
     "notes": "Pilas 2000 packete de 60\nCola loka 10cup x cantidad\nPrecinta 400 x unidad o 10 x 3500\nBms 12v  10u x 7500\nPinzas 10 + 10 x 2000\nUps sin bateris 8000\nMultimetro digital 6000",
-    "called": false
+    "called": false,
+    "accessedPhones": {
+      "56944301": true
+    }
   },
   {
     "id": "mq0vbvmlojj500",
