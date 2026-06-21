@@ -2,7 +2,7 @@
   {
     "id": "mqnu314x9f55rh",
     "name": "Vendedor",
-    "product": "Mauinillas dorco",
+    "product": "Maquinillas dorco",
     "price": "500",
     "phones": [
       "56503032"
@@ -93,10 +93,7 @@
     "facebook": "",
     "address": "",
     "notes": "Acepta transferencia",
-    "called": false,
-    "accessedPhones": {
-      "56166703": true
-    }
+    "called": false
   },
   {
     "id": "mq28xxkn53e5ug",
@@ -112,7 +109,10 @@
     "facebook": "",
     "address": "Pedro a perez entre 5 y 6 norte. #365",
     "notes": "",
-    "called": false
+    "called": false,
+    "accessedPhones": {
+      "56943977": true
+    }
   },
   {
     "id": "mq28v6x81i4q6j",
