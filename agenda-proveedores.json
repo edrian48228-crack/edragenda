@@ -93,7 +93,10 @@
     "facebook": "",
     "address": "",
     "notes": "Acepta transferencia",
-    "called": false
+    "called": false,
+    "accessedPhones": {
+      "56166703": true
+    }
   },
   {
     "id": "mq28xxkn53e5ug",
@@ -109,10 +112,7 @@
     "facebook": "",
     "address": "Pedro a perez entre 5 y 6 norte. #365",
     "notes": "",
-    "called": false,
-    "accessedPhones": {
-      "56943977": true
-    }
+    "called": false
   },
   {
     "id": "mq28v6x81i4q6j",
