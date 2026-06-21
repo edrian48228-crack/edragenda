@@ -93,7 +93,10 @@
     "facebook": "",
     "address": "",
     "notes": "Acepta transferencia",
-    "called": false
+    "called": false,
+    "accessedPhones": {
+      "56166703": true
+    }
   },
   {
     "id": "mq28xxkn53e5ug",
