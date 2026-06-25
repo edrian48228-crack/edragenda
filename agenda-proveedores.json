@@ -1,5 +1,391 @@
 [
   {
+    "id": "mqsr8kj5qycq0t",
+    "name": "Vendedor",
+    "product": "Estante, zapatera, repisa, mostrador,  exibidor",
+    "price": "",
+    "phones": [
+      "56389661"
+    ],
+    "whatsapps": [],
+    "phone": "56389661",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mqsr6c0xtp3gj1",
+    "name": "Vendedor",
+    "product": "Pintura",
+    "price": "Variable",
+    "phones": [
+      "52995534"
+    ],
+    "whatsapps": [],
+    "phone": "52995534",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "Pintura a granel y en pomos de 4lt",
+    "called": false
+  },
+  {
+    "id": "mqr45m48ufaclm",
+    "name": "Vendedor",
+    "product": "Aceite romero y coco",
+    "price": "",
+    "phones": [
+      "54068192"
+    ],
+    "whatsapps": [],
+    "phone": "54068192",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mqr43eelajvrbc",
+    "name": "Vendedor",
+    "product": "Jabon",
+    "price": "Variable",
+    "phones": [
+      "54743781"
+    ],
+    "whatsapps": [],
+    "phone": "54743781",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mqr3vuzjduljji",
+    "name": "Vendedor",
+    "product": "Troncho de claria, pezcado, pescado, filete",
+    "price": "Variable",
+    "phones": [
+      "53845197"
+    ],
+    "whatsapps": [],
+    "phone": "53845197",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mqr3u3j67jnwz5",
+    "name": "Vendedor",
+    "product": "Jabon",
+    "price": "Variable",
+    "phones": [],
+    "whatsapps": [],
+    "phone": "",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "Cuartel entre pinto y varona. #1104",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mqr3sem07kqzx4",
+    "name": "Vendedor",
+    "product": "Saldo movil",
+    "price": "Variable",
+    "phones": [
+      "56101399"
+    ],
+    "whatsapps": [],
+    "phone": "56101399",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mqr3qvir4s6ulh",
+    "name": "Vendedor",
+    "product": "Javita de nylon",
+    "price": "Variable",
+    "phones": [
+      "63702564"
+    ],
+    "whatsapps": [],
+    "phone": "63702564",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mqr3p41z0p1xtd",
+    "name": "Vendedor",
+    "product": "Cocada baracoesa, coco,",
+    "price": "",
+    "phones": [
+      "56065086"
+    ],
+    "whatsapps": [],
+    "phone": "56065086",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "Pinto entre calixto garcia y la Avenida. #307",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mqr3k1j1e6qs7x",
+    "name": "Vendedor",
+    "product": "Refresquito x cantidad",
+    "price": "Variable",
+    "phones": [
+      "53447247"
+    ],
+    "whatsapps": [],
+    "phone": "53447247",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mqr3id2pesil9m",
+    "name": "Vendedor",
+    "product": "Perlas olor",
+    "price": "X cantidad",
+    "phones": [
+      "51082400"
+    ],
+    "whatsapps": [],
+    "phone": "51082400",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mqr3h51h9v7ajj",
+    "name": "Vendedor",
+    "product": "Jabon",
+    "price": "Variable",
+    "phones": [
+      "55840804"
+    ],
+    "whatsapps": [],
+    "phone": "55840804",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mqr3esl9gxjjgx",
+    "name": "Vendedor",
+    "product": "Saldo movil",
+    "price": "Variable",
+    "phones": [
+      "52991074"
+    ],
+    "whatsapps": [],
+    "phone": "52991074",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mqr3d7qzgyoqaf",
+    "name": "Vendedor",
+    "product": "Saldo movil",
+    "price": "Variable",
+    "phones": [
+      "50222617"
+    ],
+    "whatsapps": [],
+    "phone": "50222617",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mqr38poril4kg8",
+    "name": "Vendedor",
+    "product": "Saldo movil",
+    "price": "",
+    "phones": [
+      "21350563",
+      "55140916",
+      "53595327"
+    ],
+    "whatsapps": [],
+    "phone": "21350563",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mqr35tw9p97oaq",
+    "name": "Vendedor",
+    "product": "Saldo movil",
+    "price": "",
+    "phones": [
+      "55405430"
+    ],
+    "whatsapps": [],
+    "phone": "55405430",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mqr347iss16rj8",
+    "name": "Vendedor",
+    "product": "Pilas laptop",
+    "price": "",
+    "phones": [
+      "59337842"
+    ],
+    "whatsapps": [],
+    "phone": "59337842",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mqr327i5y3r98p",
+    "name": "Vendedor",
+    "product": "Sillas, bancos, acienticos, aciento",
+    "price": "",
+    "phones": [
+      "59531111"
+    ],
+    "whatsapps": [],
+    "phone": "59531111",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mqr313ztap8llx",
+    "name": "Vendedor",
+    "product": "Cafe x cantidad",
+    "price": "",
+    "phones": [
+      "58546504"
+    ],
+    "whatsapps": [
+      "58546504"
+    ],
+    "phone": "58546504",
+    "whatsapp": "58546504",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mqr2ylpfbb6kok",
+    "name": "Vendedor",
+    "product": "Key, cake, dulce",
+    "price": "Transferencia y efectivo",
+    "phones": [
+      "59008206"
+    ],
+    "whatsapps": [],
+    "phone": "59008206",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mqr2w934jkox4y",
+    "name": "Vendedor",
+    "product": "Cables x cantidad",
+    "price": "",
+    "phones": [
+      "53628234"
+    ],
+    "whatsapps": [],
+    "phone": "53628234",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mqr2lrn1kt20ig",
+    "name": "Vendedor",
+    "product": "Confituras x cantidad",
+    "price": "Variable",
+    "phones": [
+      "54549568"
+    ],
+    "whatsapps": [],
+    "phone": "54549568",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "",
+    "notes": "Galletas, caramelos, bombones, chupachupa, ojitos, sorbetos",
+    "called": false
+  },
+  {
+    "id": "mqr2itl41bpzz2",
+    "name": "Vendedor",
+    "product": "Ropa, pulober, pantalon, camisa, zapato",
+    "price": "Variable",
+    "phones": [
+      "50220774"
+    ],
+    "whatsapps": [],
+    "phone": "50220774",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "8 oeste entre la avenida y pinto. Preguntar por ruben",
+    "notes": "",
+    "called": false
+  },
+  {
+    "id": "mqqlqrl9y6b9je",
+    "name": "Vendedor",
+    "product": "Jabita de naylon",
+    "price": "12",
+    "phones": [
+      "53304515"
+    ],
+    "whatsapps": [],
+    "phone": "53304515",
+    "whatsapp": "",
+    "facebook": "",
+    "address": "Marte entre 2 y 3 sur. #313",
+    "notes": "",
+    "called": false
+  },
+  {
     "id": "mqo69s307g6ypk",
     "name": "Vendedor",
     "product": "Saldo movil",
@@ -85,7 +471,8 @@
     "product": "Saldo movil",
     "price": "800",
     "phones": [
-      "56943977"
+      "56943977",
+      "54123615"
     ],
     "whatsapps": [],
     "phone": "56943977",
@@ -1452,7 +1839,7 @@
   {
     "id": "mpkictu0ktyjfe",
     "name": "vendedor",
-    "product": "javitas x cantidad",
+    "product": "javitas x cantidad, acetona",
     "price": "",
     "phones": [
       "54683082"
